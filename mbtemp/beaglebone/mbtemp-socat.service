@@ -5,7 +5,7 @@ Description=Initialize the serial port bind.
 Restart=on-failure
 RestartSec=3
 Type=simple
-ExecStart=/bin/bash /root/mbtemp/beaglebone/init.sh
+ExecStart=/bin/bash /root/sirius-temporary-dev-repo/mbtemp/beaglebone/init.sh
 StandardOutput=syslog
 StandardError=syslog
 

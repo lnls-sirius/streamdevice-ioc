@@ -5,10 +5,10 @@ Description=Initialize the serial port bind.
 Restart=on-failure
 RestartSec=3
 Type=simple
-Environment=PYTHONPATH=/root/mbtemp/server/services/
+Environment=PYTHONPATH=/root/sirius-temporary-dev-repo/mbtemp/server/services/
 Environment=UDP_PORT=17001
 Environment=DEVICE_IP_ADDRESS=10.0.7.62
-ExecStart=/bin/bash /root/mbtemp/server/services/init.sh
+ExecStart=/bin/bash /root/sirius-temporary-dev-repo/mbtemp/server/services/init.sh
 StandardOutput=syslog
 StandardError=syslog
 
