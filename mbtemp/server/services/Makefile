@@ -1,6 +1,6 @@
 PREFIX ?= /usr/local
 
-SERVICE_NAME = mbtemp-socat
+SERVICE_NAME = dcm-udp
 SRC_SERVICE_FILE = ${SERVICE_NAME}.service
 SERVICE_FILE_DEST = /etc/systemd/system
 

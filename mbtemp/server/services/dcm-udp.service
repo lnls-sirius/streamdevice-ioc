@@ -1,5 +1,5 @@
 [Unit]
-Description=Initialize the serial port bind.
+Description=DCM SE-10 Data Acquisition
 
 [Service]
 Restart=on-failure
