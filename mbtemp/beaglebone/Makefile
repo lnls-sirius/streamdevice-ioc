@@ -9,6 +9,7 @@ SERVICE_FILE_DEST = /etc/systemd/system
 all:
 
 install:
+	apt-get install socat
 	cp --preserve=mode ${SRC_SERVICE_FILE} ${SERVICE_FILE_DEST}
 	systemctl daemon-reload
 	systemctl stop ${SERVICE_NAME}
