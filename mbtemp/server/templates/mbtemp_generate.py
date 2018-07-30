@@ -26,7 +26,7 @@ if __name__ == "__main__":
  
     for device in devices:
 
-        f_name = device['f_name']
+        f_name = '../cmd/' + device['f_name']
         IP_ASYN_PORT_1 = device['IP_ASYN_PORT_1']
         IP_ADDR_1 = device['IP_ADDR_1']
         MBTEMP_ADDRESS = device['MBTEMP_ADDRESS']
