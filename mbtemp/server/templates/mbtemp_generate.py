@@ -33,6 +33,7 @@ if __name__ == "__main__":
         SCAN_RATE = sector['SCAN_RATE']
 
         res += mbt_template_top.safe_substitute(
+                CD=CD,
                 EPICS_BASE=EPICS_BASE,
                 ASYN=ASYN,
                 TOP=TOP,
@@ -47,8 +48,7 @@ if __name__ == "__main__":
             MBTEMP_ADDRESS = device['MBTEMP_ADDRESS']
             PREFIX = device['PREFIX']
     
-            res += mbt_template.safe_substitute(
-                CD=CD,
+            res += mbt_template.safe_substitute(                                
                 IP_ASYN_PORT=(IP_ASYN_PORT + str(count)),
                 IP_ADDR=IP_ADDR,
                 MBTEMP_ADDRESS=MBTEMP_ADDRESS,
