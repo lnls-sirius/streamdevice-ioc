@@ -1,0 +1,173 @@
+# substitutions:
+#% macro, DEVICE, Device name
+#% macro, PORT,   Asyn Port name, e.g. ty_40_0
+#% macro, ADDRESS, Controller ADDRESS (001 .. 253)
+################################################################################
+# Pressure Unit
+#
+#% controldesk Pressure Unit readback
+record(stringin, "$(DEVICE):UNIT")
+{
+    field(DESC, "Pressure Unit")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto unit($(ADDRESS)) $(PORT) 0")
+    field(SCAN, "$(SCAN_RATE)")
+}
+################################################################################
+# Controller Version
+#
+#% archiver 10 Monitor
+#% controldesk Controller Version readback
+record(ai, "$(DEVICE):CTLV")
+{
+    field(DESC, "Controller Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto ctlv($(ADDRESS)) $(PORT) 0")
+    field(SCAN, "$(SCAN_RATE)")
+    field(PREC, "2")
+}
+################################################################################
+# Communications Module Version
+# !! Note - for the 937B the comms module is integrated and has no ID
+# !!        so this record is deprecated and scan is forced to Passive
+#% controldesk Communications Version readback
+record(ai, "$(DEVICE):COMV")
+{
+    field(DESC, "Communications Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto comv($(ADDRESS)) $(PORT) 0")
+    field(SCAN, "Passive")
+    #field(SCAN, "10 second")
+    field(PREC, "2")
+}
+################################################################################
+# Module in Slot CC
+#
+#% controldesk Slot CC smon
+record(mbbi, "$(DEVICE):MCC")
+{
+    field(DESC, "Slot CC")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto modcc($(ADDRESS)) $(PORT) 0")
+    field(SCAN, "$(SCAN_RATE)")
+    field(ZRST, "Hot Cathode")
+    field(ONST, "Cold Cathode")
+    field(TWST, "Dual Pirani")
+    field(THST, "Dual Cnv Pirani")
+    field(FRST, "Dual Thermocpl")
+    field(FVST, "Dual Cap Manmtr")
+    field(SXST, "Sngl Pirani")
+    field(SVST, "Sngl Cnv Pirani")
+    field(EIST, "Sngl Thrmcpl")
+    field(NIST, "Sngl Cap Manmtr")
+    field(TEST, "No Module")
+    field(ELST, "Wrong Module")
+    field(UNSV, "MAJOR")
+    field(ZRSV, "NO_ALARM")
+    field(ONSV, "NO_ALARM")
+    field(TWSV, "NO_ALARM")
+    field(THSV, "NO_ALARM")
+    field(FRSV, "NO_ALARM")
+    field(FVSV, "NO_ALARM")
+    field(SXSV, "NO_ALARM")
+    field(SVSV, "NO_ALARM")
+    field(EISV, "NO_ALARM")
+    field(NISV, "NO_ALARM")
+    field(TESV, "NO_ALARM")
+    field(ELSV, "MAJOR")
+}
+################################################################################
+# Module in Slot A
+#
+#% controldesk Slot A smon
+record(mbbi, "$(DEVICE):MA")
+{
+    field(DESC, "Slot A")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto moda($(ADDRESS)) $(PORT) 0")
+    field(SCAN, "$(SCAN_RATE)")
+    field(ZRST, "Hot Cathode")
+    field(ONST, "Cold Cathode")
+    field(TWST, "Dual Pirani")
+    field(THST, "Dual Cnv Pirani")
+    field(FRST, "Dual Thermocpl")
+    field(FVST, "Dual Cap Manmtr")
+    field(SXST, "Sngl Pirani")
+    field(SVST, "Sngl Cnv Pirani")
+    field(EIST, "Sngl Thrmcpl")
+    field(NIST, "Sngl Cap Manmtr")
+    field(TEST, "No Module")
+    field(ELST, "Wrong Module")
+    field(UNSV, "MAJOR")
+    field(ZRSV, "NO_ALARM")
+    field(ONSV, "NO_ALARM")
+    field(TWSV, "NO_ALARM")
+    field(THSV, "NO_ALARM")
+    field(FRSV, "NO_ALARM")
+    field(FVSV, "NO_ALARM")
+    field(SXSV, "NO_ALARM")
+    field(SVSV, "NO_ALARM")
+    field(EISV, "NO_ALARM")
+    field(NISV, "NO_ALARM")
+    field(TESV, "NO_ALARM")
+    field(ELSV, "MAJOR")
+}
+################################################################################
+# Module in Slot B
+#
+#% controldesk Slot B smon
+record(mbbi, "$(DEVICE):MB")
+{
+    field(DESC, "Slot B")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto modb($(ADDRESS)) $(PORT) 0")
+    field(SCAN, "$(SCAN_RATE)")
+    field(ZRST, "Hot Cathode")
+    field(ONST, "Cold Cathode")
+    field(TWST, "Dual Pirani")
+    field(THST, "Dual Cnv Pirani")
+    field(FRST, "Dual Thermocpl")
+    field(FVST, "Dual Cap Manmtr")
+    field(SXST, "Sngl Pirani")
+    field(SVST, "Sngl Cnv Pirani")
+    field(EIST, "Sngl Thrmcpl")
+    field(NIST, "Sngl Cap Manmtr")
+    field(TEST, "No Module")
+    field(ELST, "Wrong Module")
+    field(UNSV, "MAJOR")
+    field(ZRSV, "NO_ALARM")
+    field(ONSV, "NO_ALARM")
+    field(TWSV, "NO_ALARM")
+    field(THSV, "NO_ALARM")
+    field(FRSV, "NO_ALARM")
+    field(FVSV, "NO_ALARM")
+    field(SXSV, "NO_ALARM")
+    field(SVSV, "NO_ALARM")
+    field(EISV, "NO_ALARM")
+    field(NISV, "NO_ALARM")
+    field(TESV, "NO_ALARM")
+    field(ELSV, "MAJOR")
+}
+################################################################################
+
+record(stringin, "$(DEVICE):DEBUG")
+{
+    field(DESC, "Generic command")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto debug($(ADDRESS)) $(PORT) 0")
+    field(SCAN, "Passive")
+}
+
+record(stringin, "$(DEVICE):ERROR-TXT")
+{
+    field(DESC, "Display error in txt mode")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto set_error_txt($(ADDRESS)) 0")
+}
+
+record(stringin, "$(DEVICE):ERROR-CODE")
+{
+    field(DESC, "Display error in code mode")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto set_error_txt($(ADDRESS)) 0")
+}

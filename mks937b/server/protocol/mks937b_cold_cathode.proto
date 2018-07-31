@@ -1,0 +1,178 @@
+# Stream Device Protocol for the MKS 937B Multi-Sensor System
+# This protocol uses features defined in Stream Device Version 2
+#
+# Based on the work by Ian Gillingham - April 2010
+#
+# $1 = address, Controller address (001 .. 253)
+# $2 = channel number: 1 - 5
+# $3 = setpoint: 1 - 12
+
+
+# Query format 
+# Command @<aaa><Coommand>?;FF
+# Response @<aaa>ACK<Response>;FF
+
+# Set format
+# Command @<aaa><Command>!<parameter>;FF
+# Response @<aaa>ACK<Response>;FF
+
+locktimeout  = 5000;
+terminator   = ";FF";
+replytimeout = 1000;
+readtimeout  = 1000;
+extrainput   = Ignore;
+
+# The 937B appears to have preamble on all commands and responses
+# of the form '@<aaa>', where aaa is the unit number (1-254)
+# presumably to cater for multidrop RS485 for multiple controllers.
+# Default here to assume just one unit (as on RS232). Will need to make this variable if RS485 is ever implemented.
+unitid = 1;
+
+# Send an initial dummy command to clear out any garbage the mks has already received.
+# This makes it more likely that the first command sent is received OK.
+# NB we dont wait for a response to the dummy command because if it didnt arrive (e.g. rs232 unplugged) then
+# streams would issue a replyTimeout exception and stop the ioc.
+@init{out " ";}
+
+
+# Use a regular expression to not care about anything before ACK.
+# This is important with the MKS firmware update in Feb 2012, where '@' will precede all responses,
+# but we still need backward compatibility with units which do not emit '@'.
+
+
+# COLD CATHODE CONTROL COMMANDS
+
+# Protection (overpressure) setpoints
+#Query or set protection setpoint value for ion gauge for
+#channel n. The valid PRO range is 1x10 -5 to 1x10 -2 torr.
+#Default value is 5x10 -3 torr. ($2)  1, 3, 5
+get_pro { 
+    out "@\$1PRO\$2?"; 
+    in "%*/ACK/%E"; 
+}
+set_pro { 
+    out "@\$1PRO\$2!%0.1E"; 
+    in "%*/ACK/"; 
+}
+dispro { 
+    out "@\$1PRO\$2!0"; 
+    in "%*/ACK/"; 
+}
+
+
+# Query and set control setpoint value for an ion gauge on
+# channel n. Valid CSP range is 5x10 -4 to 1x10 -2 torr for
+# Pirani, and is 2x10 -3 to 1x10 -2 torr for convention Pirani. ($2)  1, 3, 5
+get_sp   { 
+    out "@\$1CSP\$2?"; 
+    in "%*/ACK/%E"; 
+}
+set_sp   { 
+    out "@\$1CSP\$2!%0.1E"; 
+    in "%*/ACK/"; 
+}
+dis_sp   { 
+    out "@\$1CSP\$2!%0.1E";
+     in "%*/ACK/"; 
+}
+
+# Extend the upper control setpoint range from 1x10 -2 torr
+# to 9.5x10 -1 torr ($2)  1, 3, 5
+# todo: XSPn
+
+# Query and set control setpoint hysteresis value for an
+# ion gauge on channel n. Valid CHP range is 5.5x10 -4 to
+# 1.1x10 -2 torr for Pirani, and is 2.2x10 -3 to 1.1x10 -2 torr
+# for convention Pirani. Default value is 1.5X the control
+# setpoint value. ($2)  1, 3, 5
+get_hyst { 
+    out "@\$1CHP\$2?"; 
+    in "%*/ACK/%E"; 
+}
+set_hyst { 
+    out "@\$1CHP\$2!%0.1E"; 
+    in "%*/ACK/"; 
+}
+
+# Query, enable/disable the control channel status for an
+# ion gauge on channel n. ($2)  1, 3, 5
+get_ctrl_chan  { 
+    out "@\$1CSE\$2?"; 
+    in "%*/ACK/%{C1|C2|OFF|A1|B1|A2|B2}"; 
+}
+set_ctrl_chan  { 
+    out "@\$1CSE\$2!%{C1|C2|OFF|A1|B1|A2|B2}"; 
+    in "%*/ACK/";
+}
+
+
+# AUTO: ion gauge can be turned on & off by the
+# controlling gauge. SAFE, ion gauge can be turned off,
+# but, not be turned on by the controlling gauge. ($2)  1, 3, 5
+get_ctl  { 
+    out "@\$1CTL\$2?"; 
+    in "%*/ACK/%{OFF|SAFE|AUTO}"; 
+}
+set_ctl  { 
+    out "@\$1CTL\$2!%{OFF|SAFE|AUTO}"; 
+    in "%*/ACK/";
+}
+
+
+# Query or set a gas correction factor for a CC gauge on
+# Channel n. Valid range is from 0.1 to 10.  ($2)  1, 3, 5
+# todo: UCn
+
+# Query the channel power status for PR, CP, HC or high voltage status for CC.  $2: channel 1,3,5
+# Turn on/off the channel power for PR, CP, HC, or high voltage for CC). $2: channel 1,3,5
+set_enable { 
+    out "@\$1%{CP\$2!OFF|CP\$2!ON}"; 
+    in "%*/ACK/%{OFF|ON}"; 
+}
+
+get_enabled{ 
+    out "@\$1CP\$2?"; 
+    in "%*/ACK/%{OFF|ON}"; 
+}
+
+# Query or set a gas type for HC/CC on channel n. $2: channel 1,3,5
+get_gastype { 
+    out "@\$1GT\$2?"; 
+    in "%*/ACK/%{Nitrogen|Argon|Helium}"; 
+}
+set_gastype { 
+    out "@\$1GT\$2!%{Nitrogen|Argon|Helium}"; 
+    in "%*/ACK/%s"; 
+}
+
+# Ion gauge status query. $2: channel 1,3,5 
+get_ion_gauge_status {  
+    out "@\$1T\$2?"; 
+    in "%*/ACK/%{W|O|G|P|C|R}"; 
+}
+
+# Time delay for staring CCG, 3 to 300 secs $2: channel 1,3,5 
+get_delay_ccg { 
+    out "@\$TDC\$2?"; 
+    in "%*/ACK/%f"; 
+}
+set_delay_ccg { 
+    out "@\$1TDC\$2!%f"; 
+    in "%*/ACK/%s"; 
+}
+
+# Query or set the pressure to trigger fast relay control
+# output. Only available for special CC board with fast
+# relay, and the setpoint value needs to between 5x10 -3 to
+# 2x10 -10 torr $2: channel 1,3,5  
+# TTL trigger setpoints
+get_frc_sp { 
+    out "@\$1FRC\$2?"; 
+    in "%*/ACK/%f"; 
+    
+    @mismatch{in "%*/NAK/%(\$3.VAL)f";} 
+}
+set_frc_sp  { 
+    out "@\$1FRC\$2!%0.1E"; 
+    in "%*/ACK/"; 
+}
