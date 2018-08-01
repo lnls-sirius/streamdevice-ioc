@@ -1,2 +1,2 @@
 #!/bin/bash
-python /root/mbtemp/server/services/dcm-udp.py
+python /root/sirius-temporary-dev-repo/dcm-se10/server/services/DCM_SE10.py
