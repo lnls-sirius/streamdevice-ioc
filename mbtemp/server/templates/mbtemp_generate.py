@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
         f_name = '../cmd/' + sector['f_name']
         devices = sector['devices']
-        IP_ASYN_PORT = sector['IP_ASYN_PORT']
+        IP_ASYN_PORT = 'IPPort'
         SCAN_RATE = sector['SCAN_RATE']
 
         res += mbt_template_top.safe_substitute(
