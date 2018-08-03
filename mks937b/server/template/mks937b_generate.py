@@ -7,7 +7,7 @@
 """
 
 from string import Template
-from mks937b_template import template_device, template_bot, template_top
+from mks937b_template import template_device, template_bot, template_top, template_pressure, template_cc
 from mks937b_devices import sectors  as sectors
 
 import sys 
@@ -31,6 +31,7 @@ if __name__ == "__main__":
         devices = sector['devices']
         IP_ASYN_PORT = sector['IP_ASYN_PORT']
         SCAN_RATE = sector['SCAN_RATE']
+        IP_ADDR   = sector['IP_ADDR']
 
         res += template_top.safe_substitute(
                 CD=CD,
@@ -39,20 +40,43 @@ if __name__ == "__main__":
                 TOP=TOP,
                 ARCH=ARCH,
                 STREAM_PROTOCOL_PATH=STREAM_PROTOCOL_PATH,
+                IP_ADDR=IP_ADDR
         )
         
 
         for device in devices:
-            
-            IP_ADDR= device['IP_ADDR']
+
             PREFIX = device['PREFIX']
+            ADDRESS= device['ADDRESS']
+            pressures = device['pressures']
     
             res += template_device.safe_substitute( 
-                IP_ASYN_PORT=(IP_ASYN_PORT + str(count)),
-                IP_ADDR=IP_ADDR,
+                IP_ASYN_PORT=(IP_ASYN_PORT + str(count)), 
                 PREFIX=PREFIX,
-                SCAN_RATE = SCAN_RATE)
+                SCAN_RATE = SCAN_RATE,
+                ADDRESS=ADDRESS
+            )
             
+            for channel in range(0, 6):
+                res += template_pressure.safe_substitute(
+                    IP_ASYN_PORT=(IP_ASYN_PORT + str(count)),
+                    PREFIX=PREFIX,
+                    ADDRESS=ADDRESS,
+                    SCAN_RATE = SCAN_RATE,
+                    P_HI   = pressures[channel].get('HI'),
+                    P_HIHI = pressures[channel].get('HIHI'),
+                    CHANNEL = channel
+                )
+                 
+            for channel in [1,3,5]:
+                res += template_cc.safe_substitute(
+                    IP_ASYN_PORT=(IP_ASYN_PORT + str(count)),
+                    PREFIX=PREFIX,
+                    ADDRESS=ADDRESS,
+                    SCAN_RATE = SCAN_RATE,
+                    CHANNEL = channel
+                )
+
             count += 1
 
         res += template_bot

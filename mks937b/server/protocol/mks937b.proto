@@ -38,88 +38,100 @@ unitid = 1;
 # Use a regular expression to not care about anything before ACK.
 # This is important with the MKS firmware update in Feb 2012, where '@' will precede all responses,
 # but we still need backward compatibility with units which do not emit '@'.
-
-
-
 # Controller parameters
-# Pressure unit, Unit=Torr, MBAR, PASCAL, Micron
-unit { 
+# Pressure unit, Unit=Torr, mBAR, PASCAL, Micron
+get_unit { 
     out "@\$1U?"; 
-    in "%*/ACK/%s"; 
+    in "@\$1ACK%{TORR|mBAR|PASCAL|MICRON}";
 }
+
+set_unit { 
+    out "@\$1U!%{TORR|mBAR|PASCAL|Micron}";
+    in "@\$1ACK%{TORR|mBAR|PASCAL|MICRON}"; 
+    @init { get_unit; }
+}
+
 
 # Firmware version
 # n=1=Slot A; n=2=Slot B; n=3=Slot C
 # n=4=AIO; n=5=COMM; n=6=Main
+
+
+slotav { 
+    out "@\$1FV1?"; 
+    in "@\$1ACK%s"; 
+}
+slotbv { 
+    out "@\$1FV2?"; 
+    in "@\$1ACK%s"; 
+}
+slotcv { 
+    out "@\$1FV3?"; 
+    in "@\$1ACK%s"; 
+}
+aiov { 
+    out "@\$1FV4?"; 
+    in "@\$1ACK%s"; 
+}
+commv { 
+    out "@\$1FV5?"; 
+    in "@\$1ACK%s"; 
+}
 ctlv { 
     out "@\$1FV6?"; 
-    in "%*/ACK/%f"; 
-}
-comv { 
-    out "@\$1FV5?"; 
-    in "%*/ACK/%f";  
-    
-    @mismatch{};
+    in "@\$1ACK%s"; 
 }
 
 # Display the sensor module type. T1, T2, T3=(CC,HC, CM, PR, NC). 
 # NC= no connection. T4=(NA, PB, PC)
-modcc { 
-    out "@\$1MT?"; 
-    in "%*/ACK/%{HC|CC|PR|CV|TC|CM|P1|C1|T1|M1|NC|WC}";
-}
 moda { 
     out "@\$1MT?"; 
-    in "%*/ACK/\?\?,%{HC|CC|PR|CV|TC|CM|P1|C1|T1|M1|NC|WC}"; 
+    in "@\$1ACK%{HC|CC|PR|CV|TC|CM|P1|C1|T1|M1|NC|WC}";
 }
 modb { 
     out "@\$1MT?"; 
-    in "%*/ACK/\?\?,\?\?,%{HC|CC|PR|CV|TC|CM|P1|C1|T1|M1|NC|WC}"; 
+    in "@\$1ACK\?\?,%{HC|CC|PR|CV|TC|CM|P1|C1|T1|M1|NC|WC}"; 
+}
+modc { 
+    out "@\$1MT?"; 
+    in "@\$1ACK\?\?,\?\?,%{HC|CC|PR|CV|TC|CM|P1|C1|T1|M1|NC|WC}"; 
 }
 
-###########################################################################
 
+# Display yhe connected sensor type on the specified mudule
+sta { 
+    out "@\$1STA?"; 
+    in "@\$1ACK%s";
+}
+stb {  
+    out "@\$1STB?"; 
+    in "@\$1ACK%s";
+}
+stc {  
+    out "@\$1STC?"; 
+    in "@\$1ACK%s";
+}
 
-#debug
-debug { 
-    ExtraInput = Ignore; 
-    out "%s"; 
-    in "%s"
+# Serial Number
+serial_num {  
+    out "@\$1SN?"; 
+    in "@\$1ACK%s";
+}
+
+# Prints errors as text
+errtext { 
+    out "@254SEM!TXT";
+    in "@ACK%s";          
+}
+
+# Query the channel power status for PR, CP, HC or high voltage status for CC.  $2: channel 1-6
+get_enabled{ 
+    out "@\$1CP\$2?"; 
+    in "@\$1ACK%{OFF|ON}";
 }
  
-# The error code displayed in TXT mode.
-set_error_txt { 
-    out "@254SEM!TXT"; 
-    in "%s"; 
-}
-
-# The error code displayed in CODE mode.
-set_error_code { 
-    out "@254SEM!CODE"; 
-    in "%s"; 
-}
-
-pirgenable { 
-    out "@\$1%{CP\$2!OFF|CP\$2!ON}"; 
-    in "%*/ACK/%{OFF|ON}"; 
-}
-
-get_gauge_enabled { 
-    out "@\$1CP\$2?"; 
-    in "%*/ACK/%{OFF|ON}"; 
-}
-
-# The 1x10 -2 torr upper limit can be extended to 9.5x10 -1 torr by using a @254XCS!ON;
-set_cc_extended_range  { 
-    out "@\$1XCS\$2!ON"; in "%*/ACK/"; 
-}
-
-# Query the HC (hot cathode) degas status Turn on/off degas
-degas_enable { 
-    out "@\$1%{DG\$2!OFF|DG\$2!ON}"; 
-    in "%*/ACK/%{OFF|ON}"; 
-}
-get_degas_enabled{ 
-    out "@\$1DG\$2?"; 
-    in "%*/ACK/%{OFF|ON}"; 
+# Turn on/off the channel power for PR, CP, HC, or high voltage for CC). $2: channel 1-6
+set_enabled{
+    out "@\$1CP\$2!%{OFF|ON}"; 
+    in "@\$1ACK%{OFF|ON}"; 
 }

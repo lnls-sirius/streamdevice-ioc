@@ -1,0 +1,65 @@
+
+
+record(stringin,"$(DEVICE):PressureRb-$(CHANNEL)s") {
+    field(PINI, "YES")
+    field(DESC,"Read CCG$(CHANNEL)'s raw pressure output")
+    field(SCAN, "$(SCAN_RATE)")
+    field(DTYP,"stream")
+    field(INP,"@mks937b_pressure.proto get_pressure_raw($(ADDRESS),$(CHANNEL)) $(PORT)") 
+
+    field(FLNK, "$(DEVICE):PressureRb-$(CHANNEL)")
+} 
+
+record(ai,"$(DEVICE):PressureRb-$(CHANNEL)") {
+    field(DESC,"Read CCG$(CHANNEL)'s pressure")
+    field(INP,"$(DEVICE):PressureRb-$(CHANNEL)s")
+    field(PREC,"2")
+    field(HIGH,"$(P_HI)")
+    field(HIGH,"$(P_HIHI)")
+    field(HSV,"MINOR")
+    field(HHSV,"MAJOR") 
+} 
+
+# ---------------------------------------------------------
+# Channel Power Status 
+# In case the unit was changed at the ihm
+record(bi, "$(DEVICE):EnableRb-$(CHANNEL):Trig")
+{
+	field(SCAN, "$(SCAN_RATE)")
+	field(FLNK, "$(DEVICE):EnableRb-$(CHANNEL)")
+}
+
+record(mbbi, "$(DEVICE):EnableRb-$(CHANNEL)") {
+  field(DESC, "Channel power status")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_enabled($(ADDRESS),$(CHANNEL)) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(ZRST, "Off")
+  field(ONST, "On")
+}
+
+record(mbbo, "$(DEVICE):EnableSp-$(CHANNEL)"){
+    field(DESC, "Set Channel $(CHANNEL) On Off ") 
+    field(OUT,"@mks937b.proto set_enabled($(ADDRESS),$(CHANNEL)) $(PORT)")
+    field(DTYP, "stream")
+    field(SCAN, "Passive")
+    
+    field(UNSV, "INVALID")
+    #The IVOA field specifies an action to take from a number of possible choices when the INVALID alarm is triggered4
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1") 
+    field(ZRST, "Off")
+    field(ONST, "On") 
+
+    field(FLNK, "$(DEVICE):EnableRb-$(CHANNEL)")
+}
+# ---------------------------------------------------------
+  
+
+ 
+   

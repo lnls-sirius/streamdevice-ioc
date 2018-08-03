@@ -3,53 +3,134 @@
 #% macro, PORT,   Asyn Port name, e.g. ty_40_0
 #% macro, ADDRESS, Controller ADDRESS (001 .. 253)
 ################################################################################
+
+# In case the unit was changed at the ihm
+record(bi, "$(DEVICE):Unit:Trig"){
+	field(SCAN, "$(SCAN_RATE)")
+	
+	field(FLNK, "$(DEVICE):Unit")
+}
+
 # Pressure Unit
 #
-#% controldesk Pressure Unit readback
-record(stringin, "$(DEVICE):UNIT")
-{
-    field(DESC, "Pressure Unit")
+#% controldesk Pressure Unit readback 
+
+record(mbbi, "$(DEVICE):Unit"){
+    field(DESC, "Read Pressure Unit") 
+    field(PINI, "YES")
     field(DTYP, "stream")
-    field(INP,  "@mks937b.proto unit($(ADDRESS)) $(PORT) 0")
-    field(SCAN, "$(SCAN_RATE)")
+    field(INP,"@mks937b.proto get_unit($(ADDRESS)) $(PORT)")
+
+    field(PHAS, "0")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(ZRST, "Torr")
+    field(ONST, "mBAR")
+    field(TWST, "PASCAL")
+    field(THST, "Micron")    
 }
+
+record(mbbo, "$(DEVICE):UnitSp"){
+    field(DESC, "Set Pressure Unit")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_unit($(ADDRESS)) $(PORT)")
+
+    field(UNSV, "INVALID")
+    #The IVOA field specifies an action to take from a number of possible choices when the INVALID alarm is triggered4
+    field(IVOA, "Don't drive outputs")
+
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(ZRST, "Torr")
+    field(ONST, "mBAR")
+    field(TWST, "PASCAL")
+    field(THST, "Micron")    
+
+    field(FLNK, "$(DEVICE):Unit")
+}
+
+
+record(stringin, "$(DEVICE):ErrMsgType"){
+    field(DESC, "Error message as text")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto errtext $(PORT) ") 
+    field(PINI, "YES") 
+}
+ 
+
+record(stringin, "$(DEVICE):SerialNumber"){
+    field(DESC, "Unit's serial number")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto serial_num($(ADDRESS)) $(PORT) ") 
+    field(PINI, "YES") 
+}
+ 
 ################################################################################
 # Controller Version
 #
 #% archiver 10 Monitor
 #% controldesk Controller Version readback
-record(ai, "$(DEVICE):CTLV")
-{
+record(stringin, "$(DEVICE):CTLV"){
     field(DESC, "Controller Version")
     field(DTYP, "stream")
-    field(INP,  "@mks937b.proto ctlv($(ADDRESS)) $(PORT) 0")
-    field(SCAN, "$(SCAN_RATE)")
-    field(PREC, "2")
+    field(INP,  "@mks937b.proto ctlv($(ADDRESS)) $(PORT) ") 
+    field(PINI, "YES") 
 }
-################################################################################
-# Communications Module Version
-# !! Note - for the 937B the comms module is integrated and has no ID
-# !!        so this record is deprecated and scan is forced to Passive
-#% controldesk Communications Version readback
-record(ai, "$(DEVICE):COMV")
-{
-    field(DESC, "Communications Version")
+ 
+ record(stringin, "$(DEVICE):SlotAV"){
+    field(DESC, "Slot A Version")
     field(DTYP, "stream")
-    field(INP,  "@mks937b.proto comv($(ADDRESS)) $(PORT) 0")
-    field(SCAN, "Passive")
-    #field(SCAN, "10 second")
-    field(PREC, "2")
+    field(INP,  "@mks937b.proto slotav($(ADDRESS)) $(PORT) ") 
+    field(PINI, "YES") 
 }
+ 
+ record(stringin, "$(DEVICE):SlotBV"){
+    field(DESC, "Slot B Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto slotbv($(ADDRESS)) $(PORT) ") 
+    field(PINI, "YES") 
+}
+ 
+ record(stringin, "$(DEVICE):SlotCV"){
+    field(DESC, "Slot C Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto slotcv($(ADDRESS)) $(PORT) ") 
+    field(PINI, "YES") 
+}
+ 
+ record(stringin, "$(DEVICE):AIOV"){
+    field(DESC, "AIO Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto aiov($(ADDRESS)) $(PORT) ") 
+    field(PINI, "YES") 
+}
+ 
+ record(stringin, "$(DEVICE):COMMV"){
+    field(DESC, "COMM Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto commv($(ADDRESS)) $(PORT) ") 
+    field(PINI, "YES") 
+}
+ 
+
 ################################################################################
 # Module in Slot CC
 #
 #% controldesk Slot CC smon
-record(mbbi, "$(DEVICE):MCC")
-{
-    field(DESC, "Slot CC")
+record(mbbi, "$(DEVICE):ModuleType-A"){
+    field(DESC, "Display the module type")
     field(DTYP, "stream")
-    field(INP,  "@mks937b.proto modcc($(ADDRESS)) $(PORT) 0")
+    field(INP,  "@mks937b.proto moda($(ADDRESS)) $(PORT) 0") 
+    field(PINI, "YES")
     field(SCAN, "$(SCAN_RATE)")
+    
     field(ZRST, "Hot Cathode")
     field(ONST, "Cold Cathode")
     field(TWST, "Dual Pirani")
@@ -80,12 +161,13 @@ record(mbbi, "$(DEVICE):MCC")
 # Module in Slot A
 #
 #% controldesk Slot A smon
-record(mbbi, "$(DEVICE):MA")
-{
-    field(DESC, "Slot A")
+record(mbbi, "$(DEVICE):ModuleType-B"){
+    field(DESC, "Display the module type")
     field(DTYP, "stream")
-    field(INP,  "@mks937b.proto moda($(ADDRESS)) $(PORT) 0")
+    field(INP,  "@mks937b.proto modb($(ADDRESS)) $(PORT) 0") 
+    field(PINI, "YES")
     field(SCAN, "$(SCAN_RATE)")
+
     field(ZRST, "Hot Cathode")
     field(ONST, "Cold Cathode")
     field(TWST, "Dual Pirani")
@@ -116,12 +198,13 @@ record(mbbi, "$(DEVICE):MA")
 # Module in Slot B
 #
 #% controldesk Slot B smon
-record(mbbi, "$(DEVICE):MB")
-{
-    field(DESC, "Slot B")
+record(mbbi, "$(DEVICE):ModuleType-C"){
+    field(DESC, "Display the module type")
     field(DTYP, "stream")
-    field(INP,  "@mks937b.proto modb($(ADDRESS)) $(PORT) 0")
+    field(INP,  "@mks937b.proto modc($(ADDRESS)) $(PORT)")  
+    field(PINI, "YES")
     field(SCAN, "$(SCAN_RATE)")
+
     field(ZRST, "Hot Cathode")
     field(ONST, "Cold Cathode")
     field(TWST, "Dual Pirani")
@@ -149,25 +232,36 @@ record(mbbi, "$(DEVICE):MB")
     field(ELSV, "MAJOR")
 }
 ################################################################################
-
-record(stringin, "$(DEVICE):DEBUG")
-{
-    field(DESC, "Generic command")
-    field(DTYP, "stream")
-    field(INP,  "@mks937b.proto debug($(ADDRESS)) $(PORT) 0")
-    field(SCAN, "Passive")
+record(bi, "$(DEVICE):SensorType-A:Trig"){
+	field(SCAN, "$(SCAN_RATE)")
+	field(FLNK, "$(DEVICE):SensorType-A")
 }
 
-record(stringin, "$(DEVICE):ERROR-TXT")
-{
-    field(DESC, "Display error in txt mode")
-    field(DTYP, "stream")
-    field(INP,  "@mks937b.proto set_error_txt($(ADDRESS)) 0")
-}
+record(stringin,"$(DEVICE):SensorType-A") {
+    field(PINI, "YES")
+    field(DESC, "Display the connected sensor type")
+    field(DTYP,"stream")
+    field(INP,"@mks937b.proto sta($(ADDRESS)) $(PORT)") 
+} 
 
-record(stringin, "$(DEVICE):ERROR-CODE")
-{
-    field(DESC, "Display error in code mode")
-    field(DTYP, "stream")
-    field(INP,  "@mks937b.proto set_error_txt($(ADDRESS)) 0")
+record(bi, "$(DEVICE):SensorType-B:Trig"){
+	field(SCAN, "$(SCAN_RATE)")
+	field(FLNK, "$(DEVICE):SensorType-B")
 }
+record(stringin,"$(DEVICE):SensorType-B") {
+    field(PINI, "YES")
+    field(DESC, "Display the connected sensor type")
+    field(DTYP,"stream")
+    field(INP,"@mks937b.proto stb($(ADDRESS)) $(PORT)") 
+} 
+
+record(bi, "$(DEVICE):SensorType-C:Trig"){
+	field(SCAN, "$(SCAN_RATE)")
+	field(FLNK, "$(DEVICE):SensorType-C")
+}
+record(stringin,"$(DEVICE):SensorType-C") {
+    field(PINI, "YES")
+    field(DESC, "Display the connected sensor type")
+    field(DTYP,"stream")
+    field(INP,"@mks937b.proto stc($(ADDRESS)) $(PORT)") 
+} 

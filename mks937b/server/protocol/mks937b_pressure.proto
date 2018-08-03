@@ -41,31 +41,21 @@ unitid = 1;
 
 # PRESSURE READING COMMANDS 
 # Read pressure on channel  ($2 1 to 6)
-get_pressure { 
-    out "@\$1PR\$2?"; 
-    in "%*/ACK/%E"; 
-    
-    @mismatch {
-        in "%*/ACK/%(\$3:STA.VAL){\?.|  \?E|OVER|ATM|<1.00E-11|RP_OFF|OFF|WAIT|L|CTRL_OFF|PROT_OFF|NOGAUGE|MISCONN|NOT|Not|C}";
-    }
-}
 get_pressure_raw { 
     out "@\$1PR\$2?"; 
-    in "%*/ACK/%s"; 
-}
-get_pressure_status { 
-    out "@\$1PR\$2?"; 
-    in "%*/ACK/%{\?.|  \?E|OVER|ATM|<1.00E-11|RP_OFF|OFF|WAIT|L|CTRL_OFF|PROT_OFF|NOGAUGE|MISCONN|NOT|Not|C}"; 
-}
-
-# Read pressures on all channels
-get_pressure_all {
-    out "@\$1PRZ?"; 
-    in "%*/ACK/%s";
+    in "@\$1ACK%s"; 
+    
+    @mismatch { 
+        in "@\$1NAK:%s"; 
+    }
 }
 
-# Read pressure on channel 'n' and its combination sensor
+# Read pressure on channel 'n' and its combination sensor 
 get_pressure_combination {
     out "@\$1PC\$2?"; 
-    in "%*/ACK/%s";
-}
+    in "@\$1ACK%s";
+
+    @mismatch { 
+        in "@\$1NAK:%s"; 
+    }
+} 
