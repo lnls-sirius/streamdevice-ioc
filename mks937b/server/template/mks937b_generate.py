@@ -7,7 +7,9 @@
 """
 
 from string import Template
-from mks937b_template import template_device, template_bot, template_top, template_pressure, template_cc
+from mks937b_template import template_device, template_bot,\
+                        template_top, template_pressure, template_cc,\
+                        template_relay
 from mks937b_devices import sectors  as sectors
 
 import sys 
@@ -40,7 +42,8 @@ if __name__ == "__main__":
                 TOP=TOP,
                 ARCH=ARCH,
                 STREAM_PROTOCOL_PATH=STREAM_PROTOCOL_PATH,
-                IP_ADDR=IP_ADDR
+                IP_ADDR=IP_ADDR,
+                IP_ASYN_PORT=(IP_ASYN_PORT + str(count))
         )
         
 
@@ -65,7 +68,7 @@ if __name__ == "__main__":
                     SCAN_RATE = SCAN_RATE,
                     P_HI   = pressures[channel].get('HI'),
                     P_HIHI = pressures[channel].get('HIHI'),
-                    CHANNEL = channel
+                    CHANNEL = channel + 1 
                 )
                  
             for channel in [1,3,5]:
@@ -75,6 +78,15 @@ if __name__ == "__main__":
                     ADDRESS=ADDRESS,
                     SCAN_RATE = SCAN_RATE,
                     CHANNEL = channel
+                )
+
+            for relay in range(1, 13):
+                res += template_relay.safe_substitute(
+                    IP_ASYN_PORT=(IP_ASYN_PORT + str(count)),
+                    PREFIX=PREFIX,
+                    ADDRESS=ADDRESS,
+                    SCAN_RATE = SCAN_RATE,
+                    RELAY = relay
                 )
 
             count += 1

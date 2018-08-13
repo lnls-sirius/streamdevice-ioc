@@ -35,7 +35,7 @@ dbLoadRecords("database/mks937b_pressure.db", \
  P_HIHI = $P_HIHI")''')
 
 template_cc = Template('''
-dbLoadRecords("database/mks937b_cold_cathode.db",\
+dbLoadRecords("database/mks937b_cc.db",\
  "PORT = $IP_ASYN_PORT,\
   DEVICE = $PREFIX,\
   CHANNEL = $CHANNEL,\
@@ -46,6 +46,7 @@ template_relay = Template('''
 dbLoadRecords("database/mks937b_relay.db",\
  "PORT = $IP_ASYN_PORT,\
   DEVICE = $PREFIX,\
+  RELAY = $RELAY,\
   ADDRESS = $ADDRESS,\
   SCAN_RATE = $SCAN_RATE second")''')
 
