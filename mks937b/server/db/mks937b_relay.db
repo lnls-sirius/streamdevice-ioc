@@ -8,14 +8,12 @@ record(bi, "$(DEVICE):RelayRb-$(RELAY):Trig"){
 	field(SCAN, "$(SCAN_RATE)")
 	field(FLNK, "$(DEVICE):RelayRb-$(RELAY)")
 }
-
 record(ai, "$(DEVICE):RelayRb-$(RELAY)") {
     field(DESC, "Read Setpoint for relay $(RELAY)") 
     field(PINI, "YES") 
     field(DTYP, "stream")
     field(INP,"@mks937b_relay.proto get_sp($(ADDRESS),$(RELAY)) $(PORT)")
 }
-
 record(ao, "$(DEVICE):RelaySp-$(RELAY)") {
     field(DESC, "Setpoint for relay $(RELAY)")
     field(SCAN, "Passive")

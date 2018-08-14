@@ -4,14 +4,14 @@
 # In case the unit was changed at the ihm
 record(bi, "$(DEVICE):ProtectionSetpointRb-$(CHANNEL):Trig"){
 	field(SCAN, "$(SCAN_RATE)")
-	field(FLNK, "$(DEVICE):ProtectionSetpointRb-$(CHANNEL)")
+	field(FLNK, "$(DEVICE):ProtectionSetpointRb-$(CHANNEL)s")
 }
 
 record(stringin,"$(DEVICE):ProtectionSetpointRb-$(CHANNEL)s") {
     field(PINI, "YES")
     field(DESC,"Protection setpoint value RAW")
-    field(DTYP,"stream")
     field(INP,"@mks937b_cc.proto get_pro_sp($(ADDRESS),$(CHANNEL)) $(PORT)") 
+    field(DTYP,"stream")
 
     field(FLNK, "$(DEVICE):ProtectionSetpointRb-$(CHANNEL)")
 } 
@@ -21,7 +21,7 @@ record(ai, "$(DEVICE):ProtectionSetpointRb-$(CHANNEL)") {
   field(INP,"$(DEVICE):ProtectionSetpointRb-$(CHANNEL)s")
   
   field(PINI, "YES") 
-}
+} 
 
 record(ao, "$(DEVICE):ProtectionSetpointSp-$(CHANNEL)"){
     field(DESC, "Set protection setpoint value") 
@@ -30,6 +30,7 @@ record(ao, "$(DEVICE):ProtectionSetpointSp-$(CHANNEL)"){
     field(SCAN, "Passive")
     
     field(FLNK, "$(DEVICE):ProtectionSetpointRb-$(CHANNEL)s")
+    # field(FLNK, "$(DEVICE):ProtectionSetpointRb-$(CHANNEL)")
 }
 
 # --------------------------------------------------------- 
@@ -43,8 +44,8 @@ record(bi, "$(DEVICE):ControlSetpointRb-$(CHANNEL):Trig"){
 record(stringin,"$(DEVICE):ControlSetpointRb-$(CHANNEL)s") {
     field(PINI, "YES")
     field(DESC,"Control setpoint value RAW")
-    field(DTYP,"stream")
     field(INP,"@mks937b_cc.proto get_con_sp($(ADDRESS),$(CHANNEL)) $(PORT)") 
+    field(DTYP,"stream")
 
     field(FLNK, "$(DEVICE):ControlSetpointRb-$(CHANNEL)")
 } 
@@ -52,15 +53,14 @@ record(stringin,"$(DEVICE):ControlSetpointRb-$(CHANNEL)s") {
 record(ai, "$(DEVICE):ControlSetpointRb-$(CHANNEL)") {
   field(DESC, "Control setpoint value")
   field(INP,"$(DEVICE):ControlSetpointRb-$(CHANNEL)s")
-  
   field(PINI, "YES") 
 }
 
 record(ao, "$(DEVICE):ControlSetpointSp-$(CHANNEL)"){
     field(DESC, "Set control setpoint value")
     field(OUT,"@mks937b_cc.proto set_con_sp($(ADDRESS),$(CHANNEL)) $(PORT)")
-    field(DTYP, "stream")
     field(SCAN, "Passive")
+    field(DTYP, "stream")
     
     field(FLNK, "$(DEVICE):ControlSetpointRb-$(CHANNEL)s")
 }
@@ -77,8 +77,8 @@ record(bi, "$(DEVICE):ControlSetpointHystRb-$(CHANNEL):Trig"){
 record(stringin,"$(DEVICE):ControlSetpointHystRb-$(CHANNEL)s") {
     field(PINI, "YES")
     field(DESC,"Control setpoint hysteresis value RAW")
-    field(DTYP,"stream")
     field(INP,"@mks937b_cc.proto get_hys_sp($(ADDRESS),$(CHANNEL)) $(PORT)") 
+    field(DTYP,"stream")
 
     field(FLNK, "$(DEVICE):ControlSetpointHystRb-$(CHANNEL)")
 } 
@@ -93,8 +93,8 @@ record(ai, "$(DEVICE):ControlSetpointHystRb-$(CHANNEL)") {
 record(ao, "$(DEVICE):ControlSetpointHystSp-$(CHANNEL)"){
     field(DESC, "Set control setpoint hysteresis value")
     field(OUT,"@mks937b_cc.proto set_hys_sp($(ADDRESS),$(CHANNEL)) $(PORT)")
-    field(DTYP, "stream")
     field(SCAN, "Passive")
+    field(DTYP, "stream")
     
     field(FLNK, "$(DEVICE):ControlSetpointHystRb-$(CHANNEL)s")
 }
@@ -109,14 +109,14 @@ record(bi, "$(DEVICE):ControlChannelStatusRb-$(CHANNEL):Trig"){
 record(stringin,"$(DEVICE):ControlChannelStatusRb-$(CHANNEL)") {
     field(PINI, "YES")
     field(DESC, "Control channel status for an ion gauge")
-    field(DTYP,"stream")
     field(INP,"@mks937b_cc.proto get_con_sp_status($(ADDRESS),$(CHANNEL)) $(PORT)") 
+    field(DTYP,"stream")
 } 
 
 record(mbbo, "$(DEVICE):ControlChannelStatusSp-$(CHANNEL)"){
-    field(DTYP, "stream")
     field(DESC, "Control Channel Status")
     field(OUT, "@mks937b_cc.proto set_con_sp_status($(ADDRESS),$(CHANNEL)) $(PORT)")
+    field(DTYP, "stream")
 
 
     field(UNSV, "INVALID")
@@ -155,12 +155,30 @@ record(stringin,"$(DEVICE):ControlChannelCTLRb-$(CHANNEL)") {
     field(PINI, "YES")
     field(DESC, "Control channel CTL AUTO|SAFE|OFF")
     field(INP,"@mks937b_cc.proto get_con_sp_enable($(ADDRESS),$(CHANNEL)) $(PORT)")  
+    field(DTYP, "stream")
 } 
 
+# record(mbbi,"$(DEVICE):ControlChannelCTLRb-$(CHANNEL)") {
+#     field(PINI, "YES")
+#     field(DTYP, "stream")
+
+#     field(DESC, "Control channel CTL AUTO|SAFE|OFF")
+#     field(INP,"@mks937b_cc.proto get_con_sp_enable($(ADDRESS),$(CHANNEL)) $(PORT)")
+    
+#     field(ZRST, "AUTO")
+#     field(ONST, "SAFE")
+#     field(TWST, "OFF")
+
+#     field(ZRVL, "0")
+#     field(ONVL, "1")
+#     field(TWVL, "2")
+  
+# } 
+
 record(mbbo, "$(DEVICE):ControlChannelCTLSp-$(CHANNEL)"){
-    field(DTYP, "stream")
     field(DESC, "Control channel CTL AUTO|SAFE|OFF")
     field(OUT, "@mks937b_cc.proto set_con_sp_enable($(ADDRESS),$(CHANNEL)) $(PORT)")
+    field(DTYP, "stream")
 
 
     field(UNSV, "INVALID")

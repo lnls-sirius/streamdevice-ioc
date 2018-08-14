@@ -39,23 +39,75 @@ unitid = 1;
 # This is important with the MKS firmware update in Feb 2012, where '@' will precede all responses,
 # but we still need backward compatibility with units which do not emit '@'.
 
-# PRESSURE READING COMMANDS 
-# Read pressure on channel  ($2 1 to 6)
-get_pressure_raw { 
-    out "@\$1PR\$2?"; 
-    in "@\$1ACK%s"; 
+###########################################################################
+
+
+
+# RELAY AND CONTROL SETTINGS COMMANDS
+# Relay setpoints ($2 1 to 12)
+get_sp { 
+    out "@\$1SP\$2?"; 
+
+    in "@\$1ACK%E"; 
     
-    @mismatch { 
-        in "@\$1NAK:%s"; 
-    }
+    @mismatch{
+        in "@\$1NAK%s"; 
+    } 
 }
 
-# Read pressure on channel 'n' and its combination sensor 
-get_pressure_combination {
-    out "@\$1PC\$2?"; 
-    in "@\$1ACK%s";
+set_sp { 
+    out "@\$1SP\$2!%0.1E"; 
+    in "@\$1ACK%E"; 
+    @init { get_sp; }
+    
+}
+ 
+# Relay Hysteresis ($2 1 to 12)
+get_relay_hyst { 
+    out "@\$1SH\$2?"; 
+    in "@\$1ACK%E"; 
+ }
+ set_relay_hyst { 
+     out "@\$1SH\$2!%0.1E"; 
+     in "@\$1ACK%E"; 
 
-    @mismatch { 
-        in "@\$1NAK:%s"; 
+     @init { get_relay_hyst; }
+ }
+
+# # Relay direction ($2 1 to 12)
+get_relay_direction { 
+    out "@\$1SD\$2?"; 
+    in "@\$1ACK%{ABOVE|BELOW}"; 
+}
+
+set_relay_direction { 
+    out "@\$1SD\$2!%{ABOVE|BELOW}"; 
+    in "@\$1ACK%{ABOVE|BELOW}"; 
+    
+    # For CC and HC the relay is fixed to bellow !
+    @mismatch{
+        in "@\$1NAK"; 
     }
-} 
+
+    @init { get_relay_direction; }
+}
+
+    
+# Relay mode, query or set status for relay ($2 1 to 12)
+get_relay_mode { 
+    out "@\$1EN\$2?";
+    in "@\$1ACK%{SET|CLEAR|ENABLE}"; 
+}
+set_relay_mode { 
+    out "@\$1EN\$2!%{SET|CLEAR|ENABLE}"; 
+    in "@\$1ACK%{SET|CLEAR|ENABLE}"; 
+
+    @init { get_relay_mode; }
+}
+
+# Query relay setpoint status ($2 1 to 12)
+get_relaysp_status { 
+    out "@\$1SS\$2?"; 
+    in "@\$1ACK%{SET|CLEAR}"; 
+}
+ 

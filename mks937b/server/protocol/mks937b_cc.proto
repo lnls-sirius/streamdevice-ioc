@@ -45,20 +45,15 @@ unitid = 1;
 get_pro_sp{ 
     out "@\$1PRO\$2?"; 
     in "@\$1ACK%s";
+    @mismatch {in "@\$1NAK:%s";}
+} 
 
-    @mismatch { 
-        in "@\$1NAK:%s"; 
-    }
-}
- 
 # Query protection setpoint for channel
 set_pro_sp{
     out "@\$1PRO\$2!%E"; 
     in "@\$1ACK%E"; 
-    
-    @mismatch { 
-        in "@\$1NAK:%s"; 
-    }
+    @mismatch {in "@\$1NAK:%s";}
+   # @init{ get_pro_sp_val;} 
 }
 
 # Query control setpoint for channel
@@ -66,19 +61,22 @@ get_con_sp{
     out "@\$1CSP\$2?"; 
     in "@\$1ACK%s";
 
-    @mismatch { 
-        in "@\$1NAK:%s"; 
-    }
+    @mismatch {in "@\$1NAK:%s";}
+}
+get_con_sp_val{ 
+    out "@\$1CSP\$2?"; 
+    in "@\$1ACK%s";
+
+    @mismatch {}
 }
  
 # Set control setpoint for channel
 set_con_sp{
     out "@\$1CSP\$2!%E"; 
     in "@\$1ACK%E"; 
-    
-    @mismatch { 
-        in "@\$1NAK:%s"; 
-    }
+
+    @mismatch {in "@\$1NAK:%s";}
+   # @init{get_con_sp_val;}
 }
 
 # Query control setpoint hysteresis for channel
@@ -90,6 +88,12 @@ get_hys_sp{
         in "@\$1NAK:%s"; 
     }
 }
+get_hys_sp_val{ 
+    out "@\$1CHP\$2?"; 
+    in "@\$1ACK%s";
+
+  #  @mismatch {}
+}
  
 # Set control setpoint hysteresis for channel
 set_hys_sp{
@@ -99,6 +103,7 @@ set_hys_sp{
     @mismatch { 
         in "@\$1NAK:%s"; 
     }
+   # @init{get_hys_sp_val;}
 }
 
 # Relay mode, query or set status for relay ($2 1 to 12)
@@ -111,6 +116,8 @@ get_con_sp_status{
 set_con_sp_status{ 
     out "@\$1CSE\$2!%{A1|B1|A2|B2|C1|C2|OFF}"; 
     in "@\$1ACK%{A1|B1|A2|B2|C1|C2|OFF}";  
+
+    @init{get_con_sp_status;}
 }
 
 # Relay mode, query or set status for relay ($2 1 to 12)
@@ -123,4 +130,6 @@ get_con_sp_enable{
 set_con_sp_enable{ 
     out "@\$1CTL\$2!%{AUTO|SAFE|OFF}"; 
     in "@\$1ACK%{AUTO|SAFE|OFF}";  
+
+    @init{get_con_sp_enable;}
 }
