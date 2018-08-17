@@ -265,3 +265,227 @@ record(stringin,"$(DEVICE):SensorType-C") {
     field(DTYP,"stream")
     field(INP,"@mks937b.proto stc($(ADDRESS)) $(PORT)") 
 } 
+
+# ===================================================================================
+
+# record(stringin,"$(DEVICE):PressureArrayRb") {
+#     field(PINI, "YES") 
+#     field(SCAN, "$(SCAN_RATE)")
+#     field(DTYP,"stream")
+#     field(INP,"@mks937b_pressure.proto get_pressure_array($(ADDRESS)) $(PORT)") 
+# } 
+ 
+
+record(stringin,"$(DEVICE):PressureRb-1s") {
+    field(PINI, "YES")
+    field(DESC,"Read CCG 1's raw pressure output")
+    field(SCAN, "$(SCAN_RATE)")
+    field(DTYP,"stream")
+    field(INP,"@mks937b_pressure.proto get_pressures($(ADDRESS),$(DEVICE):PressureRb) $(PORT)") 
+} 
+record(stringin,"$(DEVICE):PressureRb-2s") {
+    field(DESC,"Read CCG 2's raw pressure output")
+} 
+record(stringin,"$(DEVICE):PressureRb-3s") {
+    field(DESC,"Read CCG 3's raw pressure output")
+} 
+record(stringin,"$(DEVICE):PressureRb-4s") {
+    field(DESC,"Read CCG 4's raw pressure output")
+} 
+record(stringin,"$(DEVICE):PressureRb-5s") {
+    field(DESC,"Read CCG 5's raw pressure output")
+} 
+record(stringin,"$(DEVICE):PressureRb-6s") {
+    field(DESC,"Read CCG 6's raw pressure output")
+} 
+
+
+# record(strinin, "$(DEVICE):RelayStatusRb-1") {
+#   field(DESC, "Status of the relay 1")
+#   field(DTYP, "stream")
+#   field(INP,  "@mks937b_relay.proto get_relay_mode_all($(ADDRESS),$(DEVICE):RelayStatusRb) $(PORT)") 
+#   field(PINI, "YES") 
+  
+# #   field(ZRVL, "0")
+# #   field(ONVL, "1")
+# #   field(TWVL, "2")
+
+# #   field(ZRST, "CLEAR")
+# #   field(ONST, "SET")
+# #   field(TWST, "ENABLE")
+# }
+# record(mbbi, "$(DEVICE):RelayStatusRb-2") {
+#   field(DESC, "Status of the relay 2")
+#   field(DTYP, "stream")
+  
+#   field(ZRVL, "0")
+#   field(ONVL, "1")
+#   field(TWVL, "2")
+
+#   field(ZRST, "CLEAR")
+#   field(ONST, "SET")
+#   field(TWST, "ENABLE")
+# }
+# record(mbbi, "$(DEVICE):RelayStatusRb-3") {
+#   field(DESC, "Status of the relay 3")
+#   field(DTYP, "stream")
+  
+#   field(ZRVL, "0")
+#   field(ONVL, "1")
+#   field(TWVL, "2")
+
+#   field(ZRST, "CLEAR")
+#   field(ONST, "SET")
+#   field(TWST, "ENABLE")
+# }
+# record(mbbi, "$(DEVICE):RelayStatusRb-4") {
+#   field(DESC, "Status of the relay 4")
+#   field(DTYP, "stream")
+  
+#   field(ZRVL, "0")
+#   field(ONVL, "1")
+#   field(TWVL, "2")
+
+#   field(ZRST, "CLEAR")
+#   field(ONST, "SET")
+#   field(TWST, "ENABLE")
+# }
+# record(mbbi, "$(DEVICE):RelayStatusRb-5") {
+#   field(DESC, "Status of the relay 5")
+#   field(DTYP, "stream")
+  
+#   field(ZRVL, "0")
+#   field(ONVL, "1")
+#   field(TWVL, "2")
+
+#   field(ZRST, "CLEAR")
+#   field(ONST, "SET")
+#   field(TWST, "ENABLE")
+# }
+# record(mbbi, "$(DEVICE):RelayStatusRb-6") {
+#   field(DESC, "Status of the relay 6")
+#   field(DTYP, "stream")
+  
+#   field(ZRVL, "0")
+#   field(ONVL, "1")
+#   field(TWVL, "2")
+
+#   field(ZRST, "CLEAR")
+#   field(ONST, "SET")
+#   field(TWST, "ENABLE")
+# }
+# record(mbbi, "$(DEVICE):RelayStatusRb-7") {
+#   field(DESC, "Status of the relay 7")
+#   field(DTYP, "stream")
+  
+#   field(ZRVL, "0")
+#   field(ONVL, "1")
+#   field(TWVL, "2")
+
+#   field(ZRST, "CLEAR")
+#   field(ONST, "SET")
+#   field(TWST, "ENABLE")
+# }
+# record(mbbi, "$(DEVICE):RelayStatusRb-8") {
+#   field(DESC, "Status of the relay 8")
+#   field(DTYP, "stream")
+  
+#   field(ZRVL, "0")
+#   field(ONVL, "1")
+#   field(TWVL, "2")
+
+#   field(ZRST, "CLEAR")
+#   field(ONST, "SET")
+#   field(TWST, "ENABLE")
+# }
+# record(mbbi, "$(DEVICE):RelayStatusRb-9") {
+#   field(DESC, "Status of the relay 9")
+#   field(DTYP, "stream")
+  
+#   field(ZRVL, "0")
+#   field(ONVL, "1")
+#   field(TWVL, "2")
+
+#   field(ZRST, "CLEAR")
+#   field(ONST, "SET")
+#   field(TWST, "ENABLE")
+# }
+# record(mbbi, "$(DEVICE):RelayStatusRb-10") {
+#   field(DESC, "Status of the relay 10")
+#   field(DTYP, "stream")
+  
+#   field(ZRVL, "0")
+#   field(ONVL, "1")
+#   field(TWVL, "2")
+
+#   field(ZRST, "CLEAR")
+#   field(ONST, "SET")
+#   field(TWST, "ENABLE")
+# }
+# record(mbbi, "$(DEVICE):RelayStatusRb-11") {
+#   field(DESC, "Status of the relay 11")
+#   field(DTYP, "stream")
+  
+#   field(ZRVL, "0")
+#   field(ONVL, "1")
+#   field(TWVL, "2")
+
+#   field(ZRST, "CLEAR")
+#   field(ONST, "SET")
+#   field(TWST, "ENABLE")
+# }
+# record(mbbi, "$(DEVICE):RelayStatusRb-12") {
+#   field(DESC, "Status of the relay 12")
+#   field(DTYP, "stream")
+  
+#   field(ZRVL, "0")
+#   field(ONVL, "1")
+#   field(TWVL, "2")
+
+#   field(ZRST, "CLEAR")
+#   field(ONST, "SET")
+#   field(TWST, "ENABLE")
+# }
+
+# record(stringin,"$(DEVICE):PressureRb-1s") {
+#     field(PINI, "YES")
+#     field(DESC,"Read CCG 1's raw pressure output")
+#     field(SCAN, "$(SCAN_RATE)")
+#     field(DTYP,"stream")
+#     field(INP,"@mks937b_pressure.proto get_pressure_1($(ADDRESS)) $(PORT)") 
+# } 
+# record(stringin,"$(DEVICE):PressureRb-2s") {
+#     field(PINI, "YES")
+#     field(DESC,"Read CCG 2's raw pressure output")
+#     field(SCAN, "I/O Intr")
+#     field(DTYP,"stream")
+#     field(INP,"@mks937b_pressure.proto get_pressure_2($(ADDRESS)) $(PORT)") 
+# } 
+# record(stringin,"$(DEVICE):PressureRb-3s") {
+#     field(PINI, "YES")
+#     field(DESC,"Read CCG 3's raw pressure output")
+#     field(SCAN, "I/O Intr")
+#     field(DTYP,"stream")
+#     field(INP,"@mks937b_pressure.proto get_pressure_3($(ADDRESS)) $(PORT)") 
+# } 
+# record(stringin,"$(DEVICE):PressureRb-4s") {
+#     field(PINI, "YES")
+#     field(DESC,"Read CCG 4's raw pressure output")
+#     field(SCAN, "I/O Intr")
+#     field(DTYP,"stream")
+#     field(INP,"@mks937b_pressure.proto get_pressure_4($(ADDRESS)) $(PORT)") 
+# } 
+# record(stringin,"$(DEVICE):PressureRb-5s") {
+#     field(PINI, "YES")
+#     field(DESC,"Read CCG 5's raw pressure output")
+#     field(SCAN, "I/O Intr")
+#     field(DTYP,"stream")
+#     field(INP,"@mks937b_pressure.proto get_pressure_5($(ADDRESS)) $(PORT)") 
+# } 
+# record(stringin,"$(DEVICE):PressureRb-6s") {
+#     field(PINI, "YES")
+#     field(DESC,"Read CCG 6's raw pressure output")
+#     field(SCAN, "I/O Intr")
+#     field(DTYP,"stream")
+#     field(INP,"@mks937b_pressure.proto get_pressure_6($(ADDRESS)) $(PORT)") 
+# } 

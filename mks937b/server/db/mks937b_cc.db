@@ -64,6 +64,36 @@ record(ao, "$(DEVICE):ControlSetpointSp-$(CHANNEL)"){
     
     field(FLNK, "$(DEVICE):ControlSetpointRb-$(CHANNEL)s")
 }
+
+
+# --------------------------------------------------------- 
+# Channel FRC
+# In case the unit was changed at the ihm
+record(bi, "$(DEVICE):FastRelayRb-$(CHANNEL):Trig"){
+	field(SCAN, "$(SCAN_RATE)")
+	field(FLNK, "$(DEVICE):FastRelayRb-$(CHANNEL)")
+}
+record(stringin,"$(DEVICE):FastRelayRb-$(CHANNEL)s") {
+    field(PINI, "YES")
+    field(DESC,"Fast Relay value RAW")
+    field(INP,"@mks937b_cc.proto get_frc_sp($(ADDRESS),$(CHANNEL)) $(PORT)") 
+    field(DTYP,"stream")
+
+    field(FLNK, "$(DEVICE):FastRelayRb-$(CHANNEL)")
+} 
+record(ai, "$(DEVICE):FastRelayRb-$(CHANNEL)") {
+  field(DESC, "Fast Relay setpoint value")
+  field(INP,"$(DEVICE):FastRelayRb-$(CHANNEL)s")
+  field(PINI, "YES") 
+}
+record(ao, "$(DEVICE):FastRelaySp-$(CHANNEL)"){
+    field(DESC, "Fast Relay setpoint value")
+    field(OUT,"@mks937b_cc.proto set_frc_sp($(ADDRESS),$(CHANNEL)) $(PORT)")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    
+    field(FLNK, "$(DEVICE):FastRelayRb-$(CHANNEL)s")
+}
 # ---------------------------------------------------------
  
 # --------------------------------------------------------- 
@@ -106,11 +136,37 @@ record(bi, "$(DEVICE):ControlChannelStatusRb-$(CHANNEL):Trig"){
 	field(FLNK, "$(DEVICE):ControlChannelStatusRb-$(CHANNEL)")
 }
 
-record(stringin,"$(DEVICE):ControlChannelStatusRb-$(CHANNEL)") {
+# record(stringin,"$(DEVICE):ControlChannelStatusRb-$(CHANNEL)") {
+#     field(PINI, "YES")
+#     field(DESC, "Control channel status for an ion gauge")
+#     field(INP,"@mks937b_cc.proto get_con_sp_status($(ADDRESS),$(CHANNEL)) $(PORT)") 
+#     field(DTYP,"stream")
+# } 
+record(mbbi,"$(DEVICE):ControlChannelStatusRb-$(CHANNEL)") {
     field(PINI, "YES")
     field(DESC, "Control channel status for an ion gauge")
     field(INP,"@mks937b_cc.proto get_con_sp_status($(ADDRESS),$(CHANNEL)) $(PORT)") 
     field(DTYP,"stream")
+
+    field(UNSV, "INVALID")
+    #The IVOA field specifies an action to take from a number of possible choices when the INVALID alarm is triggered4
+    # field(IVOA, "Don't drive outputs")
+
+    field(ZRST, "A1")
+    field(ONST, "A2")
+    field(TWST, "B1")
+    field(THST, "B2")
+    field(FRST, "C1")
+    field(FVST, "C2")
+    field(SXST, "Off") 
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(FRVL, "4")
+    field(FVVL, "5")
+    field(SXVL, "6")
 } 
 
 record(mbbo, "$(DEVICE):ControlChannelStatusSp-$(CHANNEL)"){
@@ -151,29 +207,34 @@ record(bi, "$(DEVICE):ControlChannelCTL-$(CHANNEL):Trig"){
 	field(FLNK, "$(DEVICE):ControlChannelCTLRb-$(CHANNEL)")
 }
 
-record(stringin,"$(DEVICE):ControlChannelCTLRb-$(CHANNEL)") {
-    field(PINI, "YES")
-    field(DESC, "Control channel CTL AUTO|SAFE|OFF")
-    field(INP,"@mks937b_cc.proto get_con_sp_enable($(ADDRESS),$(CHANNEL)) $(PORT)")  
-    field(DTYP, "stream")
-} 
-
-# record(mbbi,"$(DEVICE):ControlChannelCTLRb-$(CHANNEL)") {
+# record(stringin,"$(DEVICE):ControlChannelCTLRb-$(CHANNEL)") {
 #     field(PINI, "YES")
-#     field(DTYP, "stream")
-
 #     field(DESC, "Control channel CTL AUTO|SAFE|OFF")
-#     field(INP,"@mks937b_cc.proto get_con_sp_enable($(ADDRESS),$(CHANNEL)) $(PORT)")
-    
-#     field(ZRST, "AUTO")
-#     field(ONST, "SAFE")
-#     field(TWST, "OFF")
-
-#     field(ZRVL, "0")
-#     field(ONVL, "1")
-#     field(TWVL, "2")
-  
+#     field(INP,"@mks937b_cc.proto get_con_sp_enable($(ADDRESS),$(CHANNEL)) $(PORT)")  
+#     field(DTYP, "stream")
 # } 
+
+record(mbbi,"$(DEVICE):ControlChannelCTLRb-$(CHANNEL)") {
+    field(PINI, "YES")
+    field(DTYP, "stream")
+
+    field(DESC, "Control channel CTL AUTO|SAFE|OFF")
+    field(INP,"@mks937b_cc.proto get_con_sp_enable($(ADDRESS),$(CHANNEL)) $(PORT)")
+    
+    field(UNSV, "INVALID")
+    #The IVOA field specifies an action to take from a number of possible choices when the INVALID alarm is triggered4
+    # field(IVOA, "Don't drive outputs")
+
+
+    field(ZRST, "AUTO")
+    field(ONST, "SAFE")
+    field(TWST, "OFF")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+  
+} 
 
 record(mbbo, "$(DEVICE):ControlChannelCTLSp-$(CHANNEL)"){
     field(DESC, "Control channel CTL AUTO|SAFE|OFF")
