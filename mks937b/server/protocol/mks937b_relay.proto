@@ -96,11 +96,20 @@ set_relay_direction {
 # Relay mode, query or set status for relay ($2 1 to 12)
 get_relay_mode { 
     out "@\$1EN\$2?";
-    in "@\$1ACK%{SET|CLEAR|ENABLE}"; 
+    in "@\$1ACK%{CLEAR|SET|ENABLE}"; 
 }
+
+# get_relay_mode_all{
+#     out "@\$1ENA?";
+#     in "@\$1ACK%c%(\$2-2)c%(\$2-3)c%(\$2-4)c%(\$2-5)c%(\$2-6)c%(\$2-7)c%(\$2-8)c%(\$2-9)c%(\$2-10)c%(\$2-11)c%(\$2-12)c"; 
+#     #in "@\$1ACK%{CLEAR|SET|ENABLE}%(\$2-2){CLEAR|SET|ENABLE}%(\$2-3){CLEAR|SET|ENABLE}%(\$2-4){CLEAR|SET|ENABLE}%(\$2-5){CLEAR|SET|ENABLE}%(\$2-6){CLEAR|SET|ENABLE}%(\$2-7){CLEAR|SET|ENABLE}%(\$2-8){CLEAR|SET|ENABLE}%(\$2-9){CLEAR|SET|ENABLE}%(\$2-10){CLEAR|SET|ENABLE}%(\$2-11){CLEAR|SET|ENABLE}%(\$2-12){CLEAR|SET|ENABLE}"; 
+# }
+
+
+
 set_relay_mode { 
-    out "@\$1EN\$2!%{SET|CLEAR|ENABLE}"; 
-    in "@\$1ACK%{SET|CLEAR|ENABLE}"; 
+    out "@\$1EN\$2!%{CLEAR|SET|ENABLE}"; 
+    in "@\$1ACK%{CLEAR|SET|ENABLE}"; 
 
     @init { get_relay_mode; }
 }
@@ -111,3 +120,4 @@ get_relaysp_status {
     in "@\$1ACK%{SET|CLEAR}"; 
 }
  
+#@todo: Implementar statsus do rele ...

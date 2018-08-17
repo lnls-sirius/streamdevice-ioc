@@ -134,4 +134,6 @@ get_enabled{
 set_enabled{
     out "@\$1CP\$2!%{OFF|ON}"; 
     in "@\$1ACK%{OFF|ON}"; 
+
+    @init{get_enabled;}
 }
