@@ -19,10 +19,10 @@
 locktimeout = 5000;
 terminator   = ";FF";
 replytimeout = 1000;
+readtimeout  = 1000;
 
 
 #PollPeriod = 100;
-readtimeout  = 1000;
 extrainput   = Ignore;
 
 # The 937B appears to have preamble on all commands and responses
@@ -45,61 +45,40 @@ unitid = 1;
 # PRESSURE READING COMMANDS 
 # Read pressure on channel  ($2 1 to 6)
 get_pressure_raw { 
+    wait  10;
     out "@\$1PR\$2?"; 
     in "@\$1ACK%s"; 
     
     @mismatch { 
         in "@\$1NAK:%s"; 
     }
+    wait  10;
+} 
+
+get_pressures {
+ wait  10;
+    out "@\$1PRZ?";
+    in "@\$1ACK%s %(\$2-2s)s %(\$2-3s)s %(\$2-4s)s %(\$2-5s)s %(\$2-6s)s";wait  10;
 }
-
-
-#  read_AB {out "GET A,B"; in "A=%f, B=%(\$1)f";}
-
-# record (ai, "$(DEVICE):A") {
-#   field (DTYP, "stream")
-#   field (INP, "@$(DEVICETYPE).proto read_AB($(DEVICE):B) $(BUS)")
-#   field (SCAN, "1 second")
-# }
-# record (ai, "$(DEVICE):B") {
-# } 
-
-get_pressures {out "@\$1PRZ?";in "@\$1ACK%s %(\$2-2s)s %(\$2-3s)s %(\$2-4s)s %(\$2-5s)s %(\$2-6s)s";}
-
-# get_pressure_1 {out "@\$1PRZ?";in "@\$1ACK%s %*s %*s %*s %*s %*s";}
-# get_pressure_2 {in "@\$1ACK%*s %s %*s %*s %*s %*s"; }
-# get_pressure_3 {in "@\$1ACK%*s %*s %s %*s %*s %*s";}
-# get_pressure_4 {in "@\$1ACK%*s %*s %*s %s %*s %*s"; }
-# get_pressure_5 {in "@\$1ACK%*s %*s %*s %*s %s %*s";}
-# get_pressure_6 {in "@\$1ACK%*s %*s %*s %*s %*s %s";}
-
-# record (ai, "$(DEVICE):A") {
-#   field (DTYP, "stream")
-#   field (INP, "@$(DEVICETYPE).proto read_A $(BUS)")
-#   field (SCAN, "1 second")
-# }
-# record (ai, "$(DEVICE):B") {
-#   field (DTYP, "stream")
-#   field (INP, "@$(DEVICETYPE).proto read_B $(BUS)")
-#   field (SCAN, "I/O Intr")
-# } 
-
+ 
 get_pressure_array { 
     # separator=" ";
+  wait  10;
     out "@\$1PRZ?"; 
     in "@\$1ACK%s %s %s %s %s %s"; 
     
     @mismatch { 
         in "@\$1NAK:%s"; 
-    }
+    }wait  10;
 }
 
 # Read pressure on channel 'n' and its combination sensor 
 get_pressure_combination {
+ wait  10;
     out "@\$1PC\$2?"; 
     in "@\$1ACK%s";
 
     @mismatch { 
         in "@\$1NAK:%s"; 
-    }
+    }wait  10;
 } 

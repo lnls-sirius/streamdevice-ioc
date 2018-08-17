@@ -43,121 +43,137 @@ unitid = 1;
 # COLD CATHODE CONTROL COMMANDS
 # Query protection setpoint for channel
 get_pro_sp{ 
+    wait  10;
     out "@\$1PRO\$2?"; 
     in "@\$1ACK%s";
     @mismatch {in "@\$1NAK:%s";}
+    wait  10;
 } 
 get_pro_sp_val{ 
+   wait  10;
     out "@\$1PRO\$2?"; 
     in "@\$1ACK%E";
-    @mismatch {in "";}
+    @mismatch {in "";}wait  10;
 } 
 # Query protection setpoint for channel
 set_pro_sp{
+  wait  10;
     out "@\$1PRO\$2!%E"; 
     in "@\$1ACK%E"; 
     @mismatch {in "@\$1NAK:%s";}
-    @init{ get_pro_sp_val;} 
+    @init{ get_pro_sp_val;} wait  10;
 }
 # -----------------------------------------------------
 # COLD CATHODE CONTROL COMMANDS
 # Fast relay
 get_frc_sp{ 
+   wait  10;
     out "@\$1FRC\$2?"; 
     in "@\$1ACK%s";
-    @mismatch {in "@\$1NAK:%s";}
+    @mismatch {in "@\$1NAK:%s";}wait  10;
 } 
 get_frc_sp_val{ 
+   wait  10;
     out "@\$1FRC\$2?"; 
     in "@\$1ACK%E";
-    @mismatch {in "";}
+    @mismatch {in "";}wait  10;
 } 
 # Query protection setpoint for channel
 set_frc_sp{
+   wait  10;
+    
     out "@\$1FRC\$2!%E"; 
     in "@\$1ACK%E"; 
+    
     @mismatch {in "@\$1NAK:%s";}
-    @init{ get_frc_sp_val;} 
+    @init{ get_frc_sp_val;} wait  10;
 }
 # -----------------------------------------------------
 # Query control setpoint for channel
 get_con_sp{ 
+ wait  10;
     out "@\$1CSP\$2?"; 
     in "@\$1ACK%s";
 
-    @mismatch {in "@\$1NAK:%s";}
+    @mismatch {in "@\$1NAK:%s";}wait  10;
 }
 get_con_sp_val{ 
+  wait  10;
     out "@\$1CSP\$2?"; 
     in "@\$1ACK%E";
-    @mismatch {in "";}
+    @mismatch {in "";}wait  10;
 }
 # Set control setpoint for channel
 set_con_sp{
+   wait  10;
     out "@\$1CSP\$2!%E"; 
     in "@\$1ACK%E"; 
 
     @mismatch {in "@\$1NAK:%s";}
-    @init{get_con_sp_val;}
+    @init{get_con_sp_val;}wait  10;
 }
 # -----------------------------------------------------
 # Query control setpoint hysteresis for channel
 get_hys_sp{ 
+    wait  10;
     out "@\$1CHP\$2?"; 
     in "@\$1ACK%s";
 
     @mismatch { 
         in "@\$1NAK:%s"; 
-    }
+    }wait  10;
 }
 get_hys_sp_val{ 
+  wait  10;
     out "@\$1CHP\$2?"; 
     in "@\$1ACK%E";
-    @mismatch {in "";}
+    @mismatch {in "";}wait  10;
 }
  # Set control setpoint hysteresis for channel
 set_hys_sp{
+    wait  10;
     out "@\$1CHP\$2!%E"; 
     in "@\$1ACK%E"; 
     
     @mismatch {in "";}
-    @init{get_hys_sp_val;}
+    @init{get_hys_sp_val;}wait  10;
 }
 # -----------------------------------------------------
 # Relay mode, query or set status for relay ($2 1 to 12)
 get_con_sp_status{
-
+    
+    wait  10;
     out "@\$1CSE\$2?"; 
     in "@\$1ACK%{A1|B1|A2|B2|C1|C2|OFF}";  
-
-    #out "@\$1CSE\$2?"; 
-    #in "@\$1ACK%s";
-    @mismatch{in "";}
+ 
+    @mismatch{in "";}wait  10;
 }
 
 set_con_sp_status{ 
+   wait  10;
     out "@\$1CSE\$2!%{A1|B1|A2|B2|C1|C2|OFF}"; 
     in "@\$1ACK%{A1|B1|A2|B2|C1|C2|OFF}";  
 
     @init{get_con_sp_status;}
     
-    @mismatch{in "";}
-
+    @mismatch{in "";}wait  10;
 }
 # -----------------------------------------------------
 # Relay mode, query or set status for relay ($2 1 to 12)
 get_con_sp_enable{ 
+    wait  10;
     out "@\$1CTL\$2?"; 
     in "@\$1ACK%{AUTO|SAFE|OFF}";
 
-    @mismatch {in "";}
+    @mismatch {in "";}wait  10;
 }
  
 set_con_sp_enable{ 
+    wait  10;
     out "@\$1CTL\$2!%{AUTO|SAFE|OFF}"; 
     in "@\$1ACK%{AUTO|SAFE|OFF}";  
 
     @mismatch {in "";}
-    @init{get_con_sp_enable;}
+    @init{get_con_sp_enable;}wait  10;
 }
 # -----------------------------------------------------

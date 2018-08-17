@@ -41,11 +41,13 @@ unitid = 1;
 # Controller parameters
 # Pressure unit, Unit=Torr, mBAR, PASCAL, Micron
 get_unit { 
+    wait  10;
     out "@\$1U?"; 
     in "@\$1ACK%{TORR|mBAR|PASCAL|MICRON}";
 }
 
 set_unit { 
+    wait  10;
     out "@\$1U!%{TORR|mBAR|PASCAL|Micron}";
     in "@\$1ACK%{TORR|mBAR|PASCAL|MICRON}"; 
     @init { get_unit; }
@@ -56,84 +58,90 @@ set_unit {
 # n=1=Slot A; n=2=Slot B; n=3=Slot C
 # n=4=AIO; n=5=COMM; n=6=Main
 
-
 slotav { 
+ wait  10;
     out "@\$1FV1?"; 
-    in "@\$1ACK%s"; 
+    in "@\$1ACK%s"; wait  10;
 }
 slotbv { 
+   wait  10;
     out "@\$1FV2?"; 
-    in "@\$1ACK%s"; 
+    in "@\$1ACK%s"; wait  10;
 }
 slotcv { 
+  wait  10;
     out "@\$1FV3?"; 
-    in "@\$1ACK%s"; 
+    in "@\$1ACK%s"; wait  10;
 }
 aiov { 
+ wait  10;
     out "@\$1FV4?"; 
-    in "@\$1ACK%s"; 
+    in "@\$1ACK%s"; wait  10;
 }
 commv { 
+  wait  10;
     out "@\$1FV5?"; 
-    in "@\$1ACK%s"; 
+    in "@\$1ACK%s";wait  10;
 }
 ctlv { 
+wait  10;
     out "@\$1FV6?"; 
-    in "@\$1ACK%s"; 
+    in "@\$1ACK%s"; wait  10;
 }
 
 # Display the sensor module type. T1, T2, T3=(CC,HC, CM, PR, NC). 
 # NC= no connection. T4=(NA, PB, PC)
-moda { 
+mod { 
+ wait  10;
     out "@\$1MT?"; 
-    in "@\$1ACK%{HC|CC|PR|CV|TC|CM|P1|C1|T1|M1|NC|WC}";
+    in "@\$1ACK%(\$2-A){HC|CC|PR|CV|TC|CM|P1|C1|T1|M1|NC|WC},%(\$2-B){HC|CC|PR|CV|TC|CM|P1|C1|T1|M1|NC|WC},%(\$2-C){HC|CC|PR|CV|TC|CM|P1|C1|T1|M1|NC|WC}";
+wait  10;
 }
-modb { 
-    out "@\$1MT?"; 
-    in "@\$1ACK\?\?,%{HC|CC|PR|CV|TC|CM|P1|C1|T1|M1|NC|WC}"; 
-}
-modc { 
-    out "@\$1MT?"; 
-    in "@\$1ACK\?\?,\?\?,%{HC|CC|PR|CV|TC|CM|P1|C1|T1|M1|NC|WC}"; 
-}
-
 
 # Display yhe connected sensor type on the specified mudule
 sta { 
+  wait  10;
     out "@\$1STA?"; 
-    in "@\$1ACK%s";
+    in "@\$1ACK%s";wait  10;
 }
 stb {  
+    wait  10;
     out "@\$1STB?"; 
-    in "@\$1ACK%s";
+    in "@\$1ACK%s";wait  10;
 }
 stc {  
+  wait  10;
     out "@\$1STC?"; 
-    in "@\$1ACK%s";
+    in "@\$1ACK%s";wait  10;
 }
 
 # Serial Number
 serial_num {  
+    wait  10;
     out "@\$1SN?"; 
-    in "@\$1ACK%s";
+    in "@\$1ACK%s";wait  10;
 }
 
 # Prints errors as text
 errtext { 
+    wait  10;
     out "@254SEM!TXT";
-    in "@ACK%s";          
+    in "@ACK%s"; wait  10;         
 }
 
 # Query the channel power status for PR, CP, HC or high voltage status for CC.  $2: channel 1-6
 get_enabled{ 
+    wait  10;
     out "@\$1CP\$2?"; 
-    in "@\$1ACK%{OFF|ON}";
+    in "@\$1ACK%{OFF|ON}";wait  10;
 }
  
 # Turn on/off the channel power for PR, CP, HC, or high voltage for CC). $2: channel 1-6
 set_enabled{
+    wait  10;
     out "@\$1CP\$2!%{OFF|ON}"; 
     in "@\$1ACK%{OFF|ON}"; 
 
     @init{get_enabled;}
+    wait  10;
 }

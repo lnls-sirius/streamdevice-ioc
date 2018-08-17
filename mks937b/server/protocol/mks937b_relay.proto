@@ -17,9 +17,10 @@
 # Response @<aaa>ACK<Response>;FF
 
 locktimeout = 5000;
-terminator   = ";FF";
 replytimeout = 1000;
 readtimeout  = 1000;
+
+terminator   = ";FF";
 extrainput   = Ignore;
 
 # The 937B appears to have preamble on all commands and responses
@@ -46,41 +47,51 @@ unitid = 1;
 # RELAY AND CONTROL SETTINGS COMMANDS
 # Relay setpoints ($2 1 to 12)
 get_sp { 
+    wait  10;
     out "@\$1SP\$2?"; 
-
     in "@\$1ACK%E"; 
     
-    @mismatch{
-        in "@\$1NAK%s"; 
-    } 
+    @mismatch{in "@\$1NAK%s";}
+    
+    wait  10;
 }
 
 set_sp { 
+    wait  10;
     out "@\$1SP\$2!%0.1E"; 
     in "@\$1ACK%E"; 
-    @init { get_sp; }
     
+    @init { get_sp; }
+    wait  10;
 }
  
 # Relay Hysteresis ($2 1 to 12)
 get_relay_hyst { 
+    wait  10;
     out "@\$1SH\$2?"; 
     in "@\$1ACK%E"; 
- }
+    wait  10;
+}
  set_relay_hyst { 
-     out "@\$1SH\$2!%0.1E"; 
-     in "@\$1ACK%E"; 
+    wait  10;
+    out "@\$1SH\$2!%0.1E"; 
+    in "@\$1ACK%E"; 
 
-     @init { get_relay_hyst; }
+    @init { get_relay_hyst; }
+    wait  10;
  }
 
 # # Relay direction ($2 1 to 12)
 get_relay_direction { 
+    wait  10;
     out "@\$1SD\$2?"; 
     in "@\$1ACK%{ABOVE|BELOW}"; 
+    wait  10;
 }
 
 set_relay_direction { 
+    wait  10;
+
     out "@\$1SD\$2!%{ABOVE|BELOW}"; 
     in "@\$1ACK%{ABOVE|BELOW}"; 
     
@@ -88,15 +99,17 @@ set_relay_direction {
     @mismatch{
         in "@\$1NAK"; 
     }
-
     @init { get_relay_direction; }
+    wait  10;
 }
 
     
-# Relay mode, query or set status for relay ($2 1 to 12)
+# # Relay mode, query or set status for relay ($2 1 to 12)
 get_relay_mode { 
+    wait  10;
     out "@\$1EN\$2?";
-    in "@\$1ACK%{CLEAR|SET|ENABLE}"; 
+    in "@\$1ACK%{SET|CLEAR|ENABLE}"; 
+    wait  10;
 }
 
 # get_relay_mode_all{
@@ -108,16 +121,20 @@ get_relay_mode {
 
 
 set_relay_mode { 
+    wait  10;
     out "@\$1EN\$2!%{CLEAR|SET|ENABLE}"; 
-    in "@\$1ACK%{CLEAR|SET|ENABLE}"; 
+    in "@\$1ACK%{SET|CLEAR|ENABLE}"; 
 
     @init { get_relay_mode; }
+    wait  10;
 }
 
 # Query relay setpoint status ($2 1 to 12)
 get_relaysp_status { 
+    wait  10;
     out "@\$1SS\$2?"; 
     in "@\$1ACK%{SET|CLEAR}"; 
+    wait  10;
 }
  
 #@todo: Implementar statsus do rele ...

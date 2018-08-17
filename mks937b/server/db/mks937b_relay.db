@@ -8,6 +8,7 @@ record(bi, "$(DEVICE):RelayRb-$(RELAY):Trig"){
 	field(SCAN, "$(SCAN_RATE)")
 	field(FLNK, "$(DEVICE):RelayRb-$(RELAY)")
 }
+
 record(ai, "$(DEVICE):RelayRb-$(RELAY)") {
     field(DESC, "Read Setpoint for relay $(RELAY)") 
     field(PINI, "YES") 
@@ -81,7 +82,7 @@ record(mbbo, "$(DEVICE):RelayDirectionSp-$(RELAY)"){
 # In case the unit was changed at the ihm
 
 record(bi, "$(DEVICE):RelayStatusRb-$(RELAY):Trig"){
-	field(SCAN, "$(SCAN_RATE)")
+	field(SCAN, "5 second")
 	field(FLNK, "$(DEVICE):RelayStatusRb-$(RELAY)")
 }
 record(mbbi, "$(DEVICE):RelayStatusRb-$(RELAY)") {
@@ -96,22 +97,7 @@ record(mbbi, "$(DEVICE):RelayStatusRb-$(RELAY)") {
   field(ZRST, "SET")
   field(ONST, "CLEAR")
   field(TWST, "ENABLE")
-}
-# record(mbbi, "$(DEVICE):RelayStatusRb-$(RELAY)") {
-#   field(DESC, "Status of the relay $(RELAY)")
-#   field(DTYP, "stream")
-#   field(INP,  "@mks937b_relay.proto get_relay_mode($(ADDRESS),$(DEVICE):RelayStatusRb) $(PORT)") 
-#   field(PINI, "YES") 
-  
-#   field(ZRVL, "0")
-#   field(ONVL, "1")
-#   field(TWVL, "2")
-
-#   field(ZRST, "CLEAR")
-#   field(ONST, "SET")
-#   field(TWST, "ENABLE")
-# }
-
+} 
 record(mbbo, "$(DEVICE):RelayStatusSp-$(RELAY)"){
     field(DESC, "Set relay $(RELAY) status")
     field(SCAN, "Passive")
@@ -130,26 +116,6 @@ record(mbbo, "$(DEVICE):RelayStatusSp-$(RELAY)"){
     field(TWST, "ENABLE")
 
     field(FLNK, "$(DEVICE):RelayStatusRb-$(RELAY)")
-}
-
-record(mbbo, "$(DEVICE):RelayStatusSp-$(RELAY)"){
-    field(DESC, "Set relay $(RELAY) status")
-    field(SCAN, "Passive")
-    field(DTYP, "stream")
-    field(OUT, "@mks937b_relay.proto set_relay_mode($(ADDRESS),$(RELAY)) $(PORT)")
-
-    field(UNSV, "INVALID")
-    #The IVOA field specifies an action to take from a number of possible choices when the INVALID alarm is triggered4
-    field(IVOA, "Don't drive outputs")
-
-    field(ZRVL, "0")
-    field(ONVL, "1")
-    field(TWVL, "2")
-    field(ZRST, "SET")
-    field(ONST, "CLEAR")
-    field(TWST, "ENABLE")
-
-    field(FLNK, "$(DEVICE):RelayStatusRb-1")
 }
 
 # Relay Setpoint 

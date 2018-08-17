@@ -6,7 +6,7 @@
 
 # In case the unit was changed at the ihm
 record(bi, "$(DEVICE):Unit:Trig"){
-	field(SCAN, "$(SCAN_RATE)")
+	field(SCAN, "5 second")
 	
 	field(FLNK, "$(DEVICE):Unit")
 }
@@ -127,9 +127,10 @@ record(stringin, "$(DEVICE):CTLV"){
 record(mbbi, "$(DEVICE):ModuleType-A"){
     field(DESC, "Display the module type")
     field(DTYP, "stream")
-    field(INP,  "@mks937b.proto moda($(ADDRESS)) $(PORT) 0") 
+    # field(INP,  "@mks937b.proto moda($(ADDRESS)) $(PORT) 0") 
+    field(INP,  "@mks937b.proto mod($(ADDRESS),$(DEVICE):ModuleType) $(PORT) 0") 
     field(PINI, "YES")
-    field(SCAN, "$(SCAN_RATE)")
+    field(SCAN, "5 second")
     
     field(ZRST, "Hot Cathode")
     field(ONST, "Cold Cathode")
@@ -142,19 +143,7 @@ record(mbbi, "$(DEVICE):ModuleType-A"){
     field(EIST, "Sngl Thrmcpl")
     field(NIST, "Sngl Cap Manmtr")
     field(TEST, "No Module")
-    field(ELST, "Wrong Module")
-    field(UNSV, "MAJOR")
-    field(ZRSV, "NO_ALARM")
-    field(ONSV, "NO_ALARM")
-    field(TWSV, "NO_ALARM")
-    field(THSV, "NO_ALARM")
-    field(FRSV, "NO_ALARM")
-    field(FVSV, "NO_ALARM")
-    field(SXSV, "NO_ALARM")
-    field(SVSV, "NO_ALARM")
-    field(EISV, "NO_ALARM")
-    field(NISV, "NO_ALARM")
-    field(TESV, "NO_ALARM")
+    field(ELST, "Wrong Module") 
     field(ELSV, "MAJOR")
 }
 ################################################################################
@@ -163,10 +152,6 @@ record(mbbi, "$(DEVICE):ModuleType-A"){
 #% controldesk Slot A smon
 record(mbbi, "$(DEVICE):ModuleType-B"){
     field(DESC, "Display the module type")
-    field(DTYP, "stream")
-    field(INP,  "@mks937b.proto modb($(ADDRESS)) $(PORT) 0") 
-    field(PINI, "YES")
-    field(SCAN, "$(SCAN_RATE)")
 
     field(ZRST, "Hot Cathode")
     field(ONST, "Cold Cathode")
@@ -200,10 +185,10 @@ record(mbbi, "$(DEVICE):ModuleType-B"){
 #% controldesk Slot B smon
 record(mbbi, "$(DEVICE):ModuleType-C"){
     field(DESC, "Display the module type")
-    field(DTYP, "stream")
-    field(INP,  "@mks937b.proto modc($(ADDRESS)) $(PORT)")  
-    field(PINI, "YES")
-    field(SCAN, "$(SCAN_RATE)")
+    # field(DTYP, "stream")
+    # field(INP,  "@mks937b.proto modc($(ADDRESS)) $(PORT)")  
+    # field(PINI, "YES")
+    # field(SCAN, "5 second")
 
     field(ZRST, "Hot Cathode")
     field(ONST, "Cold Cathode")
@@ -232,33 +217,26 @@ record(mbbi, "$(DEVICE):ModuleType-C"){
     field(ELSV, "MAJOR")
 }
 ################################################################################
-record(bi, "$(DEVICE):SensorType-A:Trig"){
-	field(SCAN, "$(SCAN_RATE)")
+record(bi, "$(DEVICE):SensorType:Trig"){
+	field(SCAN, "5 second")
 	field(FLNK, "$(DEVICE):SensorType-A")
 }
-
 record(stringin,"$(DEVICE):SensorType-A") {
     field(PINI, "YES")
     field(DESC, "Display the connected sensor type")
     field(DTYP,"stream")
     field(INP,"@mks937b.proto sta($(ADDRESS)) $(PORT)") 
-} 
 
-record(bi, "$(DEVICE):SensorType-B:Trig"){
-	field(SCAN, "$(SCAN_RATE)")
-	field(FLNK, "$(DEVICE):SensorType-B")
-}
+    field(FLNK, "$(DEVICE):SensorType-B")
+} 
 record(stringin,"$(DEVICE):SensorType-B") {
     field(PINI, "YES")
     field(DESC, "Display the connected sensor type")
     field(DTYP,"stream")
     field(INP,"@mks937b.proto stb($(ADDRESS)) $(PORT)") 
-} 
 
-record(bi, "$(DEVICE):SensorType-C:Trig"){
-	field(SCAN, "$(SCAN_RATE)")
-	field(FLNK, "$(DEVICE):SensorType-C")
-}
+    field(FLNK, "$(DEVICE):SensorType-C")
+} 
 record(stringin,"$(DEVICE):SensorType-C") {
     field(PINI, "YES")
     field(DESC, "Display the connected sensor type")
@@ -266,41 +244,39 @@ record(stringin,"$(DEVICE):SensorType-C") {
     field(INP,"@mks937b.proto stc($(ADDRESS)) $(PORT)") 
 } 
 
-# ===================================================================================
-
-# record(stringin,"$(DEVICE):PressureArrayRb") {
-#     field(PINI, "YES") 
-#     field(SCAN, "$(SCAN_RATE)")
-#     field(DTYP,"stream")
-#     field(INP,"@mks937b_pressure.proto get_pressure_array($(ADDRESS)) $(PORT)") 
-# } 
- 
-
 record(stringin,"$(DEVICE):PressureRb-1s") {
     field(PINI, "YES")
     field(DESC,"Read CCG 1's raw pressure output")
     field(SCAN, "$(SCAN_RATE)")
     field(DTYP,"stream")
     field(INP,"@mks937b_pressure.proto get_pressures($(ADDRESS),$(DEVICE):PressureRb) $(PORT)") 
+
+    field(FLNK, "$(DEVICE):PressureRb-1")
+    
 } 
 record(stringin,"$(DEVICE):PressureRb-2s") {
     field(DESC,"Read CCG 2's raw pressure output")
+    field(FLNK, "$(DEVICE):PressureRb-2")
 } 
 record(stringin,"$(DEVICE):PressureRb-3s") {
     field(DESC,"Read CCG 3's raw pressure output")
+    field(FLNK, "$(DEVICE):PressureRb-3")
 } 
 record(stringin,"$(DEVICE):PressureRb-4s") {
     field(DESC,"Read CCG 4's raw pressure output")
+    field(FLNK, "$(DEVICE):PressureRb-4")
 } 
 record(stringin,"$(DEVICE):PressureRb-5s") {
     field(DESC,"Read CCG 5's raw pressure output")
+    field(FLNK, "$(DEVICE):PressureRb-5")
 } 
 record(stringin,"$(DEVICE):PressureRb-6s") {
     field(DESC,"Read CCG 6's raw pressure output")
+    field(FLNK, "$(DEVICE):PressureRb-6")
 } 
 
 
-# record(strinin, "$(DEVICE):RelayStatusRb-1") {
+# record(stringin, "$(DEVICE):RelayStatusRb-1") {
 #   field(DESC, "Status of the relay 1")
 #   field(DTYP, "stream")
 #   field(INP,  "@mks937b_relay.proto get_relay_mode_all($(ADDRESS),$(DEVICE):RelayStatusRb) $(PORT)") 
@@ -316,7 +292,6 @@ record(stringin,"$(DEVICE):PressureRb-6s") {
 # }
 # record(mbbi, "$(DEVICE):RelayStatusRb-2") {
 #   field(DESC, "Status of the relay 2")
-#   field(DTYP, "stream")
   
 #   field(ZRVL, "0")
 #   field(ONVL, "1")
@@ -328,7 +303,6 @@ record(stringin,"$(DEVICE):PressureRb-6s") {
 # }
 # record(mbbi, "$(DEVICE):RelayStatusRb-3") {
 #   field(DESC, "Status of the relay 3")
-#   field(DTYP, "stream")
   
 #   field(ZRVL, "0")
 #   field(ONVL, "1")
@@ -340,7 +314,6 @@ record(stringin,"$(DEVICE):PressureRb-6s") {
 # }
 # record(mbbi, "$(DEVICE):RelayStatusRb-4") {
 #   field(DESC, "Status of the relay 4")
-#   field(DTYP, "stream")
   
 #   field(ZRVL, "0")
 #   field(ONVL, "1")
@@ -352,7 +325,6 @@ record(stringin,"$(DEVICE):PressureRb-6s") {
 # }
 # record(mbbi, "$(DEVICE):RelayStatusRb-5") {
 #   field(DESC, "Status of the relay 5")
-#   field(DTYP, "stream")
   
 #   field(ZRVL, "0")
 #   field(ONVL, "1")
@@ -364,7 +336,6 @@ record(stringin,"$(DEVICE):PressureRb-6s") {
 # }
 # record(mbbi, "$(DEVICE):RelayStatusRb-6") {
 #   field(DESC, "Status of the relay 6")
-#   field(DTYP, "stream")
   
 #   field(ZRVL, "0")
 #   field(ONVL, "1")
@@ -376,7 +347,6 @@ record(stringin,"$(DEVICE):PressureRb-6s") {
 # }
 # record(mbbi, "$(DEVICE):RelayStatusRb-7") {
 #   field(DESC, "Status of the relay 7")
-#   field(DTYP, "stream")
   
 #   field(ZRVL, "0")
 #   field(ONVL, "1")
@@ -388,7 +358,6 @@ record(stringin,"$(DEVICE):PressureRb-6s") {
 # }
 # record(mbbi, "$(DEVICE):RelayStatusRb-8") {
 #   field(DESC, "Status of the relay 8")
-#   field(DTYP, "stream")
   
 #   field(ZRVL, "0")
 #   field(ONVL, "1")
@@ -400,7 +369,6 @@ record(stringin,"$(DEVICE):PressureRb-6s") {
 # }
 # record(mbbi, "$(DEVICE):RelayStatusRb-9") {
 #   field(DESC, "Status of the relay 9")
-#   field(DTYP, "stream")
   
 #   field(ZRVL, "0")
 #   field(ONVL, "1")
@@ -412,7 +380,6 @@ record(stringin,"$(DEVICE):PressureRb-6s") {
 # }
 # record(mbbi, "$(DEVICE):RelayStatusRb-10") {
 #   field(DESC, "Status of the relay 10")
-#   field(DTYP, "stream")
   
 #   field(ZRVL, "0")
 #   field(ONVL, "1")
@@ -424,7 +391,6 @@ record(stringin,"$(DEVICE):PressureRb-6s") {
 # }
 # record(mbbi, "$(DEVICE):RelayStatusRb-11") {
 #   field(DESC, "Status of the relay 11")
-#   field(DTYP, "stream")
   
 #   field(ZRVL, "0")
 #   field(ONVL, "1")
@@ -436,7 +402,6 @@ record(stringin,"$(DEVICE):PressureRb-6s") {
 # }
 # record(mbbi, "$(DEVICE):RelayStatusRb-12") {
 #   field(DESC, "Status of the relay 12")
-#   field(DTYP, "stream")
   
 #   field(ZRVL, "0")
 #   field(ONVL, "1")
@@ -446,46 +411,4 @@ record(stringin,"$(DEVICE):PressureRb-6s") {
 #   field(ONST, "SET")
 #   field(TWST, "ENABLE")
 # }
-
-# record(stringin,"$(DEVICE):PressureRb-1s") {
-#     field(PINI, "YES")
-#     field(DESC,"Read CCG 1's raw pressure output")
-#     field(SCAN, "$(SCAN_RATE)")
-#     field(DTYP,"stream")
-#     field(INP,"@mks937b_pressure.proto get_pressure_1($(ADDRESS)) $(PORT)") 
-# } 
-# record(stringin,"$(DEVICE):PressureRb-2s") {
-#     field(PINI, "YES")
-#     field(DESC,"Read CCG 2's raw pressure output")
-#     field(SCAN, "I/O Intr")
-#     field(DTYP,"stream")
-#     field(INP,"@mks937b_pressure.proto get_pressure_2($(ADDRESS)) $(PORT)") 
-# } 
-# record(stringin,"$(DEVICE):PressureRb-3s") {
-#     field(PINI, "YES")
-#     field(DESC,"Read CCG 3's raw pressure output")
-#     field(SCAN, "I/O Intr")
-#     field(DTYP,"stream")
-#     field(INP,"@mks937b_pressure.proto get_pressure_3($(ADDRESS)) $(PORT)") 
-# } 
-# record(stringin,"$(DEVICE):PressureRb-4s") {
-#     field(PINI, "YES")
-#     field(DESC,"Read CCG 4's raw pressure output")
-#     field(SCAN, "I/O Intr")
-#     field(DTYP,"stream")
-#     field(INP,"@mks937b_pressure.proto get_pressure_4($(ADDRESS)) $(PORT)") 
-# } 
-# record(stringin,"$(DEVICE):PressureRb-5s") {
-#     field(PINI, "YES")
-#     field(DESC,"Read CCG 5's raw pressure output")
-#     field(SCAN, "I/O Intr")
-#     field(DTYP,"stream")
-#     field(INP,"@mks937b_pressure.proto get_pressure_5($(ADDRESS)) $(PORT)") 
-# } 
-# record(stringin,"$(DEVICE):PressureRb-6s") {
-#     field(PINI, "YES")
-#     field(DESC,"Read CCG 6's raw pressure output")
-#     field(SCAN, "I/O Intr")
-#     field(DTYP,"stream")
-#     field(INP,"@mks937b_pressure.proto get_pressure_6($(ADDRESS)) $(PORT)") 
-# } 
+ 

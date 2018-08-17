@@ -51,28 +51,32 @@ unitid = 1;
 # Send and atmospheric pressure to perform ATM calibration
 # The PR/CP must be at atmospheric pressure when running ATM calibration
 set_atm{ 
+   wait  10;
     out "@\$1ATM\$2?"; 
-    in "@\$1ACK%E";
+    in "@\$1ACK%E";wait  10;
 }
 
 # Zero a PR/CP on a channel n. Execute only when  the pressure ios less than 1x10-2 torr
 zero_pr_cp{ 
+  wait  10;
     out "@\$1VAC\$2?"; 
     in "@\$1ACKOK";
 
     @mismatch { 
         in "@\$1NAK"; 
-    }
+    }wait  10;
 }
 
 # Query the channel power status for PR, CP, HC or high voltage status for CC.  $2: channel 1-6
 get_enabled{ 
+   wait  10;
     out "@\$1CP\$2?"; 
-    in "@\$1ACK%{OFF|ON}";
+    in "@\$1ACK%{OFF|ON}";wait  10;
 }
  
 # Turn on/off the channel power for PR, CP, HC, or high voltage for CC). $2: channel 1-6
 set_enabled{
+   wait  10;
     out "@\$1CP\$2!%{OFF|ON}"; 
-    in "@\$1ACK%{OFF|ON}"; 
+    in "@\$1ACK%{OFF|ON}"; wait  10;
 }

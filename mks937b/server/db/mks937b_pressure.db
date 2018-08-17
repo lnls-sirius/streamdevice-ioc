@@ -13,7 +13,8 @@
 record(ai,"$(DEVICE):PressureRb-$(CHANNEL)") {
     field(DESC,"Read CCG$(CHANNEL)'s pressure")
     field(INP,"$(DEVICE):PressureRb-$(CHANNEL)s")
-    field(PREC,"2")
+    # field(PREC,"2") 
+
     field(HIGH,"$(P_HI)")
     field(HIGH,"$(P_HIHI)")
     field(HSV,"MINOR")
@@ -23,8 +24,7 @@ record(ai,"$(DEVICE):PressureRb-$(CHANNEL)") {
 # ---------------------------------------------------------
 # Channel Power Status 
 # In case the unit was changed at the ihm
-record(bi, "$(DEVICE):EnableRb-$(CHANNEL):Trig")
-{
+record(bi, "$(DEVICE):EnableRb-$(CHANNEL):Trig"){
 	field(SCAN, "$(SCAN_RATE)")
 	field(FLNK, "$(DEVICE):EnableRb-$(CHANNEL)")
 }

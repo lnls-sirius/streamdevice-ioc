@@ -172,6 +172,7 @@ record(mbbi,"$(DEVICE):ControlChannelStatusRb-$(CHANNEL)") {
 record(mbbo, "$(DEVICE):ControlChannelStatusSp-$(CHANNEL)"){
     field(DESC, "Control Channel Status")
     field(OUT, "@mks937b_cc.proto set_con_sp_status($(ADDRESS),$(CHANNEL)) $(PORT)")
+    field(SCAN, "Passive")
     field(DTYP, "stream")
 
 
@@ -195,7 +196,6 @@ record(mbbo, "$(DEVICE):ControlChannelStatusSp-$(CHANNEL)"){
     field(FVVL, "5")
     field(SXVL, "6")
 
-    field(PINI, "YES")
     field(FLNK, "$(DEVICE):ControlChannelStatusRb-$(CHANNEL)")
 }
 
@@ -239,8 +239,8 @@ record(mbbi,"$(DEVICE):ControlChannelCTLRb-$(CHANNEL)") {
 record(mbbo, "$(DEVICE):ControlChannelCTLSp-$(CHANNEL)"){
     field(DESC, "Control channel CTL AUTO|SAFE|OFF")
     field(OUT, "@mks937b_cc.proto set_con_sp_enable($(ADDRESS),$(CHANNEL)) $(PORT)")
+    field(SCAN, "Passive")
     field(DTYP, "stream")
-
 
     field(UNSV, "INVALID")
     #The IVOA field specifies an action to take from a number of possible choices when the INVALID alarm is triggered4
@@ -254,8 +254,7 @@ record(mbbo, "$(DEVICE):ControlChannelCTLSp-$(CHANNEL)"){
     field(ONVL, "1")
     field(TWVL, "2")
 
-    field(PINI, "YES")
     field(FLNK, "$(DEVICE):ControlChannelCTLRb-$(CHANNEL)")
 }
 
-
+ 
