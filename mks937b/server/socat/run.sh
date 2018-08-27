@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export SOCAT_TCP_RANGE=10.0.6.43:255.255.255.0
+export SOCAT_TCP_PORT=4161
+export SOCAT_BAUDRATE=115200
 # Communication pipes
 serialPipe=/tmp/serialPipe
 tcpPipe=/tmp/tcpPipe

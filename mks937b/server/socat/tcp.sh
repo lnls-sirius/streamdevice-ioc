@@ -18,4 +18,4 @@ cleanup(){
 }
 
 echo "tcp.sh ON" >$pipe
-socat TCP-LISTEN:4161,fork,reuseaddr,nodelay,range=10.0.6.43:255.255.255.0 FILE:/dev/socatUSB1,b115200,rawer
+socat TCP-LISTEN:${SOCAT_TCP_PORT},fork,reuseaddr,nodelay,range=${SOCAT_TCP_RANGE} FILE:/dev/socatUSB1,b${SOCAT_BAUDRATE},rawer

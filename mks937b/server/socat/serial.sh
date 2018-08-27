@@ -19,4 +19,5 @@ cleanup(){
 
 echo "serial.sh ON" >$pipe
 
-socat pty,ispeed=115200,ospeed=115200,rawer,echo=0,crnl,link=/dev/socatUSB0 pty,ispeed=115200,ospeed=115200,rawer,echo=0,crnl,link=/dev/socatUSB1
+socat pty,rawer,echo=0,crnl,link=/dev/socatUSB0 pty,rawer,echo=0,crnl,link=/dev/socatUSB1
+# socat pty,ispeed=${SOCAT_BAUDRATE},ospeed=${SOCAT_BAUDRATE},rawer,echo=0,crnl,link=/dev/socatUSB0 pty,ispeed=${SOCAT_BAUDRATE},ospeed=${SOCAT_BAUDRATE},rawer,echo=0,crnl,link=/dev/socatUSB1
