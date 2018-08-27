@@ -7,7 +7,7 @@ epicsEnvSet("ASYN", "/opt/epics-R3.15.5/modules/asyn4-33")
 epicsEnvSet("CALC", "/opt/epics-R3.15.5/modules/synApps/calc-R3-7-1")
 epicsEnvSet("TOP", "/opt/stream-ioc")
 epicsEnvSet("ARCH", "linux-x86_64")
-epicsEnvSet ("STREAM_PROTOCOL_PATH", "$(TOP)/protocol")
+epicsEnvSet("STREAM_PROTOCOL_PATH", "$(TOP)/protocol")
 
 # Database definition file
 
