@@ -17,7 +17,7 @@ streamApp_registerRecordDeviceDriver(pdbbase)
 
 
 # MBTemp board (TCP with socat binding the serial port at 115200)
-drvAsynIPPortConfigure("IPPort0","10.0.6.63:4161", 0, 0, 0)
+drvAsynIPPortConfigure("IPPort0","10.0.7.63:4161", 0, 0, 0)
 
 # Record for configuration of MBTemp exponential moving average smoothing factor
 
@@ -37,7 +37,7 @@ dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 7, DESCRIPTION = MBTemp C
 
 
 # MBTemp board (TCP with socat binding the serial port at 115200)
-drvAsynIPPortConfigure("IPPort1","10.0.6.64:4161", 0, 0, 0)
+drvAsynIPPortConfigure("IPPort1","10.0.7.64:4161", 0, 0, 0)
 
 # Record for configuration of MBTemp exponential moving average smoothing factor
 
@@ -57,7 +57,7 @@ dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 7, DESCRIPTION = MBTemp C
 
 
 # MBTemp board (TCP with socat binding the serial port at 115200)
-drvAsynIPPortConfigure("IPPort2","10.0.6.65:4161", 0, 0, 0)
+drvAsynIPPortConfigure("IPPort2","10.0.7.65:4161", 0, 0, 0)
 
 # Record for configuration of MBTemp exponential moving average smoothing factor
 

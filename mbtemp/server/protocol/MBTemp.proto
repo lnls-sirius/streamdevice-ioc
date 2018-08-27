@@ -1,0 +1,33 @@
+# MBTemp.proto
+
+# Protocol for MBTemp boards. Developed for MBTemp version 2.1 and newer, communicating at 115200
+# bps.
+
+# The BSMP protocol doesn't have any terminator character
+Terminator = "";
+
+# An outcoming message should wait at most 10 s to be sent
+LockTimeout = 10000;
+
+# The timeout involved in reading operations is 25 ms (in practice, it indicates the end of received
+# message).
+ReadTimeout = 25;
+
+# The application should wait at most 100 ms for a board to answer
+ReplyTimeout = 100;
+
+# Routine for temperature reading (implements BSMP protocol)
+getTemperature {
+    out $1, 0x10, 0x00, 0x01, $2, "%<nsum>";
+    in 0x00, 0x11, 0x00, 0x02, "%02r%<nsum>";
+}
+
+# Routine for the exponential moving average smoothing factor (alpha)
+setAlpha {
+    out $1, 0x20, 0x00, 0x03, 0x08, "%.02r%<nsum>";
+    in 0x00, 0xe0, 0x00, 0x00, "%<nsum>";
+    @init {
+        out $1, 0x10, 0x00, 0x01, 0x08, "%<nsum>";
+        in 0x00, 0x11, 0x00, 0x02, "%02r%<nsum>";
+    }
+}

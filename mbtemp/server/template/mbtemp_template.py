@@ -1,4 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from string import Template
+
 mbt_template_top = Template('''#!../bin/linux-x86_64/streamApp
 
 # Environment variables
@@ -23,11 +27,9 @@ mbt_template = Template('''
 drvAsynIPPortConfigure("$IP_ASYN_PORT","$IP_ADDR", 0, 0, 0)
 
 # Record for configuration of MBTemp exponential moving average smoothing factor
-
 dbLoadRecords("database/MBTemp-Device.db", "MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, PREFIX = $PREFIX")
 
 # Records corresponding to the eight temperature measurements given by the MBTemp board
-
 dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 0, DESCRIPTION = MBTemp Channel 1, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $PREFIX:Ch1, SCAN_RATE = $SCAN_RATE second")
 dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 1, DESCRIPTION = MBTemp Channel 2, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $PREFIX:Ch2, SCAN_RATE = $SCAN_RATE second")
 dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 2, DESCRIPTION = MBTemp Channel 3, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $PREFIX:Ch3, SCAN_RATE = $SCAN_RATE second")
