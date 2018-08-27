@@ -14,12 +14,9 @@ cd $CD
 dbLoadDatabase("dbd/streamApp.dbd")
 streamApp_registerRecordDeviceDriver(pdbbase)
 
-## Beagleboneblack IP Address (TCP with socat binding the serial port)
-#drvAsynIPPortConfigure("$IP_ASYN_PORT","$IP_ADDR", 0, 0, 0)
-
 # Bind to a virtual serial port from socat
-drvAsynSerialPortConfigure("$IP_ADDR", "/dev/socatUSB0")
-asynSetOption("$IP_ADDR", 0, "baud", "115200")
+drvAsynSerialPortConfigure("$IP_ASYN_PORT", "/dev/socatUSB0")
+asynSetOption("$IP_ASYN_PORT", 0, "baud", "115200")
 
 ''')
 

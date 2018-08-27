@@ -1,20 +1,34 @@
-# substitutions:
-#% macro, DEVICE, Device name
-#% macro, PORT,   Asyn Port name, e.g. ty_40_0
-#% macro, ADDRESS, Controller ADDRESS (001 .. 253)
-################################################################################
+ 
+# In case the unit was changed at the ihm
+record(bi, "$(DEVICE):Dly:Trig"){
+	field(SCAN, "10 second")
+	
+	field(FLNK, "$(DEVICE):Dly")
+}
+record(ai, "$(DEVICE):Dly"){
+    field(DESC, "Read Pressure Unit") 
+    field(PINI, "YES")
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_dly($(ADDRESS)) $(PORT)")
+ 
+}
+record(ao, "$(DEVICE):DlySp"){
+    field(DESC, "Set Pressure Unit")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_dly($(ADDRESS)) $(PORT)")
+ 
+    field(FLNK, "$(DEVICE):Dly")
+} 
 
 # In case the unit was changed at the ihm
 record(bi, "$(DEVICE):Unit:Trig"){
-	field(SCAN, "5 second")
+	field(SCAN, "10 second")
 	
 	field(FLNK, "$(DEVICE):Unit")
 }
 
-# Pressure Unit
-#
-#% controldesk Pressure Unit readback 
-
+# Pressure Unit 
 record(mbbi, "$(DEVICE):Unit"){
     field(DESC, "Read Pressure Unit") 
     field(PINI, "YES")
@@ -40,9 +54,7 @@ record(mbbo, "$(DEVICE):UnitSp"){
     field(OUT,"@mks937b.proto set_unit($(ADDRESS)) $(PORT)")
 
     field(UNSV, "INVALID")
-    #The IVOA field specifies an action to take from a number of possible choices when the INVALID alarm is triggered4
     field(IVOA, "Don't drive outputs")
-
 
     field(ZRVL, "0")
     field(ONVL, "1")
@@ -70,18 +82,19 @@ record(stringin, "$(DEVICE):SerialNumber"){
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto serial_num($(ADDRESS)) $(PORT) ") 
     field(PINI, "YES") 
+    
+    field(SCAN, "10 second")       
+        
 }
  
 ################################################################################
-# Controller Version
-#
-#% archiver 10 Monitor
-#% controldesk Controller Version readback
+# Controller Version 
 record(stringin, "$(DEVICE):CTLV"){
     field(DESC, "Controller Version")
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto ctlv($(ADDRESS)) $(PORT) ") 
     field(PINI, "YES") 
+    field(SCAN, "10 second")
 }
  
  record(stringin, "$(DEVICE):SlotAV"){
@@ -89,6 +102,7 @@ record(stringin, "$(DEVICE):CTLV"){
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto slotav($(ADDRESS)) $(PORT) ") 
     field(PINI, "YES") 
+    field(SCAN, "10 second")
 }
  
  record(stringin, "$(DEVICE):SlotBV"){
@@ -96,6 +110,7 @@ record(stringin, "$(DEVICE):CTLV"){
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto slotbv($(ADDRESS)) $(PORT) ") 
     field(PINI, "YES") 
+    field(SCAN, "10 second")
 }
  
  record(stringin, "$(DEVICE):SlotCV"){
@@ -103,6 +118,7 @@ record(stringin, "$(DEVICE):CTLV"){
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto slotcv($(ADDRESS)) $(PORT) ") 
     field(PINI, "YES") 
+    field(SCAN, "10 second")
 }
  
  record(stringin, "$(DEVICE):AIOV"){
@@ -110,6 +126,7 @@ record(stringin, "$(DEVICE):CTLV"){
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto aiov($(ADDRESS)) $(PORT) ") 
     field(PINI, "YES") 
+    field(SCAN, "10 second")
 }
  
  record(stringin, "$(DEVICE):COMMV"){
@@ -117,20 +134,16 @@ record(stringin, "$(DEVICE):CTLV"){
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto commv($(ADDRESS)) $(PORT) ") 
     field(PINI, "YES") 
+    field(SCAN, "10 second")
 }
- 
-
-################################################################################
-# Module in Slot CC
-#
-#% controldesk Slot CC smon
+  
 record(mbbi, "$(DEVICE):ModuleType-A"){
     field(DESC, "Display the module type")
     field(DTYP, "stream")
-    # field(INP,  "@mks937b.proto moda($(ADDRESS)) $(PORT) 0") 
-    field(INP,  "@mks937b.proto mod($(ADDRESS),$(DEVICE):ModuleType) $(PORT) 0") 
+    field(INP,  "@mks937b.proto moda($(ADDRESS)) $(PORT) 0")  
+    
     field(PINI, "YES")
-    field(SCAN, "5 second")
+    field(SCAN, "10 second")
     
     field(ZRST, "Hot Cathode")
     field(ONST, "Cold Cathode")
@@ -145,13 +158,13 @@ record(mbbi, "$(DEVICE):ModuleType-A"){
     field(TEST, "No Module")
     field(ELST, "Wrong Module") 
     field(ELSV, "MAJOR")
-}
-################################################################################
-# Module in Slot A
-#
-#% controldesk Slot A smon
+} 
 record(mbbi, "$(DEVICE):ModuleType-B"){
     field(DESC, "Display the module type")
+    field(INP,  "@mks937b.proto modb($(ADDRESS)) $(PORT) 0") 
+    field(DTYP, "stream")
+    field(PINI, "YES")
+    field(SCAN, "10 second")
 
     field(ZRST, "Hot Cathode")
     field(ONST, "Cold Cathode")
@@ -178,17 +191,15 @@ record(mbbi, "$(DEVICE):ModuleType-B"){
     field(NISV, "NO_ALARM")
     field(TESV, "NO_ALARM")
     field(ELSV, "MAJOR")
-}
-################################################################################
-# Module in Slot B
-#
-#% controldesk Slot B smon
+} 
+
 record(mbbi, "$(DEVICE):ModuleType-C"){
     field(DESC, "Display the module type")
-    # field(DTYP, "stream")
-    # field(INP,  "@mks937b.proto modc($(ADDRESS)) $(PORT)")  
-    # field(PINI, "YES")
-    # field(SCAN, "5 second")
+
+    field(INP,  "@mks937b.proto modc($(ADDRESS)) $(PORT) 0") 
+    field(DTYP, "stream") 
+    field(PINI, "YES")
+    field(SCAN, "10 second")
 
     field(ZRST, "Hot Cathode")
     field(ONST, "Cold Cathode")
@@ -218,7 +229,7 @@ record(mbbi, "$(DEVICE):ModuleType-C"){
 }
 ################################################################################
 record(bi, "$(DEVICE):SensorType:Trig"){
-	field(SCAN, "5 second")
+	field(SCAN, "10 second")
 	field(FLNK, "$(DEVICE):SensorType-A")
 }
 record(stringin,"$(DEVICE):SensorType-A") {
@@ -249,7 +260,7 @@ record(stringin,"$(DEVICE):PressureRb-1s") {
     field(DESC,"Read CCG 1's raw pressure output")
     field(SCAN, "$(SCAN_RATE)")
     field(DTYP,"stream")
-    field(INP,"@mks937b_pressure.proto get_pressures($(ADDRESS),$(DEVICE):PressureRb) $(PORT)") 
+    field(INP,"@mks937b.proto get_pressures($(ADDRESS),$(DEVICE):PressureRb) $(PORT)") 
 
     field(FLNK, "$(DEVICE):PressureRb-1")
     
@@ -274,141 +285,4 @@ record(stringin,"$(DEVICE):PressureRb-6s") {
     field(DESC,"Read CCG 6's raw pressure output")
     field(FLNK, "$(DEVICE):PressureRb-6")
 } 
-
-
-# record(stringin, "$(DEVICE):RelayStatusRb-1") {
-#   field(DESC, "Status of the relay 1")
-#   field(DTYP, "stream")
-#   field(INP,  "@mks937b_relay.proto get_relay_mode_all($(ADDRESS),$(DEVICE):RelayStatusRb) $(PORT)") 
-#   field(PINI, "YES") 
-  
-# #   field(ZRVL, "0")
-# #   field(ONVL, "1")
-# #   field(TWVL, "2")
-
-# #   field(ZRST, "CLEAR")
-# #   field(ONST, "SET")
-# #   field(TWST, "ENABLE")
-# }
-# record(mbbi, "$(DEVICE):RelayStatusRb-2") {
-#   field(DESC, "Status of the relay 2")
-  
-#   field(ZRVL, "0")
-#   field(ONVL, "1")
-#   field(TWVL, "2")
-
-#   field(ZRST, "CLEAR")
-#   field(ONST, "SET")
-#   field(TWST, "ENABLE")
-# }
-# record(mbbi, "$(DEVICE):RelayStatusRb-3") {
-#   field(DESC, "Status of the relay 3")
-  
-#   field(ZRVL, "0")
-#   field(ONVL, "1")
-#   field(TWVL, "2")
-
-#   field(ZRST, "CLEAR")
-#   field(ONST, "SET")
-#   field(TWST, "ENABLE")
-# }
-# record(mbbi, "$(DEVICE):RelayStatusRb-4") {
-#   field(DESC, "Status of the relay 4")
-  
-#   field(ZRVL, "0")
-#   field(ONVL, "1")
-#   field(TWVL, "2")
-
-#   field(ZRST, "CLEAR")
-#   field(ONST, "SET")
-#   field(TWST, "ENABLE")
-# }
-# record(mbbi, "$(DEVICE):RelayStatusRb-5") {
-#   field(DESC, "Status of the relay 5")
-  
-#   field(ZRVL, "0")
-#   field(ONVL, "1")
-#   field(TWVL, "2")
-
-#   field(ZRST, "CLEAR")
-#   field(ONST, "SET")
-#   field(TWST, "ENABLE")
-# }
-# record(mbbi, "$(DEVICE):RelayStatusRb-6") {
-#   field(DESC, "Status of the relay 6")
-  
-#   field(ZRVL, "0")
-#   field(ONVL, "1")
-#   field(TWVL, "2")
-
-#   field(ZRST, "CLEAR")
-#   field(ONST, "SET")
-#   field(TWST, "ENABLE")
-# }
-# record(mbbi, "$(DEVICE):RelayStatusRb-7") {
-#   field(DESC, "Status of the relay 7")
-  
-#   field(ZRVL, "0")
-#   field(ONVL, "1")
-#   field(TWVL, "2")
-
-#   field(ZRST, "CLEAR")
-#   field(ONST, "SET")
-#   field(TWST, "ENABLE")
-# }
-# record(mbbi, "$(DEVICE):RelayStatusRb-8") {
-#   field(DESC, "Status of the relay 8")
-  
-#   field(ZRVL, "0")
-#   field(ONVL, "1")
-#   field(TWVL, "2")
-
-#   field(ZRST, "CLEAR")
-#   field(ONST, "SET")
-#   field(TWST, "ENABLE")
-# }
-# record(mbbi, "$(DEVICE):RelayStatusRb-9") {
-#   field(DESC, "Status of the relay 9")
-  
-#   field(ZRVL, "0")
-#   field(ONVL, "1")
-#   field(TWVL, "2")
-
-#   field(ZRST, "CLEAR")
-#   field(ONST, "SET")
-#   field(TWST, "ENABLE")
-# }
-# record(mbbi, "$(DEVICE):RelayStatusRb-10") {
-#   field(DESC, "Status of the relay 10")
-  
-#   field(ZRVL, "0")
-#   field(ONVL, "1")
-#   field(TWVL, "2")
-
-#   field(ZRST, "CLEAR")
-#   field(ONST, "SET")
-#   field(TWST, "ENABLE")
-# }
-# record(mbbi, "$(DEVICE):RelayStatusRb-11") {
-#   field(DESC, "Status of the relay 11")
-  
-#   field(ZRVL, "0")
-#   field(ONVL, "1")
-#   field(TWVL, "2")
-
-#   field(ZRST, "CLEAR")
-#   field(ONST, "SET")
-#   field(TWST, "ENABLE")
-# }
-# record(mbbi, "$(DEVICE):RelayStatusRb-12") {
-#   field(DESC, "Status of the relay 12")
-  
-#   field(ZRVL, "0")
-#   field(ONVL, "1")
-#   field(TWVL, "2")
-
-#   field(ZRST, "CLEAR")
-#   field(ONST, "SET")
-#   field(TWST, "ENABLE")
-# }
  

@@ -1,20 +1,6 @@
-
-
-# record(stringin,"$(DEVICE):PressureRb-$(CHANNEL)s") {
-#     field(PINI, "YES")
-#     field(DESC,"Read CCG$(CHANNEL)'s raw pressure output")
-#     field(SCAN, "$(SCAN_RATE)")
-#     field(DTYP,"stream")
-#     field(INP,"@mks937b_pressure.proto get_pressure_raw($(ADDRESS),$(CHANNEL)) $(PORT)") 
-
-#     field(FLNK, "$(DEVICE):PressureRb-$(CHANNEL)")
-# } 
-
 record(ai,"$(DEVICE):PressureRb-$(CHANNEL)") {
     field(DESC,"Read CCG$(CHANNEL)'s pressure")
     field(INP,"$(DEVICE):PressureRb-$(CHANNEL)s")
-    # field(PREC,"2") 
-
     field(HIGH,"$(P_HI)")
     field(HIGH,"$(P_HIHI)")
     field(HSV,"MINOR")
