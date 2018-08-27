@@ -7,7 +7,7 @@ IOC_BOOT="iocBoot/"
 DB="db/"
 
 cd template 
-./mks937b_generate.py
+./generate.py
 cd ..
 
 cp -R db/. ${STREAM_IOC_PATH}${DB}
