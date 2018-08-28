@@ -65,7 +65,6 @@ if __name__ == "__main__":
                     IP_ASYN_PORT=IP_ASYN_PORT,
                     PREFIX=PREFIX,
                     ADDRESS=ADDRESS,
-                    SCAN_RATE = SCAN_RATE,
                     P_HI   = pressures[channel].get('HI'),
                     P_HIHI = pressures[channel].get('HIHI'),
                     CHANNEL = channel + 1 
@@ -83,7 +82,6 @@ if __name__ == "__main__":
                     IP_ASYN_PORT=IP_ASYN_PORT,
                     PREFIX=PREFIX,
                     ADDRESS=ADDRESS,
-                    SCAN_RATE = SCAN_RATE,
                     CHANNEL = channel
                 )
 
@@ -92,7 +90,6 @@ if __name__ == "__main__":
                     IP_ASYN_PORT=IP_ASYN_PORT,
                     PREFIX=PREFIX,
                     ADDRESS=ADDRESS,
-                    SCAN_RATE = SCAN_RATE,
                     RELAY = relay
                 )
             res += '\n'

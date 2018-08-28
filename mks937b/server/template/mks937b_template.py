@@ -14,10 +14,8 @@ cd $CD
 dbLoadDatabase("dbd/streamApp.dbd")
 streamApp_registerRecordDeviceDriver(pdbbase)
 
-# Bind to a virtual serial port from socat
-drvAsynSerialPortConfigure("$IP_ASYN_PORT", "/dev/socatUSB0")
-asynSetOption("$IP_ASYN_PORT", 0, "baud", "115200")
-
+# Bind to socat
+drvAsynIPPortConfigure("$IP_ASYN_PORT","$IP_ADDR", 100, 0, 0)
 ''')
 
 # @todo: terminar de montar esse arquivo template !
@@ -30,7 +28,6 @@ dbLoadRecords("database/mks937b_pressure.db", \
  "PORT = $IP_ASYN_PORT,\
  DEVICE = $PREFIX,\
  ADDRESS = $ADDRESS,\
- SCAN_RATE = $SCAN_RATE second,\
  CHANNEL = $CHANNEL,\
  P_HI = $P_HI,\
  P_HIHI = $P_HIHI")''')
@@ -40,16 +37,14 @@ dbLoadRecords("database/mks937b_cc.db",\
  "PORT = $IP_ASYN_PORT,\
   DEVICE = $PREFIX,\
   CHANNEL = $CHANNEL,\
-  ADDRESS = $ADDRESS,\
-  SCAN_RATE = $SCAN_RATE second")''')
+  ADDRESS = $ADDRESS")''')
 
 template_relay = Template('''
 dbLoadRecords("database/mks937b_relay.db",\
  "PORT = $IP_ASYN_PORT,\
   DEVICE = $PREFIX,\
   RELAY = $RELAY,\
-  ADDRESS = $ADDRESS,\
-  SCAN_RATE = $SCAN_RATE second")''')
+  ADDRESS = $ADDRESS")''')
 
 
 template_bot = ('''

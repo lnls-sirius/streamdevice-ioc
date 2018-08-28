@@ -13,10 +13,9 @@ cd ${TOP}
 dbLoadDatabase("dbd/streamApp.dbd")
 streamApp_registerRecordDeviceDriver(pdbbase)
 
-# Bind to a virtual serial port from socat
-drvAsynSerialPortConfigure("IPPort0", "/dev/socatUSB0")
+# Bind to socat
+drvAsynIPPortConfigure("IPPort0","10.0.6.55:4161", 100, 0, 0)
 asynSetOption("IPPort0", 0, "baud", "115200")
-
 
 # General mks937b records
 dbLoadRecords("database/mks937b.db", "PORT = IPPort0, DEVICE = VGC1, ADDRESS = 001, SCAN_RATE = 2 second")

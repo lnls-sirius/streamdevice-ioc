@@ -1,4 +1,254 @@
+##################################################################################################################
+# READ ONLY !
+##################################################################################################################
+record(bi, "$(DEVICE):SlowTrig"){
+	field(SCAN, "10 second")
+	field(FLNK, "$(DEVICE):SerialNumber")
+}
+record(stringin, "$(DEVICE):SerialNumber"){
+    field(DESC, "Unit's serial number")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto serial_num($(ADDRESS)) $(PORT) ") 
+    
+    field(FLNK, "$(DEVICE):CTLV")
+}
+# Controller Version 
+record(stringin, "$(DEVICE):CTLV"){
+    field(DESC, "Controller Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto ctlv($(ADDRESS)) $(PORT) ") 
+
+    field(FLNK, "$(DEVICE):SlotAV")
+}
+record(stringin, "$(DEVICE):SlotAV"){
+    field(DESC, "Slot A Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto slotav($(ADDRESS)) $(PORT) ") 
+    
+    field(FLNK, "$(DEVICE):SlotBV")
+}
+record(stringin, "$(DEVICE):SlotBV"){
+    field(DESC, "Slot B Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto slotbv($(ADDRESS)) $(PORT) ") 
+    
+    field(FLNK, "$(DEVICE):SlotCV")
+}
+record(stringin, "$(DEVICE):SlotCV"){
+    field(DESC, "Slot C Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto slotcv($(ADDRESS)) $(PORT) ") 
+    
+    field(FLNK, "$(DEVICE):AIOV")
+}
+record(stringin, "$(DEVICE):AIOV"){
+    field(DESC, "AIO Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto aiov($(ADDRESS)) $(PORT) ") 
+    
+    field(FLNK, "$(DEVICE):COMMV")
+}
+record(stringin, "$(DEVICE):COMMV"){
+    field(DESC, "COMM Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto commv($(ADDRESS)) $(PORT) ") 
+     
+    field(FLNK, "$(DEVICE):ModuleType-A")
+}
+record(mbbi, "$(DEVICE):ModuleType-A"){
+    field(DESC, "Display the module type")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto moda($(ADDRESS)) $(PORT) 0")  
+         
+    field(ZRST, "Hot Cathode")
+    field(ONST, "Cold Cathode")
+    field(TWST, "Dual Pirani")
+    field(THST, "Dual Cnv Pirani")
+    field(FRST, "Dual Thermocpl")
+    field(FVST, "Dual Cap Manmtr")
+    field(SXST, "Sngl Pirani")
+    field(SVST, "Sngl Cnv Pirani")
+    field(EIST, "Sngl Thrmcpl")
+    field(NIST, "Sngl Cap Manmtr")
+    field(TEST, "No Module")
+    field(ELST, "Wrong Module") 
+    field(ELSV, "MAJOR")
+
+    field(FLNK, "$(DEVICE):ModuleType-B")
+} 
+record(mbbi, "$(DEVICE):ModuleType-B"){
+    field(DESC, "Display the module type")
+    field(INP,  "@mks937b.proto modb($(ADDRESS)) $(PORT) 0") 
+    field(DTYP, "stream")
+
+    field(ZRST, "Hot Cathode")
+    field(ONST, "Cold Cathode")
+    field(TWST, "Dual Pirani")
+    field(THST, "Dual Cnv Pirani")
+    field(FRST, "Dual Thermocpl")
+    field(FVST, "Dual Cap Manmtr")
+    field(SXST, "Sngl Pirani")
+    field(SVST, "Sngl Cnv Pirani")
+    field(EIST, "Sngl Thrmcpl")
+    field(NIST, "Sngl Cap Manmtr")
+    field(TEST, "No Module")
+    field(ELST, "Wrong Module")
+    field(UNSV, "MAJOR")
+    field(ZRSV, "NO_ALARM")
+    field(ONSV, "NO_ALARM")
+    field(TWSV, "NO_ALARM")
+    field(THSV, "NO_ALARM")
+    field(FRSV, "NO_ALARM")
+    field(FVSV, "NO_ALARM")
+    field(SXSV, "NO_ALARM")
+    field(SVSV, "NO_ALARM")
+    field(EISV, "NO_ALARM")
+    field(NISV, "NO_ALARM")
+    field(TESV, "NO_ALARM")
+    field(ELSV, "MAJOR")
+
+    field(FLNK, "$(DEVICE):ModuleType-C")
+} 
+record(mbbi, "$(DEVICE):ModuleType-C"){
+    field(DESC, "Display the module type")
+
+    field(INP,  "@mks937b.proto modc($(ADDRESS)) $(PORT) 0") 
+    field(DTYP, "stream") 
+
+    field(ZRST, "Hot Cathode")
+    field(ONST, "Cold Cathode")
+    field(TWST, "Dual Pirani")
+    field(THST, "Dual Cnv Pirani")
+    field(FRST, "Dual Thermocpl")
+    field(FVST, "Dual Cap Manmtr")
+    field(SXST, "Sngl Pirani")
+    field(SVST, "Sngl Cnv Pirani")
+    field(EIST, "Sngl Thrmcpl")
+    field(NIST, "Sngl Cap Manmtr")
+    field(TEST, "No Module")
+    field(ELST, "Wrong Module")
+    field(UNSV, "MAJOR")
+    field(ZRSV, "NO_ALARM")
+    field(ONSV, "NO_ALARM")
+    field(TWSV, "NO_ALARM")
+    field(THSV, "NO_ALARM")
+    field(FRSV, "NO_ALARM")
+    field(FVSV, "NO_ALARM")
+    field(SXSV, "NO_ALARM")
+    field(SVSV, "NO_ALARM")
+    field(EISV, "NO_ALARM")
+    field(NISV, "NO_ALARM")
+    field(TESV, "NO_ALARM")
+    field(ELSV, "MAJOR")
+
+    field(FLNK, "$(DEVICE):SensorType-A")
+} 
+record(stringin,"$(DEVICE):SensorType-A") {
+    field(PINI, "YES")
+    field(DESC, "Display the connected sensor type")
+    field(DTYP,"stream")
+    field(INP,"@mks937b.proto sta($(ADDRESS)) $(PORT)") 
+
+    field(FLNK, "$(DEVICE):SensorType-B")
+} 
+record(stringin,"$(DEVICE):SensorType-B") {
+    field(PINI, "YES")
+    field(DESC, "Display the connected sensor type")
+    field(DTYP,"stream")
+    field(INP,"@mks937b.proto stb($(ADDRESS)) $(PORT)") 
+
+    field(FLNK, "$(DEVICE):SensorType-C")
+} 
+record(stringin,"$(DEVICE):SensorType-C") {
+    field(PINI, "YES")
+    field(DESC, "Display the connected sensor type")
+    field(DTYP,"stream")
+    field(INP,"@mks937b.proto stc($(ADDRESS)) $(PORT)") 
+
+	field(FLNK, "$(DEVICE):ErrMsgType")
+} 
+record(stringin, "$(DEVICE):ErrMsgType"){
+    field(DESC, "Error message as text")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto errtext $(PORT) ") 
+    field(PINI, "YES") 
+} 
+
+## -----------------------------------
+## -----------------------------------
+## -----------------------------------
+
+record(bi, "$(DEVICE):FastTrig"){
+	field(SCAN, "$(SCAN_RATE)")
+	field(FLNK, "$(DEVICE):PressureRb-1s")
+}
+record(stringin,"$(DEVICE):PressureRb-1s") {
+    field(PINI, "YES")
+    field(DESC,"Read CCG 1's raw pressure output")
+    field(DTYP,"stream")
+    field(INP,"@mks937b.proto get_pressure_raw($(ADDRESS),1) $(PORT)") 
+
+    field(FLNK, "$(DEVICE):PressureRb-2s")
+} 
+record(stringin,"$(DEVICE):PressureRb-2s") {
+    field(DESC,"Read CCG 2's raw pressure output")
+
+    field(DTYP,"stream")
+    field(INP,"@mks937b.proto get_pressure_raw($(ADDRESS),2) $(PORT)") 
+    
+    field(FLNK, "$(DEVICE):PressureRb-3s")
+} 
+record(stringin,"$(DEVICE):PressureRb-3s") {
+    field(DESC,"Read CCG 3's raw pressure output") 
+
+    field(DTYP,"stream")
+    field(INP,"@mks937b.proto get_pressure_raw($(ADDRESS),3) $(PORT)") 
+
+    field(FLNK, "$(DEVICE):PressureRb-4s")
+} 
+record(stringin,"$(DEVICE):PressureRb-4s") {
+    field(DESC,"Read CCG 4's raw pressure output") 
+
+    field(DTYP,"stream")
+    field(INP,"@mks937b.proto get_pressure_raw($(ADDRESS),4) $(PORT)") 
+
+    field(FLNK, "$(DEVICE):PressureRb-5s")
+} 
+record(stringin,"$(DEVICE):PressureRb-5s") {
+    field(DESC,"Read CCG 5's raw pressure output") 
+
+    field(DTYP,"stream")
+    field(INP,"@mks937b.proto get_pressure_raw($(ADDRESS),5) $(PORT)") 
+
+    field(FLNK, "$(DEVICE):PressureRb-6s")
+} 
+record(stringin,"$(DEVICE):PressureRb-6s") {
+    field(DESC,"Read CCG 6's raw pressure output")
+
+    field(DTYP,"stream")
+    field(INP,"@mks937b.proto get_pressure_raw($(ADDRESS),6) $(PORT)") 
+
+    field(FLNK, "$(DEVICE):PressureRb-1")
+} 
  
+record(ai,"$(DEVICE):PressureRb-1") {
+    field(FLNK, "$(DEVICE):PressureRb-2")
+}
+record(ai,"$(DEVICE):PressureRb-2") {
+    field(FLNK, "$(DEVICE):PressureRb-3")
+}
+record(ai,"$(DEVICE):PressureRb-3") {
+    field(FLNK, "$(DEVICE):PressureRb-4")
+}
+record(ai,"$(DEVICE):PressureRb-4") {
+    field(FLNK, "$(DEVICE):PressureRb-5")
+}
+record(ai,"$(DEVICE):PressureRb-5") {
+    field(FLNK, "$(DEVICE):PressureRb-6")
+}
+##################################################################################################################
+##################################################################################################################
+
 # In case the unit was changed at the ihm
 record(bi, "$(DEVICE):Dly:Trig"){
 	field(SCAN, "10 second")
@@ -14,7 +264,7 @@ record(ai, "$(DEVICE):Dly"){
 }
 record(ao, "$(DEVICE):DlySp"){
     field(DESC, "Set Pressure Unit")
-    field(SCAN, "Passive")
+    #field(SCAN, "Passive")
     field(DTYP, "stream")
     field(OUT,"@mks937b.proto set_dly($(ADDRESS)) $(PORT)")
  
@@ -49,7 +299,7 @@ record(mbbi, "$(DEVICE):Unit"){
 
 record(mbbo, "$(DEVICE):UnitSp"){
     field(DESC, "Set Pressure Unit")
-    field(SCAN, "Passive")
+    #field(SCAN, "Passive")
     field(DTYP, "stream")
     field(OUT,"@mks937b.proto set_unit($(ADDRESS)) $(PORT)")
 
@@ -67,222 +317,3 @@ record(mbbo, "$(DEVICE):UnitSp"){
 
     field(FLNK, "$(DEVICE):Unit")
 }
-
-
-record(stringin, "$(DEVICE):ErrMsgType"){
-    field(DESC, "Error message as text")
-    field(DTYP, "stream")
-    field(INP,  "@mks937b.proto errtext $(PORT) ") 
-    field(PINI, "YES") 
-}
- 
-
-record(stringin, "$(DEVICE):SerialNumber"){
-    field(DESC, "Unit's serial number")
-    field(DTYP, "stream")
-    field(INP,  "@mks937b.proto serial_num($(ADDRESS)) $(PORT) ") 
-    field(PINI, "YES") 
-    
-    field(SCAN, "10 second")       
-        
-}
- 
-################################################################################
-# Controller Version 
-record(stringin, "$(DEVICE):CTLV"){
-    field(DESC, "Controller Version")
-    field(DTYP, "stream")
-    field(INP,  "@mks937b.proto ctlv($(ADDRESS)) $(PORT) ") 
-    field(PINI, "YES") 
-    field(SCAN, "10 second")
-}
- 
- record(stringin, "$(DEVICE):SlotAV"){
-    field(DESC, "Slot A Version")
-    field(DTYP, "stream")
-    field(INP,  "@mks937b.proto slotav($(ADDRESS)) $(PORT) ") 
-    field(PINI, "YES") 
-    field(SCAN, "10 second")
-}
- 
- record(stringin, "$(DEVICE):SlotBV"){
-    field(DESC, "Slot B Version")
-    field(DTYP, "stream")
-    field(INP,  "@mks937b.proto slotbv($(ADDRESS)) $(PORT) ") 
-    field(PINI, "YES") 
-    field(SCAN, "10 second")
-}
- 
- record(stringin, "$(DEVICE):SlotCV"){
-    field(DESC, "Slot C Version")
-    field(DTYP, "stream")
-    field(INP,  "@mks937b.proto slotcv($(ADDRESS)) $(PORT) ") 
-    field(PINI, "YES") 
-    field(SCAN, "10 second")
-}
- 
- record(stringin, "$(DEVICE):AIOV"){
-    field(DESC, "AIO Version")
-    field(DTYP, "stream")
-    field(INP,  "@mks937b.proto aiov($(ADDRESS)) $(PORT) ") 
-    field(PINI, "YES") 
-    field(SCAN, "10 second")
-}
- 
- record(stringin, "$(DEVICE):COMMV"){
-    field(DESC, "COMM Version")
-    field(DTYP, "stream")
-    field(INP,  "@mks937b.proto commv($(ADDRESS)) $(PORT) ") 
-    field(PINI, "YES") 
-    field(SCAN, "10 second")
-}
-  
-record(mbbi, "$(DEVICE):ModuleType-A"){
-    field(DESC, "Display the module type")
-    field(DTYP, "stream")
-    field(INP,  "@mks937b.proto moda($(ADDRESS)) $(PORT) 0")  
-    
-    field(PINI, "YES")
-    field(SCAN, "10 second")
-    
-    field(ZRST, "Hot Cathode")
-    field(ONST, "Cold Cathode")
-    field(TWST, "Dual Pirani")
-    field(THST, "Dual Cnv Pirani")
-    field(FRST, "Dual Thermocpl")
-    field(FVST, "Dual Cap Manmtr")
-    field(SXST, "Sngl Pirani")
-    field(SVST, "Sngl Cnv Pirani")
-    field(EIST, "Sngl Thrmcpl")
-    field(NIST, "Sngl Cap Manmtr")
-    field(TEST, "No Module")
-    field(ELST, "Wrong Module") 
-    field(ELSV, "MAJOR")
-} 
-record(mbbi, "$(DEVICE):ModuleType-B"){
-    field(DESC, "Display the module type")
-    field(INP,  "@mks937b.proto modb($(ADDRESS)) $(PORT) 0") 
-    field(DTYP, "stream")
-    field(PINI, "YES")
-    field(SCAN, "10 second")
-
-    field(ZRST, "Hot Cathode")
-    field(ONST, "Cold Cathode")
-    field(TWST, "Dual Pirani")
-    field(THST, "Dual Cnv Pirani")
-    field(FRST, "Dual Thermocpl")
-    field(FVST, "Dual Cap Manmtr")
-    field(SXST, "Sngl Pirani")
-    field(SVST, "Sngl Cnv Pirani")
-    field(EIST, "Sngl Thrmcpl")
-    field(NIST, "Sngl Cap Manmtr")
-    field(TEST, "No Module")
-    field(ELST, "Wrong Module")
-    field(UNSV, "MAJOR")
-    field(ZRSV, "NO_ALARM")
-    field(ONSV, "NO_ALARM")
-    field(TWSV, "NO_ALARM")
-    field(THSV, "NO_ALARM")
-    field(FRSV, "NO_ALARM")
-    field(FVSV, "NO_ALARM")
-    field(SXSV, "NO_ALARM")
-    field(SVSV, "NO_ALARM")
-    field(EISV, "NO_ALARM")
-    field(NISV, "NO_ALARM")
-    field(TESV, "NO_ALARM")
-    field(ELSV, "MAJOR")
-} 
-
-record(mbbi, "$(DEVICE):ModuleType-C"){
-    field(DESC, "Display the module type")
-
-    field(INP,  "@mks937b.proto modc($(ADDRESS)) $(PORT) 0") 
-    field(DTYP, "stream") 
-    field(PINI, "YES")
-    field(SCAN, "10 second")
-
-    field(ZRST, "Hot Cathode")
-    field(ONST, "Cold Cathode")
-    field(TWST, "Dual Pirani")
-    field(THST, "Dual Cnv Pirani")
-    field(FRST, "Dual Thermocpl")
-    field(FVST, "Dual Cap Manmtr")
-    field(SXST, "Sngl Pirani")
-    field(SVST, "Sngl Cnv Pirani")
-    field(EIST, "Sngl Thrmcpl")
-    field(NIST, "Sngl Cap Manmtr")
-    field(TEST, "No Module")
-    field(ELST, "Wrong Module")
-    field(UNSV, "MAJOR")
-    field(ZRSV, "NO_ALARM")
-    field(ONSV, "NO_ALARM")
-    field(TWSV, "NO_ALARM")
-    field(THSV, "NO_ALARM")
-    field(FRSV, "NO_ALARM")
-    field(FVSV, "NO_ALARM")
-    field(SXSV, "NO_ALARM")
-    field(SVSV, "NO_ALARM")
-    field(EISV, "NO_ALARM")
-    field(NISV, "NO_ALARM")
-    field(TESV, "NO_ALARM")
-    field(ELSV, "MAJOR")
-}
-################################################################################
-record(bi, "$(DEVICE):SensorType:Trig"){
-	field(SCAN, "10 second")
-	field(FLNK, "$(DEVICE):SensorType-A")
-}
-record(stringin,"$(DEVICE):SensorType-A") {
-    field(PINI, "YES")
-    field(DESC, "Display the connected sensor type")
-    field(DTYP,"stream")
-    field(INP,"@mks937b.proto sta($(ADDRESS)) $(PORT)") 
-
-    field(FLNK, "$(DEVICE):SensorType-B")
-} 
-record(stringin,"$(DEVICE):SensorType-B") {
-    field(PINI, "YES")
-    field(DESC, "Display the connected sensor type")
-    field(DTYP,"stream")
-    field(INP,"@mks937b.proto stb($(ADDRESS)) $(PORT)") 
-
-    field(FLNK, "$(DEVICE):SensorType-C")
-} 
-record(stringin,"$(DEVICE):SensorType-C") {
-    field(PINI, "YES")
-    field(DESC, "Display the connected sensor type")
-    field(DTYP,"stream")
-    field(INP,"@mks937b.proto stc($(ADDRESS)) $(PORT)") 
-} 
-
-record(stringin,"$(DEVICE):PressureRb-1s") {
-    field(PINI, "YES")
-    field(DESC,"Read CCG 1's raw pressure output")
-    field(SCAN, "$(SCAN_RATE)")
-    field(DTYP,"stream")
-    field(INP,"@mks937b.proto get_pressures($(ADDRESS),$(DEVICE):PressureRb) $(PORT)") 
-
-    field(FLNK, "$(DEVICE):PressureRb-1")
-    
-} 
-record(stringin,"$(DEVICE):PressureRb-2s") {
-    field(DESC,"Read CCG 2's raw pressure output")
-    field(FLNK, "$(DEVICE):PressureRb-2")
-} 
-record(stringin,"$(DEVICE):PressureRb-3s") {
-    field(DESC,"Read CCG 3's raw pressure output")
-    field(FLNK, "$(DEVICE):PressureRb-3")
-} 
-record(stringin,"$(DEVICE):PressureRb-4s") {
-    field(DESC,"Read CCG 4's raw pressure output")
-    field(FLNK, "$(DEVICE):PressureRb-4")
-} 
-record(stringin,"$(DEVICE):PressureRb-5s") {
-    field(DESC,"Read CCG 5's raw pressure output")
-    field(FLNK, "$(DEVICE):PressureRb-5")
-} 
-record(stringin,"$(DEVICE):PressureRb-6s") {
-    field(DESC,"Read CCG 6's raw pressure output")
-    field(FLNK, "$(DEVICE):PressureRb-6")
-} 
- 

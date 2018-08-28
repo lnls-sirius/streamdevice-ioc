@@ -1,10 +1,8 @@
-STREAM_IOC_PATH="/opt/stream-ioc/"
-# STREAM_IOC_PATH="/home/controle/Desktop/Novo/"
-
+STREAM_IOC_PATH="/opt/stream-ioc/" 
 
 PROTOCOL="protocol/"
 IOC_BOOT="iocBoot/"
-DB="db/"
+DB="database/"
 
 cd template 
 ./generate.py
