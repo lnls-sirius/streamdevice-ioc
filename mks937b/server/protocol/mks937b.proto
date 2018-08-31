@@ -40,69 +40,69 @@ unitid = 1;
 # Controller parameters
 # Pressure unit, Unit=Torr, mBAR, PASCAL, Micron
 get_unit { 
-    wait  10;
+    wait  7;
     out "@\$1U?"; 
     in "@\$1ACK%{TORR|mBAR|PASCAL|MICRON}";
-    wait  10;
+    wait  7;
 }
 set_unit { 
-    wait  10;
+    wait  7;
     out "@\$1U!%{TORR|mBAR|PASCAL|Micron}";
     in "@\$1ACK%{TORR|mBAR|PASCAL|MICRON}"; 
     @init { get_unit; }
-    wait  10;
+    wait  7;
 }
 get_dly { 
-    wait  10;
+    wait  7;
     out "@\$1DLY?"; 
     in "@\$1ACK%f";
-    wait  10;
+    wait  7;
 }
 set_dly { 
-    wait  10;
+    wait  7;
     out "@\$1DLY!%f";
     in "@\$1ACK%f"; 
     @init { get_dly; }
-    wait  10;
+    wait  7;
 }
 # Firmware version
 # n=1=Slot A; n=2=Slot B; n=3=Slot C
 # n=4=AIO; n=5=COMM; n=6=Main
 slotav { 
-    wait  10;
+    wait  7;
     out "@\$1FV1?"; 
     in "@\$1ACK%s"; 
-    wait  10;
+    wait  7;
 }
 slotbv { 
-    wait  10;
+    wait  7;
     out "@\$1FV2?"; 
     in "@\$1ACK%s"; 
-    wait  10;
+    wait  7;
 }
 slotcv { 
-    wait  10;
+    wait  7;
     out "@\$1FV3?"; 
     in "@\$1ACK%s"; 
-    wait  10;
+    wait  7;
 }
 aiov { 
-    wait  10;
+    wait  7;
     out "@\$1FV4?"; 
     in "@\$1ACK%s"; 
-    wait  10;
+    wait  7;
 }
 commv { 
-    wait  10;
+    wait  7;
     out "@\$1FV5?"; 
     in "@\$1ACK%s";
-    wait  10;
+    wait  7;
 }
 ctlv { 
-    wait  10;
+    wait  7;
     out "@\$1FV6?"; 
     in "@\$1ACK%s";
-    wait  10;
+    wait  7;
 }
 
 moda{  out "@\$1MT?"; in "@\$1ACK%{HC|CC|PR|CV|TC|CM|P1|C1|T1|M1|NC|WC},\?\?,\?\?,\?\?";}
@@ -110,137 +110,155 @@ modb{  out "@\$1MT?"; in "@\$1ACK\?\?,%{HC|CC|PR|CV|TC|CM|P1|C1|T1|M1|NC|WC},\?\
 modc{  out "@\$1MT?"; in "@\$1ACK\?\?,\?\?,%{HC|CC|PR|CV|TC|CM|P1|C1|T1|M1|NC|WC},\?\?"; }
 
 sta { 
-    wait  10;
+    wait  7;
     out "@\$1STA?"; 
     in "@\$1ACK%s";
-    wait  10;
+    wait  7;
 }
 stb {  
-    wait  10;
+    wait  7;
     out "@\$1STB?"; 
     in "@\$1ACK%s";
-    wait  10;
+    wait  7;
 }
 stc {  
-    wait  10;
+    wait  7;
     out "@\$1STC?"; 
     in "@\$1ACK%s";
-    wait  10;
+    wait  7;
 }
 # Serial Number
 serial_num {  
-    wait  10;
+    wait  7;
     out "@\$1SN?"; 
     in "@\$1ACK%s";
-    wait  10;
+    wait  7;
 }
 # Prints errors as text
 errtext { 
-    wait  10;
+    wait  7;
     out "@254SEM!TXT";
     in "@ACK%s"; 
-    wait  10;         
+    wait  7;         
 }
+lockIhm { 
+    wait  7;
+    out "@\$1LOCK!\$2";
+    in "@\$1ACK%s"; 
+    wait  7;         
+} 
 # Query the channel power status for PR, CP, HC or high voltage status for CC.  $2: channel 1-6
 get_enabled{ 
-    wait  10;
+    wait  7;
     out "@\$1CP\$2?"; 
     in "@\$1ACK%{OFF|ON}";
-    wait  10;
+    wait  7;
 }
 # Turn on/off the channel power for PR, CP, HC, or high voltage for CC). $2: channel 1-6
 set_enabled{
-    wait  10;
+    wait  7;
     out "@\$1CP\$2!%{OFF|ON}"; 
     in "@\$1ACK%{OFF|ON}"; 
     @init{get_enabled;}
-    wait  10;
+    wait  7;
 }
 # RELAY AND CONTROL SETTINGS COMMANDS
 # Relay setpoints ($2 1 to 12)
 get_sp { 
-    wait  10;
+    wait  7;
     out "@\$1SP\$2?"; 
     in "@\$1ACK%E"; 
     # @mismatch{in "@\$1NAK%s";}
-    wait  10;
+    wait  7;
 }
 set_sp { 
-    wait  10;
+    wait  7;
     out "@\$1SP\$2!%0.1E"; 
     in "@\$1ACK%E"; 
     @init { get_sp; }
-    wait  10;
+    wait  7;
 }
 # Relay Hysteresis ($2 1 to 12)
 get_relay_hyst { 
-    wait  10;
+    wait  7;
     out "@\$1SH\$2?"; 
     in "@\$1ACK%E"; 
-    wait  10;
+    wait  7;
 }
 set_relay_hyst { 
-    wait  10;
+    wait  7;
     out "@\$1SH\$2!%0.1E"; 
     in "@\$1ACK%E"; 
     @init { get_relay_hyst; }
-    wait  10;
+    wait  7;
 }
 # Relay direction ($2 1 to 12)
 get_relay_direction { 
-    wait  10;
+    wait  7;
     out "@\$1SD\$2?"; 
     in "@\$1ACK%{ABOVE|BELOW}"; 
-    wait  10;
+    wait  7;
 }
 set_relay_direction { 
-    wait  10;
+    wait  7;
     out "@\$1SD\$2!%{ABOVE|BELOW}"; 
     in "@\$1ACK%{ABOVE|BELOW}"; 
     @init { get_relay_direction; }
-    wait  10;
+    wait  7;
 }
 # Relay mode, query or set status for relay ($2 1 to 12)
 get_relay_mode { 
-    wait  10;
+    wait  7;
     out "@\$1EN\$2?";
     in "@\$1ACK%{SET|CLEAR|ENABLE}"; 
-    wait  10;
+    wait  7;
 }
 set_relay_mode { 
-    wait  10;
+    wait  7;
     out "@\$1EN\$2!%{SET|CLEAR|ENABLE}"; 
     in "@\$1ACK%{SET|CLEAR|ENABLE}"; 
     @init { get_relay_mode; }
-    wait  10;
+    wait  7;
+}
+get_relay_mode_all { 
+    wait  7;
+    out "@\$1ENA?"; 
+    in "@\$1ACK%c%(\$2-2)c%(\$2-3)c%(\$2-4)c%(\$2-5)c%(\$2-6)c%(\$2-7)c%(\$2-8)c%(\$2-9)c%(\$2-10)c%(\$2-11)c%(\$2-12)c"; 
+    wait  7;
 }
 # Query relay setpoint status ($2 1 to 12)
 get_relaysp_status { 
-    wait  10;
+    wait  7;
     out "@\$1SS\$2?"; 
     in "@\$1ACK%{SET|CLEAR}"; 
-    wait  10;
+    wait  7;
+}
+get_relaysp_status_all { 
+    wait  7;
+    out "@\$1SSA?"; 
+    in "@\$1ACK%c%(\$2-2)c%(\$2-3)c%(\$2-4)c%(\$2-5)c%(\$2-6)c%(\$2-7)c%(\$2-8)c%(\$2-9)c%(\$2-10)c%(\$2-11)c%(\$2-12)c"; 
+    wait  7;
 }
 # Read pressure on channel  ($2 1 to 6)
 get_pressure_raw { 
-    wait  10;
+    wait  7;
     out "@\$1PR\$2?"; 
     in "@\$1ACK%s"; 
     @mismatch {in "@\$1NAK";}
-    wait  10;
+    wait  7;
 } 
 get_pressures {
-    wait  10;
+    wait  7;
     out "@\$1PRZ?";
     in "@\$1ACK%s %(\$2-2s)s %(\$2-3s)s %(\$2-4s)s %(\$2-5s)s %(\$2-6s)s";
-    wait  10;
+    wait  7;
 }
 # Read pressure on channel 'n' and its combination sensor 
 get_pressure_combination {
-    wait  10;
+    wait  7;
     out "@\$1PC\$2?"; 
     in "@\$1ACK%s";
-    wait  10;
+    wait  7;
 } 
 # PIRANI AND CONVECTION PIRANI CONTROL COMMANDS
 # Query or set a gas correction factor for a CC gauge on
@@ -248,161 +266,161 @@ get_pressure_combination {
 # Send and atmospheric pressure to perform ATM calibration
 # The PR/CP must be at atmospheric pressure when running ATM calibration
 set_atm{ 
-    wait  10;
+    wait  7;
     out "@\$1ATM\$2?"; 
     in "@\$1ACK%E";
-    wait  10;
+    wait  7;
 }
 # Zero a PR/CP on a channel n. Execute only when  the pressure ios less than 1x10-2 torr
 zero_pr_cp{ 
-  wait  10;
+  wait  7;
     out "@\$1VAC\$2?"; 
     in "@\$1ACKOK";
     # @mismatch {in "@\$1NAK";}
-    wait  10;
+    wait  7;
 }
 # -----------------------------------------------------
 # COLD CATHODE CONTROL COMMANDS
 # Query protection setpoint for channel
 get_pro_sp{ 
-    wait  10;
+    wait  7;
     out "@\$1PRO\$2?"; 
     in "@\$1ACK%s";
     @mismatch {in "@\$1NAK:%s";}
-    wait  10;
+    wait  7;
 } 
 get_pro_sp_val{ 
-   wait  10;
+   wait  7;
     out "@\$1PRO\$2?"; 
     in "@\$1ACK%E";
     @mismatch {in "";}
-    wait  10;
+    wait  7;
 } 
 # Query protection setpoint for channel
 set_pro_sp{
-  wait  10;
+  wait  7;
     out "@\$1PRO\$2!%E"; 
     in "@\$1ACK%E"; 
     # @mismatch {in "@\$1NAK:%s";}
-    @init{ get_pro_sp_val;} wait  10;
+    @init{ get_pro_sp_val;} wait  7;
 }
 # -----------------------------------------------------
 # COLD CATHODE CONTROL COMMANDS
 # Fast relay
 get_frc_sp{ 
-   wait  10;
+   wait  7;
     out "@\$1FRC\$2?"; 
     in "@\$1ACK%s";
-    # @mismatch {in "@\$1NAK:%s";}wait  10;
+    # @mismatch {in "@\$1NAK:%s";}wait  7;
 } 
 get_frc_sp_val{ 
-   wait  10;
+   wait  7;
     out "@\$1FRC\$2?"; 
     in "@\$1ACK%E";
-    # @mismatch {in "";}wait  10;
+    # @mismatch {in "";}wait  7;
 } 
 # Query protection setpoint for channel
 set_frc_sp{
-   wait  10;
+   wait  7;
     
     out "@\$1FRC\$2!%E"; 
     in "@\$1ACK%E"; 
     
     # @mismatch {in "@\$1NAK:%s";}
-    @init{ get_frc_sp_val;} wait  10;
+    @init{ get_frc_sp_val;} wait  7;
 }
 # -----------------------------------------------------
 # Query control setpoint for channel
 get_con_sp{ 
-    wait  10;
+    wait  7;
     out "@\$1CSP\$2?"; 
     in "@\$1ACK%s";
-    wait  10;
+    wait  7;
 
-    # @mismatch {in "@\$1NAK:%s";}wait  10;
+    # @mismatch {in "@\$1NAK:%s";}wait  7;
 }
 get_con_sp_val{ 
-    wait  10;
+    wait  7;
     out "@\$1CSP\$2?"; 
     in "@\$1ACK%E";
-    wait  10;
-    # @mismatch {in "";}wait  10;
+    wait  7;
+    # @mismatch {in "";}wait  7;
 }
 # Set control setpoint for channel
 set_con_sp{
-    wait  10;
+    wait  7;
     out "@\$1CSP\$2!%E"; 
     in "@\$1ACK%E"; 
 
     # @mismatch {in "@\$1NAK:%s";}
-    @init{get_con_sp_val;}wait  10;
-    wait  10;
+    @init{get_con_sp_val;}wait  7;
+    wait  7;
 }
 # -----------------------------------------------------
 # Query control setpoint hysteresis for channel
 get_hys_sp{ 
-    wait  10;
+    wait  7;
     out "@\$1CHP\$2?"; 
     in "@\$1ACK%s";
     # @mismatch {in "@\$1NAK:%s";}
-    wait  10;
+    wait  7;
 }
 get_hys_sp_val{ 
-  wait  10;
+  wait  7;
     out "@\$1CHP\$2?"; 
     in "@\$1ACK%E";
     # @mismatch {in "";}
     
-    wait  10;
+    wait  7;
 }
  # Set control setpoint hysteresis for channel
 set_hys_sp{
-    wait  10;
+    wait  7;
     out "@\$1CHP\$2!%E"; 
     in "@\$1ACK%E"; 
     
     # @mismatch {in "";}
     @init{get_hys_sp_val;}
-    wait  10;
+    wait  7;
 }
 # -----------------------------------------------------
 # Relay mode, query or set status for relay ($2 1 to 12)
 get_con_sp_status{
     
-    wait  10;
+    wait  7;
     out "@\$1CSE\$2?"; 
     in "@\$1ACK%{A1|B1|A2|B2|C1|C2|OFF}";  
  
     @mismatch{in "";}
     
-    wait  10;
+    wait  7;
 }
 set_con_sp_status{ 
-    wait  10;
+    wait  7;
     out "@\$1CSE\$2!%{A1|B1|A2|B2|C1|C2|OFF}"; 
     in "@\$1ACK%{A1|B1|A2|B2|C1|C2|OFF}";  
 
     @init{get_con_sp_status;}
     
     @mismatch{in "";}
-    wait  10;
+    wait  7;
 }
 # -----------------------------------------------------
 # Relay mode, query or set status for relay ($2 1 to 12)
 get_con_sp_enable{ 
-    wait  10;
+    wait  7;
     out "@\$1CTL\$2?"; 
     in "@\$1ACK%{AUTO|SAFE|OFF}";
 
     @mismatch {in "";}
-    wait  10;
+    wait  7;
 }
 set_con_sp_enable{ 
-    wait  10;
+    wait  7;
     out "@\$1CTL\$2!%{AUTO|SAFE|OFF}"; 
     in "@\$1ACK%{AUTO|SAFE|OFF}";  
     @mismatch {in "";}
     @init{get_con_sp_enable;}
-    wait  10;
+    wait  7;
 }
 # -----------------------------------------------------

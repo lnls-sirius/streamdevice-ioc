@@ -14,8 +14,8 @@ PR = 'PR'
 
 sectors = [ # Sector list
     {# A Sector
-        'f_name' : "mks937.cmd",
-        'SCAN_RATE' : ".5",
+        'f_name' : "mks937",
+        'SCAN_RATE' : "1",
         'IP_ASYN_PORT' : "IPPort0",
         'IP_ADDR' : "10.0.6.55:4161", # Beaglebone IP. 
         # Devices

@@ -4,20 +4,7 @@
 # READ ONLY
 ################################################################################
 # Relay Setpoint 
-record(mbbi, "$(DEVICE):RelaySetpointStatusRb-$(RELAY)") {
-  field(DESC, "Setpoint status of the relay $(RELAY)")
-  field(DTYP, "stream")
-  field(INP,  "@mks937b.proto get_relaysp_status($(ADDRESS),$(RELAY)) $(PORT)") 
-  field(PINI, "YES") 
-  field(SCAN, "10 second")
-  
-  field(ZRVL, "0")
-  field(ONVL, "1") 
-  field(ZRST, "SET")
-  field(ONST, "CLEAR") 
-}
 
-################################################################################
 ################################################################################
 record(bi, "$(DEVICE):RelayRb-$(RELAY):Trig"){
 	field(SCAN, "10 second")
