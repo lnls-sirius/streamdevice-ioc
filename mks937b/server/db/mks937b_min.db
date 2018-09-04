@@ -74,6 +74,7 @@ record(stringin, "$(DEVICE):SerialNumber"){
     field(INP,  "@mks937b.proto serial_num($(ADDRESS)) $(PORT) ") 
     
     field(PINI, "YES")
+    field(FLNK,"$(DEVICE):CTLV")
 }
 # Controller Version 
 record(stringin, "$(DEVICE):CTLV"){
@@ -81,42 +82,42 @@ record(stringin, "$(DEVICE):CTLV"){
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto ctlv($(ADDRESS)) $(PORT) ") 
 
-    field(PINI, "YES")
+    field(FLNK,"$(DEVICE):SlotAV")
 }
 record(stringin, "$(DEVICE):SlotAV"){
     field(DESC, "Slot A Version")
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto slotav($(ADDRESS)) $(PORT) ") 
     
-    field(PINI, "YES")
+    field(FLNK,"$(DEVICE):SlotBV")
 }
 record(stringin, "$(DEVICE):SlotBV"){
     field(DESC, "Slot B Version")
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto slotbv($(ADDRESS)) $(PORT) ") 
     
-    field(PINI, "YES")
+    field(FLNK,"$(DEVICE):SlotCV")
 }
 record(stringin, "$(DEVICE):SlotCV"){
     field(DESC, "Slot C Version")
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto slotcv($(ADDRESS)) $(PORT) ") 
     
-    field(PINI, "YES")
+    field(FLNK,"$(DEVICE):AIOV")
 }
 record(stringin, "$(DEVICE):AIOV"){
     field(DESC, "AIO Version")
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto aiov($(ADDRESS)) $(PORT) ") 
     
-    field(PINI, "YES")
+    field(FLNK,"$(DEVICE):COMMV")
 }
 record(stringin, "$(DEVICE):COMMV"){
     field(DESC, "COMM Version")
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto commv($(ADDRESS)) $(PORT) ") 
      
-    field(PINI, "YES")
+    field(FLNK,"$(DEVICE):ModuleType-A")
 }
 record(mbbi, "$(DEVICE):ModuleType-A"){
     field(DESC, "Display the module type")
@@ -137,6 +138,8 @@ record(mbbi, "$(DEVICE):ModuleType-A"){
     field(TEST, "No Module")
     field(ELST, "Wrong Module") 
     field(ELSV, "MAJOR")
+
+    field(FLNK,"$(DEVICE):ModuleType-B")
 } 
 record(mbbi, "$(DEVICE):ModuleType-B"){
     field(DESC, "Display the module type")
@@ -169,7 +172,10 @@ record(mbbi, "$(DEVICE):ModuleType-B"){
     field(TESV, "NO_ALARM")
     field(ELSV, "MAJOR")
     field(PINI, "YES")
+
+    field(FLNK,"$(DEVICE):ModuleType-C")
 } 
+
 record(mbbi, "$(DEVICE):ModuleType-C"){
     field(PINI, "YES")
     field(DESC, "Display the module type")
@@ -202,13 +208,16 @@ record(mbbi, "$(DEVICE):ModuleType-C"){
     field(NISV, "NO_ALARM")
     field(TESV, "NO_ALARM")
     field(ELSV, "MAJOR")
- 
+
+    field(FLNK,"$(DEVICE):SensorType-A")
 } 
 record(stringin,"$(DEVICE):SensorType-A") {
     field(PINI, "YES")
     field(DESC, "Display the connected sensor type")
     field(DTYP,"stream")
     field(INP,"@mks937b.proto sta($(ADDRESS)) $(PORT)") 
+
+    field(FLNK,"$(DEVICE):SensorType-B")
  
 } 
 record(stringin,"$(DEVICE):SensorType-B") {
@@ -217,6 +226,8 @@ record(stringin,"$(DEVICE):SensorType-B") {
     field(DTYP,"stream")
     field(INP,"@mks937b.proto stb($(ADDRESS)) $(PORT)") 
 
+    field(FLNK,"$(DEVICE):SensorType-C")
+
 } 
 record(stringin,"$(DEVICE):SensorType-C") {
     field(PINI, "YES")
@@ -224,27 +235,30 @@ record(stringin,"$(DEVICE):SensorType-C") {
     field(DTYP,"stream")
     field(INP,"@mks937b.proto stc($(ADDRESS)) $(PORT)") 
 
+    field(FLNK,"$(DEVICE):ErrMsgType")
 } 
 record(stringin, "$(DEVICE):ErrMsgType"){
     field(DESC, "Error message as text")
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto errtext $(PORT) ") 
-    field(PINI, "YES") 
+    
+    field(FLNK,"$(DEVICE):IhmLock")
 }
 record(stringin, "$(DEVICE):IhmLock"){
     field(DESC, "Lock the IHM")
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto lockIhm($(ADDRESS),ON) $(PORT) ") 
     # field(INP,  "@mks937b.proto lockIhm($(ADDRESS), OFF) $(PORT) ") 
-    field(PINI, "YES") 
+
+    field(FLNK,"$(DEVICE):Dly")
 } 
 ## -----------------------------------
 record(ai, "$(DEVICE):Dly"){
     field(DESC, "RS458 Time Delay") 
     field(DTYP, "stream")
     field(INP,"@mks937b.proto get_dly($(ADDRESS)) $(PORT)")
-    field(PINI, "YES")
- 
+    
+    field(FLNK,"$(DEVICE):DlySp")
 }
 record(ao, "$(DEVICE):DlySp"){
     field(DESC, "RS485 Time Delay")
@@ -252,12 +266,11 @@ record(ao, "$(DEVICE):DlySp"){
     field(DTYP, "stream")
     field(OUT,"@mks937b.proto set_dly($(ADDRESS)) $(PORT)")
  
-    field(FLNK, "$(DEVICE):Dly")
+    field(FLNK,"$(DEVICE):Unit")
 } 
 # Pressure Unit 
 record(mbbi, "$(DEVICE):Unit"){
-    field(DESC, "Read Pressure Unit") 
-    field(PINI, "YES")
+    field(DESC, "Read Pressure Unit")  
     field(DTYP, "stream")
     field(INP,"@mks937b.proto get_unit($(ADDRESS)) $(PORT)")
 
