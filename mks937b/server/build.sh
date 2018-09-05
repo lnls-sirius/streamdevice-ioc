@@ -1,3 +1,4 @@
+#!/bin/bash
 IOC_FOLDER="/opt/stream-ioc/"  
 PROTOCOL="protocol/"
 IOC_BOOT="iocBoot/"
