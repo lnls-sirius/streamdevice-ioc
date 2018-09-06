@@ -13,8 +13,7 @@ WORKDIR /root/
 # Github environment variables
 ENV GITHUB_REPO https://github.com/carneirofc/sirius-temporary-dev-repo/
 ENV HOME_DIR /root/sirius-temporary-dev-repo/mks937b
- 
-ENV CMD mks937_min.cmd
+ENV BASE_PROCSERV_PORT=20200 
 
 ENV MAKE_JOBS 32
   

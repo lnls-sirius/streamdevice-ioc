@@ -7,10 +7,9 @@
 """
 
 from string import Template
-from mks937b_template import template_device,template_device_min, template_bot,\
+from mks937b_template import template_device, template_bot,\
                         template_top, template_pressure, template_cc,\
-                        template_relay,template_pressure_min, template_cc_min,\
-                        template_relay_min
+                        template_relay
 from mks937b_devices import sectors  as sectors, CC, PR
 
 import sys 
@@ -28,7 +27,6 @@ if __name__ == "__main__":
     # MBTemp specifics
     for sector in sectors:
         res = ''
-        res_min = ''
         count = 0
 
         f_name       = '../cmd/' + sector['f_name']
@@ -38,16 +36,6 @@ if __name__ == "__main__":
         IP_ADDR      = sector['IP_ADDR']
 
         res += template_top.safe_substitute(
-                CD=CD,
-                EPICS_BASE=EPICS_BASE,
-                ASYN=ASYN,
-                TOP=TOP,
-                ARCH=ARCH,
-                STREAM_PROTOCOL_PATH=STREAM_PROTOCOL_PATH,
-                IP_ADDR=IP_ADDR,
-                IP_ASYN_PORT=IP_ASYN_PORT
-        )
-        res_min += template_top.safe_substitute(
                 CD=CD,
                 EPICS_BASE=EPICS_BASE,
                 ASYN=ASYN,
@@ -71,22 +59,8 @@ if __name__ == "__main__":
                 ADDRESS=ADDRESS
             )
             
-            res_min += template_device_min.safe_substitute( 
-                IP_ASYN_PORT=IP_ASYN_PORT,
-                PREFIX=PREFIX,
-                ADDRESS=ADDRESS
-            )
-            
             for channel in range(0, 6):
                 res += template_pressure.safe_substitute(
-                    IP_ASYN_PORT=IP_ASYN_PORT,
-                    PREFIX=PREFIX,
-                    ADDRESS=ADDRESS,
-                    P_HI   = pressures[channel].get('HI'),
-                    P_HIHI = pressures[channel].get('HIHI'),
-                    CHANNEL = channel + 1 
-                )
-                res_min += template_pressure_min.safe_substitute(
                     IP_ASYN_PORT=IP_ASYN_PORT,
                     PREFIX=PREFIX,
                     ADDRESS=ADDRESS,
@@ -109,12 +83,6 @@ if __name__ == "__main__":
                     ADDRESS=ADDRESS,
                     CHANNEL = channel
                 )
-                res_min += template_cc_min.safe_substitute(
-                    IP_ASYN_PORT=IP_ASYN_PORT,
-                    PREFIX=PREFIX,
-                    ADDRESS=ADDRESS,
-                    CHANNEL = channel
-                )
 
             for relay in range(1, 13):
                 res += template_relay.safe_substitute(
@@ -123,23 +91,12 @@ if __name__ == "__main__":
                     ADDRESS=ADDRESS,
                     RELAY = relay
                 )
-                res_min += template_relay_min.safe_substitute(
-                    IP_ASYN_PORT=IP_ASYN_PORT,
-                    PREFIX=PREFIX,
-                    ADDRESS=ADDRESS,
-                    RELAY = relay
-                )
             res += '\n'
-            res_min += '\n'
             count += 1
 
         res += template_bot
-        res_min+= template_bot
 
         file = open(f_name + '.cmd', 'w+')
         file.write(res)
         file.close()
         
-        file = open(f_name + '_min.cmd', 'w+')
-        file.write(res_min)
-        file.close()

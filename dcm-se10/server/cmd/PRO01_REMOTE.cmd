@@ -10,14 +10,13 @@ epicsEnvSet("ARCH", "linux-x86_64")
 epicsEnvSet("STREAM_PROTOCOL_PATH", "$(TOP)/protocol")
 
 # Database definition file
-
 cd ${TOP}
 dbLoadDatabase("dbd/streamApp.dbd")
 streamApp_registerRecordDeviceDriver(pdbbase)
 
 
-# MBTemp board (UDP with socat binding the serial port at 115200)
-drvAsynIPPortConfigure("IPPort1","10.0.7.81:4161 UDP", 0, 0, 0)
+# MBTemp board (with socat binding the serial port at 115200)
+drvAsynIPPortConfigure("IPPort1","10.0.7.81:4161", 0, 0, 0)
 
 # Records corresponding to the eight temperature measurements given by the MBTemp board
 dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 0, DESCRIPTION = MBTemp Channel 1, MBTEMP_ADDRESS = 1, PORT = IPPort1, RECORD_NAME = TEST:MBTemp:Ch1, SCAN_RATE = 2 second")
