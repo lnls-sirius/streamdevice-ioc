@@ -21,10 +21,10 @@ drvAsynIPPortConfigure("$IP_ASYN_PORT","$IP_ADDR", 100, 0, 0)
 # @todo: terminar de montar esse arquivo template !
 template_device = Template('''
 # General mks937b records
-dbLoadRecords("database/mks937b_min.db", "PORT = $IP_ASYN_PORT, DEVICE = $PREFIX, ADDRESS = $ADDRESS, SCAN_RATE = .1 second")''')
+dbLoadRecords("database/mks937b.db", "PORT = $IP_ASYN_PORT, DEVICE = $PREFIX, ADDRESS = $ADDRESS, SCAN_RATE = .1 second")''')
 
 template_pressure = Template('''
-dbLoadRecords("database/mks937b_pressure_min.db", \
+dbLoadRecords("database/mks937b_pressure.db", \
  "PORT = $IP_ASYN_PORT,\
  DEVICE = $PREFIX,\
  ADDRESS = $ADDRESS,\
@@ -33,14 +33,14 @@ dbLoadRecords("database/mks937b_pressure_min.db", \
  P_HIHI = $P_HIHI")''')
 
 template_cc = Template('''
-dbLoadRecords("database/mks937b_cc_min.db",\
+dbLoadRecords("database/mks937b_cc.db",\
  "PORT = $IP_ASYN_PORT,\
   DEVICE = $PREFIX,\
   CHANNEL = $CHANNEL,\
   ADDRESS = $ADDRESS")''')
 
 template_relay = Template('''
-dbLoadRecords("database/mks937b_relay_min.db",\
+dbLoadRecords("database/mks937b_relay.db",\
  "PORT = $IP_ASYN_PORT,\
   DEVICE = $PREFIX,\
   RELAY = $RELAY,\

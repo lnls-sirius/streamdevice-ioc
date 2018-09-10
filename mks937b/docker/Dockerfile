@@ -14,8 +14,8 @@ WORKDIR /root/
 ENV GITHUB_REPO https://github.com/carneirofc/sirius-temporary-dev-repo/
 ENV HOME_DIR /root/sirius-temporary-dev-repo/mks937b
 ENV BASE_PROCSERV_PORT=20200 
-
-ENV MAKE_JOBS 32
+ENV CMD_KEY=mks
+ENV MAKE_JOBS 4
   
 # Github Repo ... 
 RUN cd /root/

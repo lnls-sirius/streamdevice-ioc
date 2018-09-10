@@ -10,9 +10,8 @@
 #   field(INP,  "@mks937b.proto get_relaysp_status($(ADDRESS),$(RELAY)) $(PORT)") 
 #   field(PINI, "YES") 
 
-#     field(SCAN, "5 second")    
+#   field(SCAN, "5 second")    
 
-  
 #   field(ZRVL, "0")
 #   field(ONVL, "1") 
 #   field(ZRST, "SET")
