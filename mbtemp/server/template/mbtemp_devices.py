@@ -3,7 +3,7 @@
 
 sectors = [ # Sector list
     {# A Sector
-        'f_name' : "MBTempSector1.cmd",
+        'f_name' : "Sector1.cmd",
         'SCAN_RATE' : "2",
 
         # Devices
@@ -21,7 +21,7 @@ sectors = [ # Sector list
             'PREFIX' : "MBT3:MBTemp"
         }]
     },{# A Sector
-        'f_name' : "MBTempSector2.cmd",
+        'f_name' : "Sector2.cmd",
         'SCAN_RATE' : "2",
 
         # Devices

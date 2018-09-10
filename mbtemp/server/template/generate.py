@@ -11,14 +11,15 @@ from mbtemp_template import mbt_template, mbt_template_bot, mbt_template_top
 from mbtemp_devices import sectors  as sectors
 
 import sys 
+from os import environ
 
 if __name__ == "__main__":
+    EPICS_BASE = environ.get('EPICS_BASE', '/opt/epics-R3.15.5/base')
+    ASYN = environ.get('ASYN', '/opt/epics-R3.15.5/modules/asyn4-33')
+    TOP = environ.get('IOC_FOLDER', '/opt/stream-ioc')
+    ARCH = environ.get('EPICS_HOST_ARCH', 'linux-x86_64')
+    CMD_KEY = environ.get('CMD_KEY', 'mbtemp')
 
-
-    EPICS_BASE = "/opt/epics-R3.15.5/base"
-    ASYN = "/opt/epics-R3.15.5/modules/asyn4-33"
-    TOP = "/opt/stream-ioc"
-    ARCH ="linux-x86_64"
     STREAM_PROTOCOL_PATH = "$(TOP)/protocol"
     CD = "${TOP}"
      
@@ -27,7 +28,7 @@ if __name__ == "__main__":
         res = ''
         count = 0
 
-        f_name = '../cmd/' + sector['f_name']
+        f_name       = '../cmd/' + CMD_KEY + sector['f_name']
         devices = sector['devices']
         IP_ASYN_PORT = 'IPPort'
         SCAN_RATE = sector['SCAN_RATE']
