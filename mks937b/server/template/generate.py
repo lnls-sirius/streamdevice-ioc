@@ -25,8 +25,6 @@ if __name__ == "__main__":
     STREAM_PROTOCOL_PATH = "$(TOP)/protocol"
     CD = "${TOP}"
     
-     
-    # MBTemp specifics
     for sector in sectors:
         res = ''
         count = 0

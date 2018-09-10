@@ -2,10 +2,6 @@
 
 # The envs bellow are to be set inside the container.
 # So if you are using docker remove them from this file !
-export BASE_PROCSERV_PORT=20200
-export TOP=/opt/stream-ioc
-export HOME_DIR=/home/carneirofc/dev/sirius-temporary-dev-repo/mks937b
-export CMD_KEY=mks
 
 cd ${HOME_DIR}
 sleep 1
