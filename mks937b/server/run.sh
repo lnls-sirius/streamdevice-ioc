@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# The envs bellow are to be set inside the container.
-# So if you are using docker remove them from this file !
-
 cd ${HOME_DIR}
 sleep 1
 echo 'Git pull'

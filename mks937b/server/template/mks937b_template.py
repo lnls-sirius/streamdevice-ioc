@@ -43,7 +43,6 @@ template_relay = Template('''
 dbLoadRecords("database/mks937b_relay.db",\
  "PORT = $IP_ASYN_PORT,\
   DEVICE = $PREFIX,\
-  RELAY = $RELAY,\
   ADDRESS = $ADDRESS")''')
 
 

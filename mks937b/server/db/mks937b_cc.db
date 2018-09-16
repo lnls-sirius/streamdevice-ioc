@@ -17,8 +17,7 @@ record(ai, "$(DEVICE):ProtectionSetpointRb-$(CHANNEL)") {
 record(ao, "$(DEVICE):ProtectionSetpointSp-$(CHANNEL)"){
     field(DESC, "Set protection setpoint value") 
     field(OUT,"@mks937b.proto set_pro_sp($(ADDRESS),$(CHANNEL)) $(PORT)")
-    field(DTYP, "stream")
-    #field(SCAN, "Passive")
+    field(DTYP, "stream") 
     
     field(FLNK, "$(DEVICE):ProtectionSetpointRb-$(CHANNEL)s")
 }

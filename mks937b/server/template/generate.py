@@ -11,9 +11,18 @@ from mks937b_template import template_device, template_bot,\
                         template_top, template_pressure, template_cc,\
                         template_relay
 from mks937b_devices import sectors  as sectors, CC, PR
-
+from db_tempalte import relay as db_relay
 import sys 
 from os import environ
+
+
+rel_db = ''
+for relay in range(1, 13):
+    rel_db += db_relay.safe_substitute(RELAY=relay)
+file = open('../db/mks937b_relay.db', 'w+')
+file.write(rel_db)
+file.close()
+
 
 if __name__ == "__main__":
     EPICS_BASE = environ.get('EPICS_BASE', '/opt/epics-R3.15.5/base')
@@ -34,6 +43,7 @@ if __name__ == "__main__":
         IP_ASYN_PORT = sector['IP_ASYN_PORT']
         SCAN_RATE    = sector['SCAN_RATE']
         IP_ADDR      = sector['IP_ADDR']
+        
 
         res += template_top.safe_substitute(
                 CD=CD,
@@ -84,13 +94,11 @@ if __name__ == "__main__":
                     CHANNEL = channel
                 )
 
-            for relay in range(1, 13):
-                res += template_relay.safe_substitute(
-                    IP_ASYN_PORT=IP_ASYN_PORT,
-                    PREFIX=PREFIX,
-                    ADDRESS=ADDRESS,
-                    RELAY = relay
-                )
+            res += template_relay.safe_substitute(
+                IP_ASYN_PORT=IP_ASYN_PORT,
+                PREFIX=PREFIX,
+                ADDRESS=ADDRESS
+            )
             res += '\n'
             count += 1
 
