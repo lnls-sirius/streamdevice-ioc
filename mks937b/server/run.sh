@@ -1,11 +1,14 @@
 #!/bin/bash
 
+<<<<<<< HEAD
 echo Current Enviroments:
 echo HOME_DIR $HOME_DIR
 echo TOP $TOP
 echo BASE_PROCSERV_PORT $BASE_PROCSERV_PORT
 
 # Update repository
+=======
+>>>>>>> 6fc57ff501609f7be0d5db1848f271694a80ce09
 cd ${HOME_DIR}
 sleep 1
 echo 'Git pull'

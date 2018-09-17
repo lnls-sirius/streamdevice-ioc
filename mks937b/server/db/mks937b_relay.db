@@ -1,55 +1,36 @@
-################################################################################
-# RELAY
-################################################################################
-# READ ONLY
-################################################################################
-# Relay Setpoint 
-# record(mbbi, "$(DEVICE):RelaySetpointStatusRb-$(RELAY)") {
-#   field(DESC, "Setpoint status of the relay $(RELAY)")
-#   field(DTYP, "stream")
-#   field(INP,  "@mks937b.proto get_relaysp_status($(ADDRESS),$(RELAY)) $(PORT)") 
-#   field(PINI, "YES") 
 
-#   field(SCAN, "5 second")    
-
-#   field(ZRVL, "0")
-#   field(ONVL, "1") 
-#   field(ZRST, "SET")
-#   field(ONST, "CLEAR") 
-# }
-
-record(ai, "$(DEVICE):RelayRb-$(RELAY)") {
-    field(DESC, "Read Setpoint for relay $(RELAY)") 
+record(ai, "$(DEVICE):RelayRb-1") {
+    field(DESC, "Read Setpoint for relay 1") 
     field(PINI, "YES") 
     field(DTYP, "stream")
-    field(INP,"@mks937b.proto get_sp($(ADDRESS),$(RELAY)) $(PORT)")
+    field(INP,"@mks937b.proto get_sp($(ADDRESS),1) $(PORT)")
 }
-record(ao, "$(DEVICE):RelaySp-$(RELAY)") {
-    field(DESC, "Setpoint for relay $(RELAY)") 
+record(ao, "$(DEVICE):RelaySp-1") {
+    field(DESC, "Setpoint for relay 1") 
     field(DTYP, "stream")
-    field(OUT,"@mks937b.proto set_sp($(ADDRESS),$(RELAY)) $(PORT)")
-    field(FLNK, "$(DEVICE):RelayRb-$(RELAY)")
+    field(OUT,"@mks937b.proto set_sp($(ADDRESS),1) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayRb-1")
 }
 
 # Hysteresis
-record(ai, "$(DEVICE):RelayHystRb-$(RELAY)") {
-    field(DESC, "Read Setpoint Hysteresis for relay $(RELAY)") 
+record(ai, "$(DEVICE):RelayHystRb-1") {
+    field(DESC, "Read Setpoint Hysteresis for relay 1") 
     field(PINI, "YES") 
     field(DTYP, "stream")
-    field(INP,"@mks937b.proto get_relay_hyst($(ADDRESS),$(RELAY)) $(PORT)")
+    field(INP,"@mks937b.proto get_relay_hyst($(ADDRESS),1) $(PORT)")
 }
-record(ao, "$(DEVICE):RelayHystSp-$(RELAY)") {
-    field(DESC, "Setpoint for relay Hysteresis $(RELAY)")
+record(ao, "$(DEVICE):RelayHystSp-1") {
+    field(DESC, "Setpoint for relay Hysteresis 1")
     field(DTYP, "stream")
-    field(OUT,"@mks937b.proto set_relay_hyst($(ADDRESS),$(RELAY)) $(PORT)")
-    field(FLNK, "$(DEVICE):RelayHystRb-$(RELAY)")
+    field(OUT,"@mks937b.proto set_relay_hyst($(ADDRESS),1) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayHystRb-1")
 }
   
 # Direction
-record(mbbi, "$(DEVICE):RelayDirectionRb-$(RELAY)") {
-  field(DESC, "Direction for the relay $(RELAY)")
+record(mbbi, "$(DEVICE):RelayDirectionRb-1") {
+  field(DESC, "Direction for the relay 1")
   field(DTYP, "stream")
-  field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),$(RELAY)) $(PORT)") 
+  field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),1) $(PORT)") 
   field(PINI, "YES") 
   
   field(ZRVL, "0")
@@ -57,10 +38,10 @@ record(mbbi, "$(DEVICE):RelayDirectionRb-$(RELAY)") {
   field(ZRST, "ABOVE")
   field(ONST, "BELOW")
 }
-record(mbbo, "$(DEVICE):RelayDirectionSp-$(RELAY)"){
-    field(DESC, "Set the relay $(RELAY) direction")
+record(mbbo, "$(DEVICE):RelayDirectionSp-1"){
+    field(DESC, "Set the relay 1 direction")
     field(DTYP, "stream")
-    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),$(RELAY)) $(PORT)")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),1) $(PORT)")
      
     field(UNSV, "INVALID")
     field(IVOA, "Don't drive outputs")
@@ -70,15 +51,15 @@ record(mbbo, "$(DEVICE):RelayDirectionSp-$(RELAY)"){
     field(ZRST, "ABOVE")
     field(ONST, "BELOW")
 
-    field(FLNK, "$(DEVICE):RelayDirectionRb-$(RELAY)")
+    field(FLNK, "$(DEVICE):RelayDirectionRb-1")
 }
    
 # Relay Status
 # In case the unit was changed at the ihm
-record(mbbi, "$(DEVICE):RelayStatusRb-$(RELAY)") {
-  field(DESC, "Status of the relay $(RELAY)")
+record(mbbi, "$(DEVICE):RelayStatusRb-1") {
+  field(DESC, "Status of the relay 1")
   field(DTYP, "stream")
-  field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),$(RELAY)) $(PORT)") 
+  field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),1) $(PORT)") 
   field(PINI, "YES") 
   
   field(ZRVL, "0")
@@ -88,10 +69,10 @@ record(mbbi, "$(DEVICE):RelayStatusRb-$(RELAY)") {
   field(ONST, "CLEAR")
   field(TWST, "ENABLE")
 } 
-record(mbbo, "$(DEVICE):RelayStatusSp-$(RELAY)"){
-    field(DESC, "Set relay $(RELAY) status")
+record(mbbo, "$(DEVICE):RelayStatusSp-1"){
+    field(DESC, "Set relay 1 status")
     field(DTYP, "stream")
-    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),$(RELAY)) $(PORT)")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),1) $(PORT)")
 
     field(UNSV, "INVALID")
     field(IVOA, "Don't drive outputs")
@@ -103,6 +84,985 @@ record(mbbo, "$(DEVICE):RelayStatusSp-$(RELAY)"){
     field(ONST, "CLEAR")
     field(TWST, "ENABLE")
 
-    field(FLNK, "$(DEVICE):RelayStatusRb-$(RELAY)")
+    field(FLNK, "$(DEVICE):RelayStatusRb-1")
+}
+
+
+record(ai, "$(DEVICE):RelayRb-2") {
+    field(DESC, "Read Setpoint for relay 2") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_sp($(ADDRESS),2) $(PORT)")
+}
+record(ao, "$(DEVICE):RelaySp-2") {
+    field(DESC, "Setpoint for relay 2") 
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_sp($(ADDRESS),2) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayRb-2")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):RelayHystRb-2") {
+    field(DESC, "Read Setpoint Hysteresis for relay 2") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_relay_hyst($(ADDRESS),2) $(PORT)")
+}
+record(ao, "$(DEVICE):RelayHystSp-2") {
+    field(DESC, "Setpoint for relay Hysteresis 2")
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_relay_hyst($(ADDRESS),2) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayHystRb-2")
+}
+  
+# Direction
+record(mbbi, "$(DEVICE):RelayDirectionRb-2") {
+  field(DESC, "Direction for the relay 2")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),2) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(ZRST, "ABOVE")
+  field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):RelayDirectionSp-2"){
+    field(DESC, "Set the relay 2 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),2) $(PORT)")
+     
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(FLNK, "$(DEVICE):RelayDirectionRb-2")
+}
+   
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):RelayStatusRb-2") {
+  field(DESC, "Status of the relay 2")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),2) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+  field(ZRST, "SET")
+  field(ONST, "CLEAR")
+  field(TWST, "ENABLE")
+} 
+record(mbbo, "$(DEVICE):RelayStatusSp-2"){
+    field(DESC, "Set relay 2 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),2) $(PORT)")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(FLNK, "$(DEVICE):RelayStatusRb-2")
+}
+
+
+record(ai, "$(DEVICE):RelayRb-3") {
+    field(DESC, "Read Setpoint for relay 3") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_sp($(ADDRESS),3) $(PORT)")
+}
+record(ao, "$(DEVICE):RelaySp-3") {
+    field(DESC, "Setpoint for relay 3") 
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_sp($(ADDRESS),3) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayRb-3")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):RelayHystRb-3") {
+    field(DESC, "Read Setpoint Hysteresis for relay 3") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_relay_hyst($(ADDRESS),3) $(PORT)")
+}
+record(ao, "$(DEVICE):RelayHystSp-3") {
+    field(DESC, "Setpoint for relay Hysteresis 3")
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_relay_hyst($(ADDRESS),3) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayHystRb-3")
+}
+  
+# Direction
+record(mbbi, "$(DEVICE):RelayDirectionRb-3") {
+  field(DESC, "Direction for the relay 3")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),3) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(ZRST, "ABOVE")
+  field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):RelayDirectionSp-3"){
+    field(DESC, "Set the relay 3 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),3) $(PORT)")
+     
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(FLNK, "$(DEVICE):RelayDirectionRb-3")
+}
+   
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):RelayStatusRb-3") {
+  field(DESC, "Status of the relay 3")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),3) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+  field(ZRST, "SET")
+  field(ONST, "CLEAR")
+  field(TWST, "ENABLE")
+} 
+record(mbbo, "$(DEVICE):RelayStatusSp-3"){
+    field(DESC, "Set relay 3 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),3) $(PORT)")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(FLNK, "$(DEVICE):RelayStatusRb-3")
+}
+
+
+record(ai, "$(DEVICE):RelayRb-4") {
+    field(DESC, "Read Setpoint for relay 4") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_sp($(ADDRESS),4) $(PORT)")
+}
+record(ao, "$(DEVICE):RelaySp-4") {
+    field(DESC, "Setpoint for relay 4") 
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_sp($(ADDRESS),4) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayRb-4")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):RelayHystRb-4") {
+    field(DESC, "Read Setpoint Hysteresis for relay 4") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_relay_hyst($(ADDRESS),4) $(PORT)")
+}
+record(ao, "$(DEVICE):RelayHystSp-4") {
+    field(DESC, "Setpoint for relay Hysteresis 4")
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_relay_hyst($(ADDRESS),4) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayHystRb-4")
+}
+  
+# Direction
+record(mbbi, "$(DEVICE):RelayDirectionRb-4") {
+  field(DESC, "Direction for the relay 4")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),4) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(ZRST, "ABOVE")
+  field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):RelayDirectionSp-4"){
+    field(DESC, "Set the relay 4 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),4) $(PORT)")
+     
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(FLNK, "$(DEVICE):RelayDirectionRb-4")
+}
+   
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):RelayStatusRb-4") {
+  field(DESC, "Status of the relay 4")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),4) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+  field(ZRST, "SET")
+  field(ONST, "CLEAR")
+  field(TWST, "ENABLE")
+} 
+record(mbbo, "$(DEVICE):RelayStatusSp-4"){
+    field(DESC, "Set relay 4 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),4) $(PORT)")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(FLNK, "$(DEVICE):RelayStatusRb-4")
+}
+
+
+record(ai, "$(DEVICE):RelayRb-5") {
+    field(DESC, "Read Setpoint for relay 5") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_sp($(ADDRESS),5) $(PORT)")
+}
+record(ao, "$(DEVICE):RelaySp-5") {
+    field(DESC, "Setpoint for relay 5") 
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_sp($(ADDRESS),5) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayRb-5")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):RelayHystRb-5") {
+    field(DESC, "Read Setpoint Hysteresis for relay 5") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_relay_hyst($(ADDRESS),5) $(PORT)")
+}
+record(ao, "$(DEVICE):RelayHystSp-5") {
+    field(DESC, "Setpoint for relay Hysteresis 5")
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_relay_hyst($(ADDRESS),5) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayHystRb-5")
+}
+  
+# Direction
+record(mbbi, "$(DEVICE):RelayDirectionRb-5") {
+  field(DESC, "Direction for the relay 5")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),5) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(ZRST, "ABOVE")
+  field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):RelayDirectionSp-5"){
+    field(DESC, "Set the relay 5 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),5) $(PORT)")
+     
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(FLNK, "$(DEVICE):RelayDirectionRb-5")
+}
+   
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):RelayStatusRb-5") {
+  field(DESC, "Status of the relay 5")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),5) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+  field(ZRST, "SET")
+  field(ONST, "CLEAR")
+  field(TWST, "ENABLE")
+} 
+record(mbbo, "$(DEVICE):RelayStatusSp-5"){
+    field(DESC, "Set relay 5 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),5) $(PORT)")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(FLNK, "$(DEVICE):RelayStatusRb-5")
+}
+
+
+record(ai, "$(DEVICE):RelayRb-6") {
+    field(DESC, "Read Setpoint for relay 6") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_sp($(ADDRESS),6) $(PORT)")
+}
+record(ao, "$(DEVICE):RelaySp-6") {
+    field(DESC, "Setpoint for relay 6") 
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_sp($(ADDRESS),6) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayRb-6")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):RelayHystRb-6") {
+    field(DESC, "Read Setpoint Hysteresis for relay 6") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_relay_hyst($(ADDRESS),6) $(PORT)")
+}
+record(ao, "$(DEVICE):RelayHystSp-6") {
+    field(DESC, "Setpoint for relay Hysteresis 6")
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_relay_hyst($(ADDRESS),6) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayHystRb-6")
+}
+  
+# Direction
+record(mbbi, "$(DEVICE):RelayDirectionRb-6") {
+  field(DESC, "Direction for the relay 6")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),6) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(ZRST, "ABOVE")
+  field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):RelayDirectionSp-6"){
+    field(DESC, "Set the relay 6 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),6) $(PORT)")
+     
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(FLNK, "$(DEVICE):RelayDirectionRb-6")
+}
+   
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):RelayStatusRb-6") {
+  field(DESC, "Status of the relay 6")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),6) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+  field(ZRST, "SET")
+  field(ONST, "CLEAR")
+  field(TWST, "ENABLE")
+} 
+record(mbbo, "$(DEVICE):RelayStatusSp-6"){
+    field(DESC, "Set relay 6 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),6) $(PORT)")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(FLNK, "$(DEVICE):RelayStatusRb-6")
+}
+
+
+record(ai, "$(DEVICE):RelayRb-7") {
+    field(DESC, "Read Setpoint for relay 7") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_sp($(ADDRESS),7) $(PORT)")
+}
+record(ao, "$(DEVICE):RelaySp-7") {
+    field(DESC, "Setpoint for relay 7") 
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_sp($(ADDRESS),7) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayRb-7")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):RelayHystRb-7") {
+    field(DESC, "Read Setpoint Hysteresis for relay 7") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_relay_hyst($(ADDRESS),7) $(PORT)")
+}
+record(ao, "$(DEVICE):RelayHystSp-7") {
+    field(DESC, "Setpoint for relay Hysteresis 7")
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_relay_hyst($(ADDRESS),7) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayHystRb-7")
+}
+  
+# Direction
+record(mbbi, "$(DEVICE):RelayDirectionRb-7") {
+  field(DESC, "Direction for the relay 7")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),7) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(ZRST, "ABOVE")
+  field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):RelayDirectionSp-7"){
+    field(DESC, "Set the relay 7 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),7) $(PORT)")
+     
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(FLNK, "$(DEVICE):RelayDirectionRb-7")
+}
+   
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):RelayStatusRb-7") {
+  field(DESC, "Status of the relay 7")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),7) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+  field(ZRST, "SET")
+  field(ONST, "CLEAR")
+  field(TWST, "ENABLE")
+} 
+record(mbbo, "$(DEVICE):RelayStatusSp-7"){
+    field(DESC, "Set relay 7 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),7) $(PORT)")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(FLNK, "$(DEVICE):RelayStatusRb-7")
+}
+
+
+record(ai, "$(DEVICE):RelayRb-8") {
+    field(DESC, "Read Setpoint for relay 8") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_sp($(ADDRESS),8) $(PORT)")
+}
+record(ao, "$(DEVICE):RelaySp-8") {
+    field(DESC, "Setpoint for relay 8") 
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_sp($(ADDRESS),8) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayRb-8")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):RelayHystRb-8") {
+    field(DESC, "Read Setpoint Hysteresis for relay 8") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_relay_hyst($(ADDRESS),8) $(PORT)")
+}
+record(ao, "$(DEVICE):RelayHystSp-8") {
+    field(DESC, "Setpoint for relay Hysteresis 8")
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_relay_hyst($(ADDRESS),8) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayHystRb-8")
+}
+  
+# Direction
+record(mbbi, "$(DEVICE):RelayDirectionRb-8") {
+  field(DESC, "Direction for the relay 8")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),8) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(ZRST, "ABOVE")
+  field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):RelayDirectionSp-8"){
+    field(DESC, "Set the relay 8 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),8) $(PORT)")
+     
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(FLNK, "$(DEVICE):RelayDirectionRb-8")
+}
+   
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):RelayStatusRb-8") {
+  field(DESC, "Status of the relay 8")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),8) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+  field(ZRST, "SET")
+  field(ONST, "CLEAR")
+  field(TWST, "ENABLE")
+} 
+record(mbbo, "$(DEVICE):RelayStatusSp-8"){
+    field(DESC, "Set relay 8 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),8) $(PORT)")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(FLNK, "$(DEVICE):RelayStatusRb-8")
+}
+
+
+record(ai, "$(DEVICE):RelayRb-9") {
+    field(DESC, "Read Setpoint for relay 9") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_sp($(ADDRESS),9) $(PORT)")
+}
+record(ao, "$(DEVICE):RelaySp-9") {
+    field(DESC, "Setpoint for relay 9") 
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_sp($(ADDRESS),9) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayRb-9")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):RelayHystRb-9") {
+    field(DESC, "Read Setpoint Hysteresis for relay 9") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_relay_hyst($(ADDRESS),9) $(PORT)")
+}
+record(ao, "$(DEVICE):RelayHystSp-9") {
+    field(DESC, "Setpoint for relay Hysteresis 9")
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_relay_hyst($(ADDRESS),9) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayHystRb-9")
+}
+  
+# Direction
+record(mbbi, "$(DEVICE):RelayDirectionRb-9") {
+  field(DESC, "Direction for the relay 9")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),9) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(ZRST, "ABOVE")
+  field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):RelayDirectionSp-9"){
+    field(DESC, "Set the relay 9 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),9) $(PORT)")
+     
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(FLNK, "$(DEVICE):RelayDirectionRb-9")
+}
+   
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):RelayStatusRb-9") {
+  field(DESC, "Status of the relay 9")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),9) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+  field(ZRST, "SET")
+  field(ONST, "CLEAR")
+  field(TWST, "ENABLE")
+} 
+record(mbbo, "$(DEVICE):RelayStatusSp-9"){
+    field(DESC, "Set relay 9 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),9) $(PORT)")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(FLNK, "$(DEVICE):RelayStatusRb-9")
+}
+
+
+record(ai, "$(DEVICE):RelayRb-10") {
+    field(DESC, "Read Setpoint for relay 10") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_sp($(ADDRESS),10) $(PORT)")
+}
+record(ao, "$(DEVICE):RelaySp-10") {
+    field(DESC, "Setpoint for relay 10") 
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_sp($(ADDRESS),10) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayRb-10")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):RelayHystRb-10") {
+    field(DESC, "Read Setpoint Hysteresis for relay 10") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_relay_hyst($(ADDRESS),10) $(PORT)")
+}
+record(ao, "$(DEVICE):RelayHystSp-10") {
+    field(DESC, "Setpoint for relay Hysteresis 10")
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_relay_hyst($(ADDRESS),10) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayHystRb-10")
+}
+  
+# Direction
+record(mbbi, "$(DEVICE):RelayDirectionRb-10") {
+  field(DESC, "Direction for the relay 10")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),10) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(ZRST, "ABOVE")
+  field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):RelayDirectionSp-10"){
+    field(DESC, "Set the relay 10 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),10) $(PORT)")
+     
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(FLNK, "$(DEVICE):RelayDirectionRb-10")
+}
+   
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):RelayStatusRb-10") {
+  field(DESC, "Status of the relay 10")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),10) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+  field(ZRST, "SET")
+  field(ONST, "CLEAR")
+  field(TWST, "ENABLE")
+} 
+record(mbbo, "$(DEVICE):RelayStatusSp-10"){
+    field(DESC, "Set relay 10 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),10) $(PORT)")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(FLNK, "$(DEVICE):RelayStatusRb-10")
+}
+
+
+record(ai, "$(DEVICE):RelayRb-11") {
+    field(DESC, "Read Setpoint for relay 11") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_sp($(ADDRESS),11) $(PORT)")
+}
+record(ao, "$(DEVICE):RelaySp-11") {
+    field(DESC, "Setpoint for relay 11") 
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_sp($(ADDRESS),11) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayRb-11")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):RelayHystRb-11") {
+    field(DESC, "Read Setpoint Hysteresis for relay 11") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_relay_hyst($(ADDRESS),11) $(PORT)")
+}
+record(ao, "$(DEVICE):RelayHystSp-11") {
+    field(DESC, "Setpoint for relay Hysteresis 11")
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_relay_hyst($(ADDRESS),11) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayHystRb-11")
+}
+  
+# Direction
+record(mbbi, "$(DEVICE):RelayDirectionRb-11") {
+  field(DESC, "Direction for the relay 11")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),11) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(ZRST, "ABOVE")
+  field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):RelayDirectionSp-11"){
+    field(DESC, "Set the relay 11 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),11) $(PORT)")
+     
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(FLNK, "$(DEVICE):RelayDirectionRb-11")
+}
+   
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):RelayStatusRb-11") {
+  field(DESC, "Status of the relay 11")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),11) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+  field(ZRST, "SET")
+  field(ONST, "CLEAR")
+  field(TWST, "ENABLE")
+} 
+record(mbbo, "$(DEVICE):RelayStatusSp-11"){
+    field(DESC, "Set relay 11 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),11) $(PORT)")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(FLNK, "$(DEVICE):RelayStatusRb-11")
+}
+
+
+record(ai, "$(DEVICE):RelayRb-12") {
+    field(DESC, "Read Setpoint for relay 12") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_sp($(ADDRESS),12) $(PORT)")
+}
+record(ao, "$(DEVICE):RelaySp-12") {
+    field(DESC, "Setpoint for relay 12") 
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_sp($(ADDRESS),12) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayRb-12")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):RelayHystRb-12") {
+    field(DESC, "Read Setpoint Hysteresis for relay 12") 
+    field(PINI, "YES") 
+    field(DTYP, "stream")
+    field(INP,"@mks937b.proto get_relay_hyst($(ADDRESS),12) $(PORT)")
+}
+record(ao, "$(DEVICE):RelayHystSp-12") {
+    field(DESC, "Setpoint for relay Hysteresis 12")
+    field(DTYP, "stream")
+    field(OUT,"@mks937b.proto set_relay_hyst($(ADDRESS),12) $(PORT)")
+    field(FLNK, "$(DEVICE):RelayHystRb-12")
+}
+  
+# Direction
+record(mbbi, "$(DEVICE):RelayDirectionRb-12") {
+  field(DESC, "Direction for the relay 12")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),12) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(ZRST, "ABOVE")
+  field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):RelayDirectionSp-12"){
+    field(DESC, "Set the relay 12 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),12) $(PORT)")
+     
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(FLNK, "$(DEVICE):RelayDirectionRb-12")
+}
+   
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):RelayStatusRb-12") {
+  field(DESC, "Status of the relay 12")
+  field(DTYP, "stream")
+  field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),12) $(PORT)") 
+  field(PINI, "YES") 
+  
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+  field(ZRST, "SET")
+  field(ONST, "CLEAR")
+  field(TWST, "ENABLE")
+} 
+record(mbbo, "$(DEVICE):RelayStatusSp-12"){
+    field(DESC, "Set relay 12 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),12) $(PORT)")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(FLNK, "$(DEVICE):RelayStatusRb-12")
 }
 

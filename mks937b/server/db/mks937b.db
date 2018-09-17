@@ -1,70 +1,3 @@
-# ------------------------------------------------------------------------------------------------
-
-record(bi, "$(DEVICE):FastTrig"){
-	field(SCAN, "$(SCAN_RATE)")
-	field(FLNK, "$(DEVICE):PressureRb-1s")
-}
-record(stringin,"$(DEVICE):PressureRb-1s") {
-    field(PINI, "YES")
-    field(DESC,"Read CCG 1's raw pressure output")
-    field(DTYP,"stream")
-    field(INP,"@mks937b.proto get_pressures($(ADDRESS),$(DEVICE):PressureRb) $(PORT)") 
-
-    field(FLNK, "$(DEVICE):PressureRb-1")
-} 
-record(stringin,"$(DEVICE):PressureRb-2s") {
-    field(DESC,"Read CCG 2's raw pressure output")
-    field(FLNK, "$(DEVICE):PressureRb-2")
-} 
-record(stringin,"$(DEVICE):PressureRb-3s") {
-    field(DESC,"Read CCG 3's raw pressure output") 
-    field(FLNK, "$(DEVICE):PressureRb-3")
-} 
-record(stringin,"$(DEVICE):PressureRb-4s") {
-    field(DESC,"Read CCG 4's raw pressure output") 
-    field(FLNK, "$(DEVICE):PressureRb-4")
-} 
-record(stringin,"$(DEVICE):PressureRb-5s") {
-    field(DESC,"Read CCG 5's raw pressure output") 
-    field(FLNK, "$(DEVICE):PressureRb-5")
-} 
-record(stringin,"$(DEVICE):PressureRb-6s") {
-    field(DESC,"Read CCG 6's raw pressure output")
-    field(FLNK, "$(DEVICE):PressureRb-6")
-} 
-record(stringin,"$(DEVICE):RelaySetpointStatusRb-1") {
-	field(SCAN, "2 second")
-
-    field(PINI, "YES") 
-    field(DTYP,"stream")
-    field(INP,"@mks937b.proto get_relaysp_status_all($(ADDRESS),$(DEVICE):RelaySetpointStatusRb) $(PORT)") 
-} 
-record(stringin,"$(DEVICE):RelaySetpointStatusRb-2") {
-} 
-record(stringin,"$(DEVICE):RelaySetpointStatusRb-3") {
-} 
-record(stringin,"$(DEVICE):RelaySetpointStatusRb-4") {
-} 
-record(stringin,"$(DEVICE):RelaySetpointStatusRb-5") {
-} 
-record(stringin,"$(DEVICE):RelaySetpointStatusRb-6") {
-} 
-record(stringin,"$(DEVICE):RelaySetpointStatusRb-7") {
-} 
-record(stringin,"$(DEVICE):RelaySetpointStatusRb-8") {
-} 
-record(stringin,"$(DEVICE):RelaySetpointStatusRb-9") {
-} 
-record(stringin,"$(DEVICE):RelaySetpointStatusRb-10") {
-} 
-record(stringin,"$(DEVICE):RelaySetpointStatusRb-11") {
-} 
-record(stringin,"$(DEVICE):RelaySetpointStatusRb-12") {
-} 
-
-# ------------------------------------------------------------------------------------------------
-
-
 ##################################################################################################################
 # READ ONLY !
 ##################################################################################################################
@@ -123,7 +56,6 @@ record(mbbi, "$(DEVICE):ModuleType-A"){
     field(DESC, "Display the module type")
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto moda($(ADDRESS)) $(PORT) 0")  
-    field(PINI, "YES")
          
     field(ZRST, "Hot Cathode")
     field(ONST, "Cold Cathode")
@@ -171,13 +103,11 @@ record(mbbi, "$(DEVICE):ModuleType-B"){
     field(NISV, "NO_ALARM")
     field(TESV, "NO_ALARM")
     field(ELSV, "MAJOR")
-    field(PINI, "YES")
 
     field(FLNK,"$(DEVICE):ModuleType-C")
 } 
 
 record(mbbi, "$(DEVICE):ModuleType-C"){
-    field(PINI, "YES")
     field(DESC, "Display the module type")
 
     field(INP,  "@mks937b.proto modc($(ADDRESS)) $(PORT) 0") 
@@ -212,7 +142,6 @@ record(mbbi, "$(DEVICE):ModuleType-C"){
     field(FLNK,"$(DEVICE):SensorType-A")
 } 
 record(stringin,"$(DEVICE):SensorType-A") {
-    field(PINI, "YES")
     field(DESC, "Display the connected sensor type")
     field(DTYP,"stream")
     field(INP,"@mks937b.proto sta($(ADDRESS)) $(PORT)") 
@@ -221,7 +150,6 @@ record(stringin,"$(DEVICE):SensorType-A") {
  
 } 
 record(stringin,"$(DEVICE):SensorType-B") {
-    field(PINI, "YES")
     field(DESC, "Display the connected sensor type")
     field(DTYP,"stream")
     field(INP,"@mks937b.proto stb($(ADDRESS)) $(PORT)") 
@@ -230,7 +158,6 @@ record(stringin,"$(DEVICE):SensorType-B") {
 
 } 
 record(stringin,"$(DEVICE):SensorType-C") {
-    field(PINI, "YES")
     field(DESC, "Display the connected sensor type")
     field(DTYP,"stream")
     field(INP,"@mks937b.proto stc($(ADDRESS)) $(PORT)") 
@@ -253,6 +180,7 @@ record(stringin, "$(DEVICE):IhmLock"){
     field(FLNK,"$(DEVICE):Dly")
 } 
 ## -----------------------------------
+
 record(ai, "$(DEVICE):Dly"){
     field(DESC, "RS458 Time Delay") 
     field(DTYP, "stream")
@@ -262,7 +190,6 @@ record(ai, "$(DEVICE):Dly"){
 }
 record(ao, "$(DEVICE):DlySp"){
     field(DESC, "RS485 Time Delay")
-    #field(SCAN, "Passive")
     field(DTYP, "stream")
     field(OUT,"@mks937b.proto set_dly($(ADDRESS)) $(PORT)")
  
@@ -304,3 +231,68 @@ record(mbbo, "$(DEVICE):UnitSp"){
 
     field(FLNK, "$(DEVICE):Unit")
 }
+
+# ------------------------------------------------------------------------------------------------
+
+record(bi, "$(DEVICE):FastTrig"){
+	field(SCAN, "$(SCAN_RATE)")
+	field(FLNK, "$(DEVICE):PressureRb-1s")
+}
+record(stringin,"$(DEVICE):PressureRb-1s") {
+    field(DESC,"Read CCG 1's raw pressure output")
+    field(DTYP,"stream")
+    field(INP,"@mks937b.proto get_pressures($(ADDRESS),$(DEVICE):PressureRb) $(PORT)") 
+
+    field(FLNK, "$(DEVICE):PressureRb-1")
+} 
+record(stringin,"$(DEVICE):PressureRb-2s") {
+    field(DESC,"Read CCG 2's raw pressure output")
+    field(FLNK, "$(DEVICE):PressureRb-2")
+} 
+record(stringin,"$(DEVICE):PressureRb-3s") {
+    field(DESC,"Read CCG 3's raw pressure output") 
+    field(FLNK, "$(DEVICE):PressureRb-3")
+} 
+record(stringin,"$(DEVICE):PressureRb-4s") {
+    field(DESC,"Read CCG 4's raw pressure output") 
+    field(FLNK, "$(DEVICE):PressureRb-4")
+} 
+record(stringin,"$(DEVICE):PressureRb-5s") {
+    field(DESC,"Read CCG 5's raw pressure output") 
+    field(FLNK, "$(DEVICE):PressureRb-5")
+} 
+record(stringin,"$(DEVICE):PressureRb-6s") {
+    field(DESC,"Read CCG 6's raw pressure output")
+    field(FLNK, "$(DEVICE):PressureRb-6")
+} 
+record(stringin,"$(DEVICE):RelaySetpointStatusRb-1") {
+	field(SCAN, "2 second") 
+    field(DTYP,"stream")
+    field(INP,"@mks937b.proto get_relaysp_status_all($(ADDRESS),$(DEVICE):RelaySetpointStatusRb) $(PORT)") 
+} 
+record(stringin,"$(DEVICE):RelaySetpointStatusRb-2") {
+} 
+record(stringin,"$(DEVICE):RelaySetpointStatusRb-3") {
+} 
+record(stringin,"$(DEVICE):RelaySetpointStatusRb-4") {
+} 
+record(stringin,"$(DEVICE):RelaySetpointStatusRb-5") {
+} 
+record(stringin,"$(DEVICE):RelaySetpointStatusRb-6") {
+} 
+record(stringin,"$(DEVICE):RelaySetpointStatusRb-7") {
+} 
+record(stringin,"$(DEVICE):RelaySetpointStatusRb-8") {
+} 
+record(stringin,"$(DEVICE):RelaySetpointStatusRb-9") {
+} 
+record(stringin,"$(DEVICE):RelaySetpointStatusRb-10") {
+} 
+record(stringin,"$(DEVICE):RelaySetpointStatusRb-11") {
+} 
+record(stringin,"$(DEVICE):RelaySetpointStatusRb-12") {
+} 
+
+# ------------------------------------------------------------------------------------------------
+
+
