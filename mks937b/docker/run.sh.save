@@ -1,0 +1,11 @@
+docker run -d \
+    --network host \
+    -e CMD='mks937_min.cmd' \
+    --name mks937b lnlscon/mks937b:latest
+
+#!/bin/sh
+git pull
+docker run -d \
+    --network host \
+    -e CMD='mks937_min.cmd' \
+    --name mks937b lnlscon/mks937b:latest
