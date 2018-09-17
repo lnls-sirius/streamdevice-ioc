@@ -1,14 +1,18 @@
 #!/bin/bash
 
-# The envs bellow are to be set inside the container.
-# So if you are using docker remove them from this file !
+echo Current Enviroments:
+echo HOME_DIR $HOME_DIR
+echo TOP $TOP
+echo BASE_PROCSERV_PORT $BASE_PROCSERV_PORT
 
+# Update repository
 cd ${HOME_DIR}
 sleep 1
 echo 'Git pull'
 git pull
 sleep 1
 
+# Clear stram-ioc folder
 cd ${TOP}/iocBoot
 for filename in *.cmd; do
     if [[ ${filename} =~ ${CMD_KEY}(.*).cmd ]]; then
@@ -20,6 +24,10 @@ done
 cd ${HOME_DIR}/server
 procServPort=${BASE_PROCSERV_PORT}
 
+# Clear the /cmd folder
+rm -r ${HOME_DIR}/server/cmd/*
+
+# Generate .cmd files
 if ./build.sh; then
     cd ${TOP}/iocBoot
     for filename in *; do
