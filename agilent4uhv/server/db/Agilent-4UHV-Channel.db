@@ -1,0 +1,216 @@
+# Agilent-4UHV-Channel.db
+
+# Record definition file for one Agilent 4UHV Ion Pump Controller channel. This is based on the work
+# of Pete Owens from the Science and Technology Facilities Council (STFC).
+
+# Parameters are:
+#
+# CHANNEL_NUMBER - Controller channel (from 1 to 4).
+#
+# PORT - Name of the serial port configured in asynDriver.
+#
+# PREFIX - Prefix name for all PVs associated with the channel.
+#
+# SERIAL_ADDRESS - Controller RS-485 serial address (from 0 to 31). For configuring this parameter,
+# add 128 to the desired address. As an example, for the serial address 20, this parameter should
+# be configured as 128 + 20 = 148.
+############################################################################
+##                              Fast Readings                             ##
+############################################################################
+# Current
+record(ai, "$(PREFIX):Current-Mon") {
+    field(DESC, "Measured current")
+    field(DTYP, "stream")
+    field(EGU, "A")
+    field(HOPR, "0.9")
+    field(INP, "@Agilent-4UHV.proto getCurrent($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
+    field(LOPR, "0")
+    field(PINI, "YES")
+}
+
+# Pressure
+record(ai, "$(PREFIX):Pressure-Mon") {
+    field(DESC, "Measured pressure")
+    field(DTYP, "stream")
+    field(EGU, "mbar")
+    field(INP, "@Agilent-4UHV.proto getPressure($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
+    field(PINI, "YES")
+    field(PREC, "9")
+
+    field(SCAN, "10 second")
+}
+
+# Voltage
+record(ai, "$(PREFIX):Voltage-Mon") {
+    field(DESC, "Measured voltage")
+    field(DTYP, "stream")
+    field(EGU, "kV")
+    field(ESLO, "0.001")
+    field(HOPR, "10")
+    field(LOPR, "0")
+    field(INP, "@Agilent-4UHV.proto getVoltage($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
+    field(LINR, "LINEAR")
+    field(PINI, "YES")
+    field(PREC, "1")
+}
+
+##########################################################################
+##                             Get/Set Readings                         ##
+##########################################################################
+# Channel HV on/off
+record(mbbi, "$(PREFIX):HVState-RB") {
+    field(DESC, "Channel HV on/off readback")
+    field(DTYP, "stream")
+    field(INP, "@Agilent-4UHV.proto getHVOnOff($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
+    field(PINI, "YES")
+            
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    
+    field(ZRST, "OFF")
+    field(ONST, "ON")
+
+} 
+record(mbbo, "$(PREFIX):HVState-SP") {
+    field(DESC, "Channel HV on/off setpoint")
+    field(DTYP, "stream")
+    field(OUT, "@Agilent-4UHV.proto setHVOnOff($(SERIAL_ADDRESS),$(CHANNEL_NUMBER),$(PREFIX):SetErrorCode-Mon) $(PORT)")
+        
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    
+    field(ZRST, "OFF")
+    field(ONST, "ON")
+
+    field(FLNK, "$(PREFIX):HVState-RB")
+}
+
+# Device number
+record(longin, "$(PREFIX):DeviceNumber-RB") {
+    field(DESC, "Device number readback")
+    field(DTYP, "stream")
+    field(PINI, "YES")
+    field(INP, "@Agilent-4UHV.proto getDeviceNumber($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
+}
+# record(longout, "$(PREFIX):DeviceNumber-SP") {
+#     field(DESC, "Device number setpoint")
+#     field(DTYP, "stream")
+#     field(OUT, "@Agilent-4UHV.proto setDeviceNumber($(SERIAL_ADDRESS),$(CHANNEL_NUMBER),$(PREFIX):SetErrorCode-Mon) $(PORT)")
+     
+#     field(FLNK, "$(PREFIX):DeviceNumber-RB")
+# }
+
+# I Protect
+record(ai, "$(PREFIX):CurrentProtect-RB") {
+    field(DESC, "Measured Current Protect")
+    field(DTYP, "stream")
+    field(EGU, "mA")
+    field(INP, "@Agilent-4UHV.proto getIProtect($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
+    field(PINI, "YES")
+ 
+}
+record(ao, "$(PREFIX):CurrentProtect-SP") {
+    field(DESC, "Measured Current Protect")
+    field(DTYP, "stream")
+    field(EGU, "mA")
+    field(DRVH, "100")
+    field(DRVL, "1")
+    field(OUT, "@Agilent-4UHV.proto setIProtect($(SERIAL_ADDRESS),$(CHANNEL_NUMBER),$(PREFIX):SetErrorCode-Mon) $(PORT)")
+    
+    field(FLNK, "$(PREFIX):CurrentProtect-RB")
+}
+
+# V Target
+record(ai, "$(PREFIX):VoltageTarget-RB") {
+    field(DESC, "Voltage Target")
+    field(DTYP, "stream")
+    field(EGU, "V")
+    field(INP, "@Agilent-4UHV.proto getVTarget($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
+    field(PINI, "YES")
+
+}
+record(ao, "$(PREFIX):VoltageTarget-SP") {
+    field(DESC, "Voltage Target")
+    field(DTYP, "stream")
+    field(EGU, "V")
+    field(DRVH, "7000")
+    field(DRVL, "3000")
+    field(OUT, "@Agilent-4UHV.proto setVTarget($(SERIAL_ADDRESS),$(CHANNEL_NUMBER),$(PREFIX):SetErrorCode-Mon) $(PORT)")
+
+    field(FLNK, "$(PREFIX):VoltageTarget-RB")
+}
+
+# Power Max
+record(ai, "$(PREFIX):PowerMax-RB") {
+    field(DESC, "Power Max")
+    field(DTYP, "stream")
+    field(EGU, "W")
+    field(INP, "@Agilent-4UHV.proto getPowerMax($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
+    field(PINI, "YES")
+ 
+}
+record(ao, "$(PREFIX):PowerMax-SP") {
+    field(DESC, "Power Max")
+    field(DTYP, "stream")
+    field(EGU, "W")
+
+    field(DRVH, "80")
+    field(DRVL, "20")
+    field(OUT, "@Agilent-4UHV.proto setPowerMax($(SERIAL_ADDRESS),$(CHANNEL_NUMBER),$(PREFIX):SetErrorCode-Mon) $(PORT)")
+
+    field(FLNK, "$(PREFIX):PowerMax-RB")
+}
+
+# Setpoint
+record(ai, "$(PREFIX):Setpoint-RB") {
+    field(DESC, "Setpoint")
+    field(DTYP, "stream")
+    field(INP, "@Agilent-4UHV.proto getSepoint($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
+    field(PINI, "YES") 
+}
+record(ao, "$(PREFIX):Setpoint-SP") {
+    field(DESC, "Setpoint")
+    field(DTYP, "stream")
+    field(OUT, "@Agilent-4UHV.proto setSepoint($(SERIAL_ADDRESS),$(CHANNEL_NUMBER),$(PREFIX):SetErrorCode-Mon) $(PORT)")
+
+    field(FLNK, "$(PREFIX):Setpoint-RB")
+}
+##########################################################################
+##                             Slow    Readings                         ##
+##########################################################################
+# Set Error code
+record(mbbi, "$(PREFIX):SetErrorCode-Mon") { 
+    field(VAL, "0")
+
+    field(ZRST, "")
+    field(ONST, "")
+    field(TWST, "Unknown Window")
+    field(THST, "Data Type Error")
+    field(FRST, "Out of Range")
+    field(FVST, "Win Disabled")
+}
+
+# Error code
+record(mbbi, "$(PREFIX):ErrorCode-Mon") {
+    field(DESC, "Error code")
+    field(DTYP, "stream")
+    field(INP,  "@Agilent-4UHV.proto getErrorCode($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
+    field(PINI, "YES")
+ 
+    field(SCAN, "10 second")
+}
+
+# HV temperature
+record(longin, "$(PREFIX):HVTemperature-Mon") {
+    field(DESC, "HV temperature")
+    field(DTYP, "stream")
+    field(EGU, "°C")
+    field(HOPR, "200")
+    field(LOPR, "0")
+
+    field(INP, "@Agilent-4UHV.proto getHVTemperature$(CHANNEL_NUMBER)($(SERIAL_ADDRESS)) $(PORT)")
+    field(PINI, "YES")
+    
+    field(SCAN, "5 second")
+}
+
