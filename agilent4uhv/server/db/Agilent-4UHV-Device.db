@@ -33,12 +33,9 @@ record(stringin, "$(PREFIX):SerialNumber-Cte") {
 
     field(PINI, "YES")
 }
-
 ##########################################################################
-##                             Slow Readings                            ##
+#                              CHAIN READINGS                            #
 ##########################################################################
- 
-# Fan temperature
 record(longin, "$(PREFIX):FanTemperature-Mon") {
     field(DESC, "Fan temperature")
     field(DTYP, "stream")
@@ -47,28 +44,20 @@ record(longin, "$(PREFIX):FanTemperature-Mon") {
     field(LOPR, "0")
 
     field(INP, "@Agilent-4UHV.proto getFanTemperature($(SERIAL_ADDRESS)) $(PORT)") 
-
-    field(SCAN, "10 second")
 }
-
 # Protect
 record(longin, "$(PREFIX):Protect-Mon") {
     field(DESC, "Protect")
     field(DTYP, "stream")
     field(INP, "@Agilent-4UHV.proto getProtect($(SERIAL_ADDRESS)) $(PORT)")
-
-    field(SCAN, "10 second")
 }
-
 # Step mode
 record(longin, "$(PREFIX):Step-Mon") {
     field(DESC, "Step mode")
     field(DTYP, "stream")
     field(INP, "@Agilent-4UHV.proto getStep($(SERIAL_ADDRESS)) $(PORT)")
-
-    field(SCAN, "10 second")
 } 
-
+ 
 ##########################################################################
 ##                             Set/Get Readings                         ##
 ##########################################################################
@@ -77,8 +66,7 @@ record(mbbi, "$(PREFIX):Unit-RB") {
     field(DESC, "Unit readback")
     field(DTYP, "stream")
     field(INP, "@Agilent-4UHV.proto getUnit($(SERIAL_ADDRESS)) $(PORT)")
-    field(PINI, "YES")
-    
+
     field(ZRST, "Torr")
     field(ONST, "mbar")
     field(TWST, "Pa")
@@ -93,8 +81,6 @@ record(mbbo, "$(PREFIX):Unit-SP") {
     field(ONST, "mbar")
     field(TWST, "Pa")
 
-    field(PINI, "YES")
-
     field(FLNK,"$(PREFIX):Unit-RB")
 }
 
@@ -104,7 +90,6 @@ record(bi, "$(PREFIX):Mode-RB") {
     field(DTYP, "stream")
     field(INP, "@Agilent-4UHV.proto getMode($(SERIAL_ADDRESS)) $(PORT)")
     field(ONAM, "On")
-    field(PINI, "YES")
     field(ZNAM, "Off") 
 
 }
@@ -119,61 +104,145 @@ record(bo, "$(PREFIX):Mode-SP") {
     field(FLNK, "$(PREFIX):Mode-RB")
 }
 
-############################# All Channels Fast PVs ########################
-#                                                                          #
-#             PREFIX-CH1  PREFIX-CH2  PREFIX-CH3  PREFIX-CH4               #
-#                                                                          #
 ############################################################################
-record(bi, "$(PREFIX):FastTrigger"){
-	field(SCAN, "5 second")
-	field(FLNK, "$(PREFIX-CH1):Current-Mon")
+#                                  CHAIN                                   #
+#               PREFIX-CH1  PREFIX-CH2  PREFIX-CH3  PREFIX-CH4             #
+############################################################################
+record(ai, "$(PREFIX):Trigger"){
+	field(FLNK, "$(PREFIX):FanTemperature-Mon") 
+} 
+record(longin, "$(PREFIX):FanTemperature-Mon") {
+    field(FLNK, "$(PREFIX):Protect-Mon")
 }
-# Current Mon PREFIX-CH1
+record(longin, "$(PREFIX):Protect-Mon") {
+    field(FLNK, "$(PREFIX):Step-Mon")
+}
+record(longin, "$(PREFIX):Step-Mon") {
+    field(FLNK, "$(PREFIX):Unit-RB")
+}
+record(mbbi, "$(PREFIX):Unit-RB") {
+    field(FLNK, "$(PREFIX):Mode-RB")
+}
+record(bi, "$(PREFIX):Mode-RB") {
+    field(FLNK, "$(PREFIX-CH1):Current-Mon")
+}
 record(ai, "$(PREFIX-CH1):Current-Mon") {
     field(FLNK, "$(PREFIX-CH1):Pressure-Mon")
 }
-# Pressure PREFIX-CH1
 record(ai, "$(PREFIX-CH1):Pressure-Mon") {
     field(FLNK, "$(PREFIX-CH1):Voltage-Mon")
 }
-# Voltage PREFIX-CH1
 record(ai, "$(PREFIX-CH1):Voltage-Mon") {
-    field(FLNK, "$(PREFIX-CH2):Current-Mon")
-    field(MDEL, "-1")
+    field(FLNK, "$(PREFIX-CH1):HVTemperature-Mon")
 }
-# Current Mon PREFIX-CH2
+record(longin, "$(PREFIX-CH1):HVTemperature-Mon") {
+    field(FLNK, "$(PREFIX-CH1):ErrorCode-Mon")
+}
+record(mbbi, "$(PREFIX-CH1):ErrorCode-Mon") {
+    field(FLNK, "$(PREFIX-CH1):HVState-RB")
+}
+record(mbbi, "$(PREFIX-CH1):HVState-RB") {
+    field(FLNK, "$(PREFIX-CH1):PowerMax-RB")
+}
+record(ai, "$(PREFIX-CH1):PowerMax-RB") {
+    field(FLNK, "$(PREFIX-CH1):CurrentProtect-RB")
+}
+record(ai, "$(PREFIX-CH1):CurrentProtect-RB") {
+    field(FLNK, "$(PREFIX-CH1):VoltageTarget-RB")
+}
+record(ai, "$(PREFIX-CH1):VoltageTarget-RB") {
+    field(FLNK, "$(PREFIX-CH1):Setpoint-RB")
+}
+record(ai, "$(PREFIX-CH1):Setpoint-RB") {
+    field(FLNK, "$(PREFIX-CH2):Current-Mon")
+}
 record(ai, "$(PREFIX-CH2):Current-Mon") {
     field(FLNK, "$(PREFIX-CH2):Pressure-Mon")
 }
-# Pressure PREFIX-CH2
 record(ai, "$(PREFIX-CH2):Pressure-Mon") {
     field(FLNK, "$(PREFIX-CH2):Voltage-Mon")
-} 
-# Voltage PREFIX-CH2
+}
 record(ai, "$(PREFIX-CH2):Voltage-Mon") {
+    field(FLNK, "$(PREFIX-CH2):HVTemperature-Mon")
+}
+record(longin, "$(PREFIX-CH2):HVTemperature-Mon") {
+    field(FLNK, "$(PREFIX-CH2):ErrorCode-Mon")
+}
+record(mbbi, "$(PREFIX-CH2):ErrorCode-Mon") {
+    field(FLNK, "$(PREFIX-CH2):HVState-RB")
+}
+record(mbbi, "$(PREFIX-CH2):HVState-RB") {
+    field(FLNK, "$(PREFIX-CH2):PowerMax-RB")
+}
+record(ai, "$(PREFIX-CH2):PowerMax-RB") {
+    field(FLNK, "$(PREFIX-CH2):CurrentProtect-RB")
+}
+record(ai, "$(PREFIX-CH2):CurrentProtect-RB") {
+    field(FLNK, "$(PREFIX-CH2):VoltageTarget-RB")
+}
+record(ai, "$(PREFIX-CH2):VoltageTarget-RB") {
+    field(FLNK, "$(PREFIX-CH2):Setpoint-RB")
+}
+record(ai, "$(PREFIX-CH2):Setpoint-RB") {
     field(FLNK, "$(PREFIX-CH3):Current-Mon")
 }
-# Current Mon PREFIX-CH3
 record(ai, "$(PREFIX-CH3):Current-Mon") {
     field(FLNK, "$(PREFIX-CH3):Pressure-Mon")
 }
-# Pressure PREFIX-CH3
 record(ai, "$(PREFIX-CH3):Pressure-Mon") {
     field(FLNK, "$(PREFIX-CH3):Voltage-Mon")
 }
-# Voltage PREFIX-CH3
 record(ai, "$(PREFIX-CH3):Voltage-Mon") {
+    field(FLNK, "$(PREFIX-CH3):HVTemperature-Mon")
+}
+record(longin, "$(PREFIX-CH3):HVTemperature-Mon") {
+    field(FLNK, "$(PREFIX-CH3):ErrorCode-Mon")
+}
+record(mbbi, "$(PREFIX-CH3):ErrorCode-Mon") {
+    field(FLNK, "$(PREFIX-CH3):HVState-RB")
+}
+record(mbbi, "$(PREFIX-CH3):HVState-RB") {
+    field(FLNK, "$(PREFIX-CH3):PowerMax-RB")
+}
+record(ai, "$(PREFIX-CH3):PowerMax-RB") {
+    field(FLNK, "$(PREFIX-CH3):CurrentProtect-RB")
+}
+record(ai, "$(PREFIX-CH3):CurrentProtect-RB") {
+    field(FLNK, "$(PREFIX-CH3):VoltageTarget-RB")
+}
+record(ai, "$(PREFIX-CH3):VoltageTarget-RB") {
+    field(FLNK, "$(PREFIX-CH3):Setpoint-RB")
+}
+record(ai, "$(PREFIX-CH3):Setpoint-RB") {
     field(FLNK, "$(PREFIX-CH4):Current-Mon")
 }
-# Current Mon PREFIX-CH4
 record(ai, "$(PREFIX-CH4):Current-Mon") {
-    field(FLNK, "$(PREFIX-CH4):Pressure-Mon")
+    field(FLNK, "$(PREFIX-CH4):Pressure-Mon") 
 }
-# Pressure PREFIX-CH4
 record(ai, "$(PREFIX-CH4):Pressure-Mon") {
-    field(FLNK, "$(PREFIX-CH4):Voltage-Mon")
+    field(FLNK, "$(PREFIX-CH4):Voltage-Mon") 
 }
-# Voltage PREFIX-CH4
 record(ai, "$(PREFIX-CH4):Voltage-Mon") {
+    field(FLNK, "$(PREFIX-CH4):HVTemperature-Mon")
 }
-#############################################################################
+record(longin, "$(PREFIX-CH4):HVTemperature-Mon") {
+    field(FLNK, "$(PREFIX-CH4):ErrorCode-Mon")
+}
+record(mbbi, "$(PREFIX-CH4):ErrorCode-Mon") {
+    field(FLNK, "$(PREFIX-CH4):HVState-RB")
+}
+record(mbbi, "$(PREFIX-CH4):HVState-RB") {
+    field(FLNK, "$(PREFIX-CH4):PowerMax-RB") 
+}
+record(ai, "$(PREFIX-CH4):PowerMax-RB") {
+    field(FLNK,"$(PREFIX-CH4):CurrentProtect-RB")
+}
+record(ai, "$(PREFIX-CH4):CurrentProtect-RB") {
+    field(FLNK, "$(PREFIX-CH4):VoltageTarget-RB")
+}
+record(ai, "$(PREFIX-CH4):VoltageTarget-RB") {
+    field(FLNK, "$(PREFIX-CH4):Setpoint-RB")
+}
+record(ai, "$(PREFIX-CH4):Setpoint-RB") {
+    field(FLNK, "$(PREFIX):Out")
+} 

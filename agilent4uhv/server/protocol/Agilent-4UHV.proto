@@ -3,228 +3,278 @@
 # Communication protocol for Agilent 4UHV Ion Pump Controller. This is based on the work of Pete
 # Owens from the Science and Technology Facilities Council (STFC).
 
-# The timeout involved in reading operations is 200 ms
-LockTimeout  = 10000;
-ReplyTimeout = 200;
-ReadTimeout  = 50;
+LockTimeout  = 21000;
+
+ReplyTimeout = 500;
+ReadTimeout  = 250;
+
+ExtraInput = Ignore;
+
+ONE_TIME_LOCK_TIMEOUT = 20000;
+
+# 1/2 of the time between readings
+wait_TIMER = 10;
 
 READ = 0x30;
 WRITE = 0x31;
 
-WIN_DISABLED = 0x35;
-DATA_TYPE_ERROR = 0x33;
-UNKNOWN_WINDOW = 0x32;
-
 CRC = "%01<xor>";
-##################################################
-#                   FAST READINGS                #
-##################################################
+
+# Clear out any garbage.
+@init{out " ";}
+
 # Channel current reading
 getCurrent {
+    wait = $wait_TIMER;
     MaxInput = 19;
     out STX, $1, "8\$21", $READ, ETX, $CRC;
     in STX, "\?", "8\$21", $READ, "%10g", ETX, $CRC;
+    wait = $wait_TIMER;
 }
 
+# Channel pressure reading
+getPressure {
+    wait = $wait_TIMER;
+    MaxInput = 19;
+    out STX, $1, "8\$22", $READ, ETX, $CRC;
+    in STX, "\?", "8\$22", $READ, "%10g", ETX, $CRC;
+    wait = $wait_TIMER;
+}
 # Channel voltage reading
 getVoltage {
+    wait = $wait_TIMER;
     MaxInput = 15;
     out STX, $1, "8\$20", $READ, ETX, $CRC;
     in STX, "\?", "8\$20", $READ, "%06d", ETX, $CRC;
+    wait = $wait_TIMER;
+}
+
+# Device number
+getDeviceNumber {
+    wait = $wait_TIMER;
+    LockTimeout = $ONE_TIME_LOCK_TIMEOUT;
+    MaxInput = 15;
+    out STX, $1, "6\$20", $READ, ETX, $CRC;
+    in STX, "\?", "6\$20", $READ, "%06d", ETX, $CRC;
+    wait = $wait_TIMER;
+}
+setDeviceNumber {
+    wait = $wait_TIMER;
+    LockTimeout = $ONE_TIME_LOCK_TIMEOUT;
+    out STX, $1, "6\$20", $WRITE, "%06d", ETX, $CRC;
+    in STX, "\?", ACK, ETX, $CRC;
+    @init { getDeviceNumber; }
+    @mismatch {in STX, "\?", "%(\$3)i", ETX, $CRC;}
+    wait = $wait_TIMER;
+}
+
+# Device model
+getModel {
+    wait = $wait_TIMER;
+    LockTimeout = $ONE_TIME_LOCK_TIMEOUT;
+    MaxInput = 19;
+    out STX, $1, "319", $READ, ETX, $CRC;
+    in STX, "\?", "319", $READ, "%10c", ETX, $CRC;
+    wait = $wait_TIMER;
+} 
+# Device serial number
+getSerialNumber {
+    wait = $wait_TIMER;
+    LockTimeout = $ONE_TIME_LOCK_TIMEOUT;
+    MaxInput = 19;
+    out STX, $1, "323", $READ, ETX, $CRC;
+    in STX, "\?", "323", $READ, "%10c", ETX, $CRC;
+    wait = $wait_TIMER;
 }
 
 # HV temperature - channel 1
 getHVTemperature1 {
+    wait = $wait_TIMER;
     MaxInput = 15;
     out STX, $1, "801", $READ, ETX, $CRC;
     in STX, "\?", "801", $READ, "%06d", ETX, $CRC;
+    wait = $wait_TIMER;
 }
 
 # HV temperature - channel 2
 getHVTemperature2 {
+    wait = $wait_TIMER;
     MaxInput = 15;
     out STX, $1, "802", $READ, ETX, $CRC;
     in STX, "\?", "802", $READ, "%06d", ETX, $CRC;
+    wait = $wait_TIMER;
 }
 
 # HV temperature - channel 3
 getHVTemperature3 {
+    wait = $wait_TIMER;
     MaxInput = 15;
     out STX, $1, "808", $READ, ETX, $CRC;
     in STX, "\?", "808", $READ, "%06d", ETX, $CRC;
+    wait = $wait_TIMER;
 }
 
 # HV temperature - channel 4
 getHVTemperature4 {
+    wait = $wait_TIMER;
     MaxInput = 15;
     out STX, $1, "809", $READ, ETX, $CRC;
     in STX, "\?", "809", $READ, "%06d", ETX, $CRC;
+    wait = $wait_TIMER;
 }
-
-
-##################################################################
-#                           SLOW READINGS                        #
-##################################################################
-# Power Max
-# WIN_DISABLED = 0x35;
-# DATA_TYPE_ERROR = 0x33;
-# UNKNOWN_WINDOW = 0x32; 
-
-# Channel pressure reading
-getPressure {
-    MaxInput = 19;
-    out STX, $1, "8\$22", $READ, ETX, $CRC;
-    in STX, "\?", "8\$22", $READ, "%10g", ETX, $CRC;
-}
-
 getPowerMax {
+    wait = $wait_TIMER;
     MaxInput = 15;
     out STX, $1, "6\$22", $READ, ETX, $CRC;
     in STX, "\?", "6\$22", $READ, "%06d", ETX, $CRC;
+    wait = $wait_TIMER;
 }
 setPowerMax {
-    MaxInput = 6;
+    wait = $wait_TIMER;
     out STX, $1, "6\$22", $WRITE, "%06d", ETX, $CRC;
     in STX, "\?", ACK, ETX, $CRC;
-    # @init { getPowerMax; }
+    @init { getPowerMax; }
     @mismatch {in STX, "\?", "%(\$3)i", ETX, $CRC;}
+    wait = $wait_TIMER;
 }
 
 # V Target
 getVTarget {
+    wait = $wait_TIMER;
     MaxInput = 15;
     out STX, $1, "6\$23", $READ, ETX, $CRC;
     in STX, "\?", "6\$23", $READ, "%06d", ETX, $CRC;
+    wait = $wait_TIMER;
 }
 setVTarget {
-    MaxInput = 6;
+    wait = $wait_TIMER;
     out STX, $1, "6\$23", $WRITE, "%06d", ETX, $CRC;
     in STX, "\?", ACK, ETX, $CRC; 
     @mismatch {in STX, "\?", "%(\$3)i", ETX, $CRC;}
+    wait = $wait_TIMER;
 }
 
 # I Protect
 getIProtect {
+    wait = $wait_TIMER;
     MaxInput = 15;
     out STX, $1, "6\$24", $READ, ETX, $CRC;
     in STX, "\?", "6\$24", $READ, "%06d", ETX, $CRC;
+    wait = $wait_TIMER;
 }
 setIProtect {
-    MaxInput = 6;
+    wait = $wait_TIMER;
     out STX, $1, "6\$24", $WRITE, "%06d", ETX, $CRC;
     in STX, "\?", ACK, ETX, $CRC;
-    # @init { getIProtect; }
+    @init { getIProtect; }
     @mismatch {in STX, "\?", "%(\$3)i", ETX, $CRC;}
+    wait = $wait_TIMER;
 }
 
 # Setpoint
 getSepoint {
+    wait = $wait_TIMER;
     MaxInput = 19;
     out STX, $1, "6\$25", $READ, ETX, $CRC;
     in STX, "\?", "6\$25", $READ, "%10e", ETX, $CRC;
+    wait = $wait_TIMER;
 }
 setSepoint {
-    MaxInput = 6;
+    wait = $wait_TIMER;
     out STX, $1, "6\$25", $WRITE, "%10e", ETX, $CRC;
     in STX, "\?", ACK, ETX, $CRC;
-    # @init { getSepoint; }
+    @init { getSepoint; }
     @mismatch {in STX, "\?", "%(\$3)i", ETX, $CRC;}
+    wait = $wait_TIMER;
 }
 
 # Error code reading
 getErrorCode {
+    wait = $wait_TIMER;
     out STX, $1, "505", $WRITE, "00000\$2", ETX, $CRC;
     in STX, "\?", ACK, ETX, $CRC;
-    
+    wait = $wait_TIMER;
+
+    wait = $wait_TIMER;
     out STX, $1, "206", $READ, ETX, $CRC; 
     in STX, "\?", "206", $READ, "%06d", ETX, $CRC;
+    wait = $wait_TIMER;
 }
 
 # Fan temperature
 getFanTemperature {
     MaxInput = 15;
+    wait = $wait_TIMER;
     out STX, $1, "800", $READ, ETX, $CRC;
     in STX, "\?", "800", $READ, "%06d", ETX, $CRC;
+    wait = $wait_TIMER;
 }
 
 # Operating mode (autostart on/off) readback
 getMode {
+    wait = $wait_TIMER;
     MaxInput = 19;
     out STX, $1, "601", $READ, ETX, $CRC;
-    in STX, "\?", "601", $READ, "%10d", ETX, $CRC;
+    in STX, "\?", "601", $READ, "%010d", ETX, $CRC;
+    wait = $wait_TIMER;
 }
 setMode {
-    MaxInput = 6;
+    wait = $wait_TIMER;
     out STX, $1, "601", $WRITE, "%010d", ETX, $CRC;
     in STX, "\?", ACK, ETX, $CRC;
-    # @init { getMode; } 
-}
-
-# Device model
-getModel {
-    MaxInput = 19;
-    out STX, $1, "319", $READ, ETX, $CRC;
-    in STX, "\?", "319", $READ, "%10c", ETX, $CRC;
+    @init { getMode; } 
+    @mismatch {in STX, "\?", NAK, ETX, $CRC;}
+    wait = $wait_TIMER;
 }
 
 # "Protect" reading
 getProtect {
+    wait = $wait_TIMER;
     MaxInput = 19;
     out STX, $1, "602", $READ, ETX, $CRC;
     in STX, "\?", "602", $READ, "%10b", ETX, $CRC;
-}
-
-# Device serial number
-getSerialNumber {
-    MaxInput = 19;
-    out STX, $1, "323", $READ, ETX, $CRC;
-    in STX, "\?", "323", $READ, "%10c", ETX, $CRC;
-}
+    wait = $wait_TIMER;
+} 
 
 # "Step" reading
 getStep {
+    wait = $wait_TIMER;
     MaxInput = 19;
     out STX, $1, "603", $READ, ETX, $CRC;
     in STX, "\?", "603", $READ, "%10b", ETX, $CRC;
+    wait = $wait_TIMER;
 }
 
 # Unit readback
 getUnit {
+    wait = $wait_TIMER;
     MaxInput = 15;
     out STX, $1, "600", $READ, ETX, $CRC;
     in STX, "\?", "600", $READ, "%06d", ETX, $CRC;
+    wait = $wait_TIMER;
 }
 setUnit {
-    MaxInput = 6;
+    wait = $wait_TIMER;
     out STX, $1, "600", $WRITE, "%06d", ETX, $CRC;
     in STX, "\?", ACK, ETX, $CRC;
-    # @init { getUnit; }
-}
-
-# Device number
-getDeviceNumber {
-    out STX, $1, "6\$20", $READ, ETX, $CRC;
-    in STX, "\?", "6\$20", $READ, "%06d", ETX, $CRC;
-}
-setDeviceNumber {
-    MaxInput = 6;
-    out STX, $1, "6\$20", $WRITE, "%06d", ETX, $CRC;
-    in STX, "\?", ACK, ETX, $CRC;
-    # @init { getDeviceNumber; }
-    @mismatch {in STX, "\?", "%(\$3)i", ETX, $CRC;}
+    @init { getUnit; }
+    wait = $wait_TIMER;
 }
 
 # Channel voltage reading on/off
 getHVOnOff {
+    wait = $wait_TIMER;
     MaxInput = 10;
     out STX, $1, "01\$2", $READ, ETX, $CRC;
     in STX, "\?", "01\$2", $READ, "%i", ETX, $CRC;
+    wait = $wait_TIMER;
 }  
 setHVOnOff {
-    MaxInput = 6;
-    out STX, $1, "01\$2",  $WRITE, "%d", $CRC;
+    wait = $wait_TIMER;
+    out STX, $1, "01\$2",  $WRITE, "%i", ETX, $CRC;
     in STX, "\?", ACK, ETX, $CRC;
-    # @init { getHVOnOff; }
-    @mismatch {in STX, "\?", "%(\$3)i", ETX, $CRC;}
+    wait = $wait_TIMER;
 
+    @init { getHVOnOff; }
+    @mismatch {in STX, "\?", "%(\$3)i", ETX, $CRC;}
 } 
