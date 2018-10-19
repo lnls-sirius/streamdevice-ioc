@@ -2,10 +2,40 @@
 #                                Sync Stuff                               #
 #                   PREFIX-D1 PREFIX-D2 PREFIX-D3 PREFIX-D4               #
 ###########################################################################
+record(ai , "$(PREFIX-D1):TriggerOneTime"){ 
+    field(PINI, "YES")
+    field(MDEL,"-1")
+}
+record(ai, "$(PREFIX-D1):OutOneTime"){
+	field(FLNK, "$(PREFIX-D2):TriggerOneTime")
+    field(MDEL,"-1")
+}
+record(ai, "$(PREFIX-D2):TriggerOneTime"){
+    field(MDEL,"-1")
+}
+record(ai, "$(PREFIX-D2):OutOneTime"){
+	field(FLNK, "$(PREFIX-D3):TriggerOneTime")
+    field(MDEL,"-1")
+}
+record(ai, "$(PREFIX-D3):TriggerOneTime"){
+    field(MDEL,"-1")
+}
+record(ai, "$(PREFIX-D3):OutOneTime"){
+    field(FLNK, "$(PREFIX-D4):TriggerOneTime")
+    # field(FLNK, "$(PREFIX-D1):Trigger")
+	field(MDEL,"-1")
+}
+record(ai, "$(PREFIX-D4):TriggerOneTime"){
+    field(MDEL,"-1")
+}
+record(ai, "$(PREFIX-D4):OutOneTime"){ 
+    field(MDEL,"-1")
+    field(FLNK, "$(PREFIX-D1):Trigger")
+}
+
 
 #   SYNC SCAN LOOP
 record(ai , "$(PREFIX-D1):Trigger"){ 
-    field(PINI, "YES")
     field(MDEL,"-1")
 }
 record(ai, "$(PREFIX-D1):Out"){
@@ -24,6 +54,7 @@ record(ai, "$(PREFIX-D3):Trigger"){
 }
 record(ai, "$(PREFIX-D3):Out"){
     field(FLNK, "$(PREFIX-D4):Trigger")
+    # field(FLNK, "$(PREFIX-D1):Trigger")
 	field(MDEL,"-1")
 }
 record(ai, "$(PREFIX-D4):Trigger"){

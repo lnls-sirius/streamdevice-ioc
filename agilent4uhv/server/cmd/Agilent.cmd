@@ -18,10 +18,10 @@ dbLoadDatabase("dbd/streamApp.dbd")
 streamApp_registerRecordDeviceDriver(pdbbase)
 
 # TCP Comm Interface
-#drvAsynIPPortConfigure("serialPort1","10.0.6.67:4161", 100, 0, 0)
+drvAsynIPPortConfigure("serialPort1","10.0.6.67:4161", 100, 0, 0)
 
-drvAsynSerialPortConfigure("serialPort1", "/dev/ttyUSB0")
-asynSetOption("serialPort1", 0, "baud", "38400")
+# drvAsynSerialPortConfigure("serialPort1", "/dev/ttyUSB0")
+# asynSetOption("serialPort1", 0, "baud", "38400")
 
 # Sync Readings
 dbLoadRecords("database/Agilent-4UHV-Sync.db", "PREFIX-D1 = D1, PREFIX-D2 = D2, PREFIX-D3 = D3, PREFIX-D4 = D4")

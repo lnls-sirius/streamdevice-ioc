@@ -1,16 +1,32 @@
 #!/usr/bin/python3
 import time
-from epics import camonitor 
+import sys
 
-ts1 = ""
-ts2 = ""
+from epics import PV 
 
-def cab_func():
-    pass
+pvName = sys.argv[1]
 
-camonitor('Ag:Ch4:Voltage-Mon', callback=cab_func)
-camonitor('Ag:Ch1:Current-Mon', callback=cab_func)
+ts = 0
+tDelta = 0
+tsG = 0
+tsM = 0
+
+def callback(pvname=None, value=None, char_value=None, **kwds):
+    global ts, tsG, tsM, tDelta
+    tsN = kwds['timestamp']
+    tDelta = tsN - ts
+    if tDelta < 0:
+        tDelta = 0
+    if tDelta < 1000.:
+        if tDelta > tsG:
+            tsG = tDelta
+        tsM = (tsM + tDelta) / 2.9
+
+        print('Name = {}\tDelta = {}\tLarger = {}\tAverage = {}'.format(pvname,tDelta, tsG, tsM))
+    ts = tsN    
+
+pv = PV(pvName,form='time')
+pv.add_callback(callback=callback)
 
 while True:
     time.sleep(2)
-    print('ts1={}\tts2={}'.format(ts1, ts2))

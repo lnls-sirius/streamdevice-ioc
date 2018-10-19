@@ -25,7 +25,7 @@ record(ai, "$(PREFIX):Current-Mon") {
     field(HOPR, "0.9")
     field(LOPR, "0")
     
-    field(INP, "@Agilent-4UHV.proto getCurrent($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
+    field(INP, "@Agilent-4UHV.proto currentMon($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
 
 # Pressure
@@ -35,7 +35,7 @@ record(ai, "$(PREFIX):Pressure-Mon") {
     field(EGU, "mbar")
     field(PREC, "9")
     
-    field(INP, "@Agilent-4UHV.proto getPressure($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
+    field(INP, "@Agilent-4UHV.proto pressureMon($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
 
 # Voltage
@@ -49,7 +49,7 @@ record(ai, "$(PREFIX):Voltage-Mon") {
     field(LINR, "LINEAR")
     field(PREC, "1")
     
-    field(INP, "@Agilent-4UHV.proto getVoltage($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
+    field(INP, "@Agilent-4UHV.proto voltageMon($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
 # HV temperature
 record(longin, "$(PREFIX):HVTemperature-Mon") {
@@ -58,13 +58,13 @@ record(longin, "$(PREFIX):HVTemperature-Mon") {
     field(EGU, "°C")
     field(HOPR, "200")
     field(LOPR, "0")
-    field(INP, "@Agilent-4UHV.proto getHVTemperature$(CHANNEL_NUMBER)($(SERIAL_ADDRESS)) $(PORT)")
+    field(INP, "@Agilent-4UHV.proto HVTemperature$(CHANNEL_NUMBER)Mon($(SERIAL_ADDRESS)) $(PORT)")
 }
 # Error code
 record(mbbi, "$(PREFIX):ErrorCode-Mon") {
     field(DESC, "Error code")
     field(DTYP, "stream")
-    field(INP,  "@Agilent-4UHV.proto getErrorCode($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
+    field(INP,  "@Agilent-4UHV.proto errorCodeMon($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
 # Error code
 record(mbbi, "$(PREFIX):SetErrorCode-Mon") { 
