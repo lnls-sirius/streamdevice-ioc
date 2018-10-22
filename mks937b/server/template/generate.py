@@ -17,6 +17,13 @@ from os import environ
 
 
 rel_db = ''
+rel_db += '''
+################################################################################
+# Automatically generated content.
+# Changes on this file won't be persisted.
+# If the user wishes to modify it's content, change the template instead.
+################################################################################
+'''
 for relay in range(1, 13):
     rel_db += db_relay.safe_substitute(RELAY=relay)
 file = open('../db/mks937b_relay.db', 'w+')

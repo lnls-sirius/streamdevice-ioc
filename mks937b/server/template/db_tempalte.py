@@ -1,13 +1,13 @@
 #!/bin/python
 from string import Template
 
-################################################################################
-# RELAY
-################################################################################
-# READ ONLY
-################################################################################
-
 relay = Template('''
+# Setpoint Status
+record(stringin,"$(DEVICE):RelaySetpointStatusRb-${RELAY}") {
+	field(DESC,"Relay ${RELAY} setpoint status (clear/set)")
+}
+
+# Setpoint
 record(ai, "$(DEVICE):RelayRb-${RELAY}") {
     field(DESC, "Read Setpoint for relay ${RELAY}") 
     field(PINI, "YES") 
