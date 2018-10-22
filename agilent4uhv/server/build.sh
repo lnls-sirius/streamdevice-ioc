@@ -6,6 +6,8 @@ else
     IOC_FOLDER=${TOP}
 fi
 
+export BASE_EPICS_CA_SERVER_PORT=5170
+
 PROTOCOL="protocol"
 IOC_BOOT="iocBoot"
 DB="database"

@@ -13,8 +13,6 @@
 
 '''
 
-BASE_EPICS_CA_SERVER_PORT = 5070
-
 def get_serial_addess(addr):
     return 128 + addr
 

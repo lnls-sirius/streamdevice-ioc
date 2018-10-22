@@ -27,10 +27,11 @@ if __name__ == "__main__":
     TOP = environ.get('IOC_FOLDER', '/opt/stream-ioc')
     ARCH = environ.get('EPICS_HOST_ARCH', 'linux-x86_64')
     CMD_KEY = environ.get('CMD_KEY', 'Agilent-4UHV-')
-    
-    STREAM_PROTOCOL_PATH = "$(TOP)/protocol"
-    ca_server_port = BASE_EPICS_CA_SERVER_PORT
+
+    EPICS_CA_SERVER_PORT = int(environ.get('BASE_EPICS_CA_SERVER_PORT'))
+
     CD = "${TOP}"
+    STREAM_PROTOCOL_PATH = "$(TOP)/protocol"
     
     for sector in sectors:
         res = ''
@@ -51,7 +52,7 @@ if __name__ == "__main__":
                 STREAM_PROTOCOL_PATH=STREAM_PROTOCOL_PATH,
                 IP_ADDR=IP_ADDR,
                 IP_ASYN_PORT=IP_ASYN_PORT,
-                EPICS_CA_SERVER_PORT=ca_server_port                
+                EPICS_CA_SERVER_PORT=EPICS_CA_SERVER_PORT                
         )
         for i in range(4):
             if devices[i] == None:

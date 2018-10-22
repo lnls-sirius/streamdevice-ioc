@@ -12,7 +12,7 @@ from string import Template
 from mks937b_template import template_device, template_bot,\
                         template_top, template_pressure, template_cc,\
                         template_relay
-from mks937b_devices import sectors  as sectors, CC, PR, BASE_EPICS_CA_SERVER_PORT
+from mks937b_devices import sectors  as sectors, CC, PR
 from db_tempalte import relay as db_relay
 
 
@@ -29,9 +29,7 @@ for relay in range(1, 13):
 file = open('../db/mks937b_relay.db', 'w+')
 file.write(rel_db)
 file.close()
-
-EPICS_CA_SERVER_PORT = BASE_EPICS_CA_SERVER_PORT
-
+ 
 if __name__ == "__main__":
     EPICS_BASE = environ.get('EPICS_BASE', '/opt/epics-R3.15.5/base')
     ASYN = environ.get('ASYN', '/opt/epics-R3.15.5/modules/asyn4-33')
@@ -39,6 +37,8 @@ if __name__ == "__main__":
     ARCH = environ.get('EPICS_HOST_ARCH', 'linux-x86_64')
     CMD_KEY = environ.get('CMD_KEY', 'mks')
     
+    EPICS_CA_SERVER_PORT = int(environ.get('BASE_EPICS_CA_SERVER_PORT'))
+
     STREAM_PROTOCOL_PATH = "$(TOP)/protocol"
     CD = "${TOP}"
     

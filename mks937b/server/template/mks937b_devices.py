@@ -9,7 +9,6 @@
 '''
 CC = 'CC'
 PR = 'PR'
-BASE_EPICS_CA_SERVER_PORT = 5070
 
 DEFAULT_ALARMS = [
     { # Pressure readings (1 - 6)
