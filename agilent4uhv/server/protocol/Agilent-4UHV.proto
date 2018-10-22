@@ -8,9 +8,6 @@ LockTimeoutGetSet = 21000;
 ReplyTimeout = 250;
 ReadTimeout  = 250;
 
-
-
-
 # ONE_TIME_LOCK_TIMEOUT = 20000;
 
 # 1/2 of the time between readings
@@ -24,11 +21,9 @@ CRC = "%01<xor>";
 # Clear out any garbage.
 @init{out " ";}
 
-
 ##########################################################################
 #                                 MONITORS                               #
 ##########################################################################
-
 # Channel current reading
 currentMon {
     wait = $wait_TIMER;

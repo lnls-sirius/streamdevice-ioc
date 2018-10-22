@@ -14,7 +14,7 @@ sleep 1
 pushd ${TOP}/iocBoot
     for filename in *.cmd; do
         if [[ ${filename} =~ ${CMD_KEY}(.*).cmd ]]; then
-            # rm ${filename}
+            rm ${filename}
             echo Removed old content: ${filename}
         fi
     done
@@ -23,7 +23,7 @@ popd
 procServPort=${BASE_PROCSERV_PORT}
 
 # Clear the /cmd folder
-# rm -r cmd/*
+rm -r cmd/*
 
 # Generate .cmd files
 if ./build.sh; then

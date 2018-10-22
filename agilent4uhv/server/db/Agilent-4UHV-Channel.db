@@ -14,6 +14,7 @@
 # SERIAL_ADDRESS - Controller RS-485 serial address (from 0 to 31). For configuring this parameter,
 # add 128 to the desired address. As an example, for the serial address 20, this parameter should
 # be configured as 128 + 20 = 148.
+
 ############################################################################
 ##                              Scan Readings                             ##
 ############################################################################
@@ -27,7 +28,6 @@ record(ai, "$(PREFIX):Current-Mon") {
     
     field(INP, "@Agilent-4UHV.proto currentMon($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
-
 # Pressure
 record(ai, "$(PREFIX):Pressure-Mon") {
     field(DESC, "Measured pressure")
@@ -37,7 +37,6 @@ record(ai, "$(PREFIX):Pressure-Mon") {
     
     field(INP, "@Agilent-4UHV.proto pressureMon($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
-
 # Voltage
 record(ai, "$(PREFIX):Voltage-Mon") {
     field(DESC, "Measured voltage")
@@ -76,7 +75,6 @@ record(mbbi, "$(PREFIX):SetErrorCode-Mon") {
     field(FRST, "Out of Range")
     field(FVST, "Win Disabled")
 }
-
 ############################################################################
 ##                             Get/Set Readings                           ##
 ############################################################################
@@ -105,7 +103,6 @@ record(mbbo, "$(PREFIX):HVState-SP") {
 
     field(FLNK, "$(PREFIX):HVState-RB")
 }
-
 # Device number
 record(longin, "$(PREFIX):DeviceNumber-RB") {
     field(DESC, "Device number readback")
@@ -113,7 +110,6 @@ record(longin, "$(PREFIX):DeviceNumber-RB") {
     field(PINI, "YES")
     field(INP, "@Agilent-4UHV.proto getDeviceNumber($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 } 
-
 # I Protect
 record(ai, "$(PREFIX):CurrentProtect-RB") {
     field(DESC, "Measured Current Protect")
@@ -131,12 +127,11 @@ record(ao, "$(PREFIX):CurrentProtect-SP") {
     
     field(FLNK, "$(PREFIX):CurrentProtect-RB")
 }
-
 # V Target
 record(ai, "$(PREFIX):VoltageTarget-RB") {
     field(DESC, "Voltage Target")
     field(DTYP, "stream")
-    field(EGU, "V")
+    field(EGU, "V")c
     field(INP, "@Agilent-4UHV.proto getVTarget($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
 record(ao, "$(PREFIX):VoltageTarget-SP") {
