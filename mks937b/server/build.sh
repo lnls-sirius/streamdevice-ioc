@@ -10,9 +10,9 @@ PROTOCOL="protocol"
 IOC_BOOT="iocBoot"
 DB="database"
 
-cd template 
+pushd template 
 ./generate.py
-cd ..
+popd
 
 cp -R db/. ${IOC_FOLDER}/${DB}/
 cp -R protocol/. ${IOC_FOLDER}/${PROTOCOL}/

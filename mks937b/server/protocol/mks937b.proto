@@ -353,7 +353,7 @@ set_con_sp{
     in "@\$1ACK%E"; 
 
     # @mismatch {in "@\$1NAK:%s";}
-    @init{get_con_sp_val;}wait  7;
+    @init{get_con_sp_val;}
     wait  7;
 }
 # -----------------------------------------------------
