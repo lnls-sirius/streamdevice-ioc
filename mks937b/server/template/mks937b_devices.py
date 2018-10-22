@@ -9,32 +9,36 @@
 '''
 CC = 'CC'
 PR = 'PR'
+BASE_EPICS_CA_SERVER_PORT = 5070
 
-def get_device(prefix, addr, config = [CC, CC, PR]):
+DEFAULT_ALARMS = [
+    { # Pressure readings (1 - 6)
+        # Pressure 1
+        'HI':'1e-7',
+        'HIHI': '1e-5'
+    },{# Pressure 2
+        'HI':'1e-7',
+        'HIHI': '1e-5'
+    },{# Pressure 3
+        'HI':'1e-7',
+        'HIHI': '1e-5'
+    },{# Pressure 4
+        'HI':'1e-7',
+        'HIHI': '1e-5'
+    },{# Pressure 5
+        'HI':'1e-7',
+        'HIHI': '1e-5'
+    },{# Pressure 6
+        'HI':'1e-7',
+        'HIHI': '1e-5'
+}]
+
+def get_device(prefix, addr, config = [CC, CC, PR], pressures = DEFAULT_ALARMS):
     return {# A device
-        'CONFIG': config,
+        'CONFIG' : config,
         'PREFIX' : prefix,
-        'ADDRESS' :addr,
-        'pressures':[{ # Pressure readings (1 - 6)
-                # Pressure 1
-                'HI':'1e-7',
-                'HIHI': '1e-5'
-            },{# Pressure 2
-                'HI':'1e-7',
-                'HIHI': '1e-5'
-            },{# Pressure 3
-                'HI':'1e-7',
-                'HIHI': '1e-5'
-            },{# Pressure 4
-                'HI':'1e-7',
-                'HIHI': '1e-5'
-            },{# Pressure 5
-                'HI':'1e-7',
-                'HIHI': '1e-5'
-            },{# Pressure 6
-                'HI':'1e-7',
-                'HIHI': '1e-5'
-        }]
+        'ADDRESS' : addr,
+        'pressures' : DEFAULT_ALARMS
     }
 
 def get_sector(f_name, ip_addr, devices, ip_asyn_port = 'IPPort0', scan = '1'):

@@ -5,15 +5,15 @@
     This template is used to generate the default .cmd iocBoot file.
     The user sould pass as parameter the destination file the will be generated.
 """
-
+import sys 
+from os import environ
 from string import Template
+
 from mks937b_template import template_device, template_bot,\
                         template_top, template_pressure, template_cc,\
                         template_relay
-from mks937b_devices import sectors  as sectors, CC, PR
+from mks937b_devices import sectors  as sectors, CC, PR, BASE_EPICS_CA_SERVER_PORT
 from db_tempalte import relay as db_relay
-import sys 
-from os import environ
 
 
 rel_db = ''
@@ -30,6 +30,7 @@ file = open('../db/mks937b_relay.db', 'w+')
 file.write(rel_db)
 file.close()
 
+EPICS_CA_SERVER_PORT = BASE_EPICS_CA_SERVER_PORT
 
 if __name__ == "__main__":
     EPICS_BASE = environ.get('EPICS_BASE', '/opt/epics-R3.15.5/base')
@@ -37,10 +38,11 @@ if __name__ == "__main__":
     TOP = environ.get('IOC_FOLDER', '/opt/stream-ioc')
     ARCH = environ.get('EPICS_HOST_ARCH', 'linux-x86_64')
     CMD_KEY = environ.get('CMD_KEY', 'mks')
-
+    
     STREAM_PROTOCOL_PATH = "$(TOP)/protocol"
     CD = "${TOP}"
     
+
     for sector in sectors:
         res = ''
         count = 0
@@ -50,7 +52,6 @@ if __name__ == "__main__":
         IP_ASYN_PORT = sector['IP_ASYN_PORT']
         SCAN_RATE    = sector['SCAN_RATE']
         IP_ADDR      = sector['IP_ADDR']
-        
 
         res += template_top.safe_substitute(
                 CD=CD,
@@ -60,7 +61,8 @@ if __name__ == "__main__":
                 ARCH=ARCH,
                 STREAM_PROTOCOL_PATH=STREAM_PROTOCOL_PATH,
                 IP_ADDR=IP_ADDR,
-                IP_ASYN_PORT=IP_ASYN_PORT
+                IP_ASYN_PORT=IP_ASYN_PORT,
+                EPICS_CA_SERVER_PORT=EPICS_CA_SERVER_PORT
         )
 
         for device in devices:
@@ -108,6 +110,8 @@ if __name__ == "__main__":
             )
             res += '\n'
             count += 1
+
+        EPICS_CA_SERVER_PORT += 2
 
         res += template_bot
 
