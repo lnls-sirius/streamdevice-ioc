@@ -1,3 +1,4 @@
+*.save
 
 # Agilent 4UHV
 agilent4uhv/server/cmd/*
