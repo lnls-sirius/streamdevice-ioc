@@ -11,6 +11,7 @@ from os import environ
 from string import Template
 from cmd_template import *
 from devices import *
+
 # from db_template import *
 
 # rel_db = ''
@@ -102,7 +103,7 @@ if __name__ == "__main__":
                     CHANNEL_NUMBER = i + 1 
                 )
 
-        ca_server_port += 2
+        EPICS_CA_SERVER_PORT += 2
         res += template_bot
 
         file = open(f_name + '.cmd', 'w+')

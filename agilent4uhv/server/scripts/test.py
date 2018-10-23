@@ -20,7 +20,10 @@ def callback(pvname=None, value=None, char_value=None, **kwds):
     if tDelta < 1000.:
         if tDelta > tsG:
             tsG = tDelta
-        tsM = (tsM + tDelta) / 2.
+        if tsM == 0 :
+            tsM = tDelta
+        else:
+            tsM = (tsM + tDelta) / 2.
 
         print('Name = {}\tDelta = {}\tLarger = {}\tAverage = {}'.format(pvname,tDelta, tsG, tsM))
     ts = tsN    

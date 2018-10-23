@@ -131,7 +131,7 @@ record(ao, "$(PREFIX):CurrentProtect-SP") {
 record(ai, "$(PREFIX):VoltageTarget-RB") {
     field(DESC, "Voltage Target")
     field(DTYP, "stream")
-    field(EGU, "V")c
+    field(EGU, "V")
     field(INP, "@Agilent-4UHV.proto getVTarget($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
 record(ao, "$(PREFIX):VoltageTarget-SP") {
