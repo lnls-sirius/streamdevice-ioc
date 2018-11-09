@@ -1,9 +1,10 @@
 #!/bin/bash
-export BASE_PROCSERV_PORT=20200
+export BASE_PROCSERV_PORT=20450
+export BASE_EPICS_CA_SERVER_PORT=5370
+
 export TOP=/opt/stream-ioc
 export HOME_DIR=${PWD}
-export CMD_KEY=mks
-export PATH=/opt/procServ:$PATH
-export EPICS_CA_SERVER_PORT=5066
+export CMD_KEY="UHV-"
+export PATH=/opt/procServ:$PATH 
 
 source run.sh
