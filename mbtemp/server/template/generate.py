@@ -5,13 +5,14 @@
     This template is used to generate the default .cmd iocBoot file.
     The user sould pass as parameter the destination file the will be generated.
 """
+import sys 
+import time
+from os import environ
 
 from string import Template
 from mbtemp_template import mbt_template, mbt_template_bot, mbt_template_top
 from mbtemp_devices import sectors  as sectors
 
-import sys 
-from os import environ
 
 if __name__ == "__main__":
     EPICS_BASE = environ.get('EPICS_BASE', '/opt/epics-R3.15.5/base')
@@ -22,6 +23,8 @@ if __name__ == "__main__":
 
     STREAM_PROTOCOL_PATH = "$(TOP)/protocol"
     CD = "${TOP}"
+    EPICS_CA_SERVER_PORT = int(environ.get('BASE_EPICS_CA_SERVER_PORT'))
+
      
     # MBTemp specifics
     for sector in sectors:
@@ -32,6 +35,7 @@ if __name__ == "__main__":
         devices = sector['devices']
         IP_ASYN_PORT = 'IPPort'
         SCAN_RATE = sector['SCAN_RATE']
+        IP_ADDR = sector['IP_ADDR']
 
         res += mbt_template_top.safe_substitute(
                 CD=CD,
@@ -40,26 +44,31 @@ if __name__ == "__main__":
                 TOP=TOP,
                 ARCH=ARCH,
                 STREAM_PROTOCOL_PATH=STREAM_PROTOCOL_PATH,
+                IP_ADDR=IP_ADDR,
+                EPICS_CA_SERVER_PORT=EPICS_CA_SERVER_PORT
         )
         
 
         for device in devices:
             
-            IP_ADDR= device['IP_ADDR']
             MBTEMP_ADDRESS = device['MBTEMP_ADDRESS']
             PREFIX = device['PREFIX']
     
             res += mbt_template.safe_substitute(                                
-                IP_ASYN_PORT=(IP_ASYN_PORT + str(count)),
-                IP_ADDR=IP_ADDR,
+                IP_ASYN_PORT=(IP_ASYN_PORT),
+                # IP_ASYN_PORT=(IP_ASYN_PORT + str(count)),
+                # IP_ADDR=IP_ADDR,
                 MBTEMP_ADDRESS=MBTEMP_ADDRESS,
                 PREFIX=PREFIX,
                 SCAN_RATE = SCAN_RATE)
             
             count += 1
-
+        EPICS_CA_SERVER_PORT += 2
         res += mbt_template_bot
 
         file = open(f_name, 'w+')
         file.write(res)
         file.close()
+
+        print('\n\n')
+        # time.sleep(1)
