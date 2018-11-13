@@ -13,7 +13,7 @@ from mks937b_template import template_device, template_bot,\
                         template_top, template_pressure, template_cc,\
                         template_relay
 from mks937b_devices import sectors  as sectors, CC, PR
-from db_tempalte import relay as db_relay
+from db_template import relay as db_relay
 
 
 rel_db = ''

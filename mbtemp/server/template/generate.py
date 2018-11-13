@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
         f_name       = '../cmd/' + CMD_KEY + sector['f_name']
         devices = sector['devices']
-        IP_ASYN_PORT = 'IPPort'
+        IP_ASYN_PORT = 'IPPort0'
         SCAN_RATE = sector['SCAN_RATE']
 
         res += mbt_template_top.safe_substitute(
@@ -40,6 +40,7 @@ if __name__ == "__main__":
                 TOP=TOP,
                 ARCH=ARCH,
                 STREAM_PROTOCOL_PATH=STREAM_PROTOCOL_PATH,
+                IP_ASYN_PORT=IP_ASYN_PORT
         )
         
 
@@ -50,7 +51,6 @@ if __name__ == "__main__":
             PREFIX = device['PREFIX']
     
             res += mbt_template.safe_substitute(                                
-                IP_ASYN_PORT=(IP_ASYN_PORT + str(count)),
                 IP_ADDR=IP_ADDR,
                 MBTEMP_ADDRESS=MBTEMP_ADDRESS,
                 PREFIX=PREFIX,

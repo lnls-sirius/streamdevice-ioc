@@ -232,34 +232,34 @@ record(mbbo, "$(DEVICE):UnitSp"){
 
 record(bi, "$(DEVICE):FastTrig"){
 	field(SCAN, "$(SCAN_RATE)")
-	field(FLNK, "$(DEVICE):PressureRb-1s")
+	field(FLNK, "$(GAUGE1):PressureRb-1s")
 }
-record(stringin,"$(DEVICE):PressureRb-1s") {
+record(stringin,"$(GAUGE1):PressureRb-1s") {
     field(DESC,"Read CCG 1's raw pressure output")
     field(DTYP,"stream")
     field(INP,"@mks937b.proto get_pressures($(ADDRESS),$(DEVICE):PressureRb) $(PORT)") 
 
-    field(FLNK, "$(DEVICE):PressureRb-1")
+    field(FLNK, "$(GAUGE1):PressureRb-1")
 } 
-record(stringin,"$(DEVICE):PressureRb-2s") {
+record(stringin,"$(GAUGE2):PressureRb-2s") {
     field(DESC,"Read CCG 2's raw pressure output")
-    field(FLNK, "$(DEVICE):PressureRb-2")
+    field(FLNK, "$(GAUGE2):PressureRb-2")
 } 
-record(stringin,"$(DEVICE):PressureRb-3s") {
+record(stringin,"$(GAUGE3):PressureRb-3s") {
     field(DESC,"Read CCG 3's raw pressure output") 
-    field(FLNK, "$(DEVICE):PressureRb-3")
+    field(FLNK, "$(GAUGE3):PressureRb-3")
 } 
-record(stringin,"$(DEVICE):PressureRb-4s") {
+record(stringin,"$(GAUGE4):PressureRb-4s") {
     field(DESC,"Read CCG 4's raw pressure output") 
-    field(FLNK, "$(DEVICE):PressureRb-4")
+    field(FLNK, "$(GAUGE4):PressureRb-4")
 } 
-record(stringin,"$(DEVICE):PressureRb-5s") {
+record(stringin,"$(GAUGE5):PressureRb-5s") {
     field(DESC,"Read CCG 5's raw pressure output") 
-    field(FLNK, "$(DEVICE):PressureRb-5")
+    field(FLNK, "$(GAUGE5):PressureRb-5")
 } 
-record(stringin,"$(DEVICE):PressureRb-6s") {
+record(stringin,"$(GAUGE6):PressureRb-6s") {
     field(DESC,"Read CCG 6's raw pressure output")
-    field(FLNK, "$(DEVICE):PressureRb-6")
+    field(FLNK, "$(GAUGE6):PressureRb-6")
 } 
 
 # ------------------------------------------------------------------------------------------------
