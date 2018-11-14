@@ -6,14 +6,15 @@ else
     IOC_FOLDER=${TOP}
 fi
 
-export BASE_EPICS_CA_SERVER_PORT=5170
-
 PROTOCOL="protocol"
 IOC_BOOT="iocBoot"
 DB="database"
 
-pushd template 
-   ./generate.py
+pushd template
+    ./generate.py \
+        --base-epics-ca-port ${BASE_EPICS_CA_SERVER_PORT}\
+        --cmd-prefix ${CMD_KEY}\
+        --top ${IOC_FOLDER} 
 popd
 
 cp -R db/. ${IOC_FOLDER}/${DB}/
