@@ -12,6 +12,7 @@ epicsEnvSet("ASYN", "$ASYN")
 epicsEnvSet("TOP", "$TOP")
 epicsEnvSet("ARCH", "$ARCH")
 epicsEnvSet ("STREAM_PROTOCOL_PATH", "$STREAM_PROTOCOL_PATH")
+epicsEnvSet("EPICS_CA_SERVER_PORT", "$EPICS_CA_SERVER_PORT")
 
 # Database definition file
 
@@ -19,13 +20,12 @@ cd $CD
 dbLoadDatabase("dbd/streamApp.dbd")
 streamApp_registerRecordDeviceDriver(pdbbase)
 
-''')
-
-mbt_template = Template('''
-
 # MBTemp board (TCP with socat binding the serial port at 115200)
 drvAsynIPPortConfigure("$IP_ASYN_PORT","$IP_ADDR", 0, 0, 0)
 
+''')
+
+mbt_template = Template('''
 # Record for configuration of MBTemp exponential moving average smoothing factor
 dbLoadRecords("database/MBTemp-Device.db", "MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, PREFIX = $PREFIX")
 
