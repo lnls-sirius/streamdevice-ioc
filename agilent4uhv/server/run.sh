@@ -30,15 +30,17 @@ if ./build.sh; then
     pushd ${TOP}/iocBoot
         for filename in *; do
             if [[ ${filename} =~ ${CMD_KEY}(.*).cmd ]]; then
+                echo " "
                 procServPort=$((procServPort + 1))
                 procServ --chdir ${TOP}/iocBoot ${procServPort} ./${filename}  
                 echo Init procServ at port ${procServPort} ${filename}
+                echo " "
             fi
         done 
     popd
     
-    cd scripts
-    ./ioc_man.py
+    # cd scripts
+    # ./ioc_man.py
 else
     echo The build script failed!
 fi

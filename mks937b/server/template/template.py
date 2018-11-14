@@ -22,16 +22,26 @@ drvAsynIPPortConfigure("$IP_ASYN_PORT","$IP_ADDR", 100, 0, 0)
 # @todo: terminar de montar esse arquivo template !
 template_device = Template('''
 # General mks937b records
-dbLoadRecords("database/mks937b.db", "PORT = $IP_ASYN_PORT, DEVICE = $PREFIX, ADDRESS = $ADDRESS, SCAN_RATE = .1 second")''')
+dbLoadRecords("database/mks937b.db", \
+"PORT = $IP_ASYN_PORT, \
+DEVICE = $PREFIX,\
+  G1 = $G1,\
+  G2 = $G2,\
+  G3 = $G3,\
+  G4 = $G4,\
+  G5 = $G5,\
+  G6 = $G6,\
+  ADDRESS = $ADDRESS,\
+  SCAN_RATE = .1 second")''')
 
 template_pressure = Template('''
 dbLoadRecords("database/mks937b_pressure.db", \
  "PORT = $IP_ASYN_PORT,\
- DEVICE = $PREFIX,\
- ADDRESS = $ADDRESS,\
- CHANNEL = $CHANNEL,\
- P_HI = $P_HI,\
- P_HIHI = $P_HIHI")''')
+  DEVICE = $PREFIX,\
+  ADDRESS = $ADDRESS,\
+  CHANNEL = $CHANNEL,\
+  P_HI = $P_HI,\
+  P_HIHI = $P_HIHI")''')
 
 template_cc = Template('''
 dbLoadRecords("database/mks937b_cc.db",\

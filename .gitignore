@@ -3,8 +3,11 @@
 # Agilent 4UHV
 agilent4uhv/server/cmd/*
 
+# Agilent 4UHV
+mbtemp/server/cmd/*
+
 # MKS 937b
-mks937b/server/cmd*
+mks937b/server/cmd/*
 mks937b/server/db/mks937b_relay.db
 
 

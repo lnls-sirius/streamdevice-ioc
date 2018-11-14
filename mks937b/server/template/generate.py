@@ -6,13 +6,14 @@
     The user sould pass as parameter the destination file the will be generated.
 """
 import sys 
+import time
 from os import environ
 from string import Template
 
-from mks937b_template import template_device, template_bot,\
+from template import template_device, template_bot,\
                         template_top, template_pressure, template_cc,\
                         template_relay
-from mks937b_devices import sectors  as sectors, CC, PR
+from devices import sectors  as sectors, CC, PR
 from db_template import relay as db_relay
 
 
@@ -37,7 +38,7 @@ if __name__ == "__main__":
     ARCH = environ.get('EPICS_HOST_ARCH', 'linux-x86_64')
     CMD_KEY = environ.get('CMD_KEY', 'mks')
     
-    EPICS_CA_SERVER_PORT = int(environ.get('BASE_EPICS_CA_SERVER_PORT'))
+    EPICS_CA_SERVER_PORT = int(environ.get('BASE_EPICS_CA_SERVER_PORT','5470'))
 
     STREAM_PROTOCOL_PATH = "$(TOP)/protocol"
     CD = "${TOP}"
@@ -62,53 +63,63 @@ if __name__ == "__main__":
                 STREAM_PROTOCOL_PATH=STREAM_PROTOCOL_PATH,
                 IP_ADDR=IP_ADDR,
                 IP_ASYN_PORT=IP_ASYN_PORT,
-                EPICS_CA_SERVER_PORT=EPICS_CA_SERVER_PORT
+                EPICS_CA_SERVER_PORT=EPICS_CA_SERVER_PORT,
         )
 
         for device in devices:
-            CONFIG = device['CONFIG']
-            PREFIX = device['PREFIX']
-            ADDRESS= device['ADDRESS']
-            pressures = device['pressures']
-    
-            res += template_device.safe_substitute( 
-                IP_ASYN_PORT=IP_ASYN_PORT,
-                PREFIX=PREFIX,
-                SCAN_RATE = SCAN_RATE,
-                ADDRESS=ADDRESS
-            )
-            
-            for channel in range(0, 6):
-                res += template_pressure.safe_substitute(
+            if device:
+                CONFIG = device['CONFIG']
+                PREFIX = device['PREFIX']
+                ADDRESS= device['ADDRESS']
+                pressures = device['pressures']
+                GAUGES = device['GAUGES']
+
+                res += template_device.safe_substitute( 
                     IP_ASYN_PORT=IP_ASYN_PORT,
                     PREFIX=PREFIX,
+                    SCAN_RATE = SCAN_RATE,
                     ADDRESS=ADDRESS,
-                    P_HI   = pressures[channel].get('HI'),
-                    P_HIHI = pressures[channel].get('HIHI'),
-                    CHANNEL = channel + 1 
+                    G6=GAUGES[0],
+                    G1=GAUGES[1],
+                    G2=GAUGES[2],
+                    G3=GAUGES[3],
+                    G4=GAUGES[4],
+                    G5=GAUGES[5]
                 )
-            array = []
-            if  CONFIG[0] == CC:
-                array.append(1)
-            if  CONFIG[1] == CC:
-                array.append(3)
-            if  CONFIG[2] == CC:
-                array.append(5)
-
-            for channel in array:
-                res += template_cc.safe_substitute(
+                
+                for channel in range(0, 6):
+                    res += template_pressure.safe_substitute(
+                        IP_ASYN_PORT=IP_ASYN_PORT,
+                        PREFIX=GAUGES[channel],
+                        ADDRESS=ADDRESS,
+                        P_HI   = pressures[channel].get('HI'),
+                        P_HIHI = pressures[channel].get('HIHI'),
+                        CHANNEL = channel + 1 
+                    )
+                
+                res += template_relay.safe_substitute(
                     IP_ASYN_PORT=IP_ASYN_PORT,
                     PREFIX=PREFIX,
-                    ADDRESS=ADDRESS,
-                    CHANNEL = channel
+                    ADDRESS=ADDRESS
                 )
+                
+                array = []
+                if  CONFIG[0] == CC:
+                    array.append(0)
+                if  CONFIG[1] == CC:
+                    array.append(2)
+                if  CONFIG[2] == CC:
+                    array.append(4)
 
-            res += template_relay.safe_substitute(
-                IP_ASYN_PORT=IP_ASYN_PORT,
-                PREFIX=PREFIX,
-                ADDRESS=ADDRESS
-            )
-            res += '\n'
+                for channel in array:
+                    res += template_cc.safe_substitute(
+                        IP_ASYN_PORT=IP_ASYN_PORT,
+                        PREFIX=GAUGES[channel],
+                        ADDRESS=ADDRESS,
+                        CHANNEL = channel  + 1
+                    )
+
+                res += '\n'
             count += 1
 
         EPICS_CA_SERVER_PORT += 2
@@ -119,3 +130,4 @@ if __name__ == "__main__":
         file.write(res)
         file.close()
         
+        print('\n\n')

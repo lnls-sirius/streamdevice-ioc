@@ -5,21 +5,14 @@
     This template is used to generate the default .cmd iocBoot file.
     The user sould pass as parameter the destination file the will be generated.
 """
+import time
 import sys 
 from os import environ
 
 from string import Template
 from cmd_template import *
+
 from devices import *
-
-# from db_template import *
-
-# rel_db = ''
-# for relay in range(1, 13):
-#     rel_db += db_relay.safe_substitute(RELAY=relay)
-# file = open('../db/mks937b_relay.db', 'w+')
-# file.write(rel_db)
-# file.close()
 
 
 if __name__ == "__main__":
@@ -109,5 +102,5 @@ if __name__ == "__main__":
         file = open(f_name + '.cmd', 'w+')
         file.write(res)
         file.close()
-
+        print('\n\n') 
         

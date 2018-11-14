@@ -1,43 +1,44 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-sectors = [ # Sector list
-    {# A Sector
-        'f_name' : "Sector1.cmd",
-        'SCAN_RATE' : "2",
+"""
+sala1 - 5 mbt -> 10.128.101.14
 
-        # Devices
-        'devices': [{# A device
-            'IP_ADDR' : "10.0.6.63:4161",
-            'MBTEMP_ADDRESS' : "8",
-            'PREFIX' : "MBT1:MBTemp"
-        },{# A device
-            'IP_ADDR' : "10.0.6.64:4161",
-            'MBTEMP_ADDRESS' : "1",
-            'PREFIX' : "MBT2:MBTemp"
-        },{# A device
-            'IP_ADDR' : "10.0.6.65:4161",
-            'MBTEMP_ADDRESS' : "3",
-            'PREFIX' : "MBT3:MBTemp"
-        }]
-    },{# A Sector
-        'f_name' : "Sector2.cmd",
-        'SCAN_RATE' : "2",
+ltb - 1 mbt -> 10.128.255.10
+"""
 
-        # Devices
-        'devices': [{# A device
-            'IP_ADDR' : "10.0.7.63:4161",
-            'MBTEMP_ADDRESS' : "8",
-            'PREFIX' : "MBT1:MBTemp"
-        },{# A device
-            'IP_ADDR' : "10.0.7.64:4161",
-            'MBTEMP_ADDRESS' : "1",
-            'PREFIX' : "MBT2:MBTemp"
-        },{# A device
-            'IP_ADDR' : "10.0.7.65:4161",
-            'MBTEMP_ADDRESS' : "3",
-            'PREFIX' : "MBT3:MBTemp"
-        }]
+def get_device(addr, pv):
+    return {# A device
+            'MBTEMP_ADDRESS' : addr,
+            'PREFIX' : pv
     }
+def get_sector(f_name, ip, devices):
+    return {# A Sector
+        'f_name' : f_name,
+        'SCAN_RATE' : "2",
+        'IP_ADDR' : ip,
+        # Devices
+        'devices': devices
+    }
+
+sectors = [ # Sector list
+    get_sector(
+        "SALA1-BOOSTER.cmd",
+        "10.128.101.14:4161",
+        [
+            get_device('1', 'mbt-booster-1'),
+            get_device('2', 'mbt-booster-2'),
+            get_device('3', 'mbt-booster-3'),
+            get_device('4', 'mbt-booster-4'),
+            get_device('5', 'mbt-booster-5')
+        ]
+    ), 
+    get_sector(
+        "LTB.cmd",
+        "10.128.255.10:4161",
+        [
+            get_device('1', 'mbt-ltb-booster-1')
+        ]
+    )
 ]
 

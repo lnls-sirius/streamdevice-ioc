@@ -11,7 +11,8 @@ epicsEnvSet("EPICS_BASE", "$EPICS_BASE")
 epicsEnvSet("ASYN", "$ASYN")
 epicsEnvSet("TOP", "$TOP")
 epicsEnvSet("ARCH", "$ARCH")
-epicsEnvSet("STREAM_PROTOCOL_PATH", "$STREAM_PROTOCOL_PATH")
+epicsEnvSet ("STREAM_PROTOCOL_PATH", "$STREAM_PROTOCOL_PATH")
+epicsEnvSet("EPICS_CA_SERVER_PORT", "$EPICS_CA_SERVER_PORT")
 
 # Database definition file
 

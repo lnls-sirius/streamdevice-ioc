@@ -167,14 +167,14 @@ record(stringin, "$(DEVICE):ErrMsgType"){
     
     field(FLNK,"$(DEVICE):IhmLock")
 }
-record(stringin, "$(DEVICE):IhmLock"){
-    field(DESC, "Lock the IHM")
-    field(DTYP, "stream")
-    field(INP,  "@mks937b.proto lockIhm($(ADDRESS),ON) $(PORT) ") 
-    # field(INP,  "@mks937b.proto lockIhm($(ADDRESS), OFF) $(PORT) ") 
+# record(stringin, "$(DEVICE):IhmLock"){
+#     field(DESC, "Lock the IHM")
+#     field(DTYP, "stream")
+#     field(INP,  "@mks937b.proto lockIhm($(ADDRESS),ON) $(PORT) ") 
+#     # field(INP,  "@mks937b.proto lockIhm($(ADDRESS), OFF) $(PORT) ") 
 
-    field(FLNK,"$(DEVICE):Dly")
-} 
+#     field(FLNK,"$(DEVICE):Dly")
+# } 
 ## -----------------------------------
 
 record(ai, "$(DEVICE):Dly"){
@@ -229,46 +229,45 @@ record(mbbo, "$(DEVICE):UnitSp"){
 }
 
 # ------------------------------------------------------------------------------------------------
-
 record(bi, "$(DEVICE):FastTrig"){
 	field(SCAN, "$(SCAN_RATE)")
-	field(FLNK, "$(GAUGE1):PressureRb-1s")
+	field(FLNK, "$(G1):Pressure-Mon-s")
 }
-record(stringin,"$(GAUGE1):PressureRb-1s") {
+record(stringin,"$(G1):Pressure-Mon-s") {
     field(DESC,"Read CCG 1's raw pressure output")
     field(DTYP,"stream")
-    field(INP,"@mks937b.proto get_pressures($(ADDRESS),$(DEVICE):PressureRb) $(PORT)") 
+    field(INP,"@mks937b.proto get_pressures($(ADDRESS),$(G1),$(G2),$(G3),$(G4),$(G5),$(G6)) $(PORT)") 
 
-    field(FLNK, "$(GAUGE1):PressureRb-1")
+    field(FLNK, "$(G1):Pressure-Mon")
 } 
-record(stringin,"$(GAUGE2):PressureRb-2s") {
+record(stringin,"$(G2):Pressure-Mon-s") {
     field(DESC,"Read CCG 2's raw pressure output")
-    field(FLNK, "$(GAUGE2):PressureRb-2")
+    field(FLNK, "$(G2):Pressure-Mon")
 } 
-record(stringin,"$(GAUGE3):PressureRb-3s") {
+record(stringin,"$(G3):Pressure-Mon-s") {
     field(DESC,"Read CCG 3's raw pressure output") 
-    field(FLNK, "$(GAUGE3):PressureRb-3")
+    field(FLNK, "$(G3):Pressure-Mon")
 } 
-record(stringin,"$(GAUGE4):PressureRb-4s") {
+record(stringin,"$(G4):Pressure-Mon-s") {
     field(DESC,"Read CCG 4's raw pressure output") 
-    field(FLNK, "$(GAUGE4):PressureRb-4")
+    field(FLNK, "$(G4):Pressure-Mon")
 } 
-record(stringin,"$(GAUGE5):PressureRb-5s") {
+record(stringin,"$(G5):Pressure-Mon-s") {
     field(DESC,"Read CCG 5's raw pressure output") 
-    field(FLNK, "$(GAUGE5):PressureRb-5")
+    field(FLNK, "$(G5):Pressure-Mon")
 } 
-record(stringin,"$(GAUGE6):PressureRb-6s") {
+record(stringin,"$(G6):Pressure-Mon-s") {
     field(DESC,"Read CCG 6's raw pressure output")
-    field(FLNK, "$(GAUGE6):PressureRb-6")
+    field(FLNK, "$(G6):Pressure-Mon")
 } 
 
 # ------------------------------------------------------------------------------------------------
 
-record(stringin,"$(DEVICE):RelaySetpointStatusRb-1") {
+record(stringin,"$(DEVICE):Relay1:SetpointStatus-Mon") {
     # This will set the values for all 12 relays
     field(SCAN, "2 second") 
     field(DTYP,"stream")
-    field(INP,"@mks937b.proto get_relaysp_status_all($(ADDRESS),$(DEVICE):RelaySetpointStatusRb) $(PORT)") 
+    field(INP,"@mks937b.proto get_relaysp_status_all($(ADDRESS),$(DEVICE),:SetpointStatus-Mon) $(PORT)") 
 } 
 
 
