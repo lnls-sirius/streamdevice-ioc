@@ -165,7 +165,8 @@ record(stringin, "$(DEVICE):ErrMsgType"){
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto errtext $(PORT) ") 
     
-    field(FLNK,"$(DEVICE):IhmLock")
+    # field(FLNK,"$(DEVICE):IhmLock")
+    field(FLNK,"$(DEVICE):Dly")
 }
 # record(stringin, "$(DEVICE):IhmLock"){
 #     field(DESC, "Lock the IHM")
