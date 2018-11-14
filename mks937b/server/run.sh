@@ -12,12 +12,12 @@ sleep 1
 
 # Clear stram-ioc folder
 pushd ${TOP}/iocBoot
-for filename in *.cmd; do
-    if [[ ${filename} =~ ${CMD_KEY}(.*).cmd ]]; then
-        rm ${filename}
-        echo Removed old content: ${filename}
-    fi
-done
+    for filename in *.cmd; do
+        if [[ ${filename} =~ ${CMD_KEY}(.*).cmd ]]; then
+            rm ${filename}
+            echo Removed old content: ${filename}
+        fi
+    done
 popd
 
 procServPort=${BASE_PROCSERV_PORT}
@@ -28,17 +28,16 @@ rm -r cmd/*
 # Generate .cmd files
 if ./build.sh; then
     pushd ${TOP}/iocBoot
-    for filename in *; do
-        if [[ ${filename} =~ ${CMD_KEY}(.*).cmd ]]; then
-            procServPort=$((procServPort + 1))
-            procServ --chdir ${TOP}/iocBoot ${procServPort} ./${filename}  
-            echo Init procServ at port ${procServPort} ${filename}
-        fi
-    done 
-    popd
-    
-    cd scripts
-    ./ioc_man.py
+        for filename in *; do
+            if [[ ${filename} =~ ${CMD_KEY}(.*).cmd ]]; then
+                echo " "
+                procServPort=$((procServPort + 1))
+                procServ --chdir ${TOP}/iocBoot ${procServPort} ./${filename}  
+                echo Init procServ at port ${procServPort} ${filename}
+                echo " "
+            fi
+        done 
+    popd 
 else
     echo The build script failed!
 fi

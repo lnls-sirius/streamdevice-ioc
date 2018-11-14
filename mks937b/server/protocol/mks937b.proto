@@ -219,24 +219,26 @@ set_relay_mode {
     @init { get_relay_mode; }
     wait  $Delay;
 }
-get_relay_mode_all { 
-    wait  $Delay;
-    out $Addr, "ENA?"; 
-    in  $Addr, "ACK",
-                "%c",
-                "%(\$2-2)c",
-                "%(\$2-3)c",
-                "%(\$2-4)c",
-                "%(\$2-5)c",
-                "%(\$2-6)c",
-                "%(\$2-7)c",
-                "%(\$2-8)c",
-                "%(\$2-9)c",
-                "%(\$2-10)c",
-                "%(\$2-11)c",
-                "%(\$2-12)c"; 
-    wait  $Delay;
-}
+# get_relay_mode_all { 
+#     wait  $Delay;
+#     out $Addr, "ENA?"; 
+#     in  $Addr, "ACK",
+#                 "%c",
+#                 "%(\$2-2)c",
+#                 "%(\$2-3)c",
+#                 "%(\$2-4)c",
+#                 "%(\$2-5)c",
+#                 "%(\$2-6)c",
+#                 "%(\$2-7)c",
+#                 "%(\$2-8)c",
+#                 "%(\$2-9)c",
+#                 "%(\$2-10)c",
+#                 "%(\$2-11)c",
+#                 "%(\$2-12)c"; 
+#     wait  $Delay;
+# }
+
+
 # Query relay setpoint status ($2 1 to 12)
 get_relaysp_status { 
     wait  $Delay;
@@ -248,18 +250,18 @@ get_relaysp_status_all {
     wait  $Delay;
     out $Addr, "SSA?"; 
     in  $Addr, "ACK",
-                "%c",
-                "%(\$2-2)c",
-                "%(\$2-3)c",
-                "%(\$2-4)c",
-                "%(\$2-5)c",
-                "%(\$2-6)c",
-                "%(\$2-7)c",
-                "%(\$2-8)c",
-                "%(\$2-9)c",
-                "%(\$2-10)c",
-                "%(\$2-11)c",
-                "%(\$2-12)c"; 
+                "%(\$2:Relay1\$3)c",
+                "%(\$2:Relay2\$3)c",
+                "%(\$2:Relay3\$3)c",
+                "%(\$2:Relay4\$3)c",
+                "%(\$2:Relay5\$3)c",
+                "%(\$2:Relay6\$3)c",
+                "%(\$2:Relay7\$3)c",
+                "%(\$2:Relay8\$3)c",
+                "%(\$2:Relay9\$3)c",
+                "%(\$2:Relay10\$3)c",
+                "%(\$2:Relay11\$3)c",
+                "%(\$2:Relay12\$3)c";
     wait  $Delay;
 }
 # Read pressure on channel  ($2 1 to 6)
@@ -274,12 +276,12 @@ get_pressures {
     wait  $Delay;
     out $Addr, "PRZ?";
     in  $Addr, "ACK",
-                "%s",
-                " %(\$2-2s)s",
-                " %(\$2-3s)s",
-                " %(\$2-4s)s",
-                " %(\$2-5s)s",
-                " %(\$2-6s)s";
+                "%(\$2:Pressure-Mon-s)s",
+                " %(\$3:Pressure-Mon-s)s",
+                " %(\$4:Pressure-Mon-s)s",
+                " %(\$5:Pressure-Mon-s)s",
+                " %(\$6:Pressure-Mon-s)s",
+                " %(\$7:Pressure-Mon-s)s";
     wait  $Delay;
 }
 # Read pressure on channel 'n' and its combination sensor 
