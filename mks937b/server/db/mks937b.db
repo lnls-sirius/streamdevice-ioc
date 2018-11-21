@@ -165,7 +165,8 @@ record(stringin, "$(DEVICE):ErrMsgType"){
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto errtext $(PORT) ") 
     
-    field(FLNK,"$(DEVICE):IhmLock")
+    field(FLNK,"$(DEVICE):Dly")
+    # field(FLNK,"$(DEVICE):IhmLock")
 }
 # record(stringin, "$(DEVICE):IhmLock"){
 #     field(DESC, "Lock the IHM")
@@ -236,7 +237,7 @@ record(bi, "$(DEVICE):FastTrig"){
 record(stringin,"$(G1):Pressure-Mon-s") {
     field(DESC,"Read CCG 1's raw pressure output")
     field(DTYP,"stream")
-    field(INP,"@mks937b.proto get_pressures($(ADDRESS),$(G1),$(G2),$(G3),$(G4),$(G5),$(G6)) $(PORT)") 
+    field(INP,"@$(MKS_PRESSURES).proto get_pressures($(ADDRESS)) $(PORT)") 
 
     field(FLNK, "$(G1):Pressure-Mon")
 } 

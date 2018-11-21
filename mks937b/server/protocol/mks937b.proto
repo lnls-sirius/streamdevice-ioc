@@ -272,18 +272,7 @@ get_pressure_raw {
     @mismatch {in  $Addr, "NAK";}
     wait  $Delay;
 } 
-get_pressures {
-    wait  $Delay;
-    out $Addr, "PRZ?";
-    in  $Addr, "ACK",
-                "%(\$2:Pressure-Mon-s)s",
-                " %(\$3:Pressure-Mon-s)s",
-                " %(\$4:Pressure-Mon-s)s",
-                " %(\$5:Pressure-Mon-s)s",
-                " %(\$6:Pressure-Mon-s)s",
-                " %(\$7:Pressure-Mon-s)s";
-    wait  $Delay;
-}
+
 # Read pressure on channel 'n' and its combination sensor 
 get_pressure_combination {
     wait  $Delay;
@@ -291,6 +280,7 @@ get_pressure_combination {
     in  $Addr, "ACK%s";
     wait  $Delay;
 } 
+
 # PIRANI AND CONVECTION PIRANI CONTROL COMMANDS
 # Query or set a gas correction factor for a CC gauge on
 # Channel n. Valid range is from 0.1 to 10.  ($2)  1, 3, 5

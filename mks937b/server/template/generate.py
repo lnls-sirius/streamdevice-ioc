@@ -14,6 +14,7 @@ from template import template_device, template_bot,\
                         template_top, template_pressure, template_cc,\
                         template_relay
 from devices import sectors  as sectors, CC, PR
+from proto_template import mks937b_pressures_proto
 from db_template import relay as db_relay
 
 
@@ -47,8 +48,11 @@ if __name__ == "__main__":
     for sector in sectors:
         res = ''
         count = 0
+        
+        name = CMD_KEY + sector['f_name']
+        f_name       = '../cmd/' + name
+        proto_name   =  '../protocol/' + name
 
-        f_name       = '../cmd/' + CMD_KEY + sector['f_name']
         devices      = sector['devices']
         IP_ASYN_PORT = sector['IP_ASYN_PORT']
         SCAN_RATE    = sector['SCAN_RATE']
@@ -63,8 +67,9 @@ if __name__ == "__main__":
                 STREAM_PROTOCOL_PATH=STREAM_PROTOCOL_PATH,
                 IP_ADDR=IP_ADDR,
                 IP_ASYN_PORT=IP_ASYN_PORT,
-                EPICS_CA_SERVER_PORT=EPICS_CA_SERVER_PORT,
+                EPICS_CA_SERVER_PORT=EPICS_CA_SERVER_PORT
         )
+  
 
         for device in devices:
             if device:
@@ -73,20 +78,34 @@ if __name__ == "__main__":
                 ADDRESS= device['ADDRESS']
                 pressures = device['pressures']
                 GAUGES = device['GAUGES']
+                
+                file = open(f_name + '.cmd', 'w+')
+                file.write(res)
+                file.close()
 
                 res += template_device.safe_substitute( 
                     IP_ASYN_PORT=IP_ASYN_PORT,
                     PREFIX=PREFIX,
                     SCAN_RATE = SCAN_RATE,
                     ADDRESS=ADDRESS,
-                    G6=GAUGES[0],
-                    G1=GAUGES[1],
-                    G2=GAUGES[2],
-                    G3=GAUGES[3],
-                    G4=GAUGES[4],
-                    G5=GAUGES[5]
+                    G1=GAUGES[0],
+                    G2=GAUGES[1],
+                    G3=GAUGES[2],
+                    G4=GAUGES[3],
+                    G5=GAUGES[4],
+                    G6=GAUGES[5],
+                    MKS_PRESSURES=name
                 )
-                
+                with open(proto_name + '.proto', 'w+') as file:
+                    file.write(
+                        mks937b_pressures_proto.safe_substitute(
+                        G1=GAUGES[0],
+                        G2=GAUGES[1],
+                        G3=GAUGES[2],
+                        G4=GAUGES[3],
+                        G5=GAUGES[4],
+                        G6=GAUGES[5]))
+
                 for channel in range(0, 6):
                     res += template_pressure.safe_substitute(
                         IP_ASYN_PORT=IP_ASYN_PORT,
@@ -96,7 +115,6 @@ if __name__ == "__main__":
                         P_HIHI = pressures[channel].get('HIHI'),
                         CHANNEL = channel + 1 
                     )
-                
                 res += template_relay.safe_substitute(
                     IP_ASYN_PORT=IP_ASYN_PORT,
                     PREFIX=PREFIX,

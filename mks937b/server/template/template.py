@@ -32,6 +32,7 @@ DEVICE = $PREFIX,\
   G5 = $G5,\
   G6 = $G6,\
   ADDRESS = $ADDRESS,\
+  MKS_PRESSURES = $MKS_PRESSURES,\
   SCAN_RATE = .1 second")''')
 
 template_pressure = Template('''
