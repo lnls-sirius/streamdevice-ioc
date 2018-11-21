@@ -7,6 +7,8 @@
 """
 import time
 import sys 
+import argparse
+
 from os import environ
 
 from string import Template
@@ -14,16 +16,29 @@ from cmd_template import *
 
 from devices import *
 
+parser = argparse.ArgumentParser(description='Generate Agilent 4UHV IOC files.')
+parser.add_argument('--base-epics-ca-port', help='Initial EPICS CA server port. It will increase by 2 for every ioc.',
+    type=int, default=5370)
+parser.add_argument('--cmd-prefix', 
+    default='UHV', help='Prefix for the .cmd files.')
+parser.add_argument('--epics-base', 
+    default='/opt/epics-R3.15.5/base', help='Epics base path.')
+parser.add_argument('--asyn', 
+    default='/opt/epics-R3.15.5/modules/asyn4-33', help='Asyn driver path.')
+parser.add_argument('--top', 
+    default='/opt/stream-ioc', help='Stream-ioc path.')
+parser.add_argument('--arch', help='System architecture.', choices=['linux-x86_64', 'linux-arm'],
+    default='linux-x86_64')
+args = parser.parse_args()
+
+EPICS_BASE = args.epics_base
+ASYN = args.asyn
+TOP =  args.top
+ARCH = args.arch
+EPICS_CA_SERVER_PORT = args.base_epics_ca_port 
+CMD_KEY = args.cmd_prefix
 
 if __name__ == "__main__":
-    EPICS_BASE = environ.get('EPICS_BASE', '/opt/epics-R3.15.5/base')
-    ASYN = environ.get('ASYN', '/opt/epics-R3.15.5/modules/asyn4-33')
-    TOP = environ.get('IOC_FOLDER', '/opt/stream-ioc')
-    ARCH = environ.get('EPICS_HOST_ARCH', 'linux-x86_64')
-    CMD_KEY = environ.get('CMD_KEY', 'Agilent-4UHV-')
-
-    EPICS_CA_SERVER_PORT = int(environ.get('BASE_EPICS_CA_SERVER_PORT'))
-
     CD = "${TOP}"
     STREAM_PROTOCOL_PATH = "$(TOP)/protocol"
     

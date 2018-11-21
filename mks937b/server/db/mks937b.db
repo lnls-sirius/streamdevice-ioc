@@ -168,6 +168,7 @@ record(stringin, "$(DEVICE):ErrMsgType"){
     field(FLNK,"$(DEVICE):Dly")
     # field(FLNK,"$(DEVICE):IhmLock")
 }
+
 # record(stringin, "$(DEVICE):IhmLock"){
 #     field(DESC, "Lock the IHM")
 #     field(DTYP, "stream")

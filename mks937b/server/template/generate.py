@@ -7,6 +7,8 @@
 """
 import sys 
 import time
+import argparse
+
 from os import environ
 from string import Template
 
@@ -17,6 +19,27 @@ from devices import sectors  as sectors, CC, PR
 from proto_template import mks937b_pressures_proto
 from db_template import relay as db_relay
 
+parser = argparse.ArgumentParser(description='Generate MKS 937b IOC files.')
+parser.add_argument('--base-epics-ca-port', help='Initial EPICS CA server port. It will increase by 2 for every ioc.',
+    type=int, default=5470)
+parser.add_argument('--cmd-prefix', 
+    default='mks', help='Prefix for the .cmd files.')
+parser.add_argument('--epics-base', 
+    default='/opt/epics-R3.15.5/base', help='Epics base path.')
+parser.add_argument('--asyn', 
+    default='/opt/epics-R3.15.5/modules/asyn4-33', help='Asyn driver path.')
+parser.add_argument('--top', 
+    default='/opt/stream-ioc', help='Stream-ioc path.')
+parser.add_argument('--arch', help='System architecture.', choices=['linux-x86_64', 'linux-arm'],
+    default='linux-x86_64')
+args = parser.parse_args()
+
+EPICS_BASE = args.epics_base
+ASYN = args.asyn
+TOP =  args.top
+ARCH = args.arch
+EPICS_CA_SERVER_PORT = args.base_epics_ca_port 
+CMD_KEY = args.cmd_prefix
 
 rel_db = ''
 rel_db += '''
@@ -33,17 +56,8 @@ file.write(rel_db)
 file.close()
  
 if __name__ == "__main__":
-    EPICS_BASE = environ.get('EPICS_BASE', '/opt/epics-R3.15.5/base')
-    ASYN = environ.get('ASYN', '/opt/epics-R3.15.5/modules/asyn4-33')
-    TOP = environ.get('IOC_FOLDER', '/opt/stream-ioc')
-    ARCH = environ.get('EPICS_HOST_ARCH', 'linux-x86_64')
-    CMD_KEY = environ.get('CMD_KEY', 'mks')
-    
-    EPICS_CA_SERVER_PORT = int(environ.get('BASE_EPICS_CA_SERVER_PORT','5470'))
-
     STREAM_PROTOCOL_PATH = "$(TOP)/protocol"
     CD = "${TOP}"
-    
 
     for sector in sectors:
         res = ''
@@ -67,7 +81,7 @@ if __name__ == "__main__":
                 STREAM_PROTOCOL_PATH=STREAM_PROTOCOL_PATH,
                 IP_ADDR=IP_ADDR,
                 IP_ASYN_PORT=IP_ASYN_PORT,
-                EPICS_CA_SERVER_PORT=EPICS_CA_SERVER_PORT
+                EPICS_CA_SERVER_PORT=EPICS_CA_SERVER_PORT,
         )
   
 
@@ -79,14 +93,18 @@ if __name__ == "__main__":
                 pressures = device['pressures']
                 GAUGES = device['GAUGES']
                 
-                file = open(f_name + '.cmd', 'w+')
-                file.write(res)
-                file.close()
-
+                cc_array = []
+                if  CONFIG[0] == CC:
+                    cc_array.append(0)
+                if  CONFIG[1] == CC:
+                    cc_array.append(2)
+                if  CONFIG[2] == CC:
+                    cc_array.append(4)
+                
                 res += template_device.safe_substitute( 
                     IP_ASYN_PORT=IP_ASYN_PORT,
                     PREFIX=PREFIX,
-                    SCAN_RATE = SCAN_RATE,
+                    SCAN_RATE=SCAN_RATE,
                     ADDRESS=ADDRESS,
                     G1=GAUGES[0],
                     G2=GAUGES[1],
@@ -111,32 +129,22 @@ if __name__ == "__main__":
                         IP_ASYN_PORT=IP_ASYN_PORT,
                         PREFIX=GAUGES[channel],
                         ADDRESS=ADDRESS,
-                        P_HI   = pressures[channel].get('HI'),
-                        P_HIHI = pressures[channel].get('HIHI'),
-                        CHANNEL = channel + 1 
+                        P_HI=pressures[channel].get('HI'),
+                        P_HIHI=pressures[channel].get('HIHI'),
+                        CHANNEL=channel+1 
                     )
-                res += template_relay.safe_substitute(
-                    IP_ASYN_PORT=IP_ASYN_PORT,
-                    PREFIX=PREFIX,
-                    ADDRESS=ADDRESS
-                )
-                
-                array = []
-                if  CONFIG[0] == CC:
-                    array.append(0)
-                if  CONFIG[1] == CC:
-                    array.append(2)
-                if  CONFIG[2] == CC:
-                    array.append(4)
-
-                for channel in array:
+                for channel in cc_array: 
                     res += template_cc.safe_substitute(
                         IP_ASYN_PORT=IP_ASYN_PORT,
                         PREFIX=GAUGES[channel],
                         ADDRESS=ADDRESS,
-                        CHANNEL = channel  + 1
-                    )
-
+                        CHANNEL=channel+1)
+                
+                res += template_relay.safe_substitute(
+                    IP_ASYN_PORT=IP_ASYN_PORT,
+                    PREFIX=PREFIX,
+                    ADDRESS=ADDRESS)
+                
                 res += '\n'
             count += 1
 

@@ -8,17 +8,17 @@ record(stringin,"$(DEVICE):Relay${RELAY}:SetpointStatus-Mon"){
 }
 
 # Setpoint
-record(ai, "$(DEVICE):Relay${RELAY}-RB"){
+record(ai, "$(DEVICE):Relay${RELAY}:Setpoint-RB"){
     field(DESC, "Read Setpoint for relay ${RELAY}") 
     field(PINI, "YES") 
     field(DTYP, "stream")
     field(INP, "@mks937b.proto get_sp($(ADDRESS),${RELAY}) $(PORT)")
 }
-record(ao, "$(DEVICE):Relay${RELAY}-SP"){
+record(ao, "$(DEVICE):Relay${RELAY}:Setpoint-SP"){
     field(DESC, "Setpoint for relay ${RELAY}") 
     field(DTYP, "stream")
     field(OUT,  "@mks937b.proto set_sp($(ADDRESS),${RELAY}) $(PORT)")
-    field(FLNK, "$(DEVICE):Relay${RELAY}-RB")
+    field(FLNK, "$(DEVICE):Relay${RELAY}:Setpoint-RB")
 }
 
 # Hysteresis

@@ -39,16 +39,16 @@ def get_sector(f_name = 'default_name', ip_address = "10.0.6.67:4161", devices =
 sectors = [ # Sector list
     get_sector(
         'S1-BOOSTER', '10.128.101.11:4161', [
-        get_device('S1-BOOSTER-1', 1, ['S1-BOOSTER-1:CH1', 'S1-BOOSTER-1:CH2', 'S1-BOOSTER-1:CH3', 'S1-BOOSTER-1:CH4']),
-        get_device('S1-BOOSTER-2', 2, ['S1-BOOSTER-2:CH1', 'S1-BOOSTER-2:CH2', 'S1-BOOSTER-2:CH3', 'S1-BOOSTER-2:CH4']),
+        get_device('BO-RA01:VA-SIPC-01', 1, ['BO-01U:VA-SIP20-BG', 'BO-01D:VA-SIP20-BG', 'BO-01D:VA-SIP20-ED', 'BO-02U:VA-SIP20-BG']),
+        get_device('BO-RA01:VA-SIPC-02', 2, ['BO-02U:VA-SIP20-ED', 'BO-02D:VA-SIP20-ED', 'BO-03U:VA-SIP20-BG', 'BO-03U:VA-SIP20-ED']),
         None,
         None
     ]),
     get_sector(
         'S20-LTBB', '10.128.120.11:4161', [
-        get_device('S20-LTB-1', 1, ['S20-LTB-1:CH1', 'S20-LTB-1:CH2', 'S20-LTB-1:CH3', 'S20-LTB-1:CH4']),
-        get_device('S20-LTB-2', 2, ['S20-LTB-2:CH1', 'S20-LTB-2:CH2', 'S20-LTB-2:CH3', 'S20-LTB-2:CH4']),
-        get_device('S20-BOOSTER-3', 3, ['S20-BOOSTER-1:CH1', 'S20-BOOSTER-1:CH2', 'S20-BOOSTER-1:CH3', 'S20-BOOSTER-1:CH4']),
+        get_device('BO-RA20:VA-SIPC-01', 1, ['BO-48U:VA-SIP20-ED', 'BO-48D:VA-SIP20-ED', 'BO-49U:VA-SIP20-BG', 'BO-49U:VA-SIP20-ED']),
+        get_device('BO-RA20:VA-SIPC-02', 2, ['BO-49D:VA-SIP20-ED', 'BO-50U:VA-SIP20-BG', 'BO-50U:VA-SIP20-ED', 'BO-50D:VA-SIP20-ED']),
+        None,
         None
     ])
 ]

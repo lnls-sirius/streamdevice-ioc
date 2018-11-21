@@ -23,8 +23,8 @@ drvAsynIPPortConfigure("$IP_ASYN_PORT","$IP_ADDR", 100, 0, 0)
 template_device = Template('''
 # General mks937b records
 dbLoadRecords("database/mks937b.db", \
-"PORT = $IP_ASYN_PORT, \
-DEVICE = $PREFIX,\
+"PORT = $IP_ASYN_PORT,\
+ DEVICE = $PREFIX,\
   G1 = $G1,\
   G2 = $G2,\
   G3 = $G3,\

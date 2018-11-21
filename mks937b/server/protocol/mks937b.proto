@@ -272,7 +272,6 @@ get_pressure_raw {
     @mismatch {in  $Addr, "NAK";}
     wait  $Delay;
 } 
-
 # Read pressure on channel 'n' and its combination sensor 
 get_pressure_combination {
     wait  $Delay;
