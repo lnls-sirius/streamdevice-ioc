@@ -101,12 +101,12 @@ if __name__ == "__main__":
                     PREFIX=PREFIX,
                     SCAN_RATE=SCAN_RATE,
                     ADDRESS=ADDRESS,
-                    G6=GAUGES[0],
-                    G1=GAUGES[1],
-                    G2=GAUGES[2],
-                    G3=GAUGES[3],
-                    G4=GAUGES[4],
-                    G5=GAUGES[5])
+                    G1=GAUGES[0],
+                    G2=GAUGES[1],
+                    G3=GAUGES[2],
+                    G4=GAUGES[3],
+                    G5=GAUGES[4],
+                    G6=GAUGES[5])
                 
                 for channel in range(0, 6):
                     res += template_pressure.safe_substitute(
