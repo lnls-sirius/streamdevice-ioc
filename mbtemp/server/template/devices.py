@@ -24,7 +24,7 @@ def get_sector(f_name, ip, devices):
 sectors = [ # Sector list
     get_sector(
         "SALA1-BOOSTER.cmd",
-        "10.128.101.14:4161",
+        "10.128.101.106:4161",
         [
             get_device('1', 'mbt-booster-1'),
             get_device('2', 'mbt-booster-2'),
@@ -35,7 +35,7 @@ sectors = [ # Sector list
     ), 
     get_sector(
         "LTB.cmd",
-        "10.128.255.10:4161",
+        "10.128.255.123:4161",
         [
             get_device('1', 'mbt-ltb-booster-1')
         ]

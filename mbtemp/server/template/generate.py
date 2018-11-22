@@ -11,8 +11,8 @@ import argparse
 from os import environ
 
 from string import Template
-from mbtemp_template import mbt_template, mbt_template_bot, mbt_template_top
-from mbtemp_devices import sectors  as sectors
+from template import mbt_template, mbt_template_bot, mbt_template_top
+from devices import sectors  as sectors
 
 parser = argparse.ArgumentParser(description='Generate MBTemp IOC files.')
 parser.add_argument('--base-epics-ca-port', help='Initial EPICS CA server port. It will increase by 2 for every ioc.',
@@ -59,7 +59,8 @@ if __name__ == "__main__":
                 ARCH=ARCH,
                 STREAM_PROTOCOL_PATH=STREAM_PROTOCOL_PATH,
                 IP_ADDR=IP_ADDR,
-                EPICS_CA_SERVER_PORT=EPICS_CA_SERVER_PORT
+                EPICS_CA_SERVER_PORT=EPICS_CA_SERVER_PORT,
+                IP_ASYN_PORT=IP_ASYN_PORT
         )
         
 

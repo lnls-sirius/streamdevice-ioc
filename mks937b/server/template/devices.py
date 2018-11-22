@@ -52,7 +52,7 @@ def get_sector(f_name, ip_addr, devices, ip_asyn_port = 'IPPort0', scan = '1'):
     }
 
 sectors = [ # Sector list
-    get_sector('S1-Booster', '10.128.101.10:4161',[
+    get_sector('S1-Booster', '10.128.101.101:4161',[
         get_device('BO-RA01:VA-VGC-01', '001', [CC, CC, PR], ['BO-01U:VA-CCG-BG', 'm1g2', 'BO-04U:VA-CCG-BG', 'm1g4', 'BO-01U:VA-PIR-BG', 'BO-04U:VA-PIR-BG'])
         # get_device('VGC2', '002', [CC, CC, PR], ['VGC2:G1', 'VGC2:G2', 'VGC2:G3', 'VGC2:G4', 'VGC2:G5', 'VGC2:G6']),
         # get_device('VGC3', '003', [CC, CC, PR], ['VGC3:G1', 'VGC3:G2', 'VGC3:G3', 'VGC3:G4', 'VGC3:G5', 'VGC3:G6']),
