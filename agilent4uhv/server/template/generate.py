@@ -7,6 +7,7 @@
 """
 import time
 import sys 
+import logging
 import argparse
 
 from os import environ
@@ -15,6 +16,14 @@ from string import Template
 from cmd_template import *
 
 from devices import *
+
+logger = logging.getLogger()
+handler = logging.StreamHandler()
+formatter = logging.Formatter(
+        '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
 
 parser = argparse.ArgumentParser(description='Generate Agilent 4UHV IOC files.')
 parser.add_argument('--base-epics-ca-port', help='Initial EPICS CA server port. It will increase by 2 for every ioc.',
@@ -63,6 +72,7 @@ if __name__ == "__main__":
                 IP_ASYN_PORT=IP_ASYN_PORT,
                 EPICS_CA_SERVER_PORT=EPICS_CA_SERVER_PORT                
         )
+
         for i in range(4):
             if devices[i] == None:
                 devices[i] = {'PREFIX' : 'None:{}'.format(i)}
