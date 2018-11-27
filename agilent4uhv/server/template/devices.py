@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import os
+import pandas
+import logging
+
+
+logger = logging.getLogger()
+handler = logging.StreamHandler()
+formatter = logging.Formatter(
+        '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
 
 '''
     For each sector a .cmd file will be generated.
@@ -12,6 +24,11 @@
     If a channel or device will not be used, set it to None
 
 '''
+FILE = os.path.dirname(os.path.realpath(__file__)) + '/../devices.xlsx'
+SHEET = 'PVs Agilent 4UHV'
+
+sheet = pandas.read_excel(FILE, sheet_name=SHEET, dtype=str) 
+sheet = sheet.replace('nan', '')
 
 def get_serial_addess(addr):
     return 128 + addr
@@ -35,6 +52,35 @@ def get_sector(f_name = 'default_name', ip_address = "10.0.6.67:4161", devices =
         # Devices
         'devices': devices
     }
+
+# IP	Setor	RS485 ID	Rack	Dispositivo	C1	C2	C3	C4
+beagle = {}
+for ip, sector, rs_id, rack, c1, c2 ,c3 ,c4\
+        in zip(
+            sheet['IP'],
+            sheet['Sector'],
+            sheet['RS485 ID'],
+            sheet['Rack'],
+            sheet['C1'],
+            sheet['C2'],
+            sheet['C3'],
+            sheet['C4']
+        ):
+    if ip == '':
+        logger.error('Ip not set for {}'.forma([ip, sector, rs_id, rack, c1, c2 ,c3 ,c4]))
+    else:
+        if ip in beagle:
+            beagle[ip].append([ip, sector, rs_id, rack, c1, c2 ,c3 ,c4])
+        else:
+            beagle[ip] = [ip, sector, rs_id, rack, c1, c2 ,c3 ,c4]
+
+for k, values in beagle.items():
+    if len(values) > 4:
+        logger.error('More than 4 devices are set for the {} network.'.format(k))
+        continue
+    for val in values:
+        pass
+    pass
 
 sectors = [ # Sector list
     get_sector(
