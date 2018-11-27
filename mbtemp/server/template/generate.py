@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/python3
+# # -*- coding: utf-8 -*-
 
 """
     This template is used to generate the default .cmd iocBoot file.
@@ -8,11 +8,21 @@
 import sys 
 import time
 import argparse
+import logging
+
 from os import environ
 
 from string import Template
 from template import mbt_template, mbt_template_bot, mbt_template_top
 from devices import sectors  as sectors
+
+logger = logging.getLogger()
+handler = logging.StreamHandler()
+formatter = logging.Formatter(
+        '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
 
 parser = argparse.ArgumentParser(description='Generate MBTemp IOC files.')
 parser.add_argument('--base-epics-ca-port', help='Initial EPICS CA server port. It will increase by 2 for every ioc.',
@@ -68,12 +78,21 @@ if __name__ == "__main__":
             
             MBTEMP_ADDRESS = device['MBTEMP_ADDRESS']
             PREFIX = device['PREFIX']
-    
+            CH = device['channels']
+
             res += mbt_template.safe_substitute(                                
                 IP_ASYN_PORT=(IP_ASYN_PORT),
                 MBTEMP_ADDRESS=MBTEMP_ADDRESS,
                 PREFIX=PREFIX,
-                SCAN_RATE = SCAN_RATE)
+                SCAN_RATE = SCAN_RATE,
+                CH1=CH[0],
+                CH2=CH[1],
+                CH3=CH[2],
+                CH4=CH[3],
+                CH5=CH[4],
+                CH6=CH[5],
+                CH7=CH[6],
+                CH8=CH[7])
             
             count += 1
         EPICS_CA_SERVER_PORT += 2
