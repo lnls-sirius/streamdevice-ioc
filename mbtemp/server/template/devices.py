@@ -38,9 +38,6 @@ for ip, rack, addr, dev, c1, c2 ,c3 ,c4, c5,c6,c7,c8\
     else:
         beagle[ip] = [[ip, addr, rack, dev, c1, c2 ,c3 ,c4, c5,c6,c7,c8]]
 
-
-
-
 def get_device(addr, pv, chs = []):
     for i in range(1, len(chs)):
         if not chs[i] or chs[i] == '':
@@ -54,7 +51,7 @@ def get_device(addr, pv, chs = []):
 
 def get_sector(f_name, ip, devices):
     return {# A Sector
-        'f_name' : f_name,
+        'f_name' : f_name + '.cmd',
         'SCAN_RATE' : "2",
         'IP_ADDR' : ip + ':4161',
         # Devices
@@ -76,25 +73,3 @@ for _ip, values in beagle.items():
                         [val[4], val[5], val[4], val[7], val[7], val[8], val[10], val[11]])) # 1-8
     
     sectors.append(get_sector(_ip, _ip ,devs))
-
-# sectors = [ # Sector list
-#     get_sector(
-#         "SALA1-BOOSTER.cmd",
-#         "10.128.101.106:4161",
-#         [
-#             get_device('1', 'mbt-booster-1'),
-#             get_device('2', 'mbt-booster-2'),
-#             get_device('3', 'mbt-booster-3'),
-#             get_device('4', 'mbt-booster-4'),
-#             get_device('5', 'mbt-booster-5')
-#         ]
-#     ), 
-#     get_sector(
-#         "LTB.cmd",
-#         "10.128.255.123:4161",
-#         [
-#             get_device('1', 'mbt-ltb-booster-1')
-#         ]
-#     )
-# ]
-
