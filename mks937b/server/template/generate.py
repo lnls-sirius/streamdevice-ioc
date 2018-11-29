@@ -7,6 +7,7 @@
 """
 import sys 
 import time
+import logging
 import argparse
 
 from os import environ
@@ -18,6 +19,15 @@ from template import template_device, template_bot,\
 from devices import sectors  as sectors, CC, PR
 from proto_template import mks937b_pressures_proto
 from db_template import relay as db_relay
+
+logger = logging.getLogger()
+handler = logging.StreamHandler()
+formatter = logging.Formatter(
+        '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
+
 
 parser = argparse.ArgumentParser(description='Generate MKS 937b IOC files.')
 parser.add_argument('--base-epics-ca-port', help='Initial EPICS CA server port. It will increase by 2 for every ioc.',
