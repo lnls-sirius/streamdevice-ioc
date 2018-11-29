@@ -9,4 +9,4 @@ export CMD_KEY=MKS-
 export PATH=/opt/procServ:$PATH
 
 build
-run_ioc
+# run_ioc

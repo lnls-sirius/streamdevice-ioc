@@ -48,21 +48,14 @@ def get_sector(f_name = 'default_name', ip_address = "10.0.6.67", devices = [Non
         'devices': devices
     }
 
-# IP	Setor	RS485 ID	Rack	Dispositivo	C1	C2	C3	C4
 beagle = {}
-for ip, sector, rs_id, rack, disp, c1, c2 ,c3 ,c4\
-        in zip(
-            sheet['IP'],
-            sheet['Setor'],
-            sheet['RS485 ID'],
-            sheet['Rack'],
-            sheet['Dispositivo'],
-            sheet['C1'],
-            sheet['C2'],
-            sheet['C3'],
-            sheet['C4']
-        ):
-    
+# IP	Setor	RS485 ID	Rack	Dispositivo	C1	C2	C3	C4
+for index, row in sheet.iterrows():
+    ip, sector, rs_id, rack, disp, c1, c2 ,c3 ,c4 = \
+        row['IP'], row['Setor'], row['RS485 ID'], row['Rack'],\
+        row['Dispositivo'],\
+        row['C1'], row['C2'], row['C3'], row['C4']
+
     if ip == '':
         logger.error('Ip not set for {}'.format([ip, sector, rs_id, rack, disp, c1, c2 ,c3 ,c4]))
         continue
@@ -74,7 +67,6 @@ for ip, sector, rs_id, rack, disp, c1, c2 ,c3 ,c4\
 
 sectors = []
 for _ip, values in beagle.items():
-    
     if len(values) > 4:
         logger.error('More than 4 devices are set for the {} network. Values {}.'.format(_ip, values))
         continue
