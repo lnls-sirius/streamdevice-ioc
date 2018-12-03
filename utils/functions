@@ -18,14 +18,18 @@ run_ioc(){
             if [[ ${filename} =~ ${CMD_KEY}(.*).cmd ]]; then 
                 procServPort=$((procServPort + 1))
                 procServ --chdir ${TOP}/iocBoot ${procServPort} ./${filename}  
-                echo Init procServ at port ${procServPort} ${filename}
+                echo "		Init procServ at port ${procServPort} ${filename}"
             fi
         done 
     popd
+    export BASE_PROCSERV_PORT=$procServPort
 }
 
 copy_to_stream_device(){
     # Clear stream-ioc folder
+    echo "Copy Stream Device"
+    pwd
+
     clear_stream_ioc 
 
     PROTOCOL="protocol"
