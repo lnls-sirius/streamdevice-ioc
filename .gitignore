@@ -9,7 +9,7 @@ mbtemp/server/cmd/*
 # MKS 937b
 mks937b/server/cmd/*
 mks937b/server/db/mks937b_relay.db
-
+mks937b/server/protocol/MKS-*
 
 
 # Created by https://www.gitignore.io/api/java,python,pycharm+all,intellij+iml,visualstudiocode
