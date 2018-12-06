@@ -238,7 +238,7 @@ record(bi, "$(DEVICE):FastTrig"){
 record(stringin,"$(G1):Pressure-Mon-s") {
     field(DESC,"Read CCG 1's raw pressure output")
     field(DTYP,"stream")
-    field(INP,"@$(MKS_PRESSURES).proto get_pressures($(ADDRESS)) $(PORT)") 
+    field(INP,"@$(P_PROTO).proto get_pressures($(ADDRESS)) $(PORT)") 
 
     field(FLNK, "$(G1):Pressure-Mon")
 } 

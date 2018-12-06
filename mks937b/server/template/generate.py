@@ -74,8 +74,8 @@ if __name__ == "__main__":
         count = 0
         
         name = CMD_KEY + sector['f_name']
-        f_name       = '../cmd/' + name
-        proto_name   =  '../protocol/' + name
+        proto_name   =  name
+        # proto_name   =  name.replace('.', '')
 
         devices      = sector['devices']
         IP_ASYN_PORT = sector['IP_ASYN_PORT']
@@ -122,9 +122,9 @@ if __name__ == "__main__":
                     G4=GAUGES[3],
                     G5=GAUGES[4],
                     G6=GAUGES[5],
-                    MKS_PRESSURES=name
+                    P_PROTO=proto_name
                 )
-                with open(proto_name + '.proto', 'w+') as file:
+                with open('../protocol/' + proto_name + '.proto', 'w+') as file:
                     file.write(
                         mks937b_pressures_proto.safe_substitute(
                         G1=GAUGES[0],
@@ -162,7 +162,7 @@ if __name__ == "__main__":
 
         res += template_bot
 
-        file = open(f_name + '.cmd', 'w+')
+        file = open('../cmd/' + name + '.cmd', 'w+')
         file.write(res)
         file.close()
         

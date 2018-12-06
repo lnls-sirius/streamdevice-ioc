@@ -75,7 +75,7 @@ for _ip, values in beagle.items():
     for val in values:
         devs.append(get_device(\
                         val['Dispositivo'],
-                        val['RS485 ID'], val['Configuracao'].split(' '),
+                        val['RS485 ID'].zfill(3), val['Configuracao'].split(' '),
                         [val['A1'], val['A2'], val['B1'], val['B2'], val['C1'], val['C2']],
                         [
                             {'HI':val['HI A1'],'HIHI': val['HIHI A1']},
