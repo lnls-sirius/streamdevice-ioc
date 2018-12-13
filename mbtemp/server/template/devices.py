@@ -5,71 +5,62 @@ import pandas
 import os
 
 logger = logging.getLogger()
-FILE = os.path.dirname(os.path.realpath(__file__)) + '/../../../Redes e Beaglebones.xlsx'
+FILE = os.path.dirname(os.path.realpath(__file__)) + \
+    '/../../../Redes e Beaglebones.xlsx'
 SHEET = 'PVs MBTemp'
 
-sheet = pandas.read_excel(FILE, sheet_name=SHEET, dtype=str) 
+sheet = pandas.read_excel(FILE, sheet_name=SHEET, dtype=str)
 sheet = sheet.replace('nan', '')
 
-# IP	Setor	RS485 ID	Rack	Dispositivo	C1	C2	C3	C4
-beagle = {}
-for ip, rack, addr, dev, c1, c2 ,c3 ,c4, c5,c6,c7,c8\
-        in zip(
-            sheet['IP'], 
-            sheet['Rack'],
-            sheet['ADDR'],
-            sheet['Dev'],
-            sheet['CH1'],
-            sheet['CH2'],
-            sheet['CH3'],
-            sheet['CH4'],
-            sheet['CH5'],
-            sheet['CH6'],
-            sheet['CH7'],
-            sheet['CH8'] 
-        ):
-    
-    if ip == '':
-        logger.error('Ip not set for {}'.format([ip, addr, rack, dev, c1, c2 ,c3 ,c4, c5,c6,c7,c8]))
-        continue
-    
-    if ip in beagle:
-        beagle[ip].append([ip, addr, rack, dev, c1, c2 ,c3 ,c4, c5,c6,c7,c8])
-    else:
-        beagle[ip] = [[ip, addr, rack, dev, c1, c2 ,c3 ,c4, c5,c6,c7,c8]]
-
-def get_device(addr, pv, chs = []):
+def get_device(addr, pv, chs=[]):
     for i in range(1, len(chs)):
         if not chs[i] or chs[i] == '':
             chs[i] = pv + ':' + str(i + 1)
 
-    return {# A device
-            'MBTEMP_ADDRESS' : addr,
-            'PREFIX' : pv,
-            'channels' : chs
+    return {  # A device
+        'MBTEMP_ADDRESS': addr,
+        'PREFIX': pv,
+        'channels': chs
     }
 
+
 def get_sector(f_name, ip, devices):
-    return {# A Sector
-        'f_name' : f_name + '.cmd',
-        'SCAN_RATE' : "2",
-        'IP_ADDR' : ip + ':4161',
+    return {
+        # A Sector
+        'f_name': f_name + '.cmd',
+        'SCAN_RATE': "2",
+        'IP_ADDR': ip + ':4161',
         # Devices
         'devices': devices
     }
 
 
+beagle = {}
+for index, row in sheet.iterrows():
+    if row['IP'] == '':
+        logger.error('Ip not set for {}'.format(row))
+        continue
+
+    if row['IP'] in beagle:
+        beagle[row['IP']].append(row)
+    else:
+        beagle[row['IP']] = [row]
+
+
 sectors = []
-for _ip, values in beagle.items():
-    if len(values) > 32:
-        logger.error('More than 32 devices are set for the {} network. Values {}.'.format(_ip, values))
+for _ip, rows in beagle.items():
+    if len(rows) > 32:
+        logger.error(
+            'More than 32 devices are set for the {} network. rows {}.'.format(_ip, rows))
         continue
 
     devs = []
-    for val in values:
-        devs.append(get_device(\
-                        val[1], # ADDR
-                        val[3], # Disp PV 
-                        [val[4], val[5], val[4], val[7], val[7], val[8], val[10], val[11]])) # 1-8
-    
-    sectors.append(get_sector(_ip, _ip ,devs))
+    for row in rows:
+        devs.append(get_device(
+            row['ADDR'], row['Dev'],
+            [row['CH1'], row['CH2'],
+             row['CH3'], row['CH4'],
+             row['CH5'], row['CH6'],
+             row['CH7'], row['CH8']]))
+
+    sectors.append(get_sector(_ip, _ip, devs))
