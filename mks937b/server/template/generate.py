@@ -74,8 +74,7 @@ if __name__ == "__main__":
         count = 0
         
         name = CMD_KEY + sector['f_name']
-        proto_name   =  name
-        # proto_name   =  name.replace('.', '')
+        base_proto_name   =  name
 
         devices      = sector['devices']
         IP_ASYN_PORT = sector['IP_ASYN_PORT']
@@ -102,7 +101,8 @@ if __name__ == "__main__":
                 ADDRESS= device['ADDRESS']
                 pressures = device['pressures']
                 GAUGES = device['GAUGES']
-                
+                proto_name = base_proto_name + 'ADDR' + ADDRESS
+
                 cc_array = []
                 if  CONFIG[0] == CC:
                     cc_array.append(0)
