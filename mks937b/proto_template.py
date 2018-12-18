@@ -3,8 +3,8 @@ from string import Template
 mks937b_pressures_proto = Template(
 """LockTimeout  = 10000;
 Terminator   = ';FF';
-ReplyTimeout = 4000; 
-ReadTimeout  = 5000;   
+ReplyTimeout = 4000;
+ReadTimeout  = 5000;
 extrainput   = Ignore;
 
 # Delay between commands
@@ -14,7 +14,7 @@ Delay = 7;
 Addr = "@\$1";
 
 @init{out " ";}
- 
+
 get_pressures {
     wait  $Delay;
     out $Addr, "PRZ?";
