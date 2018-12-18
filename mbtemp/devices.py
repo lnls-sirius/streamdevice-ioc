@@ -3,14 +3,9 @@
 import logging
 import pandas
 import os
+from common import DATA_MBTEMP
 
 logger = logging.getLogger()
-FILE = os.path.dirname(os.path.realpath(__file__)) + \
-    '/../../../Redes e Beaglebones.xlsx'
-SHEET = 'PVs MBTemp'
-
-sheet = pandas.read_excel(FILE, sheet_name=SHEET, dtype=str)
-sheet = sheet.replace('nan', '')
 
 def get_device(addr, pv, chs=[]):
     for i in range(1, len(chs)):
@@ -34,21 +29,8 @@ def get_sector(f_name, ip, devices):
         'devices': devices
     }
 
-
-beagle = {}
-for index, row in sheet.iterrows():
-    if row['IP'] == '':
-        logger.error('Ip not set for {}'.format(row))
-        continue
-
-    if row['IP'] in beagle:
-        beagle[row['IP']].append(row)
-    else:
-        beagle[row['IP']] = [row]
-
-
 sectors = []
-for _ip, rows in beagle.items():
+for _ip, rows in DATA_MBTEMP.items():
     if len(rows) > 32:
         logger.error(
             'More than 32 devices are set for the {} network. rows {}.'.format(_ip, rows))
