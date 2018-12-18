@@ -1,11 +1,7 @@
 #!/usr/bin/python3
 from string import Template
-
-
 template_top = Template('''#!../bin/linux-x86_64/streamApp
-
-
-# Agilent-4UHV.cmd 
+# Agilent-4UHV.cmd
 
 # Serial Address is 129 (0x80) + [0 - 31]
 
@@ -39,7 +35,7 @@ dbLoadRecords("database/Agilent-4UHV-Device.db",  "PORT = ${IP_ASYN_PORT}, PREFI
 
 template_channel = Template(
 '''dbLoadRecords("database/Agilent-4UHV-Channel.db", "PORT = ${IP_ASYN_PORT}, PREFIX = ${PREFIX}, CHANNEL_NUMBER = ${CHANNEL_NUMBER}, SERIAL_ADDRESS = ${SERIAL_ADDRESS}")
-''') 
+''')
 
 template_bot = ('''
 

@@ -29,7 +29,7 @@ record(ai, "$(PREFIX):Current-Mon") {
     field(EGU, "A")
     field(HOPR, "0.9")
     field(LOPR, "0")
-    
+
     field(INP, "@Agilent-4UHV.proto currentMon($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
 # Pressure
@@ -38,7 +38,7 @@ record(ai, "$(PREFIX):Pressure-Mon") {
     field(DTYP, "stream")
     field(EGU, "mbar")
     field(PREC, "9")
-    
+
     field(INP, "@Agilent-4UHV.proto pressureMon($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
 # Voltage
@@ -51,7 +51,7 @@ record(ai, "$(PREFIX):Voltage-Mon") {
     field(LOPR, "0")
     field(LINR, "LINEAR")
     field(PREC, "1")
-    
+
     field(INP, "@Agilent-4UHV.proto voltageMon($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
 # HV temperature
@@ -70,7 +70,7 @@ record(mbbi, "$(PREFIX):ErrorCode-Mon") {
     field(INP,  "@Agilent-4UHV.proto errorCodeMon($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
 # Error code
-record(mbbi, "$(PREFIX):SetErrorCode-Mon") { 
+record(mbbi, "$(PREFIX):SetErrorCode-Mon") {
     field(VAL, "0")
     field(ZRST, "")
     field(ONST, "")
@@ -87,21 +87,21 @@ record(mbbi, "$(PREFIX):HVState-RB") {
     field(DESC, "Channel HV on/off readback")
     field(DTYP, "stream")
     field(INP, "@Agilent-4UHV.proto getHVOnOff($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
-            
+
     field(ZRVL, "0")
     field(ONVL, "1")
-    
+
     field(ZRST, "OFF")
     field(ONST, "ON")
-} 
+}
 record(mbbo, "$(PREFIX):HVState-SP") {
     field(DESC, "Channel HV on/off setpoint")
     field(DTYP, "stream")
     field(OUT, "@Agilent-4UHV.proto setHVOnOff($(SERIAL_ADDRESS),$(CHANNEL_NUMBER),$(PREFIX):SetErrorCode-Mon) $(PORT)")
-        
+
     field(ZRVL, "0")
     field(ONVL, "1")
-    
+
     field(ZRST, "OFF")
     field(ONST, "ON")
 
@@ -113,7 +113,7 @@ record(longin, "$(PREFIX):DeviceNumber-RB") {
     field(DTYP, "stream")
     field(PINI, "YES")
     field(INP, "@Agilent-4UHV.proto getDeviceNumber($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
-} 
+}
 # I Protect
 record(ai, "$(PREFIX):CurrentProtect-RB") {
     field(DESC, "Measured Current Protect")
@@ -128,7 +128,7 @@ record(ao, "$(PREFIX):CurrentProtect-SP") {
     field(DRVH, "100")
     field(DRVL, "1")
     field(OUT, "@Agilent-4UHV.proto setIProtect($(SERIAL_ADDRESS),$(CHANNEL_NUMBER),$(PREFIX):SetErrorCode-Mon) $(PORT)")
-    
+
     field(FLNK, "$(PREFIX):CurrentProtect-RB")
 }
 # V Target
@@ -153,7 +153,7 @@ record(ai, "$(PREFIX):PowerMax-RB") {
     field(DESC, "Power Max")
     field(DTYP, "stream")
     field(EGU, "W")
-    field(INP, "@Agilent-4UHV.proto getPowerMax($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")  
+    field(INP, "@Agilent-4UHV.proto getPowerMax($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
 record(ao, "$(PREFIX):PowerMax-SP") {
     field(DESC, "Power Max")
@@ -201,14 +201,14 @@ device = Template("""
 #                              One time reading                          #
 ##########################################################################
 record(ai, "$(PREFIX):TriggerOneTime"){
-	field(FLNK, "$(PREFIX):Model-Cte") 
-} 
+	field(FLNK, "$(PREFIX):Model-Cte")
+}
 # Model
 record(stringin, "$(PREFIX):Model-Cte") {
     field(DESC, "Device model")
     field(DTYP, "stream")
     field(INP, "@Agilent-4UHV.proto getModel($(SERIAL_ADDRESS)) $(PORT)")
-    
+
     field(FLNK, "$(PREFIX):SerialNumber-Cte")
 }
 # Serial number
@@ -216,7 +216,7 @@ record(stringin, "$(PREFIX):SerialNumber-Cte") {
     field(DESC, "Device serial number")
     field(DTYP, "stream")
     field(INP, "@Agilent-4UHV.proto getSerialNumber($(SERIAL_ADDRESS)) $(PORT)")
-    
+
     field(FLNK, "$(PREFIX):OutOneTime")
 }
 record(bi, "$(PREFIX):Mode-RB") {
@@ -281,7 +281,7 @@ record(ai, "$(PREFIX_CH4):VoltageTarget-RB") {
 }
 record(ai, "$(PREFIX_CH4):Setpoint-RB") {
     field(PINI, "YES")
-} 
+}
 
 ##########################################################################
 #                              CHAIN READINGS                            #
@@ -293,7 +293,7 @@ record(longin, "$(PREFIX):FanTemperature-Mon") {
     field(HOPR, "200")
     field(LOPR, "0")
 
-    field(INP, "@Agilent-4UHV.proto fanTemperatureMon($(SERIAL_ADDRESS)) $(PORT)") 
+    field(INP, "@Agilent-4UHV.proto fanTemperatureMon($(SERIAL_ADDRESS)) $(PORT)")
 }
 # Protect
 record(longin, "$(PREFIX):Protect-Mon") {
@@ -306,8 +306,8 @@ record(longin, "$(PREFIX):Step-Mon") {
     field(DESC, "Step mode")
     field(DTYP, "stream")
     field(INP, "@Agilent-4UHV.proto stepMon($(SERIAL_ADDRESS)) $(PORT)")
-} 
- 
+}
+
 ##########################################################################
 ##                             Set/Get Readings                         ##
 ##########################################################################
@@ -327,7 +327,7 @@ record(mbbo, "$(PREFIX):Unit-SP") {
     field(DESC, "Unit setpoint")
     field(DTYP, "stream")
     field(OUT, "@Agilent-4UHV.proto setUnit($(SERIAL_ADDRESS)) $(PORT)")
-    
+
     field(ZRST, "Torr")
     field(ONST, "mbar")
     field(TWST, "Pa")
@@ -341,7 +341,7 @@ record(bi, "$(PREFIX):Mode-RB") {
     field(DTYP, "stream")
     field(INP, "@Agilent-4UHV.proto getMode($(SERIAL_ADDRESS)) $(PORT)")
     field(ONAM, "On")
-    field(ZNAM, "Off") 
+    field(ZNAM, "Off")
 
 }
 # Operating mode (autostart on/off) setpoint
@@ -360,8 +360,8 @@ record(bo, "$(PREFIX):Mode-SP") {
 #               PREFIX_CH1  PREFIX_CH2  PREFIX_CH3  PREFIX_CH4             #
 ############################################################################
 record(ai, "$(PREFIX):Trigger"){
-	field(FLNK, "$(PREFIX):Protect-Mon") 
-} 
+	field(FLNK, "$(PREFIX):Protect-Mon")
+}
 record(longin, "$(PREFIX):Protect-Mon") {
     field(FLNK, "$(PREFIX):FanTemperature-Mon")
 }
@@ -417,10 +417,10 @@ record(mbbi, "$(PREFIX_CH3):ErrorCode-Mon") {
     field(FLNK, "$(PREFIX_CH4):Current-Mon")
 }
 record(ai, "$(PREFIX_CH4):Current-Mon") {
-    field(FLNK, "$(PREFIX_CH4):Pressure-Mon") 
+    field(FLNK, "$(PREFIX_CH4):Pressure-Mon")
 }
 record(ai, "$(PREFIX_CH4):Pressure-Mon") {
-    field(FLNK, "$(PREFIX_CH4):Voltage-Mon") 
+    field(FLNK, "$(PREFIX_CH4):Voltage-Mon")
 }
 record(ai, "$(PREFIX_CH4):Voltage-Mon") {
     field(FLNK, "$(PREFIX_CH4):HVTemperature-Mon")
@@ -430,13 +430,13 @@ record(longin, "$(PREFIX_CH4):HVTemperature-Mon") {
 }
 record(mbbi, "$(PREFIX_CH4):ErrorCode-Mon") {
     field(FLNK, "$(PREFIX):Out")
-} 
+}
 """)
 sync_1 = Template("""
 ###########################################################################
 #                                SYNC SCAN                                #
 ###########################################################################
-record(ai , "$(PREFIX_D1):TriggerOneTime"){ 
+record(ai , "$(PREFIX_D1):TriggerOneTime"){
     field(PINI, "YES")
     field(MDEL,"-1")
 }
@@ -446,7 +446,7 @@ record(ai, "$(PREFIX_D1):OutOneTime"){
 }
 
 #   SYNC SCAN LOOP
-record(ai , "$(PREFIX_D1):Trigger"){ 
+record(ai , "$(PREFIX_D1):Trigger"){
     field(MDEL,"-1")
 }
 record(ai, "$(PREFIX_D1):Out"){
@@ -459,7 +459,7 @@ sync_2 = Template("""
 #                                SYNC SCAN                                #
 #                           PREFIX_D1  PREFIX_D2                          #
 ###########################################################################
-record(ai , "$(PREFIX_D1):TriggerOneTime"){ 
+record(ai , "$(PREFIX_D1):TriggerOneTime"){
     field(PINI, "YES")
     field(MDEL,"-1")
 }
@@ -473,10 +473,10 @@ record(ai, "$(PREFIX_D2):TriggerOneTime"){
 record(ai, "$(PREFIX_D2):OutOneTime"){
 	field(FLNK, "$(PREFIX_D1):Trigger")
     field(MDEL,"-1")
-} 
+}
 
 #   SYNC SCAN LOOP
-record(ai , "$(PREFIX_D1):Trigger"){ 
+record(ai , "$(PREFIX_D1):Trigger"){
     field(MDEL,"-1")
 }
 record(ai, "$(PREFIX_D1):Out"){
@@ -489,7 +489,7 @@ record(ai, "$(PREFIX_D2):Trigger"){
 record(ai, "$(PREFIX_D2):Out"){
 	field(FLNK, "$(PREFIX_D1):Trigger")
     field(MDEL,"-1")
-} 
+}
 """)
 
 sync_3 = Template("""
@@ -497,7 +497,7 @@ sync_3 = Template("""
 #                                SYNC SCAN                                #
 #                      PREFIX_D1 PREFIX_D2 PREFIX_D3                      #
 ###########################################################################
-record(ai , "$(PREFIX_D1):TriggerOneTime"){ 
+record(ai , "$(PREFIX_D1):TriggerOneTime"){
     field(PINI, "YES")
     field(MDEL,"-1")
 }
@@ -522,7 +522,7 @@ record(ai, "$(PREFIX_D3):OutOneTime"){
 
 
 #   SYNC SCAN LOOP
-record(ai , "$(PREFIX_D1):Trigger"){ 
+record(ai , "$(PREFIX_D1):Trigger"){
     field(MDEL,"-1")
 }
 record(ai, "$(PREFIX_D1):Out"){
@@ -550,7 +550,7 @@ sync_4 = Template("""
 #                                SYNC SCAN                                #
 #                   PREFIX_D1 PREFIX_D2 PREFIX_D3 PREFIX_D4               #
 ###########################################################################
-record(ai , "$(PREFIX_D1):TriggerOneTime"){ 
+record(ai , "$(PREFIX_D1):TriggerOneTime"){
     field(PINI, "YES")
     field(MDEL,"-1")
 }
@@ -575,14 +575,14 @@ record(ai, "$(PREFIX_D3):OutOneTime"){
 record(ai, "$(PREFIX_D4):TriggerOneTime"){
     field(MDEL,"-1")
 }
-record(ai, "$(PREFIX_D4):OutOneTime"){ 
+record(ai, "$(PREFIX_D4):OutOneTime"){
     field(MDEL,"-1")
     field(FLNK, "$(PREFIX_D1):Trigger")
 }
 
 
 #   SYNC SCAN LOOP
-record(ai , "$(PREFIX_D1):Trigger"){ 
+record(ai , "$(PREFIX_D1):Trigger"){
     field(MDEL,"-1")
 }
 record(ai, "$(PREFIX_D1):Out"){
@@ -606,7 +606,7 @@ record(ai, "$(PREFIX_D3):Out"){
 record(ai, "$(PREFIX_D4):Trigger"){
     field(MDEL,"-1")
 }
-record(ai, "$(PREFIX_D4):Out"){ 
+record(ai, "$(PREFIX_D4):Out"){
     field(MDEL,"-1")
     field(FLNK, "$(PREFIX_D1):Trigger")
 }
