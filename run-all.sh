@@ -1,30 +1,14 @@
 #!/bin/bash
-source utils/functions
-export PATH=/opt/procServ:$PATH 
-
+source common/functions
+export PATH=/opt/procServ:$PATH
 export BASE_PROCSERV_PORT=20400
-
+export TOP=/opt/stream-ioc
 
 # Agilent 4UHV
-export TOP=/opt/stream-ioc
-export CMD_KEY="UHV-"
-pushd agilent4uhv/server
-	export HOME_DIR=${PWD}
-	run_ioc
-popd
+run_ioc "UHV-"
 
 # MKS 937b
-export TOP=/opt/stream-ioc
-export CMD_KEY="MKS-"
-pushd mks937b/server
-	export HOME_DIR=${PWD}
-	run_ioc
-popd
+run_ioc "MKS-"
 
 # MBTemp
-export TOP=/opt/stream-ioc
-export CMD_KEY="MBTemp-"
-pushd mbtemp/server
-	export HOME_DIR=${PWD}
-	run_ioc
-popd
+run_ioc "MBTemp-"
