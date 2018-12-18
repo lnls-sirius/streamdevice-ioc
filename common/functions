@@ -1,0 +1,64 @@
+#!/bin/bash
+clear_stream_ioc(){
+    echo clearr stram ioc $1
+    # Clear stram-ioc folder
+    pushd ${TOP}/iocBoot
+        for filename in *.cmd; do
+            if [[ ${filename} =~ $1(.*).cmd ]]; then
+                rm ${filename}
+                echo Removed old content: ${filename}
+            fi
+        done
+    popd
+}
+
+run_ioc(){
+    procServPort=${BASE_PROCSERV_PORT}
+    pushd ${TOP}/iocBoot
+        for filename in *; do
+            if [[ ${filename} =~ $1(.*).cmd ]]; then
+                procServPort=$((procServPort + 1))
+                procServ --chdir ${TOP}/iocBoot ${procServPort} ./${filename}
+                echo "		Init procServ at port ${procServPort} ${filename}"
+            fi
+        done
+    popd
+    export BASE_PROCSERV_PORT=$procServPort
+}
+
+copy_to_stream_device(){
+    # Params:
+    # 1 CMD_KEY
+    # 2 TOP
+    # Clear stream-ioc folder
+    echo "Copy Stream Device"
+    clear_stream_ioc $1
+
+    PROTOCOL="protocol"
+    IOC_BOOT="iocBoot"
+    DB="database"
+
+    chmod -R 777 server/cmd/
+
+    cp -R server/db/. ${2}/${DB}/
+    cp -R server/protocol/. ${2}/${PROTOCOL}/
+    cp -R server/cmd/. ${2}/${IOC_BOOT}/
+}
+
+build(){
+    # Params:
+    # :1 : Folder
+    # :2 : CMD_KEY
+    # :3 : Base Epics CA Port
+
+    # Clear the /cmd folder
+    pushd $1
+        echo "Generating ${1} ${2} TOP=${TOP}"
+        ./generate.py \
+            --base-epics-ca-port ${3}\
+            --cmd-prefix $2\
+            --top ${TOP}
+
+        copy_to_stream_device $2 $TOP
+    popd
+}
