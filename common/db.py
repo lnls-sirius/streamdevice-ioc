@@ -20,7 +20,7 @@ ch_records = [
     ['ai', 'Pressure-Mon'],
     ['ai', 'Voltage-Mon'],
     ['longin', 'HVTemperature-Mon'],
-    ['mbbi', 'ErrorCode-Mon'], 
+    ['mbbi', 'ErrorCode-Mon'],
     ['mbbi', 'HVState-RB'],
     ['ai', 'PowerMax-RB'],
     ['ai', 'CurrentProtect-RB'],
