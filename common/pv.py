@@ -59,24 +59,42 @@ mks = {
 }
 
 if __name__=='__main__':
-    for k, vals in DATA_4UHV.items():
-        for v in vals:
-            for suf in agilent4uhv['device']:
-                print(v['Dispositivo'] + suf)
-            for suf in agilent4uhv['ch']:
-                print(v['C1'] + suf)
-                print(v['C2'] + suf)
-                print(v['C3'] + suf)
-                print(v['C4'] + suf)
+    import argparse
+    parser = argparse.ArgumentParser(description='PVs to be archived.')
+    parser.add_argument('--mbtemp', help='Print MBTemp data', action='store_true')
+    parser.add_argument('--mks', help='Print MKS data.', action='store_true')
+    parser.add_argument('--uhv', help='Print 4UHV data.', action='store_true')
+    args = parser.parse_args()
 
-    for k, vals in DATA_MKS.items():
-        for v in vals:
-            for suf in mks['device']:
-                print(v['Dispositivo'] + suf)
-            for suf in mks['ch']:
-                print(v['A1'] + suf)
-                print(v['A2'] + suf)
-                print(v['B1'] + suf)
-                print(v['B2'] + suf)
-                print(v['C1'] + suf)
-                print(v['C2'] + suf)
+    if args.uhv:
+        for k, vals in DATA_4UHV.items():
+            for v in vals:
+                for suf in agilent4uhv['device']:
+                    print(v['Dispositivo'] + suf)
+                for suf in agilent4uhv['ch']:
+                    print(v['C1'] + suf)
+                    print(v['C2'] + suf)
+                    print(v['C3'] + suf)
+                    print(v['C4'] + suf)
+    if args.mks:
+        for k, vals in DATA_MKS.items():
+            for v in vals:
+                for suf in mks['device']:
+                    print(v['Dispositivo'] + suf)
+                for suf in mks['ch']:
+                    print(v['A1'] + suf)
+                    print(v['A2'] + suf)
+                    print(v['B1'] + suf)
+                    print(v['B2'] + suf)
+                    print(v['C1'] + suf)
+                    print(v['C2'] + suf)
+    if args.mbtemp:
+        for k, vals in DATA_MBTEMP.items():
+            for row in vals:
+                print(row['Dev'] + ':Alpha')
+                for ch in [row['CH1'], row['CH2'],
+                        row['CH3'], row['CH4'],
+                        row['CH5'], row['CH6'],
+                        row['CH7'], row['CH8']]:
+                    print(ch)
+                    print(ch + '-Raw')
