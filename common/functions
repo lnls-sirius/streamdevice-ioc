@@ -55,6 +55,7 @@ build(){
     pushd $1
         echo "Generating ${1} ${2} TOP=${TOP}"
         ./generate.py \
+            --epics-ca-port-increase \
             --base-epics-ca-port ${3}\
             --cmd-prefix $2\
             --top ${TOP}
