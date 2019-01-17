@@ -2,6 +2,8 @@
 source common/functions
 export TOP=/opt/stream-ioc
 
+# Params: Folder CMD_KEY Base Epics CA Port
+
 # Agilent 4UHV
 build "agilent4uhv" "UHV-" "5400"
 
