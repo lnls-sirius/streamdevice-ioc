@@ -21,24 +21,20 @@ logger = logging.getLogger()
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Generate MKS 937b IOC files.')
-    parser.add_argument('--base-epics-ca-port', help='Initial EPICS CA server port. It will increase by 2 for every ioc.',
-        type=int, default=5470)
-    parser.add_argument('--cmd-prefix',
-        default='mks', help='Prefix for the .cmd files.')
-    parser.add_argument('--epics-base',
-        default='/opt/epics-R3.15.5/base', help='Epics base path.')
-    parser.add_argument('--asyn',
-        default='/opt/epics-R3.15.5/modules/asyn4-33', help='Asyn driver path.')
-    parser.add_argument('--top',
-        default='/opt/stream-ioc', help='Stream-ioc path.')
-    parser.add_argument('--arch', help='System architecture.', choices=['linux-x86_64', 'linux-arm'],
-        default='linux-x86_64')
+    parser.add_argument('--epics-ca-port-increase', help='Increase EPICS_CA_SERVER_PORT by 2 for each deployed IOC.', action='store_true')
+    parser.add_argument('--base-epics-ca-port', help='Initial EPICS CA server port. It will increase by 2 for every ioc.', type=int, default=5064)
+    parser.add_argument('--cmd-prefix', default='mks', help='Prefix for the .cmd files.')
+    parser.add_argument('--epics-base', default='/opt/epics-R3.15.5/base', help='Epics base path.')
+    parser.add_argument('--asyn', default='/opt/epics-R3.15.5/modules/asyn4-33', help='Asyn driver path.')
+    parser.add_argument('--top', default='/opt/stream-ioc', help='Stream-ioc path.')
+    parser.add_argument('--arch', help='System architecture.', choices=['linux-x86_64', 'linux-arm'], default='linux-x86_64')
     args = parser.parse_args()
 
     EPICS_BASE = args.epics_base
     ASYN = args.asyn
     TOP =  args.top
     ARCH = args.arch
+    EPICS_CA_PORT_INCRESE = args.epics_ca_port_increase
     EPICS_CA_SERVER_PORT = args.base_epics_ca_port
     CMD_KEY = args.cmd_prefix
 
@@ -148,7 +144,8 @@ if __name__ == "__main__":
                 res += '\n'
             count += 1
 
-        EPICS_CA_SERVER_PORT += 2
+        if EPICS_CA_PORT_INCRESE:
+            EPICS_CA_SERVER_PORT += 2
 
         res += template_bot
 

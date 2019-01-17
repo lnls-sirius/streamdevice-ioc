@@ -32,8 +32,7 @@ def get_sector(f_name, ip, devices):
 sectors = []
 for _ip, rows in DATA_MBTEMP.items():
     if len(rows) > 32:
-        logger.error(
-            'More than 32 devices are set for the {} network. rows {}.'.format(_ip, rows))
+        logger.error('More than 32 devices are set for the {} network. rows {}.'.format(_ip, rows))
         continue
 
     devs = []
