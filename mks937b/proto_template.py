@@ -13,8 +13,6 @@ Delay = 7;
 # The serial address
 Addr = "@\$1";
 
-@init{out " ";}
-
 get_pressures {
     wait  $Delay;
     out $Addr, "PRZ?";
