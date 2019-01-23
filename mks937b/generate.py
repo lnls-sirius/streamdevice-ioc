@@ -149,5 +149,8 @@ if __name__ == "__main__":
 
         res += template_bot
 
+        if not path.exists('server/cmd/'):
+            makedirs('server/cmd/')
+
         with open('server/cmd/' + name + '.cmd', 'w+') as file:
             file.write(res)
