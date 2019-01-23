@@ -76,7 +76,7 @@ if __name__ == '__main__':
                             # logger.info('Waiting a response ...')
                             res = tcp_socket.recv(1024)
                             if res and res != zb:
-                                logger.info('Out %s In %s' % (data, res))
+                                #logger.info('Out %s In %s' % (data, res))
                                 conn.sendall(res)
 
                         except Exception as e:
@@ -85,34 +85,3 @@ if __name__ == '__main__':
 
             except ConnectionError:
                 logger.exception('Connection Error !')
-
-
-
-
-# server_address = ('10.128.104.101', 4161)
-
-# while True:
-#     # Create a TCP/IP socket
-#     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-#     print('Connecting to %s port %s' % server_address)
-#     try:
-#         sock.connect(server_address)
-#         while True:
-#             # Send data
-#             #print('sending "%s"' % message)
-#             sock.sendall(message)
-#             # Look for the response
-#             amount_received = 0
-#             amount_expected = len(message)
-
-#             data = sock.recv(1024)
-#             if data:
-#                 logger.info('Out %s In %s' % (message, data))
-
-#     except ConnectionRefusedError:
-#         logger.exception('Conn refused ... !')
-#         time.sleep(1)
-#     except Exception as e:
-#         logger.exception('Error? ... %s' % e)
-
