@@ -12,3 +12,6 @@ build "mks937b" "MKS-" "5600"
 
 # MBTemp
 build "mbtemp" "MBTemp-" "5800"
+
+# Counting PRU
+build "countingPRU" "CountingPRU-" 6000
