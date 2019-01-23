@@ -30,15 +30,15 @@ mbt_template = Template('''
 dbLoadRecords("database/MBTemp-Device.db", "MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, PREFIX = $PREFIX")
 
 # Records corresponding to the eight temperature measurements given by the MBTemp board
-dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 0, DESCRIPTION = MBTemp Channel 1, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $CH1, SCAN_RATE = $SCAN_RATE second")
-dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 1, DESCRIPTION = MBTemp Channel 2, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $CH2, SCAN_RATE = $SCAN_RATE second")
-dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 2, DESCRIPTION = MBTemp Channel 3, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $CH3, SCAN_RATE = $SCAN_RATE second")
-dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 3, DESCRIPTION = MBTemp Channel 4, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $CH4, SCAN_RATE = $SCAN_RATE second")
-dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 4, DESCRIPTION = MBTemp Channel 5, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $CH5, SCAN_RATE = $SCAN_RATE second")
-dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 5, DESCRIPTION = MBTemp Channel 6, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $CH6, SCAN_RATE = $SCAN_RATE second")
-dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 6, DESCRIPTION = MBTemp Channel 7, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $CH7, SCAN_RATE = $SCAN_RATE second")
-dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 7, DESCRIPTION = MBTemp Channel 8, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $CH8, SCAN_RATE = $SCAN_RATE second")
- 
+dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 0, DESCRIPTION = MBTemp Channel 1, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $CH1, SCAN_RATE = $SCAN_RATE")
+dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 1, DESCRIPTION = MBTemp Channel 2, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $CH2, SCAN_RATE = $SCAN_RATE")
+dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 2, DESCRIPTION = MBTemp Channel 3, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $CH3, SCAN_RATE = $SCAN_RATE")
+dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 3, DESCRIPTION = MBTemp Channel 4, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $CH4, SCAN_RATE = $SCAN_RATE")
+dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 4, DESCRIPTION = MBTemp Channel 5, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $CH5, SCAN_RATE = $SCAN_RATE")
+dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 5, DESCRIPTION = MBTemp Channel 6, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $CH6, SCAN_RATE = $SCAN_RATE")
+dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 6, DESCRIPTION = MBTemp Channel 7, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $CH7, SCAN_RATE = $SCAN_RATE")
+dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 7, DESCRIPTION = MBTemp Channel 8, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = $IP_ASYN_PORT, RECORD_NAME = $CH8, SCAN_RATE = $SCAN_RATE")
+
 ''')
 
 mbt_template_bot = ('''

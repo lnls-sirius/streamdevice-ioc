@@ -10,13 +10,13 @@ import time
 import argparse
 import logging
 
-from os import environ, path
+from os import environ, path, makedirs
 
 from string import Template
 sys.path.append(path.join(path.dirname(path.abspath(__file__)),'../'))
 
 from mbtemp.template import mbt_template, mbt_template_bot, mbt_template_top
-from mbtemp.devices import sectors  as sectors
+from mbtemp.devices import boards
 
 logger = logging.getLogger()
 if __name__ == "__main__":
@@ -42,14 +42,9 @@ if __name__ == "__main__":
     CD = "${TOP}"
 
     # MBTemp specifics
-    for sector in sectors:
+    for board in boards:
         res = ''
         count = 0
-
-        devices = sector['devices']
-        IP_ASYN_PORT = 'IPPort0'
-        SCAN_RATE = sector['SCAN_RATE']
-        IP_ADDR = sector['IP_ADDR']
 
         res += mbt_template_top.safe_substitute(
                 CD=CD,
@@ -58,35 +53,35 @@ if __name__ == "__main__":
                 TOP=TOP,
                 ARCH=ARCH,
                 STREAM_PROTOCOL_PATH=STREAM_PROTOCOL_PATH,
-                IP_ADDR=IP_ADDR,
+                IP_ADDR=board.ip,
                 EPICS_CA_SERVER_PORT=EPICS_CA_SERVER_PORT,
-                IP_ASYN_PORT=IP_ASYN_PORT
+                IP_ASYN_PORT=board.ip_asyn_port
         )
 
-        for device in devices:
-            MBTEMP_ADDRESS = device['MBTEMP_ADDRESS']
-            PREFIX = device['PREFIX']
-            CH = device['channels']
+        for device in board.devices:
 
             res += mbt_template.safe_substitute(
-                IP_ASYN_PORT=(IP_ASYN_PORT),
-                MBTEMP_ADDRESS=MBTEMP_ADDRESS,
-                PREFIX=PREFIX,
-                SCAN_RATE = SCAN_RATE,
-                CH1=CH[0],
-                CH2=CH[1],
-                CH3=CH[2],
-                CH4=CH[3],
-                CH5=CH[4],
-                CH6=CH[5],
-                CH7=CH[6],
-                CH8=CH[7])
+                IP_ASYN_PORT=board.ip_asyn_port,
+                MBTEMP_ADDRESS=device.address,
+                PREFIX=device.prefix,
+                SCAN_RATE =board.scan_rate,
+                CH1=device.channels[0],
+                CH2=device.channels[1],
+                CH3=device.channels[2],
+                CH4=device.channels[3],
+                CH5=device.channels[4],
+                CH6=device.channels[5],
+                CH7=device.channels[6],
+                CH8=device.channels[7])
 
             count += 1
-        
+
         if EPICS_CA_PORT_INCRESE:
             EPICS_CA_SERVER_PORT += 2
         res += mbt_template_bot
 
-        with open('server/cmd/' + CMD_KEY + sector['f_name'], 'w+') as file:
+        if not path.exists('server/cmd/'):
+            makedirs('server/cmd/')
+
+        with open('server/cmd/' + CMD_KEY + board.file_name, 'w+') as file:
             file.write(res)
