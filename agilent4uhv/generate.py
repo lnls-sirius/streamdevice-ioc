@@ -9,7 +9,7 @@ import argparse
 import logging
 import sys
 import time
-from os import environ, path
+from os import environ, path, makedirs
 from string import Template
 
 sys.path.append(path.join(path.dirname(path.abspath(__file__)),'../'))
@@ -111,6 +111,9 @@ if __name__ == "__main__":
         if EPICS_CA_PORT_INCRESE:
             EPICS_CA_SERVER_PORT += 2
         res += template_bot
+
+        if not path.exists('server/cmd/'):
+            makedirs('server/cmd/')
 
         with open('server/cmd/' + CMD_KEY + sector['f_name'] + '.cmd', 'w+') as file:
             file.write(res)
