@@ -8,7 +8,7 @@ export TOP=/opt/stream-ioc
 run_ioc "UHV-"
 
 # MKS 937b
-run_ioc "MKS-"
+run_ioc_unix_bridge "MKS-"
 
 # MBTemp
 run_ioc "MBTemp-"
