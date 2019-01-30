@@ -6,82 +6,120 @@ import struct
 import select
 import os
 import time
+import threading
 
-# from serial import Serial
-def tcp_client(ip, data):
-    pass
+from concurrent.futures import ThreadPoolExecutor
+
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)-15s [%(levelname)s] %(message)s',
+                    datefmt='%d/%m/%Y %H:%M:%S')
+logger = logging.getLogger()
+
+class TcpUnixBind():
+
+    def __init__(self, socket_path, address, socket_buffer, zero_bytes, reconnect_interval, **kwargs):
+        self.socket_path = socket_path
+        self.address = address.split(':')[0]
+
+        try:
+            self.port = int(address.split(':')[1])
+        except:
+            self.port = 4161
+
+        self.socket_buffer = socket_buffer
+        self.zero_bytes = zero_bytes.encode('utf-8')
+        self.reconnect_interval = reconnect_interval
+        self.connected_to_server = False
+
+    def __str__(self):
+        return '<TcpUnixBind UNIX Socket %s TCP Socket %s reconnect interval %s General zero-bytes %s buffer %s>' % \
+            (self.socket_path, self.address, self.reconnect_interval, self.zero_bytes ,self.socket_buffer)
+
+    def start(self):
+        logger.info('Starting Unix <-> TCP %s' % self)
+
+        server_address = (self.address, self.port)
+
+        while True:
+            if os.path.exists(self.socket_path):
+                os.remove(self.socket_path)
+
+            with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as s:
+                s.bind(self.socket_path)
+                s.listen()
+                logger.info('Unix Socket %s: Waiting for a connection ...' % self.socket_path)
+                conn, addr = s.accept()
+                try:
+                    with conn:
+                        logger.info('Connected {} {}'.format(conn, addr))
+                        while True:
+                            data = conn.recv(self.socket_buffer)
+
+                            if not data:
+                                logger.info('No data received ... ')
+                                break
+
+                            if not self.connected_to_server:
+                                try:
+                                    # Create a TCP/IP socket
+                                    tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                                    logger.info('Connecting to %s:%s' % server_address)
+                                    tcp_socket.connect(server_address)
+                                    self.connected_to_server = True
+                                except ConnectionRefusedError:
+                                    logger.exception('Conn refused ... !')
+                                    time.sleep(self.reconnect_interval)
+                                    continue
+
+                            try:
+                                # Send data to server
+                                tcp_socket.sendall(data)
+                                # logger.info('Waiting a response ...')
+                                res = tcp_socket.recv(1024)
+                                if res and res != self.zero_bytes:
+                                    #logger.info('Out %s In %s' % (data, res))
+                                    conn.sendall(res)
+
+                            except Exception as e:
+                                self.connected_to_server = False
+                                logger.exception('Error? ... %s' % e)
+
+                except ConnectionError:
+                    logger.exception('Connection Error !')
+
+
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
         "UNIX - TCP socket bind.\n" +
         "A bridge between an UNIX socket and a TCP server.\n" +
         "If a zero bytes response is expected from the other side of the connection, \n" +
-        "one must send an encoded string matching --reconnect-interval \n" + 
-        "so that the TCP client doesn't block indefinitely.\n\n"
-    )
+        "one must send an encoded string matching --reconnect-interval \n" +
+        "so that the TCP client doesn't block indefinitely.\n\n")
+
     parser.add_argument("--socket-buffer","-sb", default=1024,type=int, help='Socket recv buffer.', dest="socket_buffer")
-    parser.add_argument("--socket-path","-sp", default='/var/tmp/sock_test.s', help='Unix socket path.', dest="socket_path")
-    parser.add_argument("--port","-p", default=4161,type=int, help='TCP Server port.', dest="port")
-    parser.add_argument("--address","-addr", default='0.0.0.0', help='TCP Server address.', dest="address")
+    parser.add_argument("--socket-path-list","-sp-list", nargs='+', default='/var/tmp/sock_test.s', help='Unix socket path list.', dest="socket_path_list")
+    parser.add_argument("--address-list","-addr-list", nargs='+', default='0.0.0.0', help='List of TCP Server address:port.', dest="address_list")
     parser.add_argument("--zero-bytes","-zb", default='ZB', help='What to return when a zero lengh response is returned from the serial port. Default \'ZB\'.encode(\'utf-8\')', dest="zero_bytes")
     parser.add_argument("--reconnect-interval", default=5, type=int, help='TCP Server reconnect interval.', dest="reconnect_interval")
     args = parser.parse_args()
-    zb = args.zero_bytes.encode('utf-8')
 
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)-15s [%(levelname)s] %(message)s',
-                        datefmt='%d/%m/%Y %H:%M:%S')
-    logger = logging.getLogger()
+    if type(args.address_list) != list:
+        args.address_list = [args.address_list]
 
-    logger.info('Unix %s <-> TCP %s:%s buffer %s' %(args.socket_path, args.address, args.port, args.socket_buffer))
+    if type(args.socket_path_list) != list:
+        args.socket_path_list = [args.socket_path_list]
 
-    server_address = (args.address, args.port)
-    connected_to_server = False
+    if len(args.socket_path_list) != len(args.address_list):
+        logger.warning('Parameter --socket-path-list doesn\'t have the same a mount of entries as --address-list. UNIX sockets will be created under /var/tmp/(address).')
 
-    while True:
-        if os.path.exists(args.socket_path):
-            os.remove(args.socket_path)
+        if len(args.address_list) > len(args.socket_path_list):
+            for i in range(len(args.address_list)):
+                if i < len(args.socket_path_list):
+                    continue
+                args.socket_path_list.append('/var/tmp/%s' % args.address_list[i])
 
-        with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as s:
-            s.bind(args.socket_path)
-            s.listen()
-            logger.info('Unix Socket: Waiting for a connection ...')
-            conn, addr = s.accept()
-            try:
-                with conn:
-                    logger.info('Connected {} {}'.format(conn, addr))
-                    while True:
-                        data = conn.recv(args.socket_buffer)
-
-                        if not data:
-                            logger.info('No data received ... ')
-                            break
-
-                        if not connected_to_server:
-                            try:
-                                # Create a TCP/IP socket
-                                tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                                logger.info('Connecting to %s port %s' % server_address)
-                                tcp_socket.connect(server_address)
-                                connected_to_server = True
-                            except ConnectionRefusedError:
-                                logger.exception('Conn refused ... !')
-                                time.sleep(args.reconnect_interval)
-                                continue
-
-                        try:
-                            # Send data to server
-                            tcp_socket.sendall(data)
-
-                            # logger.info('Waiting a response ...')
-                            res = tcp_socket.recv(1024)
-                            if res and res != zb:
-                                #logger.info('Out %s In %s' % (data, res))
-                                conn.sendall(res)
-
-                        except Exception as e:
-                            connected_to_server = False
-                            logger.exception('Error? ... %s' % e)
-
-            except ConnectionError:
-                logger.exception('Connection Error !')
+    with ThreadPoolExecutor() as executor:
+        for addr, path in zip(args.address_list, args.socket_path_list):
+            executor.submit(TcpUnixBind(address=addr, socket_path=path, **vars(args)).start)
