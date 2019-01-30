@@ -1,6 +1,6 @@
 #!/bin/bash
 clear_stream_ioc(){
-    echo clearr stram ioc $1
+    echo clear stream ioc $1
     # Clear stram-ioc folder
     pushd ${TOP}/iocBoot
         for filename in *.cmd; do
@@ -12,24 +12,76 @@ clear_stream_ioc(){
     popd
 }
 
-run_ioc(){
-    procServPort=${BASE_PROCSERV_PORT}
-    pushd ${TOP}/iocBoot
-        for filename in *; do
-            if [[ ${filename} =~ $1(.*).cmd ]]; then
-                procServPort=$((procServPort + 1))
-                procServ --chdir ${TOP}/iocBoot ${procServPort} ./${filename}
-                echo "		Init procServ at port ${procServPort} ${filename}"
+run_ioc_unix_bridge(){
+    # Params:
+    # :1 : CMD_KEY
+    ADDR_LIST=
+    SOCKET_PATH_LIST=
+    PORT=4161
+
+    echo
+    echo
+    echo UNIX Bind and .cmd configuration
+    for filename in $(ls ${TOP}/iocBoot | grep -P "^${1}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.cmd$"); do
+            ip=$(echo $filename | sed -e "s/${1}//" -e "s/\.cmd//")
+
+            if [[ ${ip} =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+                    socket_dir="/var/tmp/$filename"
+                    socket_dir_skp=$(echo unix://${socket_dir} | sed 's/\//\\\//g')
+
+                    ADDR_LIST="${ADDR_LIST} ${ip}:${PORT}"
+                    SOCKET_PATH_LIST="${SOCKET_PATH_LIST} ${socket_dir}"
+
+                    echo $(date)" Configuring ${TOP}/iocBoot/${filename} to use socket ${socket_dir}."
+                    sed -i -r "s/drvAsynIPPortConfigure\s*\(\"[^)]+?\s*\)/drvAsynIPPortConfigure\(\"IPPort0\",\"${socket_dir_skp}\"\)/g" ${TOP}/iocBoot/${filename}
             fi
-        done
-    popd
-    export BASE_PROCSERV_PORT=$procServPort
+    done
+    echo
+    echo
+    echo $(date)" Command: ./common/tcpUnix.py --socket-path-list ${SOCKET_PATH_LIST} --address-list ${ADDR_LIST} &"
+    ./common/tcpUnix.py --socket-path-list ${SOCKET_PATH_LIST} --address-list ${ADDR_LIST} &
+    sleep 3
+
+    echo
+    echo
+    procServPort=${BASE_PROCSERV_PORT}
+    for filename in $(ls ${TOP}/iocBoot | grep -P "^${1}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.cmd$"); do
+        if [[ ${ip} =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+
+                procServPort=$((procServPort + 1))
+                echo $(date) Init procServ. Command: procServ --chdir ${TOP}/iocBoot ${procServPort} ${TOP}/iocBoot/${filename}
+                procServ --chdir ${TOP}/iocBoot ${procServPort} ${TOP}/iocBoot/${filename}
+        fi
+    done
+    export BASE_PROCSERV_PORT=${procServPort}
+}
+
+run_ioc(){
+    # Params:
+    # :1 : CMD_KEY
+    echo
+    echo
+    procServPort=${BASE_PROCSERV_PORT}
+    for filename in $(ls ${TOP}/iocBoot | grep -P "^${1}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.cmd$"); do
+        ip=$(echo $filename | sed -e "s/${1}//" -e "s/\.cmd//")
+        if [[ ${ip} =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+
+                procServPort=$((procServPort + 1))
+
+                 echo $(date)" Configuring ${TOP}/iocBoot/${filename} to use socket ${ip}:4161."
+                sed -i -r "s/drvAsynIPPortConfigure\s*\(\"[^)]+?\s*\)/drvAsynIPPortConfigure\(\"IPPort0\",\"${ip}:4161\"\)/g" ${TOP}/iocBoot/${filename}
+
+                echo $(date)' Init procServ. Command: procServ --chdir '${TOP}/iocBoot ${procServPort} ${TOP}/iocBoot/${filename}
+                procServ --chdir ${TOP}/iocBoot ${procServPort} ${TOP}/iocBoot/${filename}
+        fi
+    done
+    export BASE_PROCSERV_PORT=${procServPort}
 }
 
 copy_to_stream_device(){
     # Params:
-    # 1 CMD_KEY
-    # 2 TOP
+    # :1 : CMD_KEY
+    # :2 : TOP
     # Clear stream-ioc folder
     echo "Copy Stream Device"
     clear_stream_ioc $1
