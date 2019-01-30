@@ -17,9 +17,6 @@ streamApp_registerRecordDeviceDriver(pdbbase)
 
 # Bind to socat
 drvAsynIPPortConfigure("${IP_ASYN_PORT}","$IP_ADDR", 100, 0, 0)
-
-# drvAsynSerialPortConfigure("${IP_ASYN_PORT}", "/dev/ttyUSB0")
-#asynSetOption("${IP_ASYN_PORT}", 0, "baud", "115200")
 ''')
 
 # @todo: terminar de montar esse arquivo template !
