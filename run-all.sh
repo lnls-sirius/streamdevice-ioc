@@ -12,3 +12,6 @@ run_ioc "MKS-"
 
 # MBTemp
 run_ioc "MBTemp-"
+
+#Counting PRU
+#run_ioc "CountingPRU-"
