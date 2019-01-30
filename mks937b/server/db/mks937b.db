@@ -233,7 +233,7 @@ record(mbbo, "$(DEVICE):UnitSp"){
 # ------------------------------------------------------------------------------------------------
 record(fanout, "$(DEVICE):FastTrig"){
     field(SELM, "All")
-    field(SCAN, "$(SCAN_RATE)")
+    field(SCAN, "1 second")
 
     field(LNK1, "$(G1):Pressure-Mon-s.PROC")
     field(LNK2, "$(G2):Pressure-Mon-s.PROC")
