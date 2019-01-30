@@ -41,7 +41,7 @@ run_ioc_unix_bridge(){
     echo
     echo
     echo $(date)" Command: ./common/tcpUnix.py --socket-path-list ${SOCKET_PATH_LIST} --address-list ${ADDR_LIST} &"
-    ./common/tcpUnix.py --socket-path-list ${SOCKET_PATH_LIST} --address-list ${ADDR_LIST} &
+    ./common/tcpUnix.py --socket-path-list ${SOCKET_PATH_LIST} --address-list ${ADDR_LIST} --reconnect-interval 30 &
     sleep 25
 
     echo
