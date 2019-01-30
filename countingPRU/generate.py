@@ -52,13 +52,13 @@ if __name__ == "__main__":
                 TOP=TOP,
                 ARCH=ARCH,
                 STREAM_PROTOCOL_PATH=STREAM_PROTOCOL_PATH,
-                IP_ADDR=board.ip,
-                EPICS_CA_SERVER_PORT=EPICS_CA_SERVER_PORT)
+                EPICS_CA_SERVER_PORT=EPICS_CA_SERVER_PORT,
+                IP=board.ip,
+                IP_ASYN_PORT=board.ip_asyn_port)
 
         PREFIX = board.device
 
         res += template.safe_substitute(
-            IP=board.ip,
             IP_ASYN_PORT=board.ip_asyn_port,
             PREFIX=PREFIX,
             SCAN_RATE = board.scan_rate,

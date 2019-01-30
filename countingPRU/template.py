@@ -18,12 +18,12 @@ epicsEnvSet("EPICS_CA_SERVER_PORT", "${EPICS_CA_SERVER_PORT}")
 cd $CD
 dbLoadDatabase("dbd/streamApp.dbd")
 streamApp_registerRecordDeviceDriver(pdbbase)
-''')
-
-template = Template('''
 
 # Port for the device
 drvAsynIPPortConfigure("${IP_ASYN_PORT}", "${IP}:5000")
+''')
+
+template = Template('''
 
 # Record for configuration of TimeBase
 dbLoadRecords("database/CountingPRU-Device.db", "PORT = ${IP_ASYN_PORT}, PREFIX = ${PREFIX}")
