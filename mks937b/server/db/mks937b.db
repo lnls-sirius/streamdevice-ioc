@@ -1,59 +1,59 @@
 record(stringin, "$(DEVICE):SerialNumber"){
     field(DESC, "Unit's serial number")
     field(DTYP, "stream")
-    field(INP,  "@mks937b.proto serial_num($(ADDRESS)) $(PORT) ") 
-    
+    field(INP,  "@mks937b.proto serial_num($(ADDRESS)) $(PORT) ")
+
     field(PINI, "YES")
     field(FLNK,"$(DEVICE):CTLV")
 }
-# Controller Version 
+# Controller Version
 record(stringin, "$(DEVICE):CTLV"){
     field(DESC, "Controller Version")
     field(DTYP, "stream")
-    field(INP,  "@mks937b.proto ctlv($(ADDRESS)) $(PORT) ") 
+    field(INP,  "@mks937b.proto ctlv($(ADDRESS)) $(PORT) ")
 
     field(FLNK,"$(DEVICE):SlotAV")
 }
 record(stringin, "$(DEVICE):SlotAV"){
     field(DESC, "Slot A Version")
     field(DTYP, "stream")
-    field(INP,  "@mks937b.proto slotav($(ADDRESS)) $(PORT) ") 
-    
+    field(INP,  "@mks937b.proto slotav($(ADDRESS)) $(PORT) ")
+
     field(FLNK,"$(DEVICE):SlotBV")
 }
 record(stringin, "$(DEVICE):SlotBV"){
     field(DESC, "Slot B Version")
     field(DTYP, "stream")
-    field(INP,  "@mks937b.proto slotbv($(ADDRESS)) $(PORT) ") 
-    
+    field(INP,  "@mks937b.proto slotbv($(ADDRESS)) $(PORT) ")
+
     field(FLNK,"$(DEVICE):SlotCV")
 }
 record(stringin, "$(DEVICE):SlotCV"){
     field(DESC, "Slot C Version")
     field(DTYP, "stream")
-    field(INP,  "@mks937b.proto slotcv($(ADDRESS)) $(PORT) ") 
-    
+    field(INP,  "@mks937b.proto slotcv($(ADDRESS)) $(PORT) ")
+
     field(FLNK,"$(DEVICE):AIOV")
 }
 record(stringin, "$(DEVICE):AIOV"){
     field(DESC, "AIO Version")
     field(DTYP, "stream")
-    field(INP,  "@mks937b.proto aiov($(ADDRESS)) $(PORT) ") 
-    
+    field(INP,  "@mks937b.proto aiov($(ADDRESS)) $(PORT) ")
+
     field(FLNK,"$(DEVICE):COMMV")
 }
 record(stringin, "$(DEVICE):COMMV"){
     field(DESC, "COMM Version")
     field(DTYP, "stream")
-    field(INP,  "@mks937b.proto commv($(ADDRESS)) $(PORT) ") 
-     
+    field(INP,  "@mks937b.proto commv($(ADDRESS)) $(PORT) ")
+
     field(FLNK,"$(DEVICE):ModuleType-A")
 }
 record(mbbi, "$(DEVICE):ModuleType-A"){
     field(DESC, "The module type")
     field(DTYP, "stream")
-    field(INP,  "@mks937b.proto moda($(ADDRESS)) $(PORT) 0")  
-         
+    field(INP,  "@mks937b.proto moda($(ADDRESS)) $(PORT) 0")
+
     field(ZRST, "Hot Cathode")
     field(ONST, "Cold Cathode")
     field(TWST, "Dual Pirani")
@@ -65,14 +65,14 @@ record(mbbi, "$(DEVICE):ModuleType-A"){
     field(EIST, "Sngl Thrmcpl")
     field(NIST, "Sngl Cap Manmtr")
     field(TEST, "No Module")
-    field(ELST, "Wrong Module") 
+    field(ELST, "Wrong Module")
     field(ELSV, "MAJOR")
 
     field(FLNK,"$(DEVICE):ModuleType-B")
-} 
+}
 record(mbbi, "$(DEVICE):ModuleType-B"){
     field(DESC, "The module type")
-    field(INP,  "@mks937b.proto modb($(ADDRESS)) $(PORT) 0") 
+    field(INP,  "@mks937b.proto modb($(ADDRESS)) $(PORT) 0")
     field(DTYP, "stream")
 
     field(ZRST, "Hot Cathode")
@@ -102,13 +102,13 @@ record(mbbi, "$(DEVICE):ModuleType-B"){
     field(ELSV, "MAJOR")
 
     field(FLNK,"$(DEVICE):ModuleType-C")
-} 
+}
 
 record(mbbi, "$(DEVICE):ModuleType-C"){
     field(DESC, "The module type")
 
-    field(INP,  "@mks937b.proto modc($(ADDRESS)) $(PORT) 0") 
-    field(DTYP, "stream") 
+    field(INP,  "@mks937b.proto modc($(ADDRESS)) $(PORT) 0")
+    field(DTYP, "stream")
 
     field(ZRST, "Hot Cathode")
     field(ONST, "Cold Cathode")
@@ -137,34 +137,34 @@ record(mbbi, "$(DEVICE):ModuleType-C"){
     field(ELSV, "MAJOR")
 
     field(FLNK,"$(DEVICE):SensorType-A")
-} 
+}
 record(stringin,"$(DEVICE):SensorType-A") {
     field(DESC, "The connected sensor type")
     field(DTYP,"stream")
-    field(INP,"@mks937b.proto sta($(ADDRESS)) $(PORT)") 
+    field(INP,"@mks937b.proto sta($(ADDRESS)) $(PORT)")
 
     field(FLNK,"$(DEVICE):SensorType-B")
-} 
+}
 record(stringin,"$(DEVICE):SensorType-B") {
     field(DESC, "The connected sensor type")
     field(DTYP,"stream")
-    field(INP,"@mks937b.proto stb($(ADDRESS)) $(PORT)") 
+    field(INP,"@mks937b.proto stb($(ADDRESS)) $(PORT)")
 
     field(FLNK,"$(DEVICE):SensorType-C")
 
-} 
+}
 record(stringin,"$(DEVICE):SensorType-C") {
     field(DESC, "The connected sensor type")
     field(DTYP,"stream")
-    field(INP,"@mks937b.proto stc($(ADDRESS)) $(PORT)") 
+    field(INP,"@mks937b.proto stc($(ADDRESS)) $(PORT)")
 
     field(FLNK,"$(DEVICE):ErrMsgType")
-} 
+}
 record(stringin, "$(DEVICE):ErrMsgType"){
     field(DESC, "Error message as text")
     field(DTYP, "stream")
-    field(INP,  "@mks937b.proto errtext $(PORT) ") 
-    
+    field(INP,  "@mks937b.proto errtext $(PORT) ")
+
     field(FLNK,"$(DEVICE):Dly")
     # field(FLNK,"$(DEVICE):IhmLock")
 }
@@ -172,30 +172,30 @@ record(stringin, "$(DEVICE):ErrMsgType"){
 # record(stringin, "$(DEVICE):IhmLock"){
 #     field(DESC, "Lock the IHM")
 #     field(DTYP, "stream")
-#     field(INP,  "@mks937b.proto lockIhm($(ADDRESS),ON) $(PORT) ") 
-#     # field(INP,  "@mks937b.proto lockIhm($(ADDRESS), OFF) $(PORT) ") 
+#     field(INP,  "@mks937b.proto lockIhm($(ADDRESS),ON) $(PORT) ")
+#     # field(INP,  "@mks937b.proto lockIhm($(ADDRESS), OFF) $(PORT) ")
 
 #     field(FLNK,"$(DEVICE):Dly")
-# } 
+# }
 ## -----------------------------------
 
 record(ai, "$(DEVICE):Dly"){
-    field(DESC, "RS458 Time Delay") 
+    field(DESC, "RS458 Time Delay")
     field(DTYP, "stream")
     field(INP,"@mks937b.proto get_dly($(ADDRESS)) $(PORT)")
-    
+
     field(FLNK,"$(DEVICE):DlySp")
 }
 record(ao, "$(DEVICE):DlySp"){
     field(DESC, "RS485 Time Delay")
     field(DTYP, "stream")
     field(OUT,"@mks937b.proto set_dly($(ADDRESS)) $(PORT)")
- 
+
     field(FLNK,"$(DEVICE):Unit")
-} 
-# Pressure Unit 
+}
+# Pressure Unit
 record(mbbi, "$(DEVICE):Unit"){
-    field(DESC, "Read Pressure Unit")  
+    field(DESC, "Read Pressure Unit")
     field(DTYP, "stream")
     field(INP,"@mks937b.proto get_unit($(ADDRESS)) $(PORT)")
 
@@ -208,7 +208,7 @@ record(mbbi, "$(DEVICE):Unit"){
     field(ZRST, "Torr")
     field(ONST, "mBAR")
     field(TWST, "PASCAL")
-    field(THST, "Micron")    
+    field(THST, "Micron")
 }
 record(mbbo, "$(DEVICE):UnitSp"){
     field(DESC, "Set Pressure Unit")
@@ -225,51 +225,85 @@ record(mbbo, "$(DEVICE):UnitSp"){
     field(ZRST, "Torr")
     field(ONST, "mBAR")
     field(TWST, "PASCAL")
-    field(THST, "Micron")    
+    field(THST, "Micron")
 
     field(FLNK, "$(DEVICE):Unit")
 }
 
 # ------------------------------------------------------------------------------------------------
-record(bi, "$(DEVICE):FastTrig"){
-	field(SCAN, "$(SCAN_RATE)")
-	field(FLNK, "$(G1):Pressure-Mon-s")
+record(fanout, "$(DEVICE):FastTrig"){
+    field(SELM, "All")
+    field(SCAN, "$(SCAN_RATE)")
+
+    field(LNK1, "$(G1):Pressure-Mon-s.PROC")
+    field(LNK2, "$(G2):Pressure-Mon-s.PROC")
+    field(LNK3, "$(G3):Pressure-Mon-s.PROC")
+    field(LNK4, "$(G4):Pressure-Mon-s.PROC")
+    field(LNK5, "$(G5):Pressure-Mon-s.PROC")
+    field(LNK6, "$(G6):Pressure-Mon-s.PROC")
 }
+
+record(fanout, "$(DEVICE):Pressure-Mon"){
+    field(SELM, "All")
+    field(LNK1, "$(G1):Pressure-Mon")
+    field(LNK2, "$(G2):Pressure-Mon")
+    field(LNK3, "$(G3):Pressure-Mon")
+    field(LNK4, "$(G4):Pressure-Mon")
+    field(LNK5, "$(G5):Pressure-Mon")
+    field(LNK6, "$(G6):Pressure-Mon")
+}
+
+
 record(stringin,"$(G1):Pressure-Mon-s") {
     field(DESC,"Read CCG 1's raw pressure output")
     field(DTYP,"stream")
-    field(INP,"@$(P_PROTO).proto get_pressures($(ADDRESS)) $(PORT)") 
+    field(INP,"@$(P_PROTO).proto get_pressures($(ADDRESS)) $(PORT)")
 
-    field(FLNK, "$(G1):Pressure-Mon")
-} 
+    field(FLNK, "$(DEVICE):Pressure-Mon")
+}
 record(stringin,"$(G2):Pressure-Mon-s") {
     field(DESC,"Read CCG 2's raw pressure output")
-    field(FLNK, "$(G2):Pressure-Mon")
-} 
+    field(DTYP,"stream")
+    field(INP,"@$(P_PROTO).proto get_pressures($(ADDRESS)) $(PORT)")
+
+    field(FLNK, "$(DEVICE):Pressure-Mon")
+}
 record(stringin,"$(G3):Pressure-Mon-s") {
-    field(DESC,"Read CCG 3's raw pressure output") 
-    field(FLNK, "$(G3):Pressure-Mon")
-} 
+    field(DESC,"Read CCG 3's raw pressure output")
+    field(DTYP,"stream")
+    field(INP,"@$(P_PROTO).proto get_pressures($(ADDRESS)) $(PORT)")
+
+    field(FLNK, "$(DEVICE):Pressure-Mon")
+}
 record(stringin,"$(G4):Pressure-Mon-s") {
-    field(DESC,"Read CCG 4's raw pressure output") 
-    field(FLNK, "$(G4):Pressure-Mon")
-} 
+    field(DESC,"Read CCG 4's raw pressure output")
+    field(DTYP,"stream")
+    field(INP,"@$(P_PROTO).proto get_pressures($(ADDRESS)) $(PORT)")
+
+    field(FLNK, "$(DEVICE):Pressure-Mon")
+}
 record(stringin,"$(G5):Pressure-Mon-s") {
-    field(DESC,"Read CCG 5's raw pressure output") 
-    field(FLNK, "$(G5):Pressure-Mon")
-} 
+    field(DESC,"Read CCG 5's raw pressure output")
+    field(DTYP,"stream")
+    field(INP,"@$(P_PROTO).proto get_pressures($(ADDRESS)) $(PORT)")
+
+    field(FLNK, "$(DEVICE):Pressure-Mon")
+}
 record(stringin,"$(G6):Pressure-Mon-s") {
     field(DESC,"Read CCG 6's raw pressure output")
-    field(FLNK, "$(G6):Pressure-Mon")
-} 
+    field(DTYP,"stream")
+    field(INP,"@$(P_PROTO).proto get_pressures($(ADDRESS)) $(PORT)")
+
+    field(FLNK, "$(DEVICE):Pressure-Mon")
+}
 
 # ------------------------------------------------------------------------------------------------
 
 record(stringin,"$(DEVICE):Relay1:SetpointStatus-Mon") {
     # This will set the values for all 12 relays
-    field(SCAN, "2 second") 
+    field(SCAN, "2 second")
     field(DTYP,"stream")
-    field(INP,"@mks937b.proto get_relaysp_status_all($(ADDRESS),$(DEVICE),:SetpointStatus-Mon) $(PORT)") 
-} 
+    field(INP,"@mks937b.proto get_relaysp_status_all($(ADDRESS),$(DEVICE),:SetpointStatus-Mon) $(PORT)")
+}
 
 
