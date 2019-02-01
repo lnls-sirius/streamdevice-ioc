@@ -67,7 +67,7 @@ class TcpUnixBind():
                                     tcp_socket.connect(server_address)
                                     self.connected_to_server = True
                                 except ConnectionRefusedError:
-                                    logger.exception('Conn refused ... !')
+                                    logger.error('Conn refused ... ! %s' % server_address)
                                     time.sleep(self.reconnect_interval)
                                     continue
 

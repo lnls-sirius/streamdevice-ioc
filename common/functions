@@ -34,13 +34,15 @@ run_ioc_unix_bridge(){
 
                     echo $(date)" Configuring ${TOP}/iocBoot/${filename} to use socket ${socket_dir}."
                     sed -i -r "s/drvAsynIPPortConfigure\s*\(\"[^)]+?\s*\)/drvAsynIPPortConfigure\(\"IPPort0\",\"${socket_dir_skp}\"\)/g" ${TOP}/iocBoot/${filename}
+            else
+                    echo Error! $ip is not a valid IP
             fi
     done
     echo
     echo
     echo $(date)" Command: ./common/tcpUnix.py --socket-path-list ${SOCKET_PATH_LIST} --address-list ${ADDR_LIST} &"
-    ./common/tcpUnix.py --socket-path-list ${SOCKET_PATH_LIST} --address-list ${ADDR_LIST} &
-    sleep 10
+    ./common/tcpUnix.py --socket-path-list ${SOCKET_PATH_LIST} --address-list ${ADDR_LIST} --reconnect-interval 30 &
+    sleep 25
 
     echo
     echo
@@ -68,11 +70,13 @@ run_ioc(){
 
                 procServPort=$((procServPort + 1))
 
-                 echo $(date)" Configuring ${TOP}/iocBoot/${filename} to use socket ${ip}:4161."
+                echo $(date)" Configuring ${TOP}/iocBoot/${filename} to use socket ${ip}:4161."
                 sed -i -r "s/drvAsynIPPortConfigure\s*\(\"[^)]+?\s*\)/drvAsynIPPortConfigure\(\"IPPort0\",\"${ip}:4161\"\)/g" ${TOP}/iocBoot/${filename}
 
                 echo $(date)' Init procServ. Command: procServ --chdir '${TOP}/iocBoot ${procServPort} ${TOP}/iocBoot/${filename}
                 procServ --chdir ${TOP}/iocBoot ${procServPort} ${TOP}/iocBoot/${filename}
+        else
+                    echo Error! $ip is not a valid IP
         fi
     done
     export BASE_PROCSERV_PORT=${procServPort}
