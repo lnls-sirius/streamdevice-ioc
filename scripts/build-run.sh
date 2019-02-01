@@ -1,3 +1,3 @@
 #!/bin/bash
-./build-all.sh
-./run-all.sh
+./scripts/build-all.sh
+./scripts/run-all.sh
