@@ -6,7 +6,7 @@ After=initial-conf.service
 [Service]
 Type=forking
 WorkingDirectory=/home/controle/sirius-temporary-dev-repo/
-ExecStart=/bin/bash /home/controle/sirius-temporary-dev-repo/build-run.sh
+ExecStart=/bin/bash /home/controle/sirius-temporary-dev-repo/scripts/build-run.sh
 KillMode=mixed
 StandardOutput=syslog
 StandardError=syslog

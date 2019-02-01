@@ -10,7 +10,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
-SPREADSHEET = os.path.dirname(os.path.realpath(__file__)) + '/../Redes e Beaglebones.xlsx'
+SPREADSHEET = os.path.dirname(os.path.realpath(__file__)) + '/Redes e Beaglebones.xlsx'
 
 SHEET_MBTEMP = 'PVs MBTemp'
 SHEET_4UHV = 'PVs Agilent 4UHV'

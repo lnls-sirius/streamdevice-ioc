@@ -4,7 +4,7 @@ SERVICE_NAME=ioc-procserv
 
 install:
 	pip3 install -r requirements.txt
-	cp --preserve=mode ${SERVICE_NAME}.service /etc/systemd/system/${SERVICE_NAME}.service
+	cp --preserve=mode scripts/${SERVICE_NAME}.service /etc/systemd/system/${SERVICE_NAME}.service
 	systemctl daemon-reload
 	systemctl enable ${SERVICE_NAME}.service
 	systemctl start ${SERVICE_NAME}.service
