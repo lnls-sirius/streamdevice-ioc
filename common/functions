@@ -40,7 +40,7 @@ run_ioc_unix_bridge(){
     echo
     echo $(date)" Command: ./common/tcpUnix.py --socket-path-list ${SOCKET_PATH_LIST} --address-list ${ADDR_LIST} &"
     ./common/tcpUnix.py --socket-path-list ${SOCKET_PATH_LIST} --address-list ${ADDR_LIST} &
-    sleep 3
+    sleep 10
 
     echo
     echo
