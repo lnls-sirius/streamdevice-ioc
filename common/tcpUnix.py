@@ -32,11 +32,11 @@ class TcpUnixBind():
         self.connected_to_server = False
 
     def __str__(self):
-        return '<TcpUnixBind UNIX Socket %s TCP Socket %s reconnect interval %s General zero-bytes %s buffer %s>' % \
-            (self.socket_path, self.address, self.reconnect_interval, self.zero_bytes ,self.socket_buffer)
+        return '<TcpUnixBind UNIX Socket {} TCP Socket {} reconnect interval {} General zero-bytes {} buffer {}>'\
+            .format(self.socket_path, self.address, self.reconnect_interval, self.zero_bytes, self.socket_buffer)
 
     def start(self):
-        logger.info('Starting Unix <-> TCP %s' % self)
+        logger.info('Starting Unix <-> TCP {}'.format(self))
 
         server_address = (self.address, self.port)
 
@@ -47,7 +47,7 @@ class TcpUnixBind():
             with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as s:
                 s.bind(self.socket_path)
                 s.listen()
-                logger.info('Unix Socket %s: Waiting for a connection ...' % self.socket_path)
+                logger.info('Unix Socket {}: Waiting for a connection ...'.format(self.socket_path))
                 conn, addr = s.accept()
                 try:
                     with conn:
@@ -63,26 +63,25 @@ class TcpUnixBind():
                                 try:
                                     # Create a TCP/IP socket
                                     tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                                    logger.info('Connecting to %s:%s' % server_address)
+                                    logger.info('Connecting to {}'.format(server_address))
                                     tcp_socket.connect(server_address)
                                     self.connected_to_server = True
                                 except ConnectionRefusedError:
-                                    logger.error('Conn refused ... ! %s' % server_address)
+                                    logger.error('Conn refused ... ! {}'.format(server_address))
                                     time.sleep(self.reconnect_interval)
                                     continue
 
                             try:
                                 # Send data to server
                                 tcp_socket.sendall(data)
-                                # logger.info('Waiting a response ...')
                                 res = tcp_socket.recv(1024)
                                 if res and res != self.zero_bytes:
                                     #logger.info('Out %s In %s' % (data, res))
                                     conn.sendall(res)
 
-                            except Exception as e:
+                            except:
                                 self.connected_to_server = False
-                                logger.exception('Error? ... %s' % e)
+                                logger.exception('Error? ...')
 
                 except ConnectionError:
                     logger.exception('Connection Error !')
@@ -118,8 +117,7 @@ if __name__ == '__main__':
             for i in range(len(args.address_list)):
                 if i < len(args.socket_path_list):
                     continue
-                args.socket_path_list.append('/var/tmp/%s' % args.address_list[i])
-
+                args.socket_path_list.append('/var/tmp/{}'.format(args.address_list[i]))
     with ThreadPoolExecutor() as executor:
         for addr, path in zip(args.address_list, args.socket_path_list):
             executor.submit(TcpUnixBind(address=addr, socket_path=path, **vars(args)).start)
