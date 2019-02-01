@@ -1,2 +1,1 @@
-# sirius-temporary-dev-repo
-Auxiliar repo for sirius applications
+# Sirius Stream Device IOCs
