@@ -233,7 +233,7 @@ record(mbbo, "$(DEVICE):UnitSp"){
 # ------------------------------------------------------------------------------------------------
 record(fanout, "$(DEVICE):FastTrig"){
     field(SELM, "All")
-    field(SCAN, "$(SCAN_RATE)")
+    field(SCAN, "1 second")
 
     field(LNK1, "$(G1):Pressure-Mon-s.PROC")
     field(LNK2, "$(G2):Pressure-Mon-s.PROC")
@@ -305,5 +305,3 @@ record(stringin,"$(DEVICE):Relay1:SetpointStatus-Mon") {
     field(DTYP,"stream")
     field(INP,"@mks937b.proto get_relaysp_status_all($(ADDRESS),$(DEVICE),:SetpointStatus-Mon) $(PORT)")
 }
-
-
