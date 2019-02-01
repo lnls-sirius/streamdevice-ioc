@@ -5,7 +5,7 @@ import time
 import logging
 import argparse
 
-from os import environ, path
+from os import environ, path, makedirs
 from string import Template
 sys.path.append(path.join(path.dirname(path.abspath(__file__)),'../'))
 
