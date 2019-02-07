@@ -15,3 +15,6 @@ build "mbtemp" "MBTemp-" "5800"
 
 # Counting PRU
 build "countingPRU" "CountingPRU-" "6000"
+
+# Counting SPIxCONV
+build "spixconv" "SPIxCONV-" "6200"

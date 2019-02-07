@@ -15,3 +15,6 @@ run_ioc "MBTemp-"
 
 #Counting PRU
 #run_ioc "CountingPRU-"
+
+#Counting SPIxCONV
+#run_ioc "SPIxCONV-"

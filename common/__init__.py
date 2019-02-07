@@ -16,6 +16,7 @@ SHEET_MBTEMP = 'PVs MBTemp'
 SHEET_4UHV = 'PVs Agilent 4UHV'
 SHEET_MKS = 'PVs MKS937b'
 SHEET_COUNTING_PRU = 'PVs Counting PRU'
+SHEET_SPIXCONV = 'PVs SPIxCONV'
 
 class DbData():
     def __init__(self, sheet_name, ip='IP', aditional_check = None):
@@ -29,7 +30,7 @@ class DbData():
         sheet = sheet.replace('nan', '')
         for index, row in sheet.iterrows():
             if row[ip] == '':
-                logger.error('%s: Ip not set for %s {}.' % (sheet_name, row))
+                logger.error('{0}: Ip not set for {1}.'.format(sheet_name, row))
                 continue
 
             if aditional_check and not aditional_check(row, sheet_name):
@@ -43,7 +44,7 @@ class DbData():
 
 def mks_check(row, sheet_name):
     if row['Configuracao'] == '':
-        logger.error('%s: Configuration not set for {}'.format(sheet_name, row))
+        logger.error('{0}: Configuration not set for {1}.'.format(sheet_name, row))
         return False
     return True
 
@@ -54,3 +55,4 @@ DATA_MBTEMP = DbData(SHEET_MBTEMP).data
 DATA_4UHV = DbData(SHEET_4UHV).data
 DATA_MKS = DbData(SHEET_MKS, aditional_check=mks_check).data
 DATA_COUNTING_PRU = DbData(SHEET_COUNTING_PRU).data
+DATA_SPIXCONV = DbData(SHEET_SPIXCONV).data
