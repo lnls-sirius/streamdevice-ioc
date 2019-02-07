@@ -2,7 +2,7 @@
 #                                SYNC SCAN                                #
 #                           PREFIX_D1  PREFIX_D2                          #
 ###########################################################################
-record(ai , "$(PREFIX_D1):TriggerOneTime"){ 
+record(ai , "$(PREFIX_D1):TriggerOneTime"){
     field(PINI, "YES")
     field(MDEL,"-1")
 }
@@ -16,10 +16,10 @@ record(ai, "$(PREFIX_D2):TriggerOneTime"){
 record(ai, "$(PREFIX_D2):OutOneTime"){
 	field(FLNK, "$(PREFIX_D1):Trigger")
     field(MDEL,"-1")
-} 
+}
 
 #   SYNC SCAN LOOP
-record(ai , "$(PREFIX_D1):Trigger"){ 
+record(ai , "$(PREFIX_D1):Trigger"){
     field(MDEL,"-1")
 }
 record(ai, "$(PREFIX_D1):Out"){
@@ -32,4 +32,4 @@ record(ai, "$(PREFIX_D2):Trigger"){
 record(ai, "$(PREFIX_D2):Out"){
 	field(FLNK, "$(PREFIX_D1):Trigger")
     field(MDEL,"-1")
-} 
+}

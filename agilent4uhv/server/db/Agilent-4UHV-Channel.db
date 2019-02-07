@@ -25,7 +25,7 @@ record(ai, "$(PREFIX):Current-Mon") {
     field(EGU, "A")
     field(HOPR, "0.9")
     field(LOPR, "0")
-    
+
     field(INP, "@Agilent-4UHV.proto currentMon($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
 # Pressure
@@ -34,7 +34,7 @@ record(ai, "$(PREFIX):Pressure-Mon") {
     field(DTYP, "stream")
     field(EGU, "mbar")
     field(PREC, "9")
-    
+
     field(INP, "@Agilent-4UHV.proto pressureMon($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
 # Voltage
@@ -47,7 +47,7 @@ record(ai, "$(PREFIX):Voltage-Mon") {
     field(LOPR, "0")
     field(LINR, "LINEAR")
     field(PREC, "1")
-    
+
     field(INP, "@Agilent-4UHV.proto voltageMon($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
 # HV temperature
@@ -66,7 +66,7 @@ record(mbbi, "$(PREFIX):ErrorCode-Mon") {
     field(INP,  "@Agilent-4UHV.proto errorCodeMon($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
 # Error code
-record(mbbi, "$(PREFIX):SetErrorCode-Mon") { 
+record(mbbi, "$(PREFIX):SetErrorCode-Mon") {
     field(VAL, "0")
     field(ZRST, "")
     field(ONST, "")
@@ -83,21 +83,21 @@ record(mbbi, "$(PREFIX):HVState-RB") {
     field(DESC, "Channel HV on/off readback")
     field(DTYP, "stream")
     field(INP, "@Agilent-4UHV.proto getHVOnOff($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
-            
+
     field(ZRVL, "0")
     field(ONVL, "1")
-    
+
     field(ZRST, "OFF")
     field(ONST, "ON")
-} 
+}
 record(mbbo, "$(PREFIX):HVState-SP") {
     field(DESC, "Channel HV on/off setpoint")
     field(DTYP, "stream")
     field(OUT, "@Agilent-4UHV.proto setHVOnOff($(SERIAL_ADDRESS),$(CHANNEL_NUMBER),$(PREFIX):SetErrorCode-Mon) $(PORT)")
-        
+
     field(ZRVL, "0")
     field(ONVL, "1")
-    
+
     field(ZRST, "OFF")
     field(ONST, "ON")
 
@@ -109,7 +109,7 @@ record(longin, "$(PREFIX):DeviceNumber-RB") {
     field(DTYP, "stream")
     field(PINI, "YES")
     field(INP, "@Agilent-4UHV.proto getDeviceNumber($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
-} 
+}
 # I Protect
 record(ai, "$(PREFIX):CurrentProtect-RB") {
     field(DESC, "Measured Current Protect")
@@ -124,7 +124,7 @@ record(ao, "$(PREFIX):CurrentProtect-SP") {
     field(DRVH, "100")
     field(DRVL, "1")
     field(OUT, "@Agilent-4UHV.proto setIProtect($(SERIAL_ADDRESS),$(CHANNEL_NUMBER),$(PREFIX):SetErrorCode-Mon) $(PORT)")
-    
+
     field(FLNK, "$(PREFIX):CurrentProtect-RB")
 }
 # V Target
@@ -149,7 +149,7 @@ record(ai, "$(PREFIX):PowerMax-RB") {
     field(DESC, "Power Max")
     field(DTYP, "stream")
     field(EGU, "W")
-    field(INP, "@Agilent-4UHV.proto getPowerMax($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")  
+    field(INP, "@Agilent-4UHV.proto getPowerMax($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }
 record(ao, "$(PREFIX):PowerMax-SP") {
     field(DESC, "Power Max")
