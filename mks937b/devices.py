@@ -22,7 +22,7 @@ def get_device(prefix, addr, config = [CC, CC, PR], gauges =  ['G1', 'G2', 'G3',
 def get_sector(f_name, ip_addr, devices, ip_asyn_port = 'IPPort0', scan = '1'):
     return {# A Sector
         'f_name' : f_name,
-        'IP_ADDR' : ip_addr + ":4161", # Beaglebone IP.
+        'IP_ADDR' : ip_addr, # Beaglebone IP.
         'SCAN_RATE' : scan,
         'IP_ASYN_PORT' : ip_asyn_port,
         # Devices
@@ -50,4 +50,4 @@ for _ip, values in DATA_MKS.items():
                             {'HI':val['HI C2'],'HIHI': val['HIHI C2']}
                         ]))
 
-    sectors.append(get_sector(_ip, _ip ,devs))
+    sectors.append(get_sector(_ip + ":4161", _ip + ":4161" ,devs))

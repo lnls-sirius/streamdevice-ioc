@@ -1,10 +1,14 @@
 *.save
+settings.json
 
 # Agilent 4UHV
 agilent4uhv/server/cmd/*
 
-# Agilent 4UHV
+# MBTemp
 mbtemp/server/cmd/*
+
+# SPIxCONV 4UHV
+spixconv/server/cmd/*
 
 # Counting PRU
 countingPRU/server/cmd/*
