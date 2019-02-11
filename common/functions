@@ -20,9 +20,8 @@ run_ioc_unix_bridge(){
     PORT=4161
 
     echo
-    echo
     echo UNIX Bind and .cmd configuration
-    for filename in $(ls ${TOP}/iocBoot | grep -P "^${1}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.cmd$"); do
+    for filename in $(ls ${TOP}/iocBoot | grep -P "^${1}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:?[0-9]{0,5}\.cmd$"); do
             ip=$(echo $filename | sed -e "s/${1}//" -e "s/\.cmd//")
 
             if [[ ${ip} =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
@@ -34,8 +33,13 @@ run_ioc_unix_bridge(){
 
                     echo $(date)" Configuring ${TOP}/iocBoot/${filename} to use socket ${socket_dir}."
                     sed -i -r "s/drvAsynIPPortConfigure\s*\(\"[^)]+?\s*\)/drvAsynIPPortConfigure\(\"IPPort0\",\"${socket_dir_skp}\"\)/g" ${TOP}/iocBoot/${filename}
-            else
-                    echo Error! $ip is not a valid IP
+            fi
+            if [[ ${ip} =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{1,5}$ ]]; then
+                    ADDR_LIST="${ADDR_LIST} ${ip}"
+                    SOCKET_PATH_LIST="${SOCKET_PATH_LIST} ${socket_dir}"
+
+                    echo $(date)" Configuring ${TOP}/iocBoot/${filename} to use socket ${socket_dir}."
+                    sed -i -r "s/drvAsynIPPortConfigure\s*\(\"[^)]+?\s*\)/drvAsynIPPortConfigure\(\"IPPort0\",\"${socket_dir_skp}\"\)/g" ${TOP}/iocBoot/${filename}
             fi
     done
     echo
@@ -47,9 +51,8 @@ run_ioc_unix_bridge(){
     echo
     echo
     procServPort=${BASE_PROCSERV_PORT}
-    for filename in $(ls ${TOP}/iocBoot | grep -P "^${1}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.cmd$"); do
-        if [[ ${ip} =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-
+    for filename in $(ls ${TOP}/iocBoot | grep -P "^${1}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:?[0-9]{0,5}\.cmd$"); do
+        if [[ ${ip} =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:?[0-9]{0,5}$ ]]; then
                 procServPort=$((procServPort + 1))
                 echo $(date) Init procServ. Command: procServ --chdir ${TOP}/iocBoot ${procServPort} ${TOP}/iocBoot/${filename}
                 procServ --chdir ${TOP}/iocBoot ${procServPort} ${TOP}/iocBoot/${filename}
@@ -61,22 +64,25 @@ run_ioc_unix_bridge(){
 run_ioc(){
     # Params:
     # :1 : CMD_KEY
+    # @todo: Make this thing clear !!
     echo
     echo
     procServPort=${BASE_PROCSERV_PORT}
-    for filename in $(ls ${TOP}/iocBoot | grep -P "^${1}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.cmd$"); do
+    for filename in $(ls ${TOP}/iocBoot | grep -P "^${1}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:?[0-9]{0,5}\.cmd$"); do
         ip=$(echo $filename | sed -e "s/${1}//" -e "s/\.cmd//")
         if [[ ${ip} =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-
                 procServPort=$((procServPort + 1))
-
                 echo $(date)" Configuring ${TOP}/iocBoot/${filename} to use socket ${ip}:4161."
                 sed -i -r "s/drvAsynIPPortConfigure\s*\(\"[^)]+?\s*\)/drvAsynIPPortConfigure\(\"IPPort0\",\"${ip}:4161\"\)/g" ${TOP}/iocBoot/${filename}
-
                 echo $(date)' Init procServ. Command: procServ --chdir '${TOP}/iocBoot ${procServPort} ${TOP}/iocBoot/${filename}
                 procServ --chdir ${TOP}/iocBoot ${procServPort} ${TOP}/iocBoot/${filename}
-        else
-                    echo Error! $ip is not a valid IP
+        fi
+        if [[ ${ip} =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{1,5}$ ]]; then
+                procServPort=$((procServPort + 1))
+                echo $(date)" Configuring ${TOP}/iocBoot/${filename} to use socket ${ip}."
+                sed -i -r "s/drvAsynIPPortConfigure\s*\(\"[^)]+?\s*\)/drvAsynIPPortConfigure\(\"IPPort0\",\"${ip}\"\)/g" ${TOP}/iocBoot/${filename}
+                echo $(date)' Init procServ. Command: procServ --chdir '${TOP}/iocBoot ${procServPort} ${TOP}/iocBoot/${filename}
+                procServ --chdir ${TOP}/iocBoot ${procServPort} ${TOP}/iocBoot/${filename}
         fi
     done
     export BASE_PROCSERV_PORT=${procServPort}
@@ -111,7 +117,6 @@ build(){
     pushd $1
         echo "Generating ${1} ${2} TOP=${TOP}"
         ./generate.py \
-            --epics-ca-port-increase \
             --base-epics-ca-port ${3}\
             --cmd-prefix $2\
             --top ${TOP}

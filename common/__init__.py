@@ -40,7 +40,7 @@ class DbData():
                 self.data[row[ip]].append(row)
             else:
                 self.data[row[ip]] = [row]
-        logger.info('Generated data structure from sheet %s.' % sheet_name)
+        # logger.info('Generated data structure from sheet %s.' % sheet_name)
 
 def mks_check(row, sheet_name):
     if row['Configuracao'] == '':
