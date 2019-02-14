@@ -24,7 +24,7 @@ def get_device(prefix = None, address = 0, channels = [None,None,None,None]):
 def get_sector(f_name = 'default_name', ip_address = "10.0.6.67", devices = [None, None, None, None], asyn_ip_port = 'IPPort0'):
     return {
         # A Sector
-        'f_name' : f_name,
+        'f_name' : f_name  + ':4161',
         'IP_ASYN_PORT' : asyn_ip_port,
         # Beaglebone IP.
         'IP_ADDR' : ip_address + ':4161',

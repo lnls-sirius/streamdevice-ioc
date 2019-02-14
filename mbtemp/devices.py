@@ -1,15 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 import logging
-# import pandas
 import os
 from common import DATA_MBTEMP
 
 logger = logging.getLogger()
 
-
 class MBTempDevice():
-
     def __init__(self, row = None):
 
         if row.empty:
