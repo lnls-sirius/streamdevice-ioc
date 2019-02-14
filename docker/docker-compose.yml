@@ -1,0 +1,22 @@
+version: '3.2'
+services:
+  spixconv:
+      hostname: spixconv
+      image: lnlscon/streamdevice-ioc:latest
+      volumes:
+        - /opt/streamdevice-ioc/spreadsheet:/opt/streamdevice-ioc/spreadsheet
+      networks:
+        - streamdevice_ioc_network
+      dns:
+          - 10.128.255.6
+          - 10.0.0.71
+          - 10.0.0.72
+      env_file:
+          -  /home/con-srv/repository/cas-rf/sirius-cas-rf-ring/docker/variables.env
+      deploy:
+          replicas: 1
+networks:
+  streamdevice_ioc_network:
+    ipam:
+      config:
+        - subnet: 192.168.11.0/24

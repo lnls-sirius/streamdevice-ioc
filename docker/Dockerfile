@@ -2,10 +2,9 @@
 # LNLS - Brazilian Synchrotron Light Source Laboratory
 
 FROM lnlscon/epics-r3.15.5:latest
+LABEL maintainer="Claudio Carneiro <claudio.carneiro@lnls.br>"
 
-MAINTAINER Claudio Carneiro <claudio.carneiro@lnls.br>
-
-WORKDIR /root/streamdevice-ioc
+WORKDIR /opt/streamdevice-ioc
 
 # Github environment variables
 ENV GITHUB_REPO https://github.com/lnls-sirius/streamdevice-ioc.git
@@ -19,4 +18,8 @@ RUN rm -rd ${TOP}/database/* && \
 # Github Repo
 RUN git clone ${GITHUB_REPO}
 
-# Loop to keep the program alive
+# Base procServ port
+ENV BASE_PROCSERV_PORT=20400
+
+# Run stuff
+CMD ./scripts/run.sh ${DEVICE_FOLDER} ${DEVICE_PREFIX}
