@@ -16,7 +16,7 @@ RUN rm -rd ${TOP}/database/* && \
     rm -rd ${TOP}/iocBoot/*
 
 # Github Repo
-RUN git clone ${GITHUB_REPO}
+RUN git clone ${GITHUB_REPO} && git checkout origin/docker-support
 
 # Base procServ port
 ENV BASE_PROCSERV_PORT=20400
