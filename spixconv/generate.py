@@ -65,7 +65,6 @@ if __name__ == "__main__":
 
         if EPICS_CA_PORT_INCRESE:
             EPICS_CA_SERVER_PORT += 2
-        res += template_bot
 
         if not path.exists('server/cmd/'):
             makedirs('server/cmd/')
