@@ -1,0 +1,14 @@
+version: '3.2'
+services:
+    mks937:
+        hostname: mks-937b
+        image: lnlscon/mks937b:latest
+        ports:
+            -  "4161:4161"
+        dns:
+            - 10.0.0.71
+            - 10.0.0.72
+        env_file:
+            -  /home/con-srv/repository/cas-rf/sirius-cas-rf-ring/docker/variables.env
+        deploy:
+            replicas: 1
