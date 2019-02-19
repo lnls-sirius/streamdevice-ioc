@@ -27,7 +27,7 @@ class TcpUnixBind():
             self.port = 4161
 
         self.socket_buffer = socket_buffer
-        self.zero_bytes = zero_bytes.encode('utf-8')
+        self.zero_bytes = 'ZB'.encode('utf-8') if zero_bytes == None else zero_bytes.encode('utf-8')
         self.reconnect_interval = reconnect_interval
         self.connected_to_server = False
 
@@ -75,10 +75,11 @@ class TcpUnixBind():
                                 # Send data to server
                                 tcp_socket.sendall(data)
                                 res = tcp_socket.recv(1024)
-                                if res and res != self.zero_bytes:
-                                    #logger.info('Out %s In %s' % (data, res))
-                                    conn.sendall(res)
-
+                                if res:
+                                    if res != self.zero_bytes:
+                                        conn.sendall(res)
+                                    elif res.startswith(self.zero_bytes):
+                                        conn.sendall(res[len(self.zero_bytes):])
                             except:
                                 self.connected_to_server = False
                                 logger.exception('Error? ...')
