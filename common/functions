@@ -98,9 +98,7 @@ build(){
     rm ${1}/server/cmd/*
 
     pushd $1
-        ./generate.py \
-            --cmd-prefix ${2}\
-            --top ${TOP} ${EPICS_CA_PORT_INCRESE} ${BASE_EPICS_CA_PORT}
+        ./generate.py --cmd-prefix ${2} --top ${TOP} ${EPICS_CA_PORT_INCREASE} ${BASE_EPICS_CA_PORT}
 
         copy_to_stream_device ${2} $TOP
     popd
