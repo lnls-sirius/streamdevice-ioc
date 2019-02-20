@@ -21,8 +21,6 @@ RUN rm -rd ${TOP}/database/* && \
 RUN git clone ${GITHUB_REPO}
 WORKDIR /opt/streamdevice-ioc
 
-RUN git checkout origin/docker-support
-
 # Epics auto addr list
 ENV EPICS_CA_AUTO_ADDR_LIST=YES
 
