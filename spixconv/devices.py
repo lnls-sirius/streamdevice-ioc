@@ -10,7 +10,6 @@ class SPIxCONV():
     IP	Description	Dev	Voltage Factor	Address	Scan Rate	Database
     '''
     def __init__(self, row = None):
-
         if row.empty:
             logger.error('Row not defined when creating CountingPRU object.')
             raise TypeError('Row undefined !')
@@ -25,7 +24,7 @@ class SPIxCONV():
         self.file_name = self.ip + '.cmd'
 
     def __str__(self):
-        return '< SPIxCONV %s %s %s %s %s %s %s.db >' % (self.ip, self.device, self.description, self.voltage_factor, self.file_name, self.scan_rate, self.database)
+        return '<SPIxCONV %s %s %s %s %s %s %s.db>' % (self.ip, self.device, self.description, self.voltage_factor, self.file_name, self.scan_rate, self.database)
 
 boards = []
 for _ip, rows in DATA_SPIXCONV.items():

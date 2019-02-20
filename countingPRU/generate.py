@@ -21,7 +21,7 @@ from countingPRU.devices import boards
 logger = logging.getLogger()
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Generate Counting PRU IOC files.')
+    parser = argparse.ArgumentParser(description='Generate Counting PRU IOC files.', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--epics-ca-port-increase', help='Increase EPICS_CA_SERVER_PORT by 2 for each deployed IOC.', action='store_true')
     parser.add_argument('--base-epics-ca-port', help='Initial EPICS CA server port. It will increase by 2 for every ioc.', type=int, default=5064)
     parser.add_argument('--cmd-prefix', default='MBT', help='Prefix for the .cmd files.')
@@ -88,4 +88,3 @@ if __name__ == "__main__":
 
         with open('server/cmd/' + CMD_KEY + board.file_name, 'w+') as file:
             file.write(res)
-            logger.info('Generated %s' % board)

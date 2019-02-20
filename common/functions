@@ -98,13 +98,8 @@ build(){
     rm ${1}/server/cmd/*
 
     pushd $1
-        echo "Generating ${1} ${2} TOP=${TOP}"
-        ./generate.py \
-            --base-epics-ca-port ${3}\
-            --cmd-prefix $2\
-            --top ${TOP}\
-            --epics-ca-port-increase
+        ./generate.py --cmd-prefix ${2} --top ${TOP} ${EPICS_CA_PORT_INCREASE} ${BASE_EPICS_CA_PORT}
 
-        copy_to_stream_device $2 $TOP
+        copy_to_stream_device ${2} $TOP
     popd
 }

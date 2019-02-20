@@ -10,7 +10,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
-SPREADSHEET = os.path.dirname(os.path.realpath(__file__)) + '/Redes e Beaglebones.xlsx'
+SPREADSHEET = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../spreadsheet/Redes e Beaglebones.xlsx')
 
 SHEET_MBTEMP = 'PVs MBTemp'
 SHEET_4UHV = 'PVs Agilent 4UHV'
@@ -40,7 +40,6 @@ class DbData():
                 self.data[row[ip]].append(row)
             else:
                 self.data[row[ip]] = [row]
-        # logger.info('Generated data structure from sheet %s.' % sheet_name)
 
 def mks_check(row, sheet_name):
     if row['Configuracao'] == '':

@@ -20,7 +20,7 @@ from mks937b.db_template import relay as db_relay
 logger = logging.getLogger()
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description='Generate MKS 937b IOC files.')
+    parser = argparse.ArgumentParser(description='Generate MKS 937b IOC files.', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--epics-ca-port-increase', help='Increase EPICS_CA_SERVER_PORT by 2 for each deployed IOC.', action='store_true')
     parser.add_argument('--base-epics-ca-port', help='Initial EPICS CA server port. It will increase by 2 for every ioc.', type=int, default=5064)
     parser.add_argument('--cmd-prefix', default='mks', help='Prefix for the .cmd files.')
