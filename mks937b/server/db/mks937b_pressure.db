@@ -5,6 +5,7 @@ record(ai,"$(DEVICE):Pressure-Mon") {
     field(HIGH,"$(P_HIHI)")
     field(HSV,"MINOR")
     field(HHSV,"MAJOR") 
+    field(EGU, "mBar")
 } 
 # ---------------------------------------------------------
 # Channel Power Status 
