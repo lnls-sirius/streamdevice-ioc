@@ -17,6 +17,8 @@ RestartSec=15
 RemainAfterExit=yes
 WorkingDirectory=/home/controle/streamdevice-ioc/docker
 ExecStart=/usr/bin/docker stack deploy --compose-file /home/controle/streamdevice-ioc/docker/docker-stack.yml streamdevice-ioc
+ExecStop=/usr/bin/docker stack rm streamdevice-ioc
+
 
 StandardOutput=syslog
 StandardError=syslog
