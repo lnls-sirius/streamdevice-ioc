@@ -2,7 +2,7 @@
 import sys
 from os import path
 sys.path.append(path.join(path.dirname(path.abspath(__file__)),'../'))
-from common import DATA_MBTEMP, DATA_4UHV, DATA_MKS
+from common import DATA_MBTEMP, DATA_4UHV, DATA_MKS, DATA_COUNTING_PRU
 
 agilent4uhv = {
     'device': [
@@ -64,6 +64,7 @@ if __name__=='__main__':
     parser.add_argument('--mbtemp', help='Print MBTemp data', action='store_true')
     parser.add_argument('--mks', help='Print MKS data.', action='store_true')
     parser.add_argument('--uhv', help='Print 4UHV data.', action='store_true')
+    parser.add_argument('--counting_pru', help='Print Counting PRU data.', action='store_true')
     args = parser.parse_args()
 
     if args.uhv:
@@ -98,3 +99,11 @@ if __name__=='__main__':
                         row['CH7'], row['CH8']]:
                     print(ch)
                     print(ch + '-Raw')
+
+    if args.counting_pru:
+        for f, vals in DATA_COUNTING_PRU.items():
+            if len(vals) == 1:
+                row = vals[0]
+                print(row['Dev'] + ':TimeBase')
+                for ch in [row.get('CH{}'.format(i)) for i in range(1,9)]:
+                    print(ch)
