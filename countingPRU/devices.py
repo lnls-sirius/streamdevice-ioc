@@ -22,7 +22,7 @@ class CountingPRU():
         self.descs = [row.get('CH{} DESC'.format(i)) for i in range(1,9)]
         self.scan_rate = '2 second'
         self.ip_asyn_port = 'IPPort0'
-        self.file_name = self.ip + '.cmd'
+        self.file_name = self.ip + ':5000' + '.cmd'
 
     def __str__(self):
         return '< CountingPRU %s %s %s %s %s %s >' % (self.ip, self.device, self.channels, self.ip_asyn_port, self.file_name, self.scan_rate)
