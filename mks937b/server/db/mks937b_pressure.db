@@ -2,7 +2,7 @@ record(ai,"$(DEVICE):Pressure-Mon") {
     field(DESC,"Read CCG$(CHANNEL)'s pressure")
     field(INP,"$(DEVICE):Pressure-Mon-s")
     field(HIGH,"$(P_HI)")
-    field(HIGH,"$(P_HIHI)")
+    field(HIHI,"$(P_HIHI)")
     field(HSV,"MINOR")
     field(HHSV,"MAJOR") 
     field(EGU, "mBar")
