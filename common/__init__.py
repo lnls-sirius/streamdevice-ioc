@@ -30,7 +30,6 @@ class DbData():
         sheet = sheet.replace('nan', '')
         for index, row in sheet.iterrows():
             if row[ip] == '':
-                logger.error('{0}: Ip not set for {1}.'.format(sheet_name, row))
                 continue
 
             if aditional_check and not aditional_check(row, sheet_name):
@@ -50,6 +49,8 @@ def mks_check(row, sheet_name):
 '''
     Data structures will contain a vector of entries related to a single IP
 '''
+
+
 DATA_MBTEMP = DbData(SHEET_MBTEMP).data
 DATA_4UHV = DbData(SHEET_4UHV).data
 DATA_MKS = DbData(SHEET_MKS, aditional_check=mks_check).data
