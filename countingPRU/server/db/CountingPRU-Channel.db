@@ -10,7 +10,7 @@
 record(longin, "$(RECORD_NAME)") {
     field(DESC, "$(DESCRIPTION)")
     field(DTYP, "stream")
-    field(EGU, "counting")
+    field(EGU, "pulses")
     field(INP, "@CountingPRU.proto getCounting($(CHANNEL)) $(PORT)")
     field(PINI, "YES")
     field(SCAN, "$(SCAN_RATE)")
