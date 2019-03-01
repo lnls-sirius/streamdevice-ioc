@@ -8,6 +8,7 @@ record(longout, "$(PREFIX)-TimeBase") {
     field(DESC, "TimeBase for CountingPRU")
     field(DRVL, "0")
     field(DTYP, "stream")
+    field(EGU, "seconds")
     field(OUT, "@CountingPRU.proto setTimeBase() $(PORT)")
     field(PINI, "YES")
 }
