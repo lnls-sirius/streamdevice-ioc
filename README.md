@@ -15,3 +15,9 @@ The user must set the initial port value.
 EPICS_CA_PORT_INCREASE=--epics-ca-port-increase
 BASE_EPICS_CA_PORT=--base-epics-ca-port 5070
 ```
+
+## Develop
+To change the contents of the deployed service the user must built and push the new image to dockerhub. <br>
+Keep in mind that commits won't affect old images as the repo is cloned when building it. <br>
+
+To build a new image push the changes to master or add a checkout inside the Dockerfile. Run the script at `docker/build.sh` setting the correct tag name.
