@@ -8,7 +8,7 @@ To check the deployment run:
 ```
 docker service ls
 ```
-Add the following environment variables to a service in order to launch IOCs in different ports.<br>
+Add the following environment variables to a service in order to launch IOCs in different ports (`docker/docker-stack.yml` ).<br>
 The user must set the initial port value.
 
 ```
