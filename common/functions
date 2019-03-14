@@ -17,8 +17,7 @@ run_ioc_unix_bridge(){
     # :1 : CMD_KEY
     ADDR_LIST=
     SOCKET_PATH_LIST=
-
-    echo
+    set -x
     echo UNIX Bind and .cmd configuration
     for filename in $(ls ${TOP}/iocBoot | grep -P "^${1}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{1,5}\.cmd$"); do
             ip=$(echo $filename | sed -e "s/${1}//" -e "s/\.cmd//")
@@ -34,21 +33,18 @@ run_ioc_unix_bridge(){
                     sed -i -r "s/drvAsynIPPortConfigure\s*\(\"[^)]+?\s*\)/drvAsynIPPortConfigure\(\"IPPort0\",\"${socket_dir_skp}\"\)/g" ${TOP}/iocBoot/${filename}
             fi
     done
-    echo
-    echo
-    echo $(date)" Command: ./common/tcpUnix.py --socket-path-list ${SOCKET_PATH_LIST} --address-list ${ADDR_LIST} &"
+    
     ./common/tcpUnix.py --socket-path-list ${SOCKET_PATH_LIST} --address-list ${ADDR_LIST} --reconnect-interval 30 &
     sleep 25
 
-    echo
     echo
     procServPort=${BASE_PROCSERV_PORT}
     for filename in $(ls ${TOP}/iocBoot | grep -P "^${1}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{1,5}\.cmd$"); do
         procServPort=$((procServPort + 1))
         export BASE_PROCSERV_PORT=${procServPort}
-        echo $(date) Init procServ. Command: procServ --chdir ${TOP}/iocBoot ${procServPort} ${TOP}/iocBoot/${filename}
         procServ --chdir ${TOP}/iocBoot ${procServPort} ${TOP}/iocBoot/${filename}
     done
+    set +x
 }
 
 run_ioc(){
