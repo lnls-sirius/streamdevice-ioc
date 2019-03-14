@@ -3,9 +3,9 @@ services:
   agilent4uhv:
       hostname: agilent4uhv
       container_name: Agilent4UHV-IOC
-      image: lnlscon/streamdevice-ioc:v1.0.15.2.2019
+      image: lnlscon/streamdevice-ioc:v1.1.1.3.2019
       volumes:
-        - /home/con-srv/repository/streamdevice-ioc/spreadsheet:/opt/streamdevice-ioc/spreadsheet
+        - /home/controle/streamdevice-ioc/spreadsheet:/opt/streamdevice-ioc/spreadsheet
       networks:
         - streamdevice_ioc_network
       environment:
@@ -18,9 +18,9 @@ services:
   countingPRU:
       hostname: countingPRU
       container_name: CountingPRU-IOC
-      image: lnlscon/streamdevice-ioc:v1.0.15.2.2019
+      image: lnlscon/streamdevice-ioc:v1.1.1.3.2019
       volumes:
-        - /home/con-srv/repository/streamdevice-ioc/spreadsheet:/opt/streamdevice-ioc/spreadsheet
+        - /home/controle/streamdevice-ioc/spreadsheet:/opt/streamdevice-ioc/spreadsheet
       networks:
         - streamdevice_ioc_network
       environment:
@@ -33,11 +33,11 @@ services:
   mbtemp:
       hostname: mbtemp
       container_name: MBTemp-IOC
-      image: lnlscon/streamdevice-ioc:v1.0.15.2.2019
+      image: lnlscon/streamdevice-ioc:v1.1.1.3.2019
       volumes:
-        - /home/con-srv/repository/streamdevice-ioc/spreadsheet:/opt/streamdevice-ioc/spreadsheet
+        - /home/controle/streamdevice-ioc/spreadsheet:/opt/streamdevice-ioc/spreadsheet
       networks:
-        - streamdevice_ioc_network
+          - streamdevice_ioc_network
       environment:
         - DEVICE_FOLDER=mbtemp
         - DEVICE_PREFIX=MBTemp-
@@ -48,30 +48,15 @@ services:
   mks937b:
       hostname: mks937b
       container_name: Agilent-MKS937b-IOC
-      image: lnlscon/streamdevice-ioc:v1.0.15.2.2019
+      image: lnlscon/streamdevice-ioc:v1.1.1.3.2019
       volumes:
-        - /home/con-srv/repository/streamdevice-ioc/spreadsheet:/opt/streamdevice-ioc/spreadsheet
+        - /home/controle/streamdevice-ioc/spreadsheet:/opt/streamdevice-ioc/spreadsheet
       networks:
-        - streamdevice_ioc_network
+          - streamdevice_ioc_network
       environment:
         - DEVICE_FOLDER=mks937b
         - DEVICE_PREFIX=MKS-
         - BASE_PROCSERV_PORT=20900
-      dns:
-        - 10.0.0.71
-        - 10.0.0.72
-  spixconv:
-      hostname: spixconv
-      container_name: SPIxCONV-IOC
-      image: lnlscon/streamdevice-ioc:v1.0.15.2.2019
-      volumes:
-        - /home/con-srv/repository/streamdevice-ioc/spreadsheet:/opt/streamdevice-ioc/spreadsheet
-      networks:
-        - streamdevice_ioc_network
-      environment:
-        - DEVICE_FOLDER=spixconv
-        - DEVICE_PREFIX=SPIxCONV-
-        - BASE_PROCSERV_PORT=21000
       dns:
         - 10.0.0.71
         - 10.0.0.72
