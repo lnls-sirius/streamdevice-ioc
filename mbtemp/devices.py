@@ -45,7 +45,7 @@ class MBTemp():
             self.devices.append(MBTempDevice(row))
 
     def __str__(self):
-        return '< MBTemp %s %s %s devices %s >' % (self.ip, self.file_name, self.scan_rate, len(self.devices))
+        return '<MBTemp %s %s %s devices %s>' % (self.ip, self.file_name, self.scan_rate, len(self.devices))
 
 boards = []
 for _ip, rows in DATA_MBTEMP.items():
@@ -54,4 +54,3 @@ for _ip, rows in DATA_MBTEMP.items():
         continue
 
     boards.append(MBTemp(rows, _ip))
-    logger.info('Adding a new %s.\n' % boards[-1])
