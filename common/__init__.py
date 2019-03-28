@@ -32,6 +32,10 @@ class DbData():
             if row[ip] == '':
                 continue
 
+            if row['ENABLE'] != 'True':
+                logger.info('{}: {} DISABLED.'.format(sheet_name, row[ip]))
+                continue
+
             if aditional_check and not aditional_check(row, sheet_name):
                 continue
 
@@ -42,7 +46,7 @@ class DbData():
 
 def mks_check(row, sheet_name):
     if row['Configuracao'] == '':
-        logger.error('{0}: Configuration not set for {1}.'.format(sheet_name, row))
+        logger.error('{0}: Configuration not set for {1}.'.format(sheet_name, row['IP']))
         return False
     return True
 
@@ -50,9 +54,8 @@ def mks_check(row, sheet_name):
     Data structures will contain a vector of entries related to a single IP
 '''
 
-
-DATA_MBTEMP = DbData(SHEET_MBTEMP).data
-DATA_4UHV = DbData(SHEET_4UHV).data
-DATA_MKS = DbData(SHEET_MKS, aditional_check=mks_check).data
+DATA_MBTEMP       = DbData(SHEET_MBTEMP).data
+DATA_4UHV         = DbData(SHEET_4UHV).data
+DATA_MKS          = DbData(SHEET_MKS, aditional_check=mks_check).data
 DATA_COUNTING_PRU = DbData(SHEET_COUNTING_PRU).data
-DATA_SPIXCONV = DbData(SHEET_SPIXCONV).data
+DATA_SPIXCONV     = DbData(SHEET_SPIXCONV).data

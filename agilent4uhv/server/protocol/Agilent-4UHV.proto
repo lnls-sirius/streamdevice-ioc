@@ -2,11 +2,11 @@
 
 # Communication protocol for Agilent 4UHV Ion Pump Controller. This is based on the work of Pete
 # Owens from the Science and Technology Facilities Council (STFC).
-LockTimeout  = 400;
+LockTimeout  = 800;
 LockTimeoutGetSet = 21000;
 
-ReplyTimeout = 250;
-ReadTimeout  = 250;
+ReplyTimeout = 450;
+ReadTimeout  = 450;
 
 # ONE_TIME_LOCK_TIMEOUT = 20000;
 
