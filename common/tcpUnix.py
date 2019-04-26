@@ -29,7 +29,7 @@ class TcpUnixBind():
         self.connected_to_server = False
 
     def __str__(self):
-        return '<TcpUnixBind UNIX Socket {} TCP Socket {} reconnect interval {} General zero-bytes {} buffer {}>'\
+        return 'TcpUnixBind UNIX Socket {} TCP Socket {} reconnect interval {} General zero-bytes {} buffer {}'\
             .format(self.socket_path, self.address, self.reconnect_interval, self.zero_bytes, self.socket_buffer)
 
     def start(self):
@@ -51,6 +51,7 @@ class TcpUnixBind():
                     with conn:
                         logger.info('Connected to the unix socket {} {} {}'.format(self.socket_path, conn, addr))
                         while True:
+
                             data = conn.recv(self.socket_buffer)
 
                             if not data:
@@ -61,13 +62,15 @@ class TcpUnixBind():
                                 try:
                                     # Create a TCP/IP socket
                                     tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                                    logger.info('Connecting the unix socket {} to the tcp server {}'.format(self.socket_path, server_address))
+                                    tcp_socket.settimeout(2.)
+                                    logger.info('Trying to connect the unix socket {} to the tcp server {}'.format(self.socket_path, server_address))
                                     tcp_socket.connect(server_address)
                                     self.connected_to_server = True
+                                    logger.info('Connected the unix socket {} to the tcp server {}'.format(self.socket_path, server_address))
                                 except:
                                     # except ConnectionRefusedError
                                     self.connected_to_server = False
-                                    logger.error('Conn refused {} {}. Connected to tcp server {}'.format(self.socket_path, server_address, self.connected_to_server))
+                                    logger.error('Conn refused {} {} {}. Retry in {} seconds.'.format(self.socket_path, server_address, self.connected_to_server, self.reconnect_interval))
                                     time.sleep(self.reconnect_interval)
                                     continue
 
