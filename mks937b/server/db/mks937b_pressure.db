@@ -1,15 +1,19 @@
+
 record(ai,"$(DEVICE):Pressure-Mon") {
-    field(DESC,"Read CCG$(CHANNEL)'s pressure")
-    field(INP,"$(DEVICE):Pressure-Mon-s")
+
+    field(DESC, "Read CCG$(CHANNEL)'s pressure")
+    field(INP,  "$(DEVICE):Pressure-Mon-s")
+    field(SCAN, "Passive")
+
     field(HIGH,"$(P_HI)")
     field(HIHI,"$(P_HIHI)")
-    field(HSV,"MINOR")
+
+    field(HSV, "MINOR")
     field(HHSV,"MAJOR") 
     field(EGU, "mBar")
 } 
-# ---------------------------------------------------------
+
 # Channel Power Status 
-# In case the unit was changed at the ihm
 record(mbbi, "$(DEVICE):Enable-RB") {
   field(DESC, "Channel power status")
   field(DTYP, "stream")
@@ -21,21 +25,24 @@ record(mbbi, "$(DEVICE):Enable-RB") {
   field(ZRST, "Off")
   field(ONST, "On")
 }
+
 record(mbbo, "$(DEVICE):Enable-SP"){
     field(DESC, "Set Channel $(CHANNEL) On Off ") 
-    field(OUT,"@mks937b.proto set_enabled($(ADDRESS),$(CHANNEL)) $(PORT)")
+    field(OUT,  "@mks937b.proto set_enabled($(ADDRESS),$(CHANNEL)) $(PORT)")
     field(DTYP, "stream")
     
     field(UNSV, "INVALID")
     field(IVOA, "Don't drive outputs")
 
     field(ZRVL, "0")
-    field(ONVL, "1") 
+    field(ONVL, "1")
+    
     field(ZRST, "Off")
     field(ONST, "On") 
 
     field(FLNK, "$(DEVICE):Enable-RB")
 }
+
 # ---------------------------------------------------------
   
 
