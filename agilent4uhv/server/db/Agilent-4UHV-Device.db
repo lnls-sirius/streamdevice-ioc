@@ -1,7 +1,7 @@
 # Agilent-4UHV-Device.db
 
-# Record definition file for one Agilent 4UHV Ion Pump Controller device. This is based on the work
-# of Pete Owens from the Science and Technology Facilities Council (STFC).
+# Record definition file for one Agilent 4UHV Ion Pump Controller device.
+# This is based on the work of Pete Owens from the Science and Technology Facilities Council (STFC).
 
 # Parameters are:
 #
@@ -23,7 +23,7 @@ record(ai, "$(PREFIX):TriggerOneTime"){
 record(stringin, "$(PREFIX):Model-Cte") {
     field(DESC, "Device model")
     field(DTYP, "stream")
-    field(INP, "@Agilent-4UHV.proto getModel($(SERIAL_ADDRESS)) $(PORT)")
+    field(INP,  "@Agilent-4UHV.proto getModel($(SERIAL_ADDRESS)) $(PORT)")
 
     field(FLNK, "$(PREFIX):SerialNumber-Cte")
 }
@@ -31,7 +31,7 @@ record(stringin, "$(PREFIX):Model-Cte") {
 record(stringin, "$(PREFIX):SerialNumber-Cte") {
     field(DESC, "Device serial number")
     field(DTYP, "stream")
-    field(INP, "@Agilent-4UHV.proto getSerialNumber($(SERIAL_ADDRESS)) $(PORT)")
+    field(INP,  "@Agilent-4UHV.proto getSerialNumber($(SERIAL_ADDRESS)) $(PORT)")
 
     field(FLNK, "$(PREFIX):OutOneTime")
 }
@@ -111,22 +111,43 @@ record(longin, "$(PREFIX):FanTemperature-Mon") {
 
     field(INP, "@Agilent-4UHV.proto fanTemperatureMon($(SERIAL_ADDRESS)) $(PORT)")
 }
-# Protect
-record(longin, "$(PREFIX):Protect-Mon") {
-    field(DESC, "Protect")
-    field(DTYP, "stream")
-    field(INP, "@Agilent-4UHV.proto protectMon($(SERIAL_ADDRESS)) $(PORT)")
-}
-# Step mode
-record(longin, "$(PREFIX):Step-Mon") {
-    field(DESC, "Step mode")
-    field(DTYP, "stream")
-    field(INP, "@Agilent-4UHV.proto stepMon($(SERIAL_ADDRESS)) $(PORT)")
-}
-
 ##########################################################################
 ##                             Set/Get Readings                         ##
 ##########################################################################
+
+# Protect
+record(longin, "$(PREFIX):Protect-RB") {
+    field(DESC, "Protect")
+    field(DTYP, "stream")
+    field(INP,  "@Agilent-4UHV.proto getProtect($(SERIAL_ADDRESS)) $(PORT)")
+}
+record(longout, "$(PREFIX):Protect-SP") {
+    field(DESC, "Protect")
+    field(DTYP, "stream")
+    field(OUT,  "@Agilent-4UHV.proto setProtect($(SERIAL_ADDRESS)) $(PORT)")
+
+    field(HOPR, "15")
+    field(LOPR, "0")
+
+    #field(FLNK, "$(PREFIX):Protect-RB")
+}
+
+# Step mode
+record(longin, "$(PREFIX):Step-RB") {
+    field(DESC, "Step mode")
+    field(DTYP, "stream")
+    field(INP,  "@Agilent-4UHV.proto getStep($(SERIAL_ADDRESS)) $(PORT)")
+}
+record(longout, "$(PREFIX):Step-SP") {
+    field(DESC, "Step mode")
+    field(DTYP, "stream")
+    field(OUT,  "@Agilent-4UHV.proto setStep($(SERIAL_ADDRESS)) $(PORT)")
+    
+    field(HOPR, "15")
+    field(LOPR, "0")
+
+    #field(FLNK, "$(PREFIX):Step-RB")
+}
 # Unit readback
 record(mbbi, "$(PREFIX):Unit-RB") {
     field(DESC, "Unit readback")
@@ -156,17 +177,19 @@ record(bi, "$(PREFIX):Mode-RB") {
     field(DESC, "Autostart readback")
     field(DTYP, "stream")
     field(INP, "@Agilent-4UHV.proto getMode($(SERIAL_ADDRESS)) $(PORT)")
+ 
     field(ONAM, "On")
     field(ZNAM, "Off")
-
 }
 # Operating mode (autostart on/off) setpoint
 record(bo, "$(PREFIX):Mode-SP") {
     field(DESC, "Autostart setpoint")
     field(DTYP, "stream")
+    
     field(ONAM, "On")
-    field(OUT,  "@Agilent-4UHV.proto setMode($(SERIAL_ADDRESS)) $(PORT)")
     field(ZNAM, "Off")
+
+    field(OUT,  "@Agilent-4UHV.proto setMode($(SERIAL_ADDRESS)) $(PORT)")
 
     # field(FLNK, "$(PREFIX):Mode-RB")
 }
@@ -176,15 +199,15 @@ record(bo, "$(PREFIX):Mode-SP") {
 #               PREFIX_CH1  PREFIX_CH2  PREFIX_CH3  PREFIX_CH4             #
 ############################################################################
 record(ai, "$(PREFIX):Trigger"){
-	field(FLNK, "$(PREFIX):Protect-Mon")
+	field(FLNK, "$(PREFIX):Protect-RB")
 }
-record(longin, "$(PREFIX):Protect-Mon") {
+record(longin, "$(PREFIX):Protect-RB") {
     field(FLNK, "$(PREFIX):FanTemperature-Mon")
 }
 record(longin, "$(PREFIX):FanTemperature-Mon") {
-    field(FLNK, "$(PREFIX):Step-Mon")
+    field(FLNK, "$(PREFIX):Step-RB")
 }
-record(longin, "$(PREFIX):Step-Mon") {
+record(longin, "$(PREFIX):Step-RB") {
     field(FLNK, "$(PREFIX_CH1):Current-Mon")
 }
 record(ai, "$(PREFIX_CH1):Current-Mon") {
