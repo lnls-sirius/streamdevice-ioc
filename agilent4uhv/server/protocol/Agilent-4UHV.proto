@@ -221,13 +221,13 @@ getSepoint {
     wait = $wait_TIMER;
     MaxInput = 19;
     out STX, $1, "6\$25", $READ, ETX, $CRC;
-    in  STX, "\?", "6\$25", $READ, "%10e", ETX, $CRC;
+    in  STX, "\?", "6\$25", $READ, "%10E", ETX, $CRC;
     wait = $wait_TIMER;
 }
 setSepoint {
     LockTimeout = $LockTimeoutGetSet;
     wait = $wait_TIMER;
-    out STX, $1, "6\$25", $WRITE, "%10e", ETX, $CRC;
+    out STX, $1, "6\$25", $WRITE, "%10E", ETX, $CRC;
     in  STX, "\?", ACK, ETX, $CRC;
     @init { getSepoint; }
     @mismatch {in STX, "\?", "%(\$3)i", ETX, $CRC;}
