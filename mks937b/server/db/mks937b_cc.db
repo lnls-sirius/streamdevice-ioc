@@ -1,5 +1,10 @@
 # COLD CATHODE
 # ---------------------------------------------------------
+
+record(bi, "$(DEVICE):ProtectionSetpoint-T"){
+    field(SCAN, "10 second")
+    field(FLNK, "$(DEVICE):ProtectionSetpoint-RB-s")
+}
 # Channel Protection Setpoint
 # In case the unit was changed at the ihm
 record(stringin,"$(DEVICE):ProtectionSetpoint-RB-s") {
@@ -25,6 +30,10 @@ record(ao, "$(DEVICE):ProtectionSetpoint-SP"){
 # --------------------------------------------------------- 
 # Channel Control Setpoint
 # In case the unit was changed at the ihm
+record(bi, "$(DEVICE):ControlSetpoint-T"){
+    field(SCAN, "10 second")
+    field(FLNK, "$(DEVICE):ControlSetpoint-RB-s")
+}
 record(stringin,"$(DEVICE):ControlSetpoint-RB-s") {
     field(DESC,"Control setpoint value RAW")
     field(INP,"@mks937b.proto get_con_sp($(ADDRESS),$(CHANNEL)) $(PORT)") 
@@ -95,6 +104,10 @@ record(ao, "$(DEVICE):ControlSetpointHyst-SP"){
 
 
 # ---------------------------------------------------------
+record(bi, "$(DEVICE):ControlChannelStatus-T"){
+    field(SCAN, "10 second")
+    field(FLNK, "$(DEVICE):ControlChannelStatus-RB")
+}
 record(mbbi,"$(DEVICE):ControlChannelStatus-RB") {
     field(DESC, "Control channel status for an ion gauge")
     field(INP,"@mks937b.proto get_con_sp_status($(ADDRESS),$(CHANNEL)) $(PORT)") 
@@ -189,5 +202,3 @@ record(mbbo, "$(DEVICE):ControlChannelCTL-SP"){
 
     field(FLNK, "$(DEVICE):ControlChannelCTL-RB")
 }
-
- 
