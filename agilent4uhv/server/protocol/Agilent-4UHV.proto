@@ -90,8 +90,8 @@ HVTemperature4Mon {
 protectMon {
     wait = $wait_TIMER;
     MaxInput = 19;
-    out STX, $1, "602", $READ, ETX, $CRC;
-    in  STX, "\?", "602", $READ, "%10b", ETX, $CRC;
+    out STX, $1, "602", $READ, ETX, $CRC
+    in  STX, "\?", "602", $READ, "%010b", ETX, $CRC;
     wait = $wait_TIMER;
 } 
 
@@ -100,7 +100,7 @@ stepMon {
     wait = $wait_TIMER;
     MaxInput = 19;
     out STX, $1, "603", $READ, ETX, $CRC;
-    in  STX, "\?", "603", $READ, "%10b", ETX, $CRC;
+    in  STX, "\?", "603", $READ, "%010b", ETX, $CRC;
     wait = $wait_TIMER;
 }
 
