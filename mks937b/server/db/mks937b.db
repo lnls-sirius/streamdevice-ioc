@@ -240,7 +240,7 @@ record(stringin,"$(DEVICE):Relay1:SetpointStatus-Mon") {
 
 record(stringin,"$(DEVICE):Pressure:Read") {
     field(DTYP, "stream")
-    field(SCAN, ".1 second")
+    field(SCAN, ".5 second")
     field(INP,  "@$(P_PROTO).proto get_pressures($(ADDRESS)) $(PORT)")
 }
 
