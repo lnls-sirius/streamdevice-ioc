@@ -83,6 +83,8 @@ if __name__ == "__main__":
             SERIAL_ADDRESS = device['ADDRESS']
 
             channels = device['channels']
+            p_high = device['high']
+            p_hihi = device['hihi']
 
             for i in range(4):
                 if channels[i] == None:
@@ -105,6 +107,8 @@ if __name__ == "__main__":
                 res += template_channel.safe_substitute(
                     IP_ASYN_PORT=IP_ASYN_PORT,
                     PREFIX=channels[i],
+                    P_HIGH=p_high[i],
+                    P_HIHI=p_hihi[i],
                     SERIAL_ADDRESS=SERIAL_ADDRESS,
                     CHANNEL_NUMBER = i + 1
                 )

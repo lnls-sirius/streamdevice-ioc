@@ -35,8 +35,8 @@ record(ai, "$(PREFIX):Pressure-Mon") {
     field(EGU,  "mBar")
     field(PREC, "9")
 
-    field(HIGH, "$(PHIGH)")
-    field(HIHI, "$(PHIHI)")
+    field(HIGH, "$(P_HIGH)")
+    field(HIHI, "$(P_HIHI)")
 
     field(INP, "@Agilent-4UHV.proto pressureMon($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }

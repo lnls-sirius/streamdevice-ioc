@@ -45,8 +45,8 @@ for _ip, rows in DATA_4UHV.items():
         #HI C1	HI C2	HI C3	HI C4	HIHI C1	HIHI C2	HIHI C3	HIHI C4
         devs.append(get_device(row['Dispositivo'], row['RS485 ID'],
                         [row['C1'], row['C2'], row['C3'], row['C4']],
-                        [row['HI C1'], row['HI C2'] , row['HI C3'], row['HI C4']],
-                        [row['HIHI C1'], row['HIHI C2'] , row['HIHI C3'], row['HIHI C4']]))
+                        [row['HI C1'], row['HI C2'], row['HI C3'], row['HI C4']],
+                        [row['HIHI C1'], row['HIHI C2'], row['HIHI C3'], row['HIHI C4']]))
 
     while len(devs) < 4:
         devs.append(None)
