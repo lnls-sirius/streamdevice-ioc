@@ -38,6 +38,7 @@ COPY countingPRU        countingPRU
 COPY mbtemp             mbtemp
 COPY mks937b            mks937b
 COPY spixconv           spixconv
+COPY dbd                dbd
 
 # Run stuff
 CMD ./scripts/run.sh ${DEVICE_FOLDER} ${DEVICE_PREFIX}

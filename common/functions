@@ -97,7 +97,7 @@ build(){
     # Clear the /cmd folder
     mkdir -p ${1}/server/cmd
     rm       ${1}/server/cmd/*
-
+    cp dbd/* ${TOP}/dbd
     pushd $1
         set -x
         ./generate.py --cmd-prefix ${2} --top ${TOP} ${EPICS_CA_PORT_INCREASE} ${BASE_EPICS_CA_PORT}
