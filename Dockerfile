@@ -1,7 +1,7 @@
 # Author: Cláudio Ferreira Carneiro
 # LNLS - Brazilian Synchrotron Light Source Laboratory
 
-FROM  lnlscon/epics-r3.15.5:asyn3.35
+FROM  lnlscon/epics-r3.15.5:asyn3.35_StreamDevice2.8.8
 LABEL maintainer="Claudio Carneiro <claudio.carneiro@lnls.br>"
 
 # Python3
