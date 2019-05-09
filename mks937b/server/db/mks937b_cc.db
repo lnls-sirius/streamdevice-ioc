@@ -2,7 +2,7 @@
 # ---------------------------------------------------------
 
 record(bi, "$(DEVICE):ProtectionSetpoint-T"){
-    field(SCAN, "10 second")
+    field(SCAN, "60 second")
     field(FLNK, "$(DEVICE):ProtectionSetpoint-RB-s")
 }
 # Channel Protection Setpoint
@@ -31,7 +31,7 @@ record(ao, "$(DEVICE):ProtectionSetpoint-SP"){
 # Channel Control Setpoint
 # In case the unit was changed at the ihm
 record(bi, "$(DEVICE):ControlSetpoint-T"){
-    field(SCAN, "10 second")
+    field(SCAN, "60 second")
     field(FLNK, "$(DEVICE):ControlSetpoint-RB-s")
 }
 record(stringin,"$(DEVICE):ControlSetpoint-RB-s") {
@@ -43,9 +43,12 @@ record(stringin,"$(DEVICE):ControlSetpoint-RB-s") {
     field(FLNK, "$(DEVICE):ControlSetpoint-RB")
 } 
 record(ai, "$(DEVICE):ControlSetpoint-RB") {
-  field(DESC, "Control setpoint value")
-  field(INP,"$(DEVICE):ControlSetpoint-RB-s")
-  field(PINI, "YES") 
+    field(DESC, "Control setpoint value")
+    field(INP,"$(DEVICE):ControlSetpoint-RB-s")
+    field(PINI, "YES")
+
+    # Every change on the setpoint must trigger a Hysteresis readback
+    field(FLNK, "$(DEVICE):ControlSetpointHyst-RB-s")
 }
 record(ao, "$(DEVICE):ControlSetpoint-SP"){
     field(DESC, "Set control setpoint value")
@@ -54,6 +57,26 @@ record(ao, "$(DEVICE):ControlSetpoint-SP"){
     
     field(FLNK, "$(DEVICE):ControlSetpoint-RB-s")
 }
+# Channel Control Hysteresis Setpoint
+record(stringin,"$(DEVICE):ControlSetpointHyst-RB-s") {
+    field(DESC,"Control setpoint hysteresis value RAW")
+    field(INP,"@mks937b.proto get_hys_sp($(ADDRESS),$(CHANNEL)) $(PORT)") 
+    field(DTYP,"stream")
+
+    field(FLNK, "$(DEVICE):ControlSetpointHyst-RB")
+} 
+record(ai, "$(DEVICE):ControlSetpointHyst-RB") {
+  field(DESC, "Control setpoint hysteresis value")
+  field(INP,"$(DEVICE):ControlSetpointHyst-RB-s")  
+}
+record(ao, "$(DEVICE):ControlSetpointHyst-SP"){
+    field(DESC, "Set control setpoint hysteresis value")
+    field(OUT,"@mks937b.proto set_hys_sp($(ADDRESS),$(CHANNEL)) $(PORT)")
+    field(DTYP, "stream")
+    
+    field(FLNK, "$(DEVICE):ControlSetpointHyst-RB-s")
+}
+
 
 
 # --------------------------------------------------------- 
@@ -79,33 +102,10 @@ record(ao, "$(DEVICE):FastRelay-SP"){
     field(FLNK, "$(DEVICE):FastRelay-RB-s")
 }
  
-# --------------------------------------------------------- 
-# Channel Control Setpoint
-# In case the unit was changed at the ihm
-record(stringin,"$(DEVICE):ControlSetpointHyst-RB-s") {
-    field(DESC,"Control setpoint hysteresis value RAW")
-    field(INP,"@mks937b.proto get_hys_sp($(ADDRESS),$(CHANNEL)) $(PORT)") 
-    field(DTYP,"stream")
-    field(PINI, "YES")
-
-    field(FLNK, "$(DEVICE):ControlSetpointHyst-RB")
-} 
-record(ai, "$(DEVICE):ControlSetpointHyst-RB") {
-  field(DESC, "Control setpoint hysteresis value")
-  field(INP,"$(DEVICE):ControlSetpointHyst-RB-s")  
-}
-record(ao, "$(DEVICE):ControlSetpointHyst-SP"){
-    field(DESC, "Set control setpoint hysteresis value")
-    field(OUT,"@mks937b.proto set_hys_sp($(ADDRESS),$(CHANNEL)) $(PORT)")
-    field(DTYP, "stream")
-    
-    field(FLNK, "$(DEVICE):ControlSetpointHyst-RB-s")
-}
-
 
 # ---------------------------------------------------------
 record(bi, "$(DEVICE):ControlChannelStatus-T"){
-    field(SCAN, "10 second")
+    field(SCAN, "60 second")
     field(FLNK, "$(DEVICE):ControlChannelStatus-RB")
 }
 record(mbbi,"$(DEVICE):ControlChannelStatus-RB") {
