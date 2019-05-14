@@ -10,6 +10,7 @@ top = Template('''#!../bin/linux-x86_64/streamApp
 # Environment variables
 epicsEnvSet("EPICS_BASE", "${EPICS_BASE}")
 epicsEnvSet("ASYN", "${ASYN}")
+epicsEnvSet("AUTOSAVE", "${AUTOSAVE}")
 epicsEnvSet("TOP", "${TOP}")
 epicsEnvSet("ARCH", "${ARCH}")
 epicsEnvSet("STREAM_PROTOCOL_PATH", "${STREAM_PROTOCOL_PATH}")
@@ -43,12 +44,17 @@ streamApp_registerRecordDeviceDriver(pdbbase)
 drvAsynIPPortConfigure("socket_spixconv", "${IP_ADDR}")
 
 # database for 10 kV Voltage source:
-dbLoadRecords("database/${DATABASE}.db", "PREFIX = ${PREFIX}, SCAN_RATE = ${SCAN_RATE}, SPIxCONV_ADDRESS = ${ADDRESS}, VOLTAGE_FACTOR = ${VOLTAGE_FACTOR}")
-
+dbLoadRecords("database/${DATABASE}.db", "PREFIX=${PREFIX}, SCAN_RATE=${SCAN_RATE}, SPIxCONV_ADDRESS=${ADDRESS}, VOLTAGE_FACTOR=${VOLTAGE_FACTOR}")
+dbLoadRecords("database/SPIxCONV_Config.db", "P=${PREFIX}")
 ''')
 
-bot =  '''
+bot =  Template('''
+set_pass0_restoreFile("$(TOP)/autosave/spixconv.sav")
+set_pass1_restoreFile("$(TOP)/autosave/spixconv.sav")
+
 # Effectively initializes the IOC
 cd iocBoot
 iocInit
-'''
+
+create_monitor_set("$(TOP)/autosave/spixconv.req",15,"P=${PREFIX}")
+''')
