@@ -29,7 +29,7 @@ class TcpUnixBind():
         self.connected_to_server = False
 
     def __str__(self):
-        return '<TcpUnixBind UNIX Socket {} TCP Socket {} reconnect interval {} General zero-bytes {} buffer {}>'\
+        return 'TcpUnixBind UNIX Socket {} TCP Socket {} reconnect interval {} General zero-bytes {} buffer {}'\
             .format(self.socket_path, self.address, self.reconnect_interval, self.zero_bytes, self.socket_buffer)
 
     def start(self):
@@ -43,29 +43,34 @@ class TcpUnixBind():
         with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as s:
             s.bind(self.socket_path)
             s.listen()
-            logger.info('{}: Unix Socket {}: Waiting for a connection ...'.format(self.socket_path, self.socket_path))
+            logger.info('Unix Socket {}: Waiting for a connection'.format(self.socket_path))
 
             while True:
                 conn, addr = s.accept()
                 try:
                     with conn:
-                        logger.info('{}: Connected {} {}'.format(self.socket_path, conn, addr))
+                        logger.info('Connected to the unix socket {} {} {}'.format(self.socket_path, conn, addr))
                         while True:
+
                             data = conn.recv(self.socket_buffer)
 
                             if not data:
-                                logger.info('{}: No data received ... '.format(self.socket_path))
+                                logger.info('No data received from the unix socket {}'.format(self.socket_path))
                                 break
 
                             if not self.connected_to_server:
                                 try:
                                     # Create a TCP/IP socket
                                     tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                                    logger.info('{}: Connecting to {}'.format(self.socket_path, server_address))
+                                    tcp_socket.settimeout(2.)
+                                    logger.info('Trying to connect the unix socket {} to the tcp server {}'.format(self.socket_path, server_address))
                                     tcp_socket.connect(server_address)
                                     self.connected_to_server = True
-                                except ConnectionRefusedError:
-                                    logger.error('{}: Conn refused ... ! {}'.format(self.socket_path, server_address))
+                                    logger.info('Connected the unix socket {} to the tcp server {}'.format(self.socket_path, server_address))
+                                except:
+                                    # except ConnectionRefusedError
+                                    self.connected_to_server = False
+                                    logger.error('Conn refused {} {} {}. Retry in {} seconds.'.format(self.socket_path, server_address, self.connected_to_server, self.reconnect_interval))
                                     time.sleep(self.reconnect_interval)
                                     continue
 
@@ -82,9 +87,9 @@ class TcpUnixBind():
                                         logger.debug('{}: Out={} In={}'.format(self.socket_path, data, res))
                             except:
                                 self.connected_to_server = False
-                                logger.exception('{}: Error? ...'.format(self.socket_path))
+                                logger.exception('Failure when trying to send data. {}'.format(self.socket_path))
                 except:
-                    logger.exception('{}: Connection Error !'.format(self.socket_path))
+                    logger.exception('The connection with the unix socket {} has been closed.'.format(self.socket_path))
 
 
 

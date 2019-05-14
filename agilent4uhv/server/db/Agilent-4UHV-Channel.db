@@ -32,8 +32,11 @@ record(ai, "$(PREFIX):Current-Mon") {
 record(ai, "$(PREFIX):Pressure-Mon") {
     field(DESC, "Measured pressure")
     field(DTYP, "stream")
-    field(EGU, "mBar")
+    field(EGU,  "mBar")
     field(PREC, "9")
+
+    field(HIGH, "$(P_HIGH)")
+    field(HIHI, "$(P_HIHI)")
 
     field(INP, "@Agilent-4UHV.proto pressureMon($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
 }

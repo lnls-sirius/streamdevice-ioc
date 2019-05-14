@@ -7,7 +7,6 @@
 # $2 = channel number: 1 - 5
 # $3 = setpoint: 1 - 12
 
-
 # Query format 
 # Command @<aaa><Coommand>?;FF
 # Response @<aaa>ACK<Response>;FF
@@ -22,19 +21,12 @@ ReplyTimeout = 4000;
 ReadTimeout  = 5000;   
 extrainput   = Ignore;
 
-
 # Delay between commands
 # A small delay is needed between subsequent commands
 Delay = 7;
 
 # The serial address
 Addr = "@\$1";
-
-# Send an initial dummy command to clear out any garbage the mks has already received.
-# This makes it more likely that the first command sent is received OK.
-# NB we dont wait for a response to the dummy command because if it didnt arrive (e.g. rs232 unplugged) then
-# streams would issue a replyTimeout exception and stop the ioc.
-@init{out " ";}
  
 # Controller parameters
 # Pressure unit, Unit=Torr, mBAR, PASCAL, Micron
@@ -64,6 +56,7 @@ set_dly {
     @init { get_dly; }
     wait  $Delay;
 }
+
 # Firmware version
 # n=1=Slot A; n=2=Slot B; n=3=Slot C
 # n=4=AIO; n=5=COMM; n=6=Main
@@ -126,6 +119,7 @@ stc {
     in  $Addr, "ACK%s";
     wait  $Delay;
 }
+
 # Serial Number
 serial_num {  
     wait  $Delay;
@@ -133,6 +127,7 @@ serial_num {
     in  $Addr, "ACK%s";
     wait  $Delay;
 }
+
 # Prints errors as text
 errtext { 
     wait  $Delay;
@@ -145,7 +140,8 @@ lockIhm {
     out $Addr, "LOCK!\$2";
     in  $Addr, "ACK%s"; 
     wait  $Delay;         
-} 
+}
+
 # Query the channel power status for PR, CP, HC or high voltage status for CC.  $2: channel 1-6
 get_enabled{ 
     wait  $Delay;
@@ -161,6 +157,7 @@ set_enabled{
     @init{get_enabled;}
     wait  $Delay;
 }
+
 # RELAY AND CONTROL SETTINGS COMMANDS
 # Relay setpoints ($2 1 to 12)
 get_sp { 
@@ -218,7 +215,8 @@ set_relay_mode {
     out $Addr, "EN\$2!%{SET|CLEAR|ENABLE}"; 
     in  $Addr, "ACK%{SET|CLEAR|ENABLE}"; 
     wait  $Delay;
-} 
+}
+
 # Query relay setpoint status ($2 1 to 12)
 get_relaysp_status { 
     wait  $Delay;
@@ -226,6 +224,7 @@ get_relaysp_status {
     in  $Addr, "ACK%{SET|CLEAR}"; 
     wait  $Delay;
 }
+
 get_relaysp_status_all { 
     wait  $Delay;
     out $Addr, "SSA?"; 
@@ -258,7 +257,9 @@ get_pressure_combination {
     out $Addr, "PC\$2?"; 
     in  $Addr, "ACK%s";
     wait  $Delay;
-} 
+}
+
+# -----------------------------------------------------
 
 # PIRANI AND CONVECTION PIRANI CONTROL COMMANDS
 # Query or set a gas correction factor for a CC gauge on
@@ -279,7 +280,9 @@ zero_pr_cp{
     # @mismatch {in  $Addr, "NAK";}
     wait  $Delay;
 }
+
 # -----------------------------------------------------
+
 # COLD CATHODE CONTROL COMMANDS
 # Query protection setpoint for channel
 get_pro_sp{ 
@@ -305,8 +308,7 @@ set_pro_sp{
     # @mismatch {in  $Addr, "NAK:%s";}
     wait  $Delay;
 }
-# -----------------------------------------------------
-# COLD CATHODE CONTROL COMMANDS
+
 # Fast relay
 get_frc_sp{ 
    wait  $Delay;
@@ -329,7 +331,9 @@ set_frc_sp{
     @init{ get_frc_sp_val;} 
     wait  $Delay;
 }
+
 # -----------------------------------------------------
+
 # Query control setpoint for channel
 get_con_sp{ 
     wait  $Delay;
@@ -354,7 +358,9 @@ set_con_sp{
     # @mismatch {in  $Addr, "NAK:%s";}
     wait  $Delay;
 }
+
 # -----------------------------------------------------
+
 # Query control setpoint hysteresis for channel
 get_hys_sp{ 
     wait  $Delay;
@@ -381,7 +387,9 @@ set_hys_sp{
     @init{get_hys_sp_val;}
     wait  $Delay;
 }
+
 # -----------------------------------------------------
+
 # Relay mode, query or set status for relay ($2 1 to 12)
 get_con_sp_status{
     wait  $Delay;
@@ -399,7 +407,9 @@ set_con_sp_status{
     @mismatch{in  "";}
     wait  $Delay;
 }
+
 # -----------------------------------------------------
+
 # Relay mode, query or set status for relay ($2 1 to 12)
 get_con_sp_enable{ 
     wait  $Delay;
@@ -416,4 +426,5 @@ set_con_sp_enable{
     @init{get_con_sp_enable;}
     wait  $Delay;
 }
+
 # -----------------------------------------------------

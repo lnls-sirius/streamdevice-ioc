@@ -34,7 +34,7 @@ dbLoadRecords("database/Agilent-4UHV-Device.db",  "PORT = ${IP_ASYN_PORT}, PREFI
 ''')
 
 template_channel = Template(
-'''dbLoadRecords("database/Agilent-4UHV-Channel.db", "PORT = ${IP_ASYN_PORT}, PREFIX = ${PREFIX}, CHANNEL_NUMBER = ${CHANNEL_NUMBER}, SERIAL_ADDRESS = ${SERIAL_ADDRESS}")
+'''dbLoadRecords("database/Agilent-4UHV-Channel.db", "PORT=${IP_ASYN_PORT}, PREFIX=${PREFIX}, CHANNEL_NUMBER=${CHANNEL_NUMBER}, SERIAL_ADDRESS=${SERIAL_ADDRESS}, P_HIGH=${P_HIGH}, P_HIHI=${P_HIHI}")
 ''')
 
 template_bot = ('''

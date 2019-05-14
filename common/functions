@@ -72,7 +72,6 @@ run_ioc(){
 copy_to_stream_device(){
     # Params:
     # :1 : CMD_KEY
-    # :2 : TOP
     # Clear stream-ioc folder
     echo "Copy Stream Device"
     clear_stream_ioc $1
@@ -83,9 +82,10 @@ copy_to_stream_device(){
 
     chmod -R 777 server/cmd/
 
-    cp -R server/db/. ${2}/${DB}/
-    cp -R server/protocol/. ${2}/${PROTOCOL}/
-    cp -R server/cmd/. ${2}/${IOC_BOOT}/
+    cp -R server/db/.       ${TOP}/${DB}/
+    cp -R server/protocol/. ${TOP}/${PROTOCOL}/
+    cp -R server/cmd/.      ${TOP}/${IOC_BOOT}/
+    cp server/autosave/*    ${TOP}/autosave
 }
 
 build(){
@@ -97,7 +97,7 @@ build(){
     # Clear the /cmd folder
     mkdir -p ${1}/server/cmd
     rm       ${1}/server/cmd/*
-
+    cp dbd/* ${TOP}/dbd
     pushd $1
         set -x
         ./generate.py --cmd-prefix ${2} --top ${TOP} ${EPICS_CA_PORT_INCREASE} ${BASE_EPICS_CA_PORT}
