@@ -25,6 +25,7 @@ ENV EPICS_MODULES /opt/epics-${EPICS_VERSION}/modules
 
 ENV ASYN /opt/epics-${EPICS_VERSION}/modules/asyn4-35
 ENV CALC /opt/epics-${EPICS_VERSION}/modules/synApps/calc-R3-7-1
+ENV AUTOSAVE /opt/epics-${EPICS_VERSION}/modules/autosave-R5-8
 ENV PATH ${EPICS_BASE}/bin/${ARCH}:/opt/procServ:${PATH}
 ENV EPICS_CA_AUTO_ADDR_LIST YES
 
@@ -75,20 +76,35 @@ RUN cd ${EPICS_BASE}/../modules                                                 
     cd calc-R3-7-1                                                                                                  &&\
     make
 
+# Autosave
+RUN wget -O /opt/epics-R3.15.5/modules/R5-8.tar.gz   \
+    https://github.com/epics-modules/autosave/archive/R5-8.tar.gz
+RUN cd /opt/epics-R3.15.5/modules/      &&\
+    tar -zxvf R5-8.tar.gz               &&\
+    rm R5-8.tar.gz                      &&\
+    cd autosave-R5-8                    &&\
+    sed -i -e '8s/^/#/' -e '8iEPICS_BASE='${EPICS_BASE} configure/RELEASE &&\
+    make
+
 # Streamdevice
 RUN cd ${EPICS_MODULES}                                                                         &&\
     mkdir StreamDevice-2.8.8                                                                    &&\
     cd StreamDevice-2.8.8                                                                       &&\
+    mkdir autosave  && chmod -R 777 autosave                                                    &&\
     echo '' | USER=root makeBaseApp.pl -t support && echo ''                                    &&\
     wget https://github.com/paulscherrerinstitute/StreamDevice/archive/2.8.8.tar.gz             &&\
     tar -xvzf 2.8.8.tar.gz                                                                      &&\
     mv StreamDevice-2.8.8 StreamDevice_2_8_8                                                    &&\
     rm 2.8.8.tar.gz                                                                             &&\
-    sed -i -e '28iASYN='${ASYN} configure/RELEASE                                               &&\
-    sed -i -e '29iCALC='${CALC} configure/RELEASE                                               &&\
+    sed -i -e '28iASYN='${ASYN}         configure/RELEASE                                       &&\
+    sed -i -e '29iCALC='${CALC}         configure/RELEASE                                       &&\
+    sed -i -e '30iAUTOSAVE='${AUTOSAVE} configure/RELEASE                                       &&\
     echo 'PCRE_INCLUDE=/usr/include' > configure/RELEASE.Common.linux-x86_64                    &&\
-    echo 'PCRE_LIB=/usr/lib/x86_64-linux-gnu' >> configure/RELEASE.Common.linux-x86_64          &&\
-    sed -i -e '20istreamApp_DBD += system.dbd' StreamDevice_2_8_8/streamApp/Makefile            &&\
+    echo 'PCRE_LIB=/usr/lib/x86_64-linux-gnu' >> configure/RELEASE.Common.linux-x86_64                     &&\
+    sed -i -e '29iPROD_LIBS += autosave'            StreamDevice_2_8_8/streamApp/Makefile                  &&\
+    sed -i -e '29istreamApp_DBD += asSupport.dbd'   StreamDevice_2_8_8/streamApp/Makefile                  &&\
+    sed -i -e '20istreamApp_DBD += system.dbd'      StreamDevice_2_8_8/streamApp/Makefile                  &&\
+    sed -i -e '3iinclude "asSupport.dbd"'           StreamDevice_2_8_8/streamApp/streamAppInclude-3-13.dbd &&\
     rm StreamDevice_2_8_8/GNUmakefile                                                           &&\
     sed -i -e '11iDIRS += StreamDevice_2_8_8' Makefile                                          &&\
     make                                                                                        &&\
