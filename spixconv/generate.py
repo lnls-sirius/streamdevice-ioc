@@ -61,7 +61,7 @@ if __name__ == "__main__":
                 DESCRIPTION=board.description,
                 ADDRESS=board.address
         )
-        res += template_bot
+        res += template_bot.safe_substitute(PREFIX=board.device)
 
         if EPICS_CA_PORT_INCRESE:
             EPICS_CA_SERVER_PORT += 2

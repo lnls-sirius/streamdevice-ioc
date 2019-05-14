@@ -1,0 +1,6 @@
+record(stringin, "$(P):IPAddress"){
+    field(DESC, "IP address expected for the BBB")
+}
+record(longin, "$(P):BoardAddress"){
+    field(DESC, "SPI address")
+}
