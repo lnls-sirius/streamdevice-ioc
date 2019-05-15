@@ -43,12 +43,18 @@ streamApp_registerRecordDeviceDriver(pdbbase)
 drvAsynIPPortConfigure("socket_spixconv", "${IP_ADDR}")
 
 # database for 10 kV Voltage source:
-dbLoadRecords("database/${DATABASE}.db", "PREFIX = ${PREFIX}, SCAN_RATE = ${SCAN_RATE}, SPIxCONV_ADDRESS = ${ADDRESS}, VOLTAGE_FACTOR = ${VOLTAGE_FACTOR}")
+dbLoadRecords("database/${DATABASE}.db", "PREFIX=${PREFIX}, SCAN_RATE=${SCAN_RATE}, SPIxCONV_ADDRESS=${ADDRESS}, VOLTAGE_FACTOR=${VOLTAGE_FACTOR}")
 
 ''')
 
-bot =  '''
+bot =  Template('''
+set_pass0_restoreFile("$(TOP)/autosave/save/${PREFIX}.sav")
+set_pass1_restoreFile("$(TOP)/autosave/save/${PREFIX}.sav")
+
 # Effectively initializes the IOC
 cd iocBoot
 iocInit
-'''
+
+cd ..
+create_monitor_set("$(TOP)/autosave/spixconv.req", 10, "P=${PREFIX}, SAVENAMEPV=${PREFIX}:SaveName")
+''')
