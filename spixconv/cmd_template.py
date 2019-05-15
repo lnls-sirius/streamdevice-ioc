@@ -45,7 +45,7 @@ drvAsynIPPortConfigure("socket_spixconv", "${IP_ADDR}")
 
 # database for 10 kV Voltage source:
 dbLoadRecords("database/${DATABASE}.db", "PREFIX=${PREFIX}, SCAN_RATE=${SCAN_RATE}, SPIxCONV_ADDRESS=${ADDRESS}, VOLTAGE_FACTOR=${VOLTAGE_FACTOR}")
-
+dbLoadRecords("database/SPIxCONV_Config.db", "P=${PREFIX}")
 ''')
 
 bot =  Template('''
