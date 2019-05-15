@@ -4,7 +4,6 @@ record(stringin, "$(P):SaveName"){
     field(DESC, "Autosave destination")
     field(VAL,  "autosave/save/$(P).sav")
 }
-
 record(stringin, "$(P):IPAddress"){
     field(DESC, "IP address expected for the BBB")
 }

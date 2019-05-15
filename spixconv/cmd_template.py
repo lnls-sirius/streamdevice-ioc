@@ -10,6 +10,7 @@ top = Template('''#!../bin/linux-x86_64/streamApp
 # Environment variables
 epicsEnvSet("EPICS_BASE", "${EPICS_BASE}")
 epicsEnvSet("ASYN", "${ASYN}")
+epicsEnvSet("AUTOSAVE", "${AUTOSAVE}")
 epicsEnvSet("TOP", "${TOP}")
 epicsEnvSet("ARCH", "${ARCH}")
 epicsEnvSet("STREAM_PROTOCOL_PATH", "${STREAM_PROTOCOL_PATH}")
