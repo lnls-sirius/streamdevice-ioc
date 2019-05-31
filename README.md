@@ -1,5 +1,15 @@
 # Sirius Stream Device IOCs
 ## Deploy
+The following is a list of applications and ports:
+
+|   Device  |Port|
+|:----------|---:|
+|spixconv   |5005|
+|agilent4uhv|5004|
+|mbtemp     |5003|
+|mks937b    |5002|
+|countingPRU|5000|
+
 In order to deploy use the command:
 ```
 docker stack deploy --compose-file docker/docker-stack.yml streamdevice-ioc

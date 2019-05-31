@@ -35,7 +35,7 @@ class MBTemp():
 
         self.ip_asyn_port = 'IPPort0'
         self.rows = rows
-        self.ip = ip + ':4161'
+        self.ip = ip + ':5003'
         self.file_name = self.ip + '.cmd'
         self.scan_rate = '2 second'
 
