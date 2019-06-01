@@ -3,7 +3,7 @@
 The following is a list of applications and ports:
 
 |   Device  |Port|
-|:----------|---:|
+|:---------:|:--:|
 |spixconv   |5005|
 |agilent4uhv|5004|
 |mbtemp     |5003|
