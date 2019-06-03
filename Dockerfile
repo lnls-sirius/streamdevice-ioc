@@ -5,7 +5,8 @@ FROM  lnlscon/epics-r3.15.5:asyn3.35_StreamDevice2.8.8
 LABEL maintainer="Claudio Carneiro <claudio.carneiro@lnls.br>"
 
 # Python3
-RUN apt-get -y install swig        &&\
+RUN apt-get update  --fix-missing  &&\
+    apt-get -y install swig        &&\
     apt-get -y install python3     &&\
     apt-get -y install python3-pip &&\
     pip3 install         \
