@@ -1,4 +1,4 @@
-.PHONY: clean mks 4uhv pru spixconv mbtemp
+.PHONY: clean mks 4uhv pru spixconv mbtemp push-all
 
 DOCKER_MANTAINER_NAME=lnlscon
 DOCKER_NAME=streamdevice-ioc
@@ -31,4 +31,10 @@ base:
 	DOCKER_TAG=asyn3.35_StreamDevice2.8.8
 	docker build -t ${DOCKER_MANTAINER_NAME}/${DOCKER_NAME}:${DOCKER_TAG}  -f Dockerfile.EPICS .
 
+push-all:
+	docker push ${DOCKER_MANTAINER_NAME}/${DOCKER_NAME}:MKS-${DOCKER_TAG}
+	docker push ${DOCKER_MANTAINER_NAME}/${DOCKER_NAME}:4UHV-${DOCKER_TAG}
+	docker push ${DOCKER_MANTAINER_NAME}/${DOCKER_NAME}:PRU-${DOCKER_TAG}
+	docker push ${DOCKER_MANTAINER_NAME}/${DOCKER_NAME}:SPIxCONV-${DOCKER_TAG}
+	docker push ${DOCKER_MANTAINER_NAME}/${DOCKER_NAME}:MBTemp-${DOCKER_TAG}
 
