@@ -50,4 +50,4 @@ for _ip, values in DATA_MKS.items():
                             {'HI':val['HI C2'],'HIHI': val['HIHI C2']}
                         ]))
 
-    sectors.append(get_sector(_ip + ":4161", _ip + ":4161" ,devs))
+    sectors.append(get_sector(_ip + ":5002", _ip + ":5002" ,devs))
