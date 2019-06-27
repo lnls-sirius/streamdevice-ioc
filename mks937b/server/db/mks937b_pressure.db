@@ -1,7 +1,7 @@
 
 record(ai, "$(DEVICE):Pressure-Mon") {
     field(DESC, "Read CCG$(CHANNEL)'s pressure")
-    field(INP,  "$(DEVICE):Pressure-Mon-s")
+    field(INP,  "$(DEVICE):Pressure-Mon-s CP")
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
 

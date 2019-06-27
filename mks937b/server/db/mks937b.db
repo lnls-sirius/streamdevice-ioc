@@ -267,31 +267,25 @@ record(stringin,"$(DEVICE):Pressure:Read") {
 
 record(stringin,"$(G1):Pressure-Mon-s") {
     field(DESC, "Read CCG 1's raw pressure output")
-
-    field(FLNK, "$(G1):Pressure-Mon")
+    #field(FLNK, "$(G1):Pressure-Mon")
 }
 record(stringin,"$(G2):Pressure-Mon-s") {
     field(DESC, "Read CCG 2's raw pressure output")
-
-    field(FLNK, "$(G2):Pressure-Mon")
+    #field(FLNK, "$(G2):Pressure-Mon")
 }
 record(stringin,"$(G3):Pressure-Mon-s") {
     field(DESC, "Read CCG 3's raw pressure output")
-
-    field(FLNK, "$(G3):Pressure-Mon")
+    #field(FLNK, "$(G3):Pressure-Mon")
 }
 record(stringin,"$(G4):Pressure-Mon-s") {
     field(DESC, "Read CCG 4's raw pressure output")
-
-    field(FLNK, "$(G4):Pressure-Mon")
+    #field(FLNK, "$(G4):Pressure-Mon")
 }
 record(stringin,"$(G5):Pressure-Mon-s") {
     field(DESC, "Read CCG 5's raw pressure output")
-
-    field(FLNK, "$(G5):Pressure-Mon")
+    #field(FLNK, "$(G5):Pressure-Mon")
 }
 record(stringin,"$(G6):Pressure-Mon-s") {
     field(DESC, "Read CCG 6's raw pressure output")
-
-    field(FLNK, "$(G6):Pressure-Mon")
+    #field(FLNK, "$(G6):Pressure-Mon")
 }
