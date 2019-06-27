@@ -1,9 +1,9 @@
 
-record(ai,"$(DEVICE):Pressure-Mon") {
-
+record(ai, "$(DEVICE):Pressure-Mon") {
     field(DESC, "Read CCG$(CHANNEL)'s pressure")
     field(INP,  "$(DEVICE):Pressure-Mon-s")
     field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
 
     field(HIGH,"$(P_HI)")
     field(HIHI,"$(P_HIHI)")
@@ -19,13 +19,13 @@ record(mbbi, "$(DEVICE):Enable-RB") {
   field(DTYP, "stream")
   field(INP,  "@mks937b.proto get_enabled($(ADDRESS),$(CHANNEL)) $(PORT)") 
   field(PINI, "YES") 
+  field(PHAS, "0")
   
   field(ZRVL, "0")
   field(ONVL, "1")
   field(ZRST, "Off")
   field(ONST, "On")
 }
-
 record(mbbo, "$(DEVICE):Enable-SP"){
     field(DESC, "Set Channel $(CHANNEL) On Off ") 
     field(OUT,  "@mks937b.proto set_enabled($(ADDRESS),$(CHANNEL)) $(PORT)")
@@ -36,15 +36,18 @@ record(mbbo, "$(DEVICE):Enable-SP"){
 
     field(ZRVL, "0")
     field(ONVL, "1")
-    
     field(ZRST, "Off")
     field(ONST, "On") 
+    
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Enable_INIT.PACT")
 
     field(FLNK, "$(DEVICE):Enable-RB")
 }
-
-# ---------------------------------------------------------
-  
-
- 
-   
+record(seq, "$(DEVICE):Enable_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Enable-RB")
+    field(LNK1, "$(DEVICE):Enable-SP PP")
+}

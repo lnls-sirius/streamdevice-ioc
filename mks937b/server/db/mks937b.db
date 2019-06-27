@@ -165,7 +165,7 @@ record(stringin, "$(DEVICE):ErrMsgType"){
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto errtext $(PORT) ")
 
-    field(FLNK, "$(DEVICE):Dly")
+    field(FLNK, "$(DEVICE):Unit")
     # field(FLNK,"$(DEVICE):IhmLock")
 }
 
@@ -183,15 +183,25 @@ record(ai, "$(DEVICE):Dly"){
     field(DESC, "RS458 Time Delay")
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto get_dly($(ADDRESS)) $(PORT)")
-
-    field(FLNK, "$(DEVICE):DlySp")
+    field(PHAS, "0")
+    field(PINI, "YES")
 }
 record(ao, "$(DEVICE):DlySp"){
     field(DESC, "RS485 Time Delay")
     field(DTYP, "stream")
     field(OUT,  "@mks937b.proto set_dly($(ADDRESS)) $(PORT)")
 
-    field(FLNK, "$(DEVICE):Unit")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Dly_INIT.PACT")
+    
+    field(FLNK, "$(DEVICE):Dly")
+}
+record(seq, "$(DEVICE):Dly_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Dly-RB")
+    field(LNK1, "$(DEVICE):Dly-SP PP")
 }
 
 # Pressure Unit
@@ -199,6 +209,7 @@ record(mbbi, "$(DEVICE):Unit"){
     field(DESC, "Read Pressure Unit")
     field(DTYP, "stream")
     field(INP,  "@mks937b.proto get_unit($(ADDRESS)) $(PORT)")
+    field(PINI, "YES")
 
     field(PHAS, "0")
 
@@ -227,8 +238,18 @@ record(mbbo, "$(DEVICE):UnitSp"){
     field(ONST, "mBAR")
     field(TWST, "PASCAL")
     field(THST, "Micron")
+    
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Unit_INIT.PACT")
 
     field(FLNK, "$(DEVICE):Unit")
+}
+record(seq, "$(DEVICE):Unit_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Unit-RB")
+    field(LNK1, "$(DEVICE):Unit-SP PP")
 }
 
 record(stringin,"$(DEVICE):Relay1:SetpointStatus-Mon") {

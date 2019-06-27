@@ -1,12 +1,11 @@
 # COLD CATHODE
 # ---------------------------------------------------------
 
+# Channel Protection Setpoint
 record(bi, "$(DEVICE):ProtectionSetpoint-T"){
     field(SCAN, "60 second")
     field(FLNK, "$(DEVICE):ProtectionSetpoint-RB-s")
 }
-# Channel Protection Setpoint
-# In case the unit was changed at the ihm
 record(stringin,"$(DEVICE):ProtectionSetpoint-RB-s") {
     field(PINI, "YES")
     field(DESC,"Protection setpoint value RAW")
@@ -29,7 +28,6 @@ record(ao, "$(DEVICE):ProtectionSetpoint-SP"){
 
 # --------------------------------------------------------- 
 # Channel Control Setpoint
-# In case the unit was changed at the ihm
 record(bi, "$(DEVICE):ControlSetpoint-T"){
     field(SCAN, "60 second")
     field(FLNK, "$(DEVICE):ControlSetpoint-RB-s")
@@ -77,11 +75,8 @@ record(ao, "$(DEVICE):ControlSetpointHyst-SP"){
     field(FLNK, "$(DEVICE):ControlSetpointHyst-RB-s")
 }
 
-
-
 # --------------------------------------------------------- 
 # Channel FRC
-# In case the unit was changed at the ihm
 record(stringin,"$(DEVICE):FastRelay-RB-s") {
     field(DESC,"Fast Relay value RAW")
     field(INP,"@mks937b.proto get_frc_sp($(ADDRESS),$(CHANNEL)) $(PORT)") 
@@ -161,8 +156,6 @@ record(mbbo, "$(DEVICE):ControlChannelStatus-SP"){
 
     field(FLNK, "$(DEVICE):ControlChannelStatus-RB")
 }
-
-
 
 # ---------------------------------------------------------
 record(mbbi,"$(DEVICE):ControlChannelCTL-RB") {
