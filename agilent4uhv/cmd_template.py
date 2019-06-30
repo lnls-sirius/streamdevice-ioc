@@ -42,5 +42,7 @@ template_bot = ('''
 # Effectively initializes the IOC
 cd iocBoot
 iocInit
+
+# var streamDebug 1
 ''')
 
