@@ -1,11 +1,10 @@
 # COLD CATHODE
-
 record(fanout, "$(DEVICE):T"){
     field(SCAN, "10 second")
     field(SELM, "All")
-    field(LNK1, "$(DEVICE):ProtectionSetpoint-RB-s PP")
-    field(LNK2, "$(DEVICE):ControlSetpoint-RB-s PP")
-    field(LNK3, "$(DEVICE):ControlChannelStatus-RB PP")
+    field(LNK1, "$(DEVICE):ProtectionSetpoint_INIT PP")
+    field(LNK2, "$(DEVICE):ControlSetpoint_INIT PP")
+    field(LNK3, "$(DEVICE):ControlChannelStatus_INIT PP")
     field(PHAS, "2")
 }
 
@@ -201,8 +200,8 @@ record(seq, "$(DEVICE):ControlChannelStatus_INIT"){
     field(PINI, "YES")
     field(PHAS, "1")
     field(DLY1, "1")
-    field(DOL1, "$(DEVICE):ControlChannelStatus-RB")
-    field(LNK1, "$(DEVICE):ControlChannelStatus-SP PP")
+    field(DOL1, "$(DEVICE):ControlChannelStatus-RB.RVAL")
+    field(LNK1, "$(DEVICE):ControlChannelStatus-SP.RVAL PP")
 }
 
 # ---------------------------------------------------------
@@ -251,6 +250,6 @@ record(seq, "$(DEVICE):ControlChannelCTL_INIT"){
     field(PINI, "YES")
     field(PHAS, "1")
     field(DLY1, "1")
-    field(DOL1, "$(DEVICE):ControlChannelCTL-RB")
-    field(LNK1, "$(DEVICE):ControlChannelCTL-SP PP")
+    field(DOL1, "$(DEVICE):ControlChannelCTL-RB.RVAL")
+    field(LNK1, "$(DEVICE):ControlChannelCTL-SP.RVAL PP")
 }

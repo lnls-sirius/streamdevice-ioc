@@ -235,7 +235,7 @@ record(mbbo, "$(DEVICE):UnitSp"){
     field(TWVL, "2")
     field(THVL, "3")
     field(ZRST, "Torr")
-    field(ONST, "mBAR")
+    field(ONST, "mBar")
     field(TWST, "PASCAL")
     field(THST, "Micron")
     
@@ -288,4 +288,134 @@ record(stringin,"$(G5):Pressure-Mon-s") {
 record(stringin,"$(G6):Pressure-Mon-s") {
     field(DESC, "Read CCG 6's raw pressure output")
     #field(FLNK, "$(G6):Pressure-Mon")
+}
+record(scalcout, "$(DEVICE):Unit_STR"){
+    field(CALC, "(A=0?'Torr':(A=1?'mBar':(A=2?'PASCAL':'Micron')))")
+    field(INPA, "$(DEVICE):Unit.VAL CP")
+}
+record(fanout, "$(DEVICE):T"){
+    field(SCAN, "10 second")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Unit_INIT PP")
+    field(LNK2, "$(DEVICE):Relay1-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay1-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay1:Setpoint_INIT PP")
+    field(LNK2, "$(DEVICE):Relay1:Hyst_INIT PP")
+    field(LNK3, "$(DEVICE):Relay1:Direction_INIT PP")
+    field(LNK4, "$(DEVICE):Relay1:Status_INIT PP")
+    field(LNK5, "$(DEVICE):Relay2-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay2-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay2:Setpoint_INIT PP")
+    field(LNK2, "$(DEVICE):Relay2:Hyst_INIT PP")
+    field(LNK3, "$(DEVICE):Relay2:Direction_INIT PP")
+    field(LNK4, "$(DEVICE):Relay2:Status_INIT PP")
+    field(LNK5, "$(DEVICE):Relay3-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay3-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay3:Setpoint_INIT PP")
+    field(LNK2, "$(DEVICE):Relay3:Hyst_INIT PP")
+    field(LNK3, "$(DEVICE):Relay3:Direction_INIT PP")
+    field(LNK4, "$(DEVICE):Relay3:Status_INIT PP")
+    field(LNK5, "$(DEVICE):Relay4-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay4-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay4:Setpoint_INIT PP")
+    field(LNK2, "$(DEVICE):Relay4:Hyst_INIT PP")
+    field(LNK3, "$(DEVICE):Relay4:Direction_INIT PP")
+    field(LNK4, "$(DEVICE):Relay4:Status_INIT PP")
+    field(LNK5, "$(DEVICE):Relay5-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay5-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay5:Setpoint_INIT PP")
+    field(LNK2, "$(DEVICE):Relay5:Hyst_INIT PP")
+    field(LNK3, "$(DEVICE):Relay5:Direction_INIT PP")
+    field(LNK4, "$(DEVICE):Relay5:Status_INIT PP")
+    field(LNK5, "$(DEVICE):Relay6-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay6-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay6:Setpoint_INIT PP")
+    field(LNK2, "$(DEVICE):Relay6:Hyst_INIT PP")
+    field(LNK3, "$(DEVICE):Relay6:Direction_INIT PP")
+    field(LNK4, "$(DEVICE):Relay6:Status_INIT PP")
+    field(LNK5, "$(DEVICE):Relay7-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay7-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay7:Setpoint_INIT PP")
+    field(LNK2, "$(DEVICE):Relay7:Hyst_INIT PP")
+    field(LNK3, "$(DEVICE):Relay7:Direction_INIT PP")
+    field(LNK4, "$(DEVICE):Relay7:Status_INIT PP")
+    field(LNK5, "$(DEVICE):Relay8-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay8-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay8:Setpoint_INIT PP")
+    field(LNK2, "$(DEVICE):Relay8:Hyst_INIT PP")
+    field(LNK3, "$(DEVICE):Relay8:Direction_INIT PP")
+    field(LNK4, "$(DEVICE):Relay8:Status_INIT PP")
+    field(LNK5, "$(DEVICE):Relay9-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay9-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay9:Setpoint_INIT PP")
+    field(LNK2, "$(DEVICE):Relay9:Hyst_INIT PP")
+    field(LNK3, "$(DEVICE):Relay9:Direction_INIT PP")
+    field(LNK4, "$(DEVICE):Relay9:Status_INIT PP")
+    field(LNK5, "$(DEVICE):Relay10-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay10-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay10:Setpoint_INIT PP")
+    field(LNK2, "$(DEVICE):Relay10:Hyst_INIT PP")
+    field(LNK3, "$(DEVICE):Relay10:Direction_INIT PP")
+    field(LNK4, "$(DEVICE):Relay10:Status_INIT PP")
+    field(LNK5, "$(DEVICE):Relay11-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay11-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay11:Setpoint_INIT PP")
+    field(LNK2, "$(DEVICE):Relay11:Hyst_INIT PP")
+    field(LNK3, "$(DEVICE):Relay11:Direction_INIT PP")
+    field(LNK4, "$(DEVICE):Relay11:Status_INIT PP")
+    field(LNK5, "$(DEVICE):Relay12-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay12-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay12:Setpoint_INIT PP")
+    field(LNK2, "$(DEVICE):Relay12:Hyst_INIT PP")
+    field(LNK3, "$(DEVICE):Relay12:Direction_INIT PP")
+    field(LNK4, "$(DEVICE):Relay12:Status_INIT PP")
+    field(PHAS, "2")
 }

@@ -1,4 +1,11 @@
+record(stringout, "$(D):Pressure-Mon_EGU"){
+    field(OMSL, "closed_loop")
+    field(DOL,  "$(D):Unit_STR.SVAL CP")
+    field(OUT,  "$(DEVICE):Pressure-Mon.EGU")
 
+    #field(DISV, "1")
+    #field(SDIS, "$(D):Unit.PACT")
+}
 record(ai, "$(DEVICE):Pressure-Mon") {
     field(DESC, "Read CCG$(CHANNEL)'s pressure")
     field(INP,  "$(DEVICE):Pressure-Mon-s CP")
@@ -12,7 +19,6 @@ record(ai, "$(DEVICE):Pressure-Mon") {
     field(HHSV,"MAJOR") 
     field(EGU, "mBar")
 } 
-
 # Channel Power Status 
 record(mbbi, "$(DEVICE):Enable-RB") {
   field(DESC, "Channel power status")
@@ -48,6 +54,6 @@ record(seq, "$(DEVICE):Enable_INIT"){
     field(PINI, "YES")
     field(PHAS, "1")
     field(DLY1, "1")
-    field(DOL1, "$(DEVICE):Enable-RB")
-    field(LNK1, "$(DEVICE):Enable-SP PP")
+    field(DOL1, "$(DEVICE):Enable-RB.RVAL")
+    field(LNK1, "$(DEVICE):Enable-SP.RVAL PP")
 }

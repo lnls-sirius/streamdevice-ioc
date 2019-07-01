@@ -2,6 +2,8 @@
 from string import Template
 
 relay = Template('''
+
+
 # Setpoint Status
 record(stringin,"$(DEVICE):Relay${RELAY}:SetpointStatus-Mon"){
     field(DESC, "Relay ${RELAY} setpoint status (clear/set)")
@@ -93,8 +95,8 @@ record(seq, "$(DEVICE):Relay${RELAY}:Direction_INIT"){
     field(PINI, "YES")
     field(PHAS, "1")
     field(DLY1, "1")
-    field(DOL1, "$(DEVICE):Relay${RELAY}:Direction-RB")
-    field(LNK1, "$(DEVICE):Relay${RELAY}:Direction-SP PP")
+    field(DOL1, "$(DEVICE):Relay${RELAY}:Direction-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay${RELAY}:Direction-SP.RVAL PP")
 }
 
 # Relay Status
@@ -138,7 +140,7 @@ record(seq, "$(DEVICE):Relay${RELAY}:Status_INIT"){
     field(PINI, "YES")
     field(PHAS, "1")
     field(DLY1, "1")
-    field(DOL1, "$(DEVICE):Relay${RELAY}:Status-RB")
-    field(LNK1, "$(DEVICE):Relay${RELAY}:Status-SP PP")
+    field(DOL1, "$(DEVICE):Relay${RELAY}:Status-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay${RELAY}:Status-SP.RVAL PP")
 }
 ''')
