@@ -17,8 +17,10 @@ record(fanout, "$(PREFIX):T"){
     field(SELM, "All")
     field(LNK1, "$(PREFIX):Pressure-Mon")
     field(LNK2, "$(PREFIX):Voltage-Mon")
-    field(LNK3, "$(PREFIX):HVTemperature-Mon")
-    field(LNK4, "$(PREFIX):ErrorCode-Mon")
+    field(LNK3, "$(PREFIX):Current-Mon")
+    field(LNK4, "$(PREFIX):HVTemperature-Mon")
+    field(LNK5, "$(PREFIX):ErrorCode-Mon")
+    field(LNK6, "$(PREFIX):HVState-RB")
 }
 # Current
 record(ai, "$(PREFIX):Current-Mon") {
@@ -81,25 +83,21 @@ record(mbbi, "$(PREFIX):SetErrorCode-Mon") {
 ##                             Get/Set Readings                           ##
 ############################################################################
 # Channel HV on/off
-record(mbbi, "$(PREFIX):HVState-RB") {
+record(bi, "$(PREFIX):HVState-RB") {
     field(DESC, "Channel HV on/off readback")
     field(DTYP, "stream")
     field(INP,  "@Agilent-4UHV.proto getHVOnOff($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
-    field(ZRVL, "0")
-    field(ONVL, "1")
-    field(ZRST, "OFF")
-    field(ONST, "ON")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
     field(PINI, "YES")
     field(PHAS, "0")
 }
-record(mbbo, "$(PREFIX):HVState-SP") {
+record(bo, "$(PREFIX):HVState-SP") {
     field(DESC, "Channel HV on/off setpoint")
     field(DTYP, "stream")
     field(OUT, "@Agilent-4UHV.proto setHVOnOff($(SERIAL_ADDRESS),$(CHANNEL_NUMBER),$(PREFIX):SetErrorCode-Mon) $(PORT)")
-    field(ZRVL, "0")
-    field(ONVL, "1")
-    field(ZRST, "OFF")
-    field(ONST, "ON")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
     field(DISV, "1")
     field(SDIS, "$(PREFIX):HVState_INIT.PACT")
     field(FLNK, "$(PREFIX):HVState-RB")
@@ -107,9 +105,9 @@ record(mbbo, "$(PREFIX):HVState-SP") {
 record(seq, "$(PREFIX):HVState_INIT"){
     field(PINI, "YES")
     field(PHAS, "1")
-    field(DLY1, "5")
-    field(DOL1, "$(PREFIX):HVState-RB.RVAL")
-    field(LNK1, "$(PREFIX):HVState-SP.RVAL PP")
+    field(DLY1, "10")
+    field(DOL1, "$(PREFIX):HVState-RB")
+    field(LNK1, "$(PREFIX):HVState-SP PP")
 }
 
 # Device number
@@ -143,7 +141,7 @@ record(ao, "$(PREFIX):CurrentProtect-SP") {
 record(seq, "$(PREFIX):CurrentProtect_INIT"){
     field(PINI, "YES")
     field(PHAS, "1")
-    field(DLY1, "5")
+    field(DLY1, "10")
     field(DOL1, "$(PREFIX):CurrentProtect-RB")
     field(LNK1, "$(PREFIX):CurrentProtect-SP PP")
 }
@@ -171,7 +169,7 @@ record(ao, "$(PREFIX):VoltageTarget-SP") {
 record(seq, "$(PREFIX):VoltageTarget_INIT"){
     field(PINI, "YES")
     field(PHAS, "1")
-    field(DLY1, "5")
+    field(DLY1, "10")
     field(DOL1, "$(PREFIX):VoltageTarget-RB")
     field(LNK1, "$(PREFIX):VoltageTarget-SP PP")
 }
@@ -199,7 +197,7 @@ record(ao, "$(PREFIX):PowerMax-SP") {
 record(seq, "$(PREFIX):PowerMax_INIT"){
     field(PINI, "YES")
     field(PHAS, "1")
-    field(DLY1, "5")
+    field(DLY1, "10")
     field(DOL1, "$(PREFIX):PowerMax-RB")
     field(LNK1, "$(PREFIX):PowerMax-SP PP")
 }
@@ -225,7 +223,7 @@ record(ao, "$(PREFIX):Setpoint-SP") {
 record(seq, "$(PREFIX):Setpoint_INIT"){
     field(PINI, "YES")
     field(PHAS, "1")
-    field(DLY1, "5")
+    field(DLY1, "10")
     field(DOL1, "$(PREFIX):Setpoint-RB")
     field(LNK1, "$(PREFIX):Setpoint-SP PP")
 }
