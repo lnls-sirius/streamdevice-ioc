@@ -45,14 +45,14 @@ record(longin, "$(PREFIX):Protect-RB") {
     field(PINI, "YES")
     field(PHAS, "0")
 }
-record(longout, "$(PREFIX):AllProtect-Sel"){
+record(longout, "$(PREFIX):AllProtectOn-Sel"){
     field(DTYP, "Soft Channel")
     field(OMSL, "closed_loop")
     field(DOL,  "15")
     field(OUT,  "$(PREFIX):Protect-SP_Backend CP")
     field(FLNK, "$(PREFIX):Protect-SP_Backend")
 }
-record(longout, "$(PREFIX):AllFixed-Sel"){
+record(longout, "$(PREFIX):AllProtectOff-Sel"){
     field(DTYP, "Soft Channel")
     field(OMSL, "closed_loop")
     field(DOL,  "0")
@@ -87,6 +87,7 @@ record(seq, "$(PREFIX):Protect_INIT"){
     field(DOL1, "$(PREFIX):Protect-RB")
     field(LNK1, "$(PREFIX):Protect-SP PP")
 }
+
 # Step mode
 record(longin, "$(PREFIX):Step-RB") {
     field(PINI, "YES")
@@ -136,6 +137,7 @@ record(seq, "$(PREFIX):Step_INIT"){
     field(DOL1, "$(PREFIX):Step-RB")
     field(LNK1, "$(PREFIX):Step-SP PP")
 }
+
 # Unit
 record(mbbi, "$(PREFIX):Unit-RB") {
     field(DESC, "Unit readback")
@@ -167,18 +169,17 @@ record(seq, "$(PREFIX):Unit_INIT"){
     field(LNK1, "$(PREFIX):Unit-SP PP")
 }
 
-# Operating mode (autostart on/off)
+# Autostart
 record(bi, "$(PREFIX):Autostart-RB") {
-    field(DESC, "Autostart")
-    field(DTYP, "stream")
     field(PINI, "YES")
     field(PHAS, "0")
-    field(INP,  "@Agilent-4UHV.proto getAutostart($(SERIAL_ADDRESS)) $(PORT)")
-    field(ONAM, "On")
+    field(DESC, "Autostart mode")
     field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(DTYP, "stream")
+    field(INP,  "@Agilent-4UHV.proto getAutostart($(SERIAL_ADDRESS)) $(PORT)")
 }
 record(bo, "$(PREFIX):Autostart-SP") {
-    field(DESC, "Autostart")
     field(DTYP, "stream")
     field(OUT,  "@Agilent-4UHV.proto setAutostart($(SERIAL_ADDRESS)) $(PORT)")
     field(ZNAM, "Off")
@@ -194,6 +195,8 @@ record(seq, "$(PREFIX):Autostart_INIT"){
     field(DOL1, "$(PREFIX):Autostart-RB")
     field(LNK1, "$(PREFIX):Autostart-SP PP")
 }
+
+# --------------
 record(fanout, "$(PREFIX):T"){
     field(SCAN, "10 second")
     field(SELM, "All")
