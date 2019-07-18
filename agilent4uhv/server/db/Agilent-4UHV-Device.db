@@ -215,7 +215,7 @@ record(fanout, "$(PREFIX):RB"){
     field(LNK4, "$(PREFIX):Unit-RB")
     field(LNK5, "$(PREFIX):FanTemperature-Mon")
 }
-record(scalcout, "$(DEVICE):Unit_STR"){
+record(scalcout, "$(PREFIX):Unit_STR"){
     field(CALC, "(A=0?'Torr':(A=1?'mBar':'PASCAL'))")
     field(INPA, "$(PREFIX):Unit-RB.VAL CP")
 }
