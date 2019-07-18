@@ -1,4 +1,4 @@
-record(stringout, "$(D):Pressure-Mon_EGU"){
+record(stringout, "$(DEVICE):Pressure-Mon_EGU"){
     field(OMSL, "closed_loop")
     field(DOL,  "$(D):Unit_STR.SVAL CP")
     field(OUT,  "$(DEVICE):Pressure-Mon.EGU")
