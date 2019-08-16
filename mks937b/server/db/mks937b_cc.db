@@ -19,15 +19,15 @@ record(stringin, "$(DEVICE):ProtectionSetpoint-RB-s"){
 }
 record(ai, "$(DEVICE):ProtectionSetpoint-RB"){
     field(DESC, "Protection setpoint value")
-    field(INP,  "$(DEVICE):ProtectionSetpoint-RB-s CP")
     field(DTYP, "Soft Channel")
-    field(DISV, "1")
-    field(SDIS, "$(DEVICE):ProtectionSetpoint_INIT.PACT")
+    field(INP,  "$(DEVICE):ProtectionSetpoint-RB-s CP")
 }
 record(ao, "$(DEVICE):ProtectionSetpoint-SP"){
     field(DESC, "Set protection setpoint value") 
     field(OUT,  "@mks937b.proto set_pro_sp($(ADDRESS),$(CHANNEL)) $(PORT)")
     field(DTYP, "stream") 
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):ProtectionSetpoint_INIT.PACT")
     field(FLNK, "$(DEVICE):ProtectionSetpoint-RB-s")
 }
 record(seq, "$(DEVICE):ProtectionSetpoint_INIT"){
