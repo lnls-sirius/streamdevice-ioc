@@ -2,7 +2,7 @@
 
 DOCKER_MANTAINER_NAME=lnlscon
 DOCKER_NAME=streamdevice-ioc
-DOCKER_TAG=v1.2
+DOCKER_TAG=v1.4-Devel
 
 clean:
 	find . -name '*.pyc' -exec rm --force {} +
@@ -26,10 +26,7 @@ mbtemp:
 	docker build -t ${DOCKER_MANTAINER_NAME}/${DOCKER_NAME}:MBTemp-${DOCKER_TAG} -f Dockerfile .
 
 base:
-	DOCKER_MANTAINER_NAME=lnlscon
-	DOCKER_NAME=epics-r3.15.5
-	DOCKER_TAG=asyn3.35_StreamDevice2.8.8
-	docker build -t ${DOCKER_MANTAINER_NAME}/${DOCKER_NAME}:${DOCKER_TAG}  -f Dockerfile.EPICS .
+	docker build -t lnlscon/epics-r3.15.6:v1.0 -f Dockerfile.EPICS .
 
 push-all:
 	docker push ${DOCKER_MANTAINER_NAME}/${DOCKER_NAME}:MKS-${DOCKER_TAG}
