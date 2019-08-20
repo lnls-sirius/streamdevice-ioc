@@ -100,7 +100,7 @@ build(){
     cp dbd/* ${TOP}/dbd
     pushd $1
         set -x
-        ./generate.py --cmd-prefix ${2} --top ${TOP} ${EPICS_CA_PORT_INCREASE} ${BASE_EPICS_CA_PORT}
+        ./generate.py --epics-base ${EPICS_BASE} --asyn ${ASYN} --cmd-prefix ${2} --top ${TOP} ${EPICS_CA_PORT_INCREASE} ${BASE_EPICS_CA_PORT} 
         copy_to_stream_device ${2} $TOP
         set +x
     popd
