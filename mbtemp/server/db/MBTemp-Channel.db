@@ -30,13 +30,13 @@ record(calc, "$(RECORD_NAME)")
     field(CALC, "-8688.0973066898*((2.301999*10^-4*(-0.388*A-0.0300)+0.15274808)^0.5 - 0.39083)")
     field(INPA, "$(RECORD_NAME)-Raw CP MSS")
     field(PREC, "4")
-    field(EGU, "°C")
+    field(EGU,  "C")
 }
 
 record(ai, "$(RECORD_NAME)-Raw") {
     field(DESC, "$(DESCRIPTION) Raw")
     field(DTYP, "stream")
-    field(EGU, "°C")
+    field(EGU,  "C")
 
     field(EOFF, "0.0")
     field(ESLO, "0.01")

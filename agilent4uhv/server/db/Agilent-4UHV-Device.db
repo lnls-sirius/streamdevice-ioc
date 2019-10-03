@@ -1,18 +1,10 @@
-# Agilent-4UHV-Device.db
-
-# Record definition file for one Agilent 4UHV Ion Pump Controller device. This is based on the work
-# of Pete Owens from the Science and Technology Facilities Council (STFC).
+# Record definition file for one Agilent 4UHV Ion Pump Controller device.
+# This is based on the work of Pete Owens from the Science and Technology Facilities Council (STFC).
 
 # Parameters are:
-#
-# PORT - Name of the serial port configured in asynDriver.
-#
-# PREFIX - Prefix name for all PVs associated with the device.
-#
-# SERIAL_ADDRESS - Controller RS-485 serial address (from 0 to 31). For configuring this parameter,
-# add 128 to the desired address. As an example, for the serial address 20, this parameter should be
-# configured as 128 + 20 = 148.
-
+# PORT              - Name of the serial port configured in asynDriver.
+# PREFIX            - Prefix name for all PVs associated with the device.
+# SERIAL_ADDRESS    - Controller RS-485 serial address (from 0 to 31) + 128.
 ##########################################################################
 #                              One time reading                          #
 ##########################################################################
@@ -23,227 +15,227 @@ record(ai, "$(PREFIX):TriggerOneTime"){
 record(stringin, "$(PREFIX):Model-Cte") {
     field(DESC, "Device model")
     field(DTYP, "stream")
-    field(INP, "@Agilent-4UHV.proto getModel($(SERIAL_ADDRESS)) $(PORT)")
-
+    field(INP,  "@Agilent-4UHV.proto getModel($(SERIAL_ADDRESS)) $(PORT)")
     field(FLNK, "$(PREFIX):SerialNumber-Cte")
 }
 # Serial number
 record(stringin, "$(PREFIX):SerialNumber-Cte") {
     field(DESC, "Device serial number")
     field(DTYP, "stream")
-    field(INP, "@Agilent-4UHV.proto getSerialNumber($(SERIAL_ADDRESS)) $(PORT)")
-
+    field(INP,  "@Agilent-4UHV.proto getSerialNumber($(SERIAL_ADDRESS)) $(PORT)")
     field(FLNK, "$(PREFIX):OutOneTime")
 }
-record(bi, "$(PREFIX):Mode-RB") {
-    field(PINI, "YES")
-}
-record(mbbi, "$(PREFIX_CH1):HVState-RB") {
-    field(PINI, "YES")
-}
-record(ai, "$(PREFIX_CH1):PowerMax-RB") {
-    field(PINI, "YES")
-}
-record(ai, "$(PREFIX_CH1):CurrentProtect-RB") {
-    field(PINI, "YES")
-}
-record(ai, "$(PREFIX_CH1):VoltageTarget-RB") {
-    field(PINI, "YES")
-}
-record(ai, "$(PREFIX_CH1):Setpoint-RB") {
-    field(PINI, "YES")
-}
-record(mbbi, "$(PREFIX_CH2):HVState-RB") {
-    field(PINI, "YES")
-}
-record(ai, "$(PREFIX_CH2):PowerMax-RB") {
-    field(PINI, "YES")
-}
-record(ai, "$(PREFIX_CH2):CurrentProtect-RB") {
-    field(PINI, "YES")
-}
-record(ai, "$(PREFIX_CH2):VoltageTarget-RB") {
-    field(PINI, "YES")
-}
-record(ai, "$(PREFIX_CH2):Setpoint-RB") {
-    field(PINI, "YES")
-}
-record(mbbi, "$(PREFIX_CH3):HVState-RB") {
-    field(PINI, "YES")
-}
-record(ai, "$(PREFIX_CH3):PowerMax-RB") {
-    field(PINI, "YES")
-}
-record(ai, "$(PREFIX_CH3):CurrentProtect-RB") {
-    field(PINI, "YES")
-}
-record(ai, "$(PREFIX_CH3):VoltageTarget-RB") {
-    field(PINI, "YES")
-}
-record(ai, "$(PREFIX_CH3):Setpoint-RB") {
-    field(PINI, "YES")
-}
-record(mbbi, "$(PREFIX_CH4):HVState-RB") {
-    field(PINI, "YES")
-}
-record(ai, "$(PREFIX_CH4):PowerMax-RB") {
-    field(PINI, "YES")
-}
-record(ai, "$(PREFIX_CH4):CurrentProtect-RB") {
-    field(PINI, "YES")
-}
-record(ai, "$(PREFIX_CH4):VoltageTarget-RB") {
-    field(PINI, "YES")
-}
-record(ai, "$(PREFIX_CH4):Setpoint-RB") {
-    field(PINI, "YES")
-}
+##########################################################################
 
-##########################################################################
-#                              CHAIN READINGS                            #
-##########################################################################
+# Fan Temperature
 record(longin, "$(PREFIX):FanTemperature-Mon") {
     field(DESC, "Fan temperature")
     field(DTYP, "stream")
-    field(EGU, "°C")
+    field(EGU,  "°C")
     field(HOPR, "200")
     field(LOPR, "0")
-
-    field(INP, "@Agilent-4UHV.proto fanTemperatureMon($(SERIAL_ADDRESS)) $(PORT)")
+    field(INP,  "@Agilent-4UHV.proto fanTemperatureMon($(SERIAL_ADDRESS)) $(PORT)")
 }
-# Protect
-record(longin, "$(PREFIX):Protect-Mon") {
+
+# Protect On/Off
+record(longin, "$(PREFIX):Protect-RB") {
     field(DESC, "Protect")
     field(DTYP, "stream")
-    field(INP, "@Agilent-4UHV.proto protectMon($(SERIAL_ADDRESS)) $(PORT)")
+    field(INP,  "@Agilent-4UHV.proto getProtect($(SERIAL_ADDRESS)) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
 }
-# Step mode
-record(longin, "$(PREFIX):Step-Mon") {
-    field(DESC, "Step mode")
+record(longout, "$(PREFIX):AllProtectOn-Sel"){
+    field(DTYP, "Soft Channel")
+    field(OMSL, "closed_loop")
+    field(DOL,  "15")
+    field(OUT,  "$(PREFIX):Protect-SP_Backend CP")
+    field(FLNK, "$(PREFIX):Protect-SP_Backend")
+}
+record(longout, "$(PREFIX):AllProtectOff-Sel"){
+    field(DTYP, "Soft Channel")
+    field(OMSL, "closed_loop")
+    field(DOL,  "0")
+    field(OUT,  "$(PREFIX):Protect-SP_Backend CP")
+    field(FLNK, "$(PREFIX):Protect-SP_Backend")
+}
+record(longout, "$(PREFIX):Protect-SP"){
+    field(DESC, "On/Off (1111) or (0000)")
+    field(DTYP, "Soft Channel")
+    field(DRVH, "15")
+    field(DRVL, "0")
+    field(DISV, "1")
+    field(SDIS, "$(PREFIX):Protect_INIT.PACT")
+}
+record(longout, "$(PREFIX):Protect-SP_proc"){
+    field(DOL,  "$(PREFIX):Protect-SP")
+    field(OUT,  "$(PREFIX):Protect-SP_Backend CP")
+    field(FLNK, "$(PREFIX):Protect-SP_Backend")
+}
+record(longout, "$(PREFIX):Protect-SP_Backend") {
+    field(DESC, "Protect")
     field(DTYP, "stream")
-    field(INP, "@Agilent-4UHV.proto stepMon($(SERIAL_ADDRESS)) $(PORT)")
+    field(OUT,  "@Agilent-4UHV.proto setProtect($(SERIAL_ADDRESS)) $(PORT)")
+    field(DRVH, "15")
+    field(DRVL, "0")
+    field(FLNK, "$(PREFIX):Protect-RB")
+}
+record(seq, "$(PREFIX):Protect_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "10")
+    field(DOL1, "$(PREFIX):Protect-RB")
+    field(LNK1, "$(PREFIX):Protect-SP PP")
 }
 
-##########################################################################
-##                             Set/Get Readings                         ##
-##########################################################################
-# Unit readback
+# Step mode
+record(longin, "$(PREFIX):Step-RB") {
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(DESC, "Step mode")
+    field(DTYP, "stream")
+    field(INP,  "@Agilent-4UHV.proto getStep($(SERIAL_ADDRESS)) $(PORT)")
+}
+record(longout, "$(PREFIX):AllStep-Sel"){
+    field(DTYP, "Soft Channel")
+    field(OMSL, "closed_loop")
+    field(DOL,  "15")
+    field(OUT,  "$(PREFIX):Step-SP_Backend CP")
+    field(FLNK, "$(PREFIX):Step-SP_Backend")
+}
+record(longout, "$(PREFIX):AllFixed-Sel"){
+    field(DTYP, "Soft Channel")
+    field(OMSL, "closed_loop")
+    field(DOL,  "0")
+    field(OUT,  "$(PREFIX):Step-SP_Backend CP")
+    field(FLNK, "$(PREFIX):Step-SP_Backend")
+}
+record(longout, "$(PREFIX):Step-SP"){
+    field(DESC, "Step or Fixed (1111) or (0000)")
+    field(DTYP, "Soft Channel")
+    field(DRVH, "15")
+    field(DRVL, "0")
+    field(DISV, "1")
+    field(SDIS, "$(PREFIX):Step_INIT.PACT")
+}
+record(longout, "$(PREFIX):Step-SP_proc"){
+    field(DOL,  "$(PREFIX):Step-SP")
+    field(OUT,  "$(PREFIX):Step-SP_Backend CP")
+    field(FLNK, "$(PREFIX):Step-SP_Backend")
+}
+record(longout, "$(PREFIX):Step-SP_Backend") {
+    field(DTYP, "stream")
+    field(OUT,  "@Agilent-4UHV.proto setStep($(SERIAL_ADDRESS)) $(PORT)")
+    field(DRVH, "15")
+    field(DRVL, "0")
+    field(FLNK, "$(PREFIX):Step-RB")
+}
+record(seq, "$(PREFIX):Step_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "10")
+    field(DOL1, "$(PREFIX):Step-RB")
+    field(LNK1, "$(PREFIX):Step-SP PP")
+}
+
+# Unit
 record(mbbi, "$(PREFIX):Unit-RB") {
     field(DESC, "Unit readback")
     field(DTYP, "stream")
-    field(INP, "@Agilent-4UHV.proto getUnit($(SERIAL_ADDRESS)) $(PORT)")
-    field(PINI,"YES")
-
+    field(INP,  "@Agilent-4UHV.proto getUnit($(SERIAL_ADDRESS)) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
     field(ZRST, "Torr")
-    field(ONST, "mbar")
+    field(ONST, "mBar")
     field(TWST, "Pa")
 }
-# Unit setpoint
 record(mbbo, "$(PREFIX):Unit-SP") {
     field(DESC, "Unit setpoint")
     field(DTYP, "stream")
     field(OUT, "@Agilent-4UHV.proto setUnit($(SERIAL_ADDRESS)) $(PORT)")
-
+    field(DISV, "1")
+    field(SDIS, "$(PREFIX):Unit_INIT.PACT")
     field(ZRST, "Torr")
-    field(ONST, "mbar")
+    field(ONST, "mBar")
     field(TWST, "Pa")
 
     field(FLNK,"$(PREFIX):Unit-RB")
 }
+record(seq, "$(PREFIX):Unit_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "10")
+    field(DOL1, "$(PREFIX):Unit-RB")
+    field(LNK1, "$(PREFIX):Unit-SP PP")
+}
 
-# Operating mode (autostart on/off) readback
-record(bi, "$(PREFIX):Mode-RB") {
-    field(DESC, "Autostart readback")
-    field(DTYP, "stream")
-    field(INP, "@Agilent-4UHV.proto getMode($(SERIAL_ADDRESS)) $(PORT)")
-    field(ONAM, "On")
+# Autostart
+record(bi, "$(PREFIX):Autostart-RB") {
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(DESC, "Autostart mode")
     field(ZNAM, "Off")
-
-}
-# Operating mode (autostart on/off) setpoint
-record(bo, "$(PREFIX):Mode-SP") {
-    field(DESC, "Autostart setpoint")
-    field(DTYP, "stream")
     field(ONAM, "On")
-    field(OUT,  "@Agilent-4UHV.proto setMode($(SERIAL_ADDRESS)) $(PORT)")
+    field(DTYP, "stream")
+    field(INP,  "@Agilent-4UHV.proto getAutostart($(SERIAL_ADDRESS)) $(PORT)")
+}
+record(bo, "$(PREFIX):Autostart-SP") {
+    field(DTYP, "stream")
+    field(OUT,  "@Agilent-4UHV.proto setAutostart($(SERIAL_ADDRESS)) $(PORT)")
     field(ZNAM, "Off")
-
-    # field(FLNK, "$(PREFIX):Mode-RB")
+    field(ONAM, "On")
+    field(DISV, "1")
+    field(SDIS, "$(PREFIX):Autostart_INIT.PACT")
+    field(FLNK, "$(PREFIX):Autostart-RB")
+}
+record(seq, "$(PREFIX):Autostart_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "10")
+    field(DOL1, "$(PREFIX):Autostart-RB")
+    field(LNK1, "$(PREFIX):Autostart-SP PP")
 }
 
-############################################################################
-#                                  CHAIN                                   #
-#               PREFIX_CH1  PREFIX_CH2  PREFIX_CH3  PREFIX_CH4             #
-############################################################################
-record(ai, "$(PREFIX):Trigger"){
-	field(FLNK, "$(PREFIX):Protect-Mon")
+# --------------
+record(fanout, "$(PREFIX):T"){
+    field(SCAN, "10 second")
+    field(SELM, "All")
+    field(LNK1, "$(PREFIX):RB")
+    field(LNK2, "$(PREFIX_CH1):T")
+    field(LNK3, "$(PREFIX_CH2):T")
+    field(LNK4, "$(PREFIX_CH3):T")
+    field(LNK5, "$(PREFIX_CH4):T")
 }
-record(longin, "$(PREFIX):Protect-Mon") {
-    field(FLNK, "$(PREFIX):FanTemperature-Mon")
+record(fanout, "$(PREFIX):RB"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(PREFIX):Protect-RB")
+    field(LNK2, "$(PREFIX):Step-RB")
+    field(LNK3, "$(PREFIX):Autostart-RB")
+    field(LNK4, "$(PREFIX):Unit-RB")
+    field(LNK5, "$(PREFIX):FanTemperature-Mon")
 }
-record(longin, "$(PREFIX):FanTemperature-Mon") {
-    field(FLNK, "$(PREFIX):Step-Mon")
+record(scalcout, "$(PREFIX):Unit_STR"){
+    field(CALC, "(A=0?'Torr':(A=1?'mBar':'PASCAL'))")
+    field(INPA, "$(PREFIX):Unit-RB.VAL CP")
 }
-record(longin, "$(PREFIX):Step-Mon") {
-    field(FLNK, "$(PREFIX_CH1):Current-Mon")
+record(stringout, "$(PREFIX_CH1):Pressure-Mon_EGU"){
+    field(OMSL, "closed_loop")
+    field(DOL,  "$(PREFIX):Unit_STR.SVAL CP")
+    field(OUT,  "$(PREFIX_CH1):Pressure-Mon.EGU")
 }
-record(ai, "$(PREFIX_CH1):Current-Mon") {
-    field(FLNK, "$(PREFIX_CH1):Pressure-Mon")
+record(stringout, "$(PREFIX_CH2):Pressure-Mon_EGU"){
+    field(OMSL, "closed_loop")
+    field(DOL,  "$(PREFIX):Unit_STR.SVAL CP")
+    field(OUT,  "$(PREFIX_CH2):Pressure-Mon.EGU")
 }
-record(ai, "$(PREFIX_CH1):Pressure-Mon") {
-    field(FLNK, "$(PREFIX_CH1):Voltage-Mon")
+record(stringout, "$(PREFIX_CH3):Pressure-Mon_EGU"){
+    field(OMSL, "closed_loop")
+    field(DOL,  "$(PREFIX):Unit_STR.SVAL CP")
+    field(OUT,  "$(PREFIX_CH3):Pressure-Mon.EGU")
 }
-record(ai, "$(PREFIX_CH1):Voltage-Mon") {
-    field(FLNK, "$(PREFIX_CH1):HVTemperature-Mon")
-}
-record(longin, "$(PREFIX_CH1):HVTemperature-Mon") {
-    field(FLNK, "$(PREFIX_CH1):ErrorCode-Mon")
-}
-record(mbbi, "$(PREFIX_CH1):ErrorCode-Mon") {
-    field(FLNK, "$(PREFIX_CH2):Current-Mon")
-}
-record(ai, "$(PREFIX_CH2):Current-Mon") {
-    field(FLNK, "$(PREFIX_CH2):Pressure-Mon")
-}
-record(ai, "$(PREFIX_CH2):Pressure-Mon") {
-    field(FLNK, "$(PREFIX_CH2):Voltage-Mon")
-}
-record(ai, "$(PREFIX_CH2):Voltage-Mon") {
-    field(FLNK, "$(PREFIX_CH2):HVTemperature-Mon")
-}
-record(longin, "$(PREFIX_CH2):HVTemperature-Mon") {
-    field(FLNK, "$(PREFIX_CH2):ErrorCode-Mon")
-}
-record(mbbi, "$(PREFIX_CH2):ErrorCode-Mon") {
-    field(FLNK, "$(PREFIX_CH3):Current-Mon")
-}
-record(ai, "$(PREFIX_CH3):Current-Mon") {
-    field(FLNK, "$(PREFIX_CH3):Pressure-Mon")
-}
-record(ai, "$(PREFIX_CH3):Pressure-Mon") {
-    field(FLNK, "$(PREFIX_CH3):Voltage-Mon")
-}
-record(ai, "$(PREFIX_CH3):Voltage-Mon") {
-    field(FLNK, "$(PREFIX_CH3):HVTemperature-Mon")
-}
-record(longin, "$(PREFIX_CH3):HVTemperature-Mon") {
-    field(FLNK, "$(PREFIX_CH3):ErrorCode-Mon")
-}
-record(mbbi, "$(PREFIX_CH3):ErrorCode-Mon") {
-    field(FLNK, "$(PREFIX_CH4):Current-Mon")
-}
-record(ai, "$(PREFIX_CH4):Current-Mon") {
-    field(FLNK, "$(PREFIX_CH4):Pressure-Mon")
-}
-record(ai, "$(PREFIX_CH4):Pressure-Mon") {
-    field(FLNK, "$(PREFIX_CH4):Voltage-Mon")
-}
-record(ai, "$(PREFIX_CH4):Voltage-Mon") {
-    field(FLNK, "$(PREFIX_CH4):HVTemperature-Mon")
-}
-record(longin, "$(PREFIX_CH4):HVTemperature-Mon") {
-    field(FLNK, "$(PREFIX_CH4):ErrorCode-Mon")
-}
-record(mbbi, "$(PREFIX_CH4):ErrorCode-Mon") {
-    field(FLNK, "$(PREFIX):Out")
+record(stringout, "$(PREFIX_CH4):Pressure-Mon_EGU"){
+    field(OMSL, "closed_loop")
+    field(DOL,  "$(PREFIX):Unit_STR.SVAL CP")
+    field(OUT,  "$(PREFIX_CH4):Pressure-Mon.EGU")
 }

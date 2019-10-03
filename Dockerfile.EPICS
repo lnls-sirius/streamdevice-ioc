@@ -4,8 +4,8 @@
 FROM  ubuntu:18.04
 LABEL maintainer="Claudio Carneiro <claudio.carneiro@lnls.br>"
 
-RUN apt-get update
-RUN apt-get install -y              \
+RUN apt-get update &&\
+    apt-get install -y --fix-missing\
         telnet                      \
         logrotate                   \
         build-essential             \
@@ -13,21 +13,26 @@ RUN apt-get install -y              \
         libpcre3-dev                \
         wget                        \
         git                         \
-        procserv                    \
         libreadline-gplv2-dev       
 
 # IOC operation variables
-ENV EPICS_VERSION R3.15.5
+ENV EPICS_VERSION R3.15.6
 ENV ARCH linux-x86_64
 ENV EPICS_HOST_ARCH linux-x86_64
 ENV EPICS_BASE /opt/epics-${EPICS_VERSION}/base
 ENV EPICS_MODULES /opt/epics-${EPICS_VERSION}/modules
 
-ENV ASYN /opt/epics-${EPICS_VERSION}/modules/asyn4-35
-ENV CALC /opt/epics-${EPICS_VERSION}/modules/synApps/calc-R3-7-1
-ENV AUTOSAVE /opt/epics-${EPICS_VERSION}/modules/autosave-R5-8
+ENV ASYN ${EPICS_MODULES}/asyn4-35
+ENV CALC ${EPICS_MODULES}/synApps/calc-R3-7-3
+ENV AUTOSAVE ${EPICS_MODULES}/autosave-R5-9
+ENV STREAMDEVICE ${EPICS_MODULES}/StreamDevice-2.8.9
+ENV STREAM ${STREAMDEVICE}
 ENV PATH ${EPICS_BASE}/bin/${ARCH}:/opt/procServ:${PATH}
 ENV EPICS_CA_AUTO_ADDR_LIST YES
+
+#ENV CONS_IP 10.128.255.5
+ENV CONS_IP 10.0.38.42
+ENV CONS_REPO http://${CONS_IP}:20081/download
 
 # set correct timezone
 ENV TZ=America/Sao_Paulo
@@ -38,76 +43,93 @@ ENV PYEPICS_LIBCA ${EPICS_BASE}/lib/${ARCH}/libca.so
 
 RUN mkdir -p /opt/epics-${EPICS_VERSION}
 
-RUN wget -O /opt/epics-R3.15.5/base-3.15.5.tar.gz   \
-    https://epics.anl.gov/download/base/base-3.15.5.tar.gz
+RUN wget -O /opt/epics-R3.15.6/base-3.15.6.tar.gz   \
+    ${CONS_REPO}/EPICS/base-3.15.6.tar.gz
 
 WORKDIR /opt/epics-${EPICS_VERSION}
 
 
 # Epics Base
-RUN cd /opt/epics-R3.15.5           &&\
-    tar -xvzf base-3.15.5.tar.gz    &&\
-    rm base-3.15.5.tar.gz           &&\
-    mv base-3.15.5 base             &&\
+RUN cd /opt/epics-R3.15.6           &&\
+    tar -xvzf base-3.15.6.tar.gz    &&\
+    rm base-3.15.6.tar.gz           &&\
+    mv base-3.15.6 base             &&\
     cd base                         &&\
-    make
+    make -j 32
 
 # asynDriver
 RUN cd ${EPICS_BASE}                &&\
     cd ..                           &&\
     mkdir modules                   &&\
     cd modules                      &&\
-    wget https://www.aps.anl.gov/epics/download/modules/asyn4-35.tar.gz                     &&\
+    wget ${CONS_REPO}/EPICS/asyn4-35.tar.gz                     &&\
     tar -xvzf asyn4-35.tar.gz                                                               &&\
     rm asyn4-35.tar.gz                                                                      &&\
-    sed -i -e '3,4s/^/#/' -e '8s/^/#/' -e '11s/^/#/' -e '14cEPICS_BASE='${EPICS_BASE} asyn4-35/configure/RELEASE &&\
+    sed -i  -e '3,4s/^/#/'  \
+            -e '8s/^/#/'    \
+            -e '11s/^/#/'   \
+            -e '14cEPICS_BASE='${EPICS_BASE} \
+            asyn4-35/configure/RELEASE                                                      &&\
     cat  asyn4-35/configure/RELEASE                                                         &&\
     cd asyn4-35                                                                             &&\
-    make
+    make -j 32
 
 # synApps Calc Module
 RUN cd ${EPICS_BASE}/../modules                                                                                     &&\
     mkdir synApps                                                                                                   &&\
     cd synApps                                                                                                      &&\
-    wget https://github.com/epics-modules/calc/archive/R3-7-1.tar.gz                                                &&\
-    tar -xvzf R3-7-1.tar.gz                                                                                         &&\
-    rm R3-7-1.tar.gz                                                                                                &&\
-    sed -i -e '5s/^/#/' -e '7,8s/^/#/' -e '13s/^/#/' -e '20cEPICS_BASE='${EPICS_BASE} calc-R3-7-1/configure/RELEASE &&\
-    cd calc-R3-7-1                                                                                                  &&\
-    make
+    wget ${CONS_REPO}/EPICS/R3-7-3.tar.gz                                                                           &&\
+    tar -xvzf R3-7-3.tar.gz                                                                                         &&\
+    rm R3-7-3.tar.gz                                                                                                &&\
+    sed -i \
+        -e '5s/^/#/'        \
+        -e '7,8s/^/#/'      \
+        -e '13s/^/#/'       \
+        -e '20cEPICS_BASE='${EPICS_BASE} \
+        calc-R3-7-3/configure/RELEASE                                                                               &&\
+    cd calc-R3-7-3                                                                                                  &&\
+    make -j 32
 
 # Autosave
-RUN wget -O /opt/epics-R3.15.5/modules/R5-8.tar.gz   \
-    https://github.com/epics-modules/autosave/archive/R5-8.tar.gz
-RUN cd /opt/epics-R3.15.5/modules/      &&\
-    tar -zxvf R5-8.tar.gz               &&\
-    rm R5-8.tar.gz                      &&\
-    cd autosave-R5-8                    &&\
-    sed -i -e '8s/^/#/' -e '8iEPICS_BASE='${EPICS_BASE} configure/RELEASE &&\
-    make
+RUN cd /opt/epics-R3.15.6/modules/                          &&\
+    wget ${CONS_REPO}/EPICS/R5-9.tar.gz                     &&\
+    tar -zxvf R5-9.tar.gz                                   &&\
+    rm -f R5-9.tar.gz                                       &&\
+    cd autosave-R5-9                                        &&\
+    sed -i '8cEPICS_BASE='${EPICS_BASE} configure/RELEASE   &&\
+    make  -j 32
 
 # Streamdevice
 RUN cd ${EPICS_MODULES}                                                                         &&\
-    mkdir StreamDevice-2.8.8                                                                    &&\
-    cd StreamDevice-2.8.8                                                                       &&\
+    mkdir StreamDevice-2.8.9                                                                    &&\
+    cd StreamDevice-2.8.9                                                                       &&\
     mkdir autosave  && chmod -R 777 autosave                                                    &&\
     echo '' | USER=root makeBaseApp.pl -t support && echo ''                                    &&\
-    wget https://github.com/paulscherrerinstitute/StreamDevice/archive/2.8.8.tar.gz             &&\
-    tar -xvzf 2.8.8.tar.gz                                                                      &&\
-    mv StreamDevice-2.8.8 StreamDevice_2_8_8                                                    &&\
-    rm 2.8.8.tar.gz                                                                             &&\
+    wget ${CONS_REPO}/EPICS/2.8.9.tar.gz                                                        &&\
+    tar -xvzf 2.8.9.tar.gz                                                                      &&\
+    mv StreamDevice-2.8.9 StreamDevice_2_8_9                                                    &&\
+    rm 2.8.9.tar.gz                                                                             &&\
     sed -i -e '28iASYN='${ASYN}         configure/RELEASE                                       &&\
     sed -i -e '29iCALC='${CALC}         configure/RELEASE                                       &&\
     sed -i -e '30iAUTOSAVE='${AUTOSAVE} configure/RELEASE                                       &&\
     echo 'PCRE_INCLUDE=/usr/include' > configure/RELEASE.Common.linux-x86_64                    &&\
     echo 'PCRE_LIB=/usr/lib/x86_64-linux-gnu' >> configure/RELEASE.Common.linux-x86_64                     &&\
-    sed -i -e '29iPROD_LIBS += autosave'            StreamDevice_2_8_8/streamApp/Makefile                  &&\
-    sed -i -e '29istreamApp_DBD += asSupport.dbd'   StreamDevice_2_8_8/streamApp/Makefile                  &&\
-    sed -i -e '20istreamApp_DBD += system.dbd'      StreamDevice_2_8_8/streamApp/Makefile                  &&\
-    sed -i -e '3iinclude "asSupport.dbd"'           StreamDevice_2_8_8/streamApp/streamAppInclude-3-13.dbd &&\
-    rm StreamDevice_2_8_8/GNUmakefile                                                           &&\
-    sed -i -e '11iDIRS += StreamDevice_2_8_8' Makefile                                          &&\
-    make                                                                                        &&\
+    sed -i -e '29iPROD_LIBS += autosave'            StreamDevice_2_8_9/streamApp/Makefile                  &&\
+    sed -i -e '29istreamApp_DBD += asSupport.dbd'   StreamDevice_2_8_9/streamApp/Makefile                  &&\
+    sed -i -e '20istreamApp_DBD += system.dbd'      StreamDevice_2_8_9/streamApp/Makefile                  &&\
+    sed -i -e '3iinclude "asSupport.dbd"'           StreamDevice_2_8_9/streamApp/streamAppInclude-3-13.dbd &&\
+    rm StreamDevice_2_8_9/GNUmakefile                                                           &&\
+    sed -i -e '11iDIRS += StreamDevice_2_8_9' Makefile                                          &&\
+    make        -j 32                                                                                 &&\
     mkdir protocol && mkdir database && mkdir iocBoot && mkdir interface
+
+# ProcServ
+RUN wget ${CONS_REPO}/EPICS/procServ-2.8.0.tar.gz                   &&\
+    tar -zxvf procServ-2.8.0.tar.gz                                 &&\
+    cd procServ-2.8.0                                               &&\
+    ./configure --enable-access-from-anywhere                       &&\
+    make install                                                    &&\
+    cd ..                                                           &&\
+    rm -rf procServ-2.8.0.tar.gz procServ-2.8.0
 
 CMD tail -f /dev/null

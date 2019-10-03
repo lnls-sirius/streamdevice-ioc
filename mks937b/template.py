@@ -38,6 +38,7 @@ SCAN_RATE=.1 second")''')
 template_pressure = Template('''
 dbLoadRecords("database/mks937b_pressure.db", \
 "PORT=$IP_ASYN_PORT, \
+D=$D, \
 DEVICE=$PREFIX, \
 ADDRESS=$ADDRESS, \
 CHANNEL=$CHANNEL, \

@@ -15,7 +15,7 @@
 # Command @<aaa><Command>!<parameter>;FF
 # Response @<aaa>ACK<Response>;FF
 
-LockTimeout  = 10000;
+LockTimeout  = 150000;
 Terminator   = ';FF';
 ReplyTimeout = 4000; 
 ReadTimeout  = 5000;   

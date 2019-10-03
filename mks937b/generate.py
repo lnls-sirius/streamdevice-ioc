@@ -123,6 +123,7 @@ if __name__ == "__main__":
                 for channel in range(0, 6):
                     res += template_pressure.safe_substitute(
                         IP_ASYN_PORT=IP_ASYN_PORT,
+                        D=PREFIX,
                         PREFIX=GAUGES[channel],
                         ADDRESS=ADDRESS,
                         P_HI=pressures[channel].get('HI'),

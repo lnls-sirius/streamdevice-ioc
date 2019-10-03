@@ -1,23 +1,21 @@
 # Author: Cláudio Ferreira Carneiro
 # LNLS - Brazilian Synchrotron Light Source Laboratory
 
-FROM  lnlscon/epics-r3.15.5:asyn3.35_StreamDevice2.8.8
+FROM  lnlscon/epics-r3.15.6:v1.0
 LABEL maintainer="Claudio Carneiro <claudio.carneiro@lnls.br>"
 
 # Python3
-RUN apt-get -y install swig        &&\
+RUN apt-get update  --fix-missing  &&\
+    apt-get -y install swig        &&\
     apt-get -y install python3     &&\
     apt-get -y install python3-pip &&\
     pip3 install         \
         pandas==0.23.4   \
-        pcaspy==0.7.2    \
-        pyepics==3.3.2   \
         xlrd==1.2.0
 
 # Epics auto addr list
-ENV EPICS_CA_AUTO_ADDR_LIST=YES
-
-ENV TOP=/opt/epics-R3.15.5/modules/StreamDevice-2.8.8
+ENV EPICS_CA_AUTO_ADDR_LIST YES
+ENV TOP ${STREAMDEVICE}
 
 # Base procServ port
 ENV BASE_PROCSERV_PORT=20400
