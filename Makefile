@@ -2,7 +2,7 @@
 
 DOCKER_MANTAINER_NAME=lnlscon
 DOCKER_NAME=streamdevice-ioc
-DOCKER_TAG=v1.4
+DOCKER_TAG=v1.6
 
 clean:
 	find . -name '*.pyc' -exec rm --force {} +
