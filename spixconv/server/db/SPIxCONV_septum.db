@@ -11,7 +11,7 @@ record(longout, "$(PREFIX):Steps"){
 #==================
 # Soft record
 #==================
-record(ao, "$(PREFIX):SoftVoltage-SP"){
+record(ao, "$(PREFIX):Voltage-SP"){
     field(EGU, "Volt")
     field(AOFF, "-10.0")
     field(ASLO, "0.00007629423635191479459684")
@@ -27,7 +27,7 @@ record(ao, "$(PREFIX):SoftVoltage-SP"){
 #==================
 record(calc, "$(PREFIX):Voltage-BAK"){
     field(SCAN, "Passive")
-    field(INPA, "$(PREFIX):Voltage-SP")
+    field(INPA, "$(PREFIX):RawVoltage-SP")
     field(CALC, "A")
     field(FLNK, "$(PREFIX):CheckStep")
 }
@@ -36,8 +36,8 @@ record(calc, "$(PREFIX):Voltage-BAK"){
 #==================
 record(calcout, "$(PREFIX):CheckStep"){
     field(SCAN, "Passive")
-    field(INPA, "$(PREFIX):SoftVoltage-SP")
-    field(INPB, "$(PREFIX):Voltage-SP")
+    field(INPA, "$(PREFIX):Voltage-SP")
+    field(INPB, "$(PREFIX):RawVoltage-SP")
     field(INPC, "200")  # limiar voltage to trigger steps
     field(INPD, "0")    # straight
     field(INPE, "1")    # steps
@@ -85,7 +85,7 @@ record(calcout, "$(PREFIX):CheckCounter"){
 #==================
 record(calcout, "$(PREFIX):NewVoltage-SP"){
     field(SCAN, "Passive")
-    field(INPA, "$(PREFIX):SoftVoltage-SP")
+    field(INPA, "$(PREFIX):Voltage-SP")
     field(INPB, "$(PREFIX):Voltage-BAK")
     field(INPC, "$(PREFIX):CheckCounter")
     field(INPD, "$(PREFIX):Counter")
@@ -102,7 +102,7 @@ record(calcout, "$(PREFIX):NewVoltage-SP"){
 #==================
 record(calcout, "$(PREFIX):StopCriteria"){
     field(SCAN, "Passive")
-    field(INPA, "$(PREFIX):SoftVoltage-SP")
+    field(INPA, "$(PREFIX):Voltage-SP")
     field(INPB, "$(PREFIX):NewVoltage-SP")
     field(INPC, "3")    # implement output && increment counter && CONTINUE
     field(INPD, "5")    # implement output && clear counter && END
@@ -120,7 +120,7 @@ record(seq, "$(PREFIX):SelectOutput"){
     field(DOL1, "$(PREFIX):NewVoltage-SP")
     #field(DOL2, "")
     field(DOL3, "0")
-    field(LNK1, "$(PREFIX):Voltage-SP")
+    field(LNK1, "$(PREFIX):RawVoltage-SP")
     #field(LNK2, "")
     field(LNK3, "$(PREFIX):Counter")
     field(DLY1, "0")
@@ -133,7 +133,7 @@ record(seq, "$(PREFIX):SelectOutput"){
 #==================
 record(fanout, "$(PREFIX):Fanout"){
     field(SCAN, "Passive")
-    field(LNK1, "$(PREFIX):Voltage-SP")
+    field(LNK1, "$(PREFIX):RawVoltage-SP")
     field(LNK2, "$(PREFIX):Delay")
     field(SELM, "Mask")
     field(SELL, "$(PREFIX):StopCriteria")
@@ -150,11 +150,10 @@ record(calcout, "$(PREFIX):Delay"){
     field(FLNK, "$(PREFIX):Counter")
 }
 
-
 #==============================================================================
 #   ANALOG OUT
 #==============================================================================
-record(ao, "$(PREFIX):Voltage-SP") {
+record(ao, "$(PREFIX):RawVoltage-SP") {
     field(DESC, "analog out parameter")
     field(DTYP, "stream")
     field(EGU, "Volt")
