@@ -9,6 +9,13 @@ record(longout, "$(PREFIX):Steps"){
     field(VAL, "4")
 }
 #==================
+# Voltage Trigger
+#==================
+record(longout, "$(PREFIX):VoltageTrigger"){
+    field(SCAN, "Passive")
+    field(VAL, "$(STEP_TRIGGER)")
+}
+#==================
 # Soft record
 #==================
 record(ao, "$(PREFIX):Voltage-SP"){
@@ -38,7 +45,7 @@ record(calcout, "$(PREFIX):CheckStep"){
     field(SCAN, "Passive")
     field(INPA, "$(PREFIX):Voltage-SP")
     field(INPB, "$(PREFIX):RawVoltage-SP")
-    field(INPC, "200")  # limiar voltage to trigger steps
+    field(INPC, "$(PREFIX):VoltageTrigger")  # limiar voltage to trigger steps
     field(INPD, "0")    # straight
     field(INPE, "1")    # steps
     field(CALC, "((A - B) > C) ? E : D")
@@ -147,6 +154,7 @@ record(calcout, "$(PREFIX):Delay"){
     field(OOPT, "Every Time")
     # !!! DELAY BETWEEN STEPS !!!
     field(ODLY, "1")
+	field(ODLY, "$(STEP_DELAY)")
     field(FLNK, "$(PREFIX):Counter")
 }
 
