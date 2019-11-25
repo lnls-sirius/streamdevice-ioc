@@ -18,13 +18,15 @@ class SPIxCONV():
         self.device = row['Dev']
         self.address = row['Address']
         self.description = row['Description']
-        self.voltage_factor = row['Voltage Factor']
+        self.voltage_factor = row['Voltage Factor [V]']
         self.scan_rate = row['Scan Rate']
-        self.database = row['Database']
+        self.database = row['Database (soft IOC)']
         self.file_name = self.ip + '.cmd'
+        self.step_trigger = row['Steps trigger [V]']
+        self.step_delay = row['Steps delay [s]']
 
     def __str__(self):
-        return '<SPIxCONV %s %s %s %s %s %s %s.db>' % (self.ip, self.device, self.description, self.voltage_factor, self.file_name, self.scan_rate, self.database)
+        return '<SPIxCONV %s %s %s %s %s %s %s.db>' % (self.ip, self.device, self.description, self.voltage_factor, self.file_name, self.scan_rate, self.database, self.step_trigger, self.step_delay)
 
 boards = []
 for _ip, rows in DATA_SPIXCONV.items():

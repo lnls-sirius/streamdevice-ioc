@@ -60,6 +60,8 @@ if __name__ == "__main__":
                 VOLTAGE_FACTOR=board.voltage_factor,
                 DESCRIPTION=board.description,
                 ADDRESS=board.address
+                DELAY=board.step_delay
+                TRIGGER=board.step_trigger
         )
         res += template_bot.safe_substitute(PREFIX=board.device)
 
