@@ -235,8 +235,8 @@ record(bi, "$(PREFIX):RawCtrlMode-Mon"){
     field(SCAN, "$(SCAN_RATE)")
     field(DTYP, "stream")
     field(PINI, "YES")                         # Process at Initialization
-    field(ZNAM, "Remote")                      # One Name
-    field(ONAM, "Local")                       # Zero Name
+    field(ZNAM, "Local")                       # Zero Name
+    field(ONAM, "Remote")                      # One Name
     field(FLNK, "$(PREFIX):CalcCtrlMode-Mon")
 }
 #-------------------
@@ -257,8 +257,8 @@ record(bi, "$(PREFIX):CtrlMode-Mon"){
     field(DESC, "Control mode")
     field(INP, "$(PREFIX):CalcCtrlMode-Mon")
     field(SCAN, "Passive")
-    field(ZNAM, "Local")                        # One Name
-    field(ONAM, "Remote")                       # Zero Name
+    field(ZNAM, "Remote")                       # Zero Name
+    field(ONAM, "Local")                        # One Name
 }
 #-------------------
 # control mode label
