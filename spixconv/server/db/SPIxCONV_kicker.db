@@ -244,7 +244,8 @@ record(bi, "$(PREFIX):RawCtrlMode-Mon"){
 #-------------------
 record(calcout, "$(PREFIX):CalcCtrlMode-Mon") {
     field(DESC, "Control mode inverter")
-    field(SCAN, "$(SCAN_RATE)")                 # Scanning Rate
+#    field(SCAN, "$(SCAN_RATE)")                 # Scanning Rate
+    field(SCAN, "Passive")                 # Scanning Rate
     field(INPA, "$(PREFIX):RawCtrlMode-Mon")
     field(CALC, "A XOR 1")
     field(OOPT, "Every Time")
