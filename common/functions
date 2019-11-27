@@ -1,15 +1,12 @@
 #!/bin/bash
-clear_stream_ioc(){
-    echo clear stream ioc $1
-    # Clear stram-ioc folder
-    pushd ${TOP}/iocBoot
-        for filename in *.cmd; do
-            if [[ ${filename} =~ $1(.*).cmd ]]; then
-                rm ${filename}
-                echo Removed old content: ${filename}
-            fi
-        done
-    popd
+run(){
+  # Check if it will run using a tcp<->unix socket bridge
+  if [[ -z "${SOCKET_BRIDGE}" ]]; then
+    run_ioc ${1};
+  else
+    run_ioc_unix_bridge ${1};
+  fi
+  tail -f /dev/null
 }
 
 run_ioc_unix_bridge(){
@@ -67,41 +64,4 @@ run_ioc(){
         fi
     done
     export BASE_PROCSERV_PORT=${procServPort}
-}
-
-copy_to_stream_device(){
-    # Params:
-    # :1 : CMD_KEY
-    # Clear stream-ioc folder
-    echo "Copy Stream Device"
-    clear_stream_ioc $1
-
-    PROTOCOL="protocol"
-    IOC_BOOT="iocBoot"
-    DB="database"
-
-    chmod -R 777 server/cmd/
-
-    cp -R server/db/.       ${TOP}/${DB}/
-    cp -R server/protocol/. ${TOP}/${PROTOCOL}/
-    cp -R server/cmd/.      ${TOP}/${IOC_BOOT}/
-    cp server/autosave/*    ${TOP}/autosave
-}
-
-build(){
-    # Params:
-    # :1 : Folder
-    # :2 : CMD_KEY
-    # :3 : Base Epics CA Port
-
-    # Clear the /cmd folder
-    mkdir -p ${1}/server/cmd
-    rm       ${1}/server/cmd/*
-    cp dbd/* ${TOP}/dbd
-    pushd $1
-        set -x
-        ./generate.py --epics-base ${EPICS_BASE} --asyn ${ASYN} --cmd-prefix ${2} --top ${TOP} ${EPICS_CA_PORT_INCREASE} ${BASE_EPICS_CA_PORT} 
-        copy_to_stream_device ${2} $TOP
-        set +x
-    popd
 }

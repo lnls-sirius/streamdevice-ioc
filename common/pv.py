@@ -2,7 +2,7 @@
 import sys
 from os import path
 sys.path.append(path.join(path.dirname(path.abspath(__file__)),'../'))
-from streamdeviceioc.common import DATA_MBTEMP, DATA_4UHV, DATA_MKS, DATA_COUNTING_PRU
+from common import DATA_MBTEMP, DATA_4UHV, DATA_MKS, DATA_COUNTING_PRU
 
 agilent4uhv = {
     'device': [

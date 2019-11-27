@@ -3,7 +3,7 @@ import pandas
 import logging
 
 from string import Template
-from streamdeviceioc.common import SPREADSHEET
+from common.consts import SPREADSHEET
 
 logger = logging.getLogger()
 
@@ -16,9 +16,9 @@ class DbData():
         :param aditional_check: a function that receives row and sheet_name and returns True or False depending on the check result.
         """
         self.data = {}
-        sheet = pandas.read_excel(SPREADSHEET, sheet_name=sheet_name, dtype=str)
-        sheet = sheet.replace('nan', '')
-        for index, row in sheet.iterrows():
+        self.sheet = pandas.read_excel(SPREADSHEET, sheet_name=sheet_name, dtype=str)
+        self.sheet = self.sheet.replace('nan', '')
+        for index, row in self.sheet.iterrows():
             if row[ip] == '':
                 continue
 
