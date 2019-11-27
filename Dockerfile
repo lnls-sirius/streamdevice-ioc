@@ -1,26 +1,23 @@
 # Author: Cláudio Ferreira Carneiro
 # LNLS - Brazilian Synchrotron Light Source Laboratory
 
-FROM  lnlscon/epics-r3.15.6:v1.0
+FROM  lnlscon/epics-r3.15.6:v1.2
 LABEL maintainer="Claudio Carneiro <claudio.carneiro@lnls.br>"
 
 # Python3
-RUN apt-get update  --fix-missing  &&\
-    apt-get -y install swig        &&\
-    apt-get -y install python3     &&\
-    apt-get -y install python3-pip &&\
-    pip3 install         \
-        pandas==0.23.4   \
-        xlrd==1.2.0
+RUN pip3 install pandas==0.23.4 xlrd==1.2.0
 
 # Epics auto addr list
 ENV EPICS_CA_AUTO_ADDR_LIST YES
 ENV TOP ${STREAMDEVICE}
 
 # Base procServ port
-ENV BASE_PROCSERV_PORT=20400
+ENV BASE_PROCSERV_PORT 20400
+ENV EPICS_IOC_LOG_INET 0.0.0.0
+ENV EPICS_IOC_LOG_PORT 7011
 
-RUN mkdir -p /opt/streamdevice-ioc/log
+RUN mkdir -p /opt/streamdevice-ioc/log && \
+    mkdir -p /opt/streamdevice-ioc/streamdevice-ioc-history && rm -rf ${STREAMDEVICE}/iocBoot/*
 
 WORKDIR /opt/streamdevice-ioc
 
@@ -28,7 +25,6 @@ COPY logrotate.conf     /etc/logrotate.conf
 RUN  chmod 644          /etc/logrotate.conf
 
 COPY common             common
-COPY scripts            scripts
 COPY spreadsheet        spreadsheet
 
 COPY agilent4uhv        agilent4uhv
@@ -37,6 +33,10 @@ COPY mbtemp             mbtemp
 COPY mks937b            mks937b
 COPY spixconv           spixconv
 COPY dbd                dbd
+COPY bin                bin
+COPY dbd/stream.dbd     ${STREAMDEVICE}/dbd/stream.dbd
+COPY dbd/streamApp.dbd  ${STREAMDEVICE}/dbd/streamApp.dbd
+COPY Security.as        ${STREAMDEVICE}/log/Security.as
 
 # Run stuff
-CMD ./scripts/run.sh ${DEVICE_FOLDER} ${DEVICE_PREFIX}
+CMD tail -f /dev/null

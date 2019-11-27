@@ -1,0 +1,61 @@
+version: '3.7'
+services:
+    epics:
+        image: lnlscon/epics-r3.15.6:v1.2
+        build: 
+            dockerfile: 'Dockerfile.EPICS'
+            context: .
+            labels:
+                - "br.com.lnls-sirius.description=EPICS 3.15.6 + Modules and Python 3.7.5"
+                - "br.com.lnls-sirius.department=CONS"
+                - "br.com.lnls-sirius.maintener=Claudio Ferreira Carneiro"
+    agilent4uhv:
+        image: lnlscon/streamdevice-ioc:Agilent4UHV-v1.0
+        build:
+            dockerfile: 'Dockerfile'
+            context: .
+            labels:
+                - "br.com.lnls-sirius.description=StreamDevice IOC"
+                - "br.com.lnls-sirius.department=CONS"
+                - "br.com.lnls-sirius.maintener=Claudio Ferreira Carneiro"
+        environment:
+            - "EPICS_IOC_LOG_INET=10.128.255.5"
+            - "EPICS_IOC_LOG_PORT=7011"
+        command: /bin/bash ./bin/agilent.sh
+
+    countingPRU:
+        image: lnlscon/streamdevice-ioc:CountingPRU-v1.0
+        build:
+            dockerfile: 'Dockerfile'
+            context: .
+            labels:
+                - "br.com.lnls-sirius.description=StreamDevice IOC"
+                - "br.com.lnls-sirius.department=CONS"
+                - "br.com.lnls-sirius.maintener=Claudio Ferreira Carneiro"
+    mbtemp:
+        image: lnlscon/streamdevice-ioc:MBTemp-v1.0
+        build:
+            dockerfile: 'Dockerfile'
+            context: .
+            labels:
+                - "br.com.lnls-sirius.description=StreamDevice IOC"
+                - "br.com.lnls-sirius.department=CONS"
+                - "br.com.lnls-sirius.maintener=Claudio Ferreira Carneiro"
+    mks987b:
+        image: lnlscon/streamdevice-ioc:MKS937b-v1.0
+        build:
+            dockerfile: 'Dockerfile'
+            context: .
+            labels:
+                - "br.com.lnls-sirius.description=StreamDevice IOC"
+                - "br.com.lnls-sirius.department=CONS"
+                - "br.com.lnls-sirius.maintener=Claudio Ferreira Carneiro"
+    spixconv:
+        image: lnlscon/streamdevice-ioc:SPIxCONV-v1.0
+        build:
+            dockerfile: 'Dockerfile'
+            context: .
+            labels:
+                - "br.com.lnls-sirius.description=StreamDevice IOC"
+                - "br.com.lnls-sirius.department=CONS"
+                - "br.com.lnls-sirius.maintener=Claudio Ferreira Carneiro"

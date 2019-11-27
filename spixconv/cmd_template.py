@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 from string import Template
 
 top = Template('''#!../bin/linux-x86_64/streamApp

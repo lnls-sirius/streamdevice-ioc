@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 source common/functions
 
 echo Folder ${1}\; Prefix ${2}\; BASE PORT ${3};

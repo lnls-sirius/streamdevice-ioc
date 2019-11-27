@@ -1,21 +1,19 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import sys
-import time
-import logging
 import argparse
+import logging
+import sys
+from os import path, makedirs
 
-from os import environ, path, makedirs
-from string import Template
 sys.path.append(path.join(path.dirname(path.abspath(__file__)),'../'))
 
-from mks937b.template import template_device, template_bot,\
+from streamdeviceioc.mks937b.template import template_device, template_bot,\
                         template_top, template_pressure, template_cc,\
                         template_relay
 
-from mks937b.devices import sectors  as sectors, CC, PR
-from mks937b.proto_template import mks937b_pressures_proto
-from mks937b.db_template import relay as db_relay
+from streamdeviceioc.mks937b.devices import sectors  as sectors, CC
+from streamdeviceioc.mks937b.proto_template import mks937b_pressures_proto
+from streamdeviceioc.mks937b.db_template import relay as db_relay
 
 logger = logging.getLogger()
 if __name__ == "__main__":

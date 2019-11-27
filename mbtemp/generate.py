@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # # -*- coding: utf-8 -*-
 
 """
@@ -6,17 +6,15 @@
     The user sould pass as parameter the destination file the will be generated.
 """
 import sys
-import time
 import argparse
 import logging
 
-from os import environ, path, makedirs
+from os import path, makedirs
 
-from string import Template
 sys.path.append(path.join(path.dirname(path.abspath(__file__)),'../'))
 
-from mbtemp.template import mbt_template, mbt_template_bot, mbt_template_top
-from mbtemp.devices import boards
+from streamdeviceioc.mbtemp.template import mbt_template, mbt_template_bot, mbt_template_top
+from streamdeviceioc.mbtemp.devices import boards
 
 logger = logging.getLogger()
 if __name__ == "__main__":

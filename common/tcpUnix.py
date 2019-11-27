@@ -1,16 +1,15 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 import argparse
 import logging
-import socket
-import struct
 import os
+import socket
 import time
-import threading
-
 from concurrent.futures import ThreadPoolExecutor
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s.%(msecs)03d [%(levelname)s] %(message)s', datefmt='%Y-%m-%d,%H:%M:%S')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s.%(msecs)03d [%(levelname)s] %(message)s',
+                    datefmt='%Y-%m-%d,%H:%M:%S')
 logger = logging.getLogger()
+
 
 class TcpUnixBind():
 
@@ -29,7 +28,7 @@ class TcpUnixBind():
         self.connected_to_server = False
 
     def __str__(self):
-        return 'TcpUnixBind UNIX Socket {} TCP Socket {} reconnect interval {} General zero-bytes {} buffer {}'\
+        return 'TcpUnixBind UNIX Socket {} TCP Socket {} reconnect interval {} General zero-bytes {} buffer {}' \
             .format(self.socket_path, self.address, self.reconnect_interval, self.zero_bytes, self.socket_buffer)
 
     def start(self):
@@ -63,14 +62,20 @@ class TcpUnixBind():
                                     # Create a TCP/IP socket
                                     tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                                     tcp_socket.settimeout(2.)
-                                    logger.info('Trying to connect the unix socket {} to the tcp server {}'.format(self.socket_path, server_address))
+                                    logger.info('Trying to connect the unix socket {} to the tcp server {}'.format(
+                                        self.socket_path, server_address))
                                     tcp_socket.connect(server_address)
                                     self.connected_to_server = True
-                                    logger.info('Connected the unix socket {} to the tcp server {}'.format(self.socket_path, server_address))
+                                    logger.info(
+                                        'Connected the unix socket {} to the tcp server {}'.format(self.socket_path,
+                                                                                                   server_address))
                                 except:
                                     # except ConnectionRefusedError
                                     self.connected_to_server = False
-                                    logger.error('Conn refused {} {} {}. Retry in {} seconds.'.format(self.socket_path, server_address, self.connected_to_server, self.reconnect_interval))
+                                    logger.error('Conn refused {} {} {}. Retry in {} seconds.'.format(self.socket_path,
+                                                                                                      server_address,
+                                                                                                      self.connected_to_server,
+                                                                                                      self.reconnect_interval))
                                     time.sleep(self.reconnect_interval)
                                     continue
 
@@ -92,7 +97,6 @@ class TcpUnixBind():
                     logger.exception('The connection with the unix socket {} has been closed.'.format(self.socket_path))
 
 
-
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
@@ -102,11 +106,17 @@ if __name__ == '__main__':
         "one must send an encoded string matching --reconnect-interval \n" +
         "so that the TCP client doesn't block indefinitely.\n\n")
 
-    parser.add_argument("--socket-buffer", "-sb", default=1024, type=int, help='Socket recv buffer.', dest="socket_buffer")
-    parser.add_argument("--socket-path-list", "-sp-list", nargs='+', default='/var/tmp/sock_test.s', help='Unix socket path list.', dest="socket_path_list")
-    parser.add_argument("--address-list", "-addr-list", nargs='+', default='0.0.0.0', help='List of TCP Server address:port.', dest="address_list")
-    parser.add_argument("--zero-bytes","-zb", default='ZB', help='What to return when a zero lengh response is returned from the serial port. Default \'ZB\'.encode(\'utf-8\')', dest="zero_bytes")
-    parser.add_argument("--reconnect-interval", default=5, type=int, help='TCP Server reconnect interval.', dest="reconnect_interval")
+    parser.add_argument("--socket-buffer", "-sb", default=1024, type=int, help='Socket recv buffer.',
+                        dest="socket_buffer")
+    parser.add_argument("--socket-path-list", "-sp-list", nargs='+', default='/var/tmp/sock_test.s',
+                        help='Unix socket path list.', dest="socket_path_list")
+    parser.add_argument("--address-list", "-addr-list", nargs='+', default='0.0.0.0',
+                        help='List of TCP Server address:port.', dest="address_list")
+    parser.add_argument("--zero-bytes", "-zb", default='ZB',
+                        help='What to return when a zero lengh response is returned from the serial port. Default \'ZB\'.encode(\'utf-8\')',
+                        dest="zero_bytes")
+    parser.add_argument("--reconnect-interval", default=5, type=int, help='TCP Server reconnect interval.',
+                        dest="reconnect_interval")
     args = parser.parse_args()
 
     if type(args.address_list) != list:
@@ -116,7 +126,8 @@ if __name__ == '__main__':
         args.socket_path_list = [args.socket_path_list]
 
     if len(args.socket_path_list) != len(args.address_list):
-        logger.warning('Parameter --socket-path-list doesn\'t have the same a mount of entries as --address-list. UNIX sockets will be created under /var/tmp/(address).')
+        logger.warning(
+            'Parameter --socket-path-list doesn\'t have the same a mount of entries as --address-list. UNIX sockets will be created under /var/tmp/(address).')
 
         if len(args.address_list) > len(args.socket_path_list):
             for i in range(len(args.address_list)):

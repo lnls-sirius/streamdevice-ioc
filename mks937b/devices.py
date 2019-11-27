@@ -1,10 +1,8 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import pandas
-import os
 import logging
 
-from common import DATA_MKS
+from streamdeviceioc.mks937b.consts import DATA_MKS
 
 logger = logging.getLogger()
 CC = 'CC'

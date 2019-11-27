@@ -1,0 +1,1 @@
+SPREADSHEET_FILE = '../spreadsheet/Redes e Beaglebones.xlsx'
