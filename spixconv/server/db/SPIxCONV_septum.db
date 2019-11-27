@@ -245,10 +245,12 @@ record(bi, "$(PREFIX):RawCtrlMode-Mon"){
 #-------------------
 record(calcout, "$(PREFIX):CalcCtrlMode-Mon") {
     field(DESC, "Control mode inverter")
-    field(SCAN, "$(SCAN_RATE)")                 # Scanning Rate
+    field(SCAN, "Passive")                 # Scanning Rate
     field(INPA, "$(PREFIX):RawCtrlMode-Mon")
     field(CALC, "A XOR 1")
+    field(DOPT, "Use CALC")
     field(OOPT, "Every Time")
+    field(OUT, "$(PREFIX):CtrlMode-Mon")
     field(FLNK, "$(PREFIX):CtrlMode-Mon")
 }
 #-------------------
@@ -257,6 +259,7 @@ record(calcout, "$(PREFIX):CalcCtrlMode-Mon") {
 record(bi, "$(PREFIX):CtrlMode-Mon"){
     field(DESC, "Control mode")
     field(INP, "$(PREFIX):CalcCtrlMode-Mon")
+    field(DTYP, "Raw Soft Channel")
     field(SCAN, "Passive")
     field(ZNAM, "Remote")                       # Zero Name
     field(ONAM, "Local")                        # One Name
