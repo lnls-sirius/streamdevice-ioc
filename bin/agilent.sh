@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
+set -e
 
 source common/functions
 
-echo Folder ${1}\; Prefix ${2}\; BASE PORT ${3};
+export BASE_PROCSERV_PORT=20400
+export SOCKET_BRIDGE=1
+PREFIX=UHV-
 
-build ${1} ${2} ${3};
+./agilent4uhv/generate.py --epics-base ${EPICS_BASE} --asyn ${ASYN} --cmd-prefix ${PREFIX} \
+    --epics-log-addr ${EPICS_IOC_LOG_INET} --epics-log-port ${EPICS_IOC_LOG_PORT} \
+    --top ${TOP} ${EPICS_CA_PORT_INCREASE} ${BASE_EPICS_CA_PORT}
 
-# Check if it will run using a tcp<->unix socket bridge
-if [[ -z "${SOCKET_BRIDGE}" ]]; then
-  run_ioc ${2};
-else
-  run_ioc_unix_bridge ${2};
-fi
-
-tail -f /dev/null
+run  ${PREFIX}
