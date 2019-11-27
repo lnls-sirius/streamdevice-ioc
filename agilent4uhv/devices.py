@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import logging
+from agilent4uhv.consts import DATA_4UHV
 
-from streamdeviceioc.agilent4uhv.consts import DATA_4UHV
 logger = logging.getLogger()
-
 
 def get_serial_addess(addr):
     return 128 + int(addr)

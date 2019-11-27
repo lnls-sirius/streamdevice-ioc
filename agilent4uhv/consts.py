@@ -1,8 +1,11 @@
 import logging
 
-from streamdeviceioc.common import DbData
+from common.utils import dump_to_history
+from common.db import DbData
 
 logger = logging.getLogger()
 
 SHEET_4UHV = 'PVs Agilent 4UHV'
-DATA_4UHV = DbData(SHEET_4UHV).data
+_4UHV = DbData(SHEET_4UHV)
+DATA_4UHV = _4UHV.data
+dump_to_history(_4UHV.sheet, 'agilent-4uhv.csv')
