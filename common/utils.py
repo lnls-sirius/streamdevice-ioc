@@ -20,8 +20,11 @@ def dump_to_history(df: pandas.DataFrame, f_name):
     logger.info('Git add_remote {}'.format(out))
     git_add = subprocess.check_output("cd {}; git add .".format(HISTORY_DIR), shell=True)
     logger.info('Git add {}'.format(git_add))
-    out = subprocess.check_output("cd {}; git commit -m 'Changes at {}'".format(HISTORY_DIR, f_name), shell=True)
-    logger.info('Git commit {}'.format(out))
+    try:
+        out = subprocess.check_output("cd {}; git commit -m 'Changes at {}'".format(HISTORY_DIR, f_name), shell=True)
+        logger.info('Git commit {}'.format(out))
+    except subprocess.CalledProcessError as grepexc:
+        logger.warning("Git commit failed with code {}. Output {}.".format(grepexc.returncode, grepexc.output))
 
 
 def copytree(src, dst, symlinks=False, ignore=None):
