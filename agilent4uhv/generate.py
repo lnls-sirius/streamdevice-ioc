@@ -20,9 +20,9 @@ def generate(args):
         'CD': '${TOP}', 'TOP': args.top, 'ASYN': args.asyn, 'ARCH': args.arch, 'EPICS_BASE': args.epics_base,
         'STREAM_PROTOCOL_PATH': '$(TOP)/protocol', 'LOG_ADDR': args.epics_log_addr, 'LOG_PORT': args.epics_log_port}
 
-    EPICS_CA_PORT_INCRESE = args.epics_ca_port_increase
-    EPICS_CA_SERVER_PORT = args.base_epics_ca_port
-    CMD_KEY = args.cmd_prefix
+    epics_ca_port_increase = args.epics_ca_port_increase
+    epics_ca_server_port = args.base_epics_ca_port
+    cmd_key = args.cmd_prefix
 
     dir_name = os.path.dirname(os.path.abspath(__file__))
     for sector in sectors:
@@ -34,7 +34,7 @@ def generate(args):
         devices_num = 0
 
         res += template_top.safe_substitute(defaults, IP_ADDR=IP_ADDR, IP_ASYN_PORT=IP_ASYN_PORT,
-                                            EPICS_CA_SERVER_PORT=EPICS_CA_SERVER_PORT)
+                                            EPICS_CA_SERVER_PORT=epics_ca_server_port)
 
         for i in range(4):
             if devices[i] is None:
@@ -82,14 +82,14 @@ def generate(args):
                 res += template_channel.safe_substitute(IP_ASYN_PORT=IP_ASYN_PORT, PREFIX=channels[i],
                                                         P_HIGH=p_high[i], P_HIHI=p_hihi[i],
                                                         SERIAL_ADDRESS=SERIAL_ADDRESS, CHANNEL_NUMBER=i + 1)
-        if EPICS_CA_PORT_INCRESE:
-            EPICS_CA_SERVER_PORT += 2
+        if epics_ca_port_increase:
+            epics_ca_server_port += 2
         res += template_bot.safe_substitute(defaults)
 
         if not os.path.exists(os.path.join(dir_name, 'server/cmd/')):
             os.makedirs(os.path.join(dir_name, 'server/cmd/'))
 
-        cmd_path = os.path.join(dir_name, 'server/cmd/' + CMD_KEY + sector['f_name'] + '.cmd')
+        cmd_path = os.path.join(dir_name, 'server/cmd/' + cmd_key + sector['f_name'] + '.cmd')
         with open(cmd_path, 'w+') as file:
             file.write(res)
 
