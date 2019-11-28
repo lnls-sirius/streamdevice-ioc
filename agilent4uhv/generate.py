@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-import argparse
-import sys
 import os
 import logging
-
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../'))
 
 from agilent4uhv.cmd_template import template_bot, template_channel, template_device, template_sync, template_top
 from agilent4uhv.devices import sectors
@@ -16,24 +11,11 @@ from common.utils import deploy_files
 logger = logging.getLogger()
 
 if __name__ == "__main__":
+    logger.info('Use the script at common/generate.py instead !')
 
-    parser = argparse.ArgumentParser(description='Generate Agilent 4UHV IOC files.',
-                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--epics-ca-port-increase', help='Increase EPICS_CA_SERVER_PORT by 2 for each deployed IOC.',
-                        action='store_true')
-    parser.add_argument('--base-epics-ca-port',
-                        help='Initial EPICS CA server port. It will increase by 2 for every ioc.', type=int,
-                        default=5064)
-    parser.add_argument('--cmd-prefix', default='UHV', help='Prefix for the .cmd files.')
-    parser.add_argument('--epics-base', default='/opt/epics-R3.15.5/base', help='Epics base path.')
-    parser.add_argument('--asyn', default='/opt/epics-R3.15.5/modules/asyn4-33', help='Asyn driver path.')
-    parser.add_argument('--top', default='/opt/stream-ioc', help='Stream-ioc path.')
-    parser.add_argument('--arch', help='System architecture.', choices=['linux-x86_64', 'linux-arm'],
-                        default='linux-x86_64')
-    parser.add_argument('--epics-log-addr', default='0.0.0.0', help='EPICS Log remote address.')
-    parser.add_argument('--epics-log-port', default='7011', help='EPICS Log remote port.')
-    args = parser.parse_args()
 
+def generate(args):
+    logger.info('Generating Agilent 4UHV.')
     defaults = {
         'CD': '${TOP}', 'TOP': args.top, 'ASYN': args.asyn, 'ARCH': args.arch, 'EPICS_BASE': args.epics_base,
         'STREAM_PROTOCOL_PATH': '$(TOP)/protocol', 'LOG_ADDR': args.epics_log_addr, 'LOG_PORT': args.epics_log_port}
@@ -45,7 +27,6 @@ if __name__ == "__main__":
     dir_name = os.path.dirname(os.path.abspath(__file__))
     for sector in sectors:
         res = ''
-        count = 0
 
         devices = sector['devices']
         IP_ASYN_PORT = sector['IP_ASYN_PORT']
