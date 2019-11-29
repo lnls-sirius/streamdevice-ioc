@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from streamdeviceioc.countingPRU.consts import DATA_COUNTING_PRU
+from countingPRU.consts import DATA_COUNTING_PRU
 
 logger = logging.getLogger()
 
 
-class CountingPRU():
+class CountingPRU:
     """
     Counting PRU model
     """

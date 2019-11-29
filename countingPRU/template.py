@@ -13,11 +13,15 @@ epicsEnvSet("ARCH", "${ARCH}")
 epicsEnvSet("STREAM_PROTOCOL_PATH", "${STREAM_PROTOCOL_PATH}")
 epicsEnvSet("EPICS_CA_SERVER_PORT", "${EPICS_CA_SERVER_PORT}")
 
+epicsEnvSet("EPICS_IOC_LOG_INET", "${LOG_ADDR}")
+epicsEnvSet("EPICS_IOC_LOG_PORT", "${LOG_PORT}")
+
 # Database definition file
 
 cd $CD
 dbLoadDatabase("dbd/streamApp.dbd")
 streamApp_registerRecordDeviceDriver(pdbbase)
+asSetFilename("${TOP}/log/Security.as")
 
 # Port for the device
 drvAsynIPPortConfigure("${IP_ASYN_PORT}", "${IP}:5000")
@@ -40,9 +44,11 @@ dbLoadRecords("database/CountingPRU-Channel.db", "CHANNEL = 8, DESCRIPTION=${CH8
 
 ''')
 
-template_bot = ('''
+template_bot = Template('''
 # Effectively initializes the IOC
 
 cd iocBoot
 iocInit
+
+caPutLogInit "${LOG_ADDR}:${LOG_PORT}" 2
 ''')
