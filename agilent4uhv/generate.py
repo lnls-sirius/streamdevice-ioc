@@ -29,11 +29,11 @@ def generate(args):
         res = ''
 
         devices = sector['devices']
-        IP_ASYN_PORT = sector['IP_ASYN_PORT']
-        IP_ADDR = sector['IP_ADDR']
+        ip_asyn_port = sector['IP_ASYN_PORT']
+        ip_addr = sector['IP_ADDR']
         devices_num = 0
 
-        res += template_top.safe_substitute(defaults, IP_ADDR=IP_ADDR, IP_ASYN_PORT=IP_ASYN_PORT,
+        res += template_top.safe_substitute(defaults, IP_ADDR=ip_addr, IP_ASYN_PORT=ip_asyn_port,
                                             EPICS_CA_SERVER_PORT=epics_ca_server_port)
 
         for i in range(4):
@@ -54,8 +54,8 @@ def generate(args):
             if device['PREFIX'].startswith('None'):
                 continue
 
-            PREFIX = device['PREFIX']
-            SERIAL_ADDRESS = device['ADDRESS']
+            prefix = device['PREFIX']
+            serial_address = device['ADDRESS']
 
             channels = device['channels']
             p_high = device['high']
@@ -66,9 +66,9 @@ def generate(args):
                     channels[i] = 'None:{}'.format(i)
 
             res += template_device.safe_substitute(
-                IP_ASYN_PORT=IP_ASYN_PORT,
-                PREFIX=PREFIX,
-                SERIAL_ADDRESS=SERIAL_ADDRESS,
+                IP_ASYN_PORT=ip_asyn_port,
+                PREFIX=prefix,
+                SERIAL_ADDRESS=serial_address,
                 PREFIX_CH1=channels[0],
                 PREFIX_CH2=channels[1],
                 PREFIX_CH3=channels[2],
@@ -79,9 +79,9 @@ def generate(args):
                 if channels[i].startswith('None'):
                     continue
 
-                res += template_channel.safe_substitute(IP_ASYN_PORT=IP_ASYN_PORT, PREFIX=channels[i],
+                res += template_channel.safe_substitute(IP_ASYN_PORT=ip_asyn_port, PREFIX=channels[i],
                                                         P_HIGH=p_high[i], P_HIHI=p_hihi[i],
-                                                        SERIAL_ADDRESS=SERIAL_ADDRESS, CHANNEL_NUMBER=i + 1)
+                                                        SERIAL_ADDRESS=serial_address, CHANNEL_NUMBER=i + 1)
         if epics_ca_port_increase:
             epics_ca_server_port += 2
         res += template_bot.safe_substitute(defaults)
