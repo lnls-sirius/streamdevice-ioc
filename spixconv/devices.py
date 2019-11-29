@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from streamdeviceioc.spixconv.consts import DATA_SPIXCONV
+from spixconv.consts import DATA_SPIXCONV
 
 logger = logging.getLogger()
 
@@ -21,7 +21,7 @@ class SPIxCONV():
         self.device = row['Dev']
         self.address = row['Address']
         self.description = row['Description']
-        self.voltage_factor = row['Voltage Factor']
+        self.voltage_factor = row['Voltage Factor [V]']
         self.scan_rate = row['Scan Rate']
         self.database = row['Database']
         self.file_name = self.ip + '.cmd'

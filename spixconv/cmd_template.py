@@ -16,6 +16,10 @@ epicsEnvSet("ARCH", "${ARCH}")
 epicsEnvSet("STREAM_PROTOCOL_PATH", "${STREAM_PROTOCOL_PATH}")
 epicsEnvSet("EPICS_CA_SERVER_PORT", "${EPICS_CA_SERVER_PORT}")
 
+epicsEnvSet("EPICS_IOC_LOG_INET", "${LOG_ADDR}")
+epicsEnvSet("EPICS_IOC_LOG_PORT", "${LOG_PORT}")
+asSetFilename("${TOP}/log/Security.as")
+
 # Database definition file
 cd ${CD}
 dbLoadDatabase("dbd/streamApp.dbd")
@@ -48,13 +52,14 @@ dbLoadRecords("database/${DATABASE}.db", "PREFIX=${PREFIX}, SCAN_RATE=${SCAN_RAT
 dbLoadRecords("database/SPIxCONV_Config.db", "P=${PREFIX}")
 ''')
 
-bot =  Template('''
+bot = Template('''
 set_pass0_restoreFile("$(TOP)/autosave/save/${PREFIX}.sav")
 set_pass1_restoreFile("$(TOP)/autosave/save/${PREFIX}.sav")
 
 # Effectively initializes the IOC
 cd iocBoot
 iocInit
+caPutLogInit "${LOG_ADDR}:${LOG_PORT}" 2
 
 cd ..
 create_monitor_set("$(TOP)/autosave/spixconv.req", 10, "P=${PREFIX}, SAVENAMEPV=${PREFIX}:SaveName")
