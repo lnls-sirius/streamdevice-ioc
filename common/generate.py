@@ -41,10 +41,14 @@ if __name__ == "__main__":
         from agilent4uhv.generate import generate
         generate(args)
     elif args.device == MKS:
-        pass
+        from mks937b.generate import generate
+        generate(args)
     elif args.device == PRU:
-        pass
+        from countingPRU.generate import generate
+        generate(args)
     elif args.device == MBTemp:
-        pass
+        from mbtemp.generate import generate
+        generate(args)
     elif args.device == SPIxCONV:
-        pass
+        from spixconv.generate import generate
+        generate(args)
