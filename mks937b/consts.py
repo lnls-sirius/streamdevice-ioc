@@ -1,5 +1,5 @@
 import logging
-from streamdeviceioc.common import DbData
+from common.db import DbData
 
 logger = logging.getLogger()
 SHEET_MKS = 'PVs MKS937b'
