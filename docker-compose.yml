@@ -19,9 +19,11 @@ services:
                 - "br.com.lnls-sirius.department=CONS"
                 - "br.com.lnls-sirius.maintener=Claudio Ferreira Carneiro"
         environment:
-            - "EPICS_IOC_LOG_INET=10.128.255.5"
+            - "EPICS_IOC_LOG_INET=10.0.38.59"
             - "EPICS_IOC_LOG_PORT=7011"
         command: /bin/bash ./bin/agilent.sh
+        volumes:
+            - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
 
     countingPRU:
         image: lnlscon/streamdevice-ioc:CountingPRU-v1.0
@@ -32,6 +34,9 @@ services:
                 - "br.com.lnls-sirius.description=StreamDevice IOC"
                 - "br.com.lnls-sirius.department=CONS"
                 - "br.com.lnls-sirius.maintener=Claudio Ferreira Carneiro"
+        command: /bin/bash ./bin/countingPRU.sh
+        volumes:
+            - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
     mbtemp:
         image: lnlscon/streamdevice-ioc:MBTemp-v1.0
         build:
@@ -41,6 +46,9 @@ services:
                 - "br.com.lnls-sirius.description=StreamDevice IOC"
                 - "br.com.lnls-sirius.department=CONS"
                 - "br.com.lnls-sirius.maintener=Claudio Ferreira Carneiro"
+        command: /bin/bash ./bin/mbtemp.sh
+        volumes:
+            - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
     mks987b:
         image: lnlscon/streamdevice-ioc:MKS937b-v1.0
         build:
@@ -50,6 +58,9 @@ services:
                 - "br.com.lnls-sirius.description=StreamDevice IOC"
                 - "br.com.lnls-sirius.department=CONS"
                 - "br.com.lnls-sirius.maintener=Claudio Ferreira Carneiro"
+        command: /bin/bash ./bin/mks937b.sh
+        volumes:
+            - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
     spixconv:
         image: lnlscon/streamdevice-ioc:SPIxCONV-v1.0
         build:
@@ -59,3 +70,7 @@ services:
                 - "br.com.lnls-sirius.description=StreamDevice IOC"
                 - "br.com.lnls-sirius.department=CONS"
                 - "br.com.lnls-sirius.maintener=Claudio Ferreira Carneiro"
+        command: /bin/bash ./bin/spixconv.sh
+        volumes:
+            - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
+
