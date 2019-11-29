@@ -4,6 +4,10 @@
 FROM  ubuntu:18.04
 LABEL maintainer="Claudio Carneiro <claudio.carneiro@lnls.br>"
 
+# set correct timezone
+ENV TZ=America/Sao_Paulo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 RUN apt-get update &&\
     apt-get install -y --fix-missing\
         telnet                      \
@@ -13,7 +17,8 @@ RUN apt-get update &&\
         libpcre3-dev                \
         wget                        \
         git                         \
-        libreadline-gplv2-dev       
+        libreadline-gplv2-dev       \
+        tzdata
 
 # IOC operation variables
 ENV EPICS_VERSION R3.15.6
@@ -34,9 +39,6 @@ ENV EPICS_CA_AUTO_ADDR_LIST YES
 ENV CONS_IP 10.0.38.42
 ENV CONS_REPO http://${CONS_IP}:20081/download
 
-# set correct timezone
-ENV TZ=America/Sao_Paulo
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Pyepics libca location
 ENV PYEPICS_LIBCA ${EPICS_BASE}/lib/${ARCH}/libca.so

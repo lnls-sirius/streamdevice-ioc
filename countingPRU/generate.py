@@ -56,11 +56,11 @@ if __name__ == "__main__":
                 IP=board.ip,
                 IP_ASYN_PORT=board.ip_asyn_port)
 
-        PREFIX = board.device
+        COUNTING_DEVICE = board.device
 
         res += template.safe_substitute(
             IP_ASYN_PORT=board.ip_asyn_port,
-            PREFIX=PREFIX,
+            COUNTING_DEVICE=COUNTING_DEVICE,
             SCAN_RATE = board.scan_rate,
             CH1=board.channels[0],
             CH2=board.channels[1],
@@ -77,7 +77,15 @@ if __name__ == "__main__":
             CH5_DESC=board.descs[4],
             CH6_DESC=board.descs[5],
             CH7_DESC=board.descs[6],
-            CH8_DESC=board.descs[7])
+            CH8_DESC=board.descs[7],
+            DETECTOR1_NAME=board.detectornames[0],
+            DETECTOR2_NAME=board.detectornames[1],
+            DETECTOR3_NAME=board.detectornames[2],
+            DETECTOR4_NAME=board.detectornames[3],
+            DETECTOR5_NAME=board.detectornames[4],
+            DETECTOR6_NAME=board.detectornames[5],
+            DETECTOR7_NAME=board.detectornames[6],
+            DETECTOR8_NAME=board.detectornames[7])
 
         if EPICS_CA_PORT_INCRESE:
             EPICS_CA_SERVER_PORT += 2

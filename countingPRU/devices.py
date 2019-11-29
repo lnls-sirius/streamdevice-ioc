@@ -20,6 +20,7 @@ class CountingPRU():
         self.device = row['Dev']
         self.channels = [row.get('CH{}'.format(i)) for i in range(1,9)]
         self.descs = [row.get('CH{} DESC'.format(i)) for i in range(1,9)]
+        self.detectornames = [row.get('CH{} DEVICE'.format(i)) for i in range(1,9)]
         self.scan_rate = '2 second'
         self.ip_asyn_port = 'IPPort0'
         self.file_name = self.ip + ':5000' + '.cmd'
