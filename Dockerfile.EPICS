@@ -92,7 +92,7 @@ RUN cd ${EPICS_MODULES} && mkdir StreamDevice-2.8.9 && cd StreamDevice-2.8.9 && 
     make -j 32 &&\
     mkdir protocol && mkdir database && mkdir iocBoot && mkdir interface
 
-# ProcServ
+# procServ
 RUN wget ${CONS_REPO}/EPICS/procServ-2.8.0.tar.gz && tar -zxvf procServ-2.8.0.tar.gz && cd procServ-2.8.0 &&\
     ./configure --enable-access-from-anywhere && make install && cd .. &&\
     rm -rf procServ-2.8.0.tar.gz procServ-2.8.0
