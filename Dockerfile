@@ -39,4 +39,4 @@ COPY dbd/streamApp.dbd  ${STREAMDEVICE}/dbd/streamApp.dbd
 COPY Security.as        ${STREAMDEVICE}/log/Security.as
 
 # Run stuff
-CMD tail -f /dev/null
+CMD echo "Overwrite the command!" && tail -f /dev/null
