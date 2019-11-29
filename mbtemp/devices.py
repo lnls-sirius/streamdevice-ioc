@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from streamdeviceioc.mbtemp.consts import DATA_MBTEMP
+from mbtemp.consts import DATA_MBTEMP
 
 logger = logging.getLogger()
 
