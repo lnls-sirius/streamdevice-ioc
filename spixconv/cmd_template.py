@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 from string import Template
 
 top = Template('''#!../bin/linux-x86_64/streamApp
@@ -15,6 +15,10 @@ epicsEnvSet("TOP", "${TOP}")
 epicsEnvSet("ARCH", "${ARCH}")
 epicsEnvSet("STREAM_PROTOCOL_PATH", "${STREAM_PROTOCOL_PATH}")
 epicsEnvSet("EPICS_CA_SERVER_PORT", "${EPICS_CA_SERVER_PORT}")
+
+epicsEnvSet("EPICS_IOC_LOG_INET", "${LOG_ADDR}")
+epicsEnvSet("EPICS_IOC_LOG_PORT", "${LOG_PORT}")
+asSetFilename("${TOP}/log/Security.as")
 
 # Database definition file
 cd ${CD}
@@ -44,17 +48,18 @@ streamApp_registerRecordDeviceDriver(pdbbase)
 drvAsynIPPortConfigure("socket_spixconv", "${IP_ADDR}")
 
 # database for 10 kV Voltage source:
-dbLoadRecords("database/${DATABASE}.db", "PREFIX=${PREFIX}, SCAN_RATE=${SCAN_RATE}, SPIxCONV_ADDRESS=${ADDRESS}, VOLTAGE_FACTOR=${VOLTAGE_FACTOR}")
+dbLoadRecords("database/${DATABASE}.db", "PREFIX=${PREFIX}, SCAN_RATE=${SCAN_RATE}, SPIxCONV_ADDRESS=${ADDRESS}, VOLTAGE_FACTOR=${VOLTAGE_FACTOR}, STEP_DELAY=${DELAY}, STEP_TRIGGER=${TRIGGER}")
 dbLoadRecords("database/SPIxCONV_Config.db", "P=${PREFIX}")
 ''')
 
-bot =  Template('''
+bot = Template('''
 set_pass0_restoreFile("$(TOP)/autosave/save/${PREFIX}.sav")
 set_pass1_restoreFile("$(TOP)/autosave/save/${PREFIX}.sav")
 
 # Effectively initializes the IOC
 cd iocBoot
 iocInit
+caPutLogInit "${LOG_ADDR}:${LOG_PORT}" 2
 
 cd ..
 create_monitor_set("$(TOP)/autosave/spixconv.req", 10, "P=${PREFIX}, SAVENAMEPV=${PREFIX}:SaveName")

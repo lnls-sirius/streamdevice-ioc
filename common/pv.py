@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 import sys
 from os import path
 sys.path.append(path.join(path.dirname(path.abspath(__file__)),'../'))

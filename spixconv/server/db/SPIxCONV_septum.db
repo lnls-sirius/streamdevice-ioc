@@ -1,17 +1,167 @@
 # SPIxCONV.db
-
 # Record definition for all digital and analog channels. Developed for SPIxCONV version 1.1 and newer.
 
-# This file contains four records definition:
-#   - analog out
-#   - analog in
-#   - digital out
-#   - digital in
+#==================
+# Steps
+#==================
+record(longout, "$(PREFIX):Steps"){
+    field(SCAN, "Passive")
+    field(VAL, "4")
+}
+#==================
+# Voltage Trigger
+#==================
+record(longout, "$(PREFIX):VoltageTrigger"){
+    field(SCAN, "Passive")
+    field(VAL, "$(STEP_TRIGGER)")
+}
+#==================
+# Soft record
+#==================
+record(ao, "$(PREFIX):Voltage-SP"){
+    field(EGU, "Volt")
+    field(AOFF, "-10.0")
+    field(ASLO, "0.00007629423635191479459684")
+    field(EOFF, "0.0")
+    field(ESLO, "$(VOLTAGE_FACTOR)")
+    field(LINR, "LINEAR")
+    field(PREC, "1")    # Display Precision
+    field(SCAN, "Passive")
+    field(FLNK, "$(PREFIX):Voltage-BAK")
+}
+#==================
+# Voltage Reference
+#==================
+record(calc, "$(PREFIX):Voltage-BAK"){
+    field(SCAN, "Passive")
+    field(INPA, "$(PREFIX):RawVoltage-SP")
+    field(CALC, "A")
+    field(FLNK, "$(PREFIX):CheckStep")
+}
+#==================
+# Check Steps
+#==================
+record(calcout, "$(PREFIX):CheckStep"){
+    field(SCAN, "Passive")
+    field(INPA, "$(PREFIX):Voltage-SP")
+    field(INPB, "$(PREFIX):RawVoltage-SP")
+    field(INPC, "$(PREFIX):VoltageTrigger")  # limiar voltage to trigger steps
+    field(INPD, "0")    # straight
+    field(INPE, "1")    # steps
+    field(CALC, "((A - B) > C) ? E : D")
+    field(OOPT, "Every Time")
+    field(DOPT, "Use CALC")
+    field(ODLY, "0")
+    field(FLNK, "$(PREFIX):Counter")
+}
+#==================
+# Counter
+#==================
+record(calcout, "$(PREFIX):Counter"){
+    field(VAL, "0")
+    field(SCAN, "Passive")
+    field(INPA, "$(PREFIX):Counter")
+    field(INPB, "$(PREFIX):Steps")
+    field(INPC, "$(PREFIX):CheckStep")
+    field(INPD, "1")
+    # Counter = (1 - CheckStep)*Steps + CheckStep*(Counter + 1)
+    field(CALC, "((D-C)*B + C*(A+D)) % B")
+    field(OOPT, "Every Time")
+    field(DOPT, "Use CALC")
+    field(ODLY, "0")
+    field(FLNK, "$(PREFIX):CheckCounter")
+}
+#==================
+# Check Counter
+#==================
+record(calcout, "$(PREFIX):CheckCounter"){
+    field(SCAN, "Passive")
+    field(INPA, "$(PREFIX):Counter")
+    field(INPB, "$(PREFIX):Steps")
+    field(INPC, "0")    # counting
+    field(INPD, "1")    # finished
+    # Counter == 0?
+    field(CALC, "A = C? D : C")
+    field(OOPT, "Every Time")
+    field(DOPT, "Use CALC")
+    field(ODLY, "0")
+    field(FLNK, "$(PREFIX):NewVoltage-SP")
+}
+#==================
+# NewVoltage-SP
+#==================
+record(calcout, "$(PREFIX):NewVoltage-SP"){
+    field(SCAN, "Passive")
+    field(INPA, "$(PREFIX):Voltage-SP")
+    field(INPB, "$(PREFIX):Voltage-BAK")
+    field(INPC, "$(PREFIX):CheckCounter")
+    field(INPD, "$(PREFIX):Counter")
+    field(INPE, "$(PREFIX):Steps")
+    field(INPF, "1")
+    # NewVoltage-SP = (1 - CheckCounter)*[B + Counter*(A-B)/Steps] + CheckCounter*SoftVoltage-SP
+    field(CALC, "((F-C)*(B + D*(A-B)/E)) + C*A")
+    field(OOPT, "Every Time")
+    field(DOPT, "Use CALC")
+    field(FLNK, "$(PREFIX):StopCriteria")
+}
+#==================
+# Stop Criteria
+#==================
+record(calcout, "$(PREFIX):StopCriteria"){
+    field(SCAN, "Passive")
+    field(INPA, "$(PREFIX):Voltage-SP")
+    field(INPB, "$(PREFIX):NewVoltage-SP")
+    field(INPC, "3")    # implement output && increment counter && CONTINUE
+    field(INPD, "5")    # implement output && clear counter && END
+    # NewVoltage-SP == SoftVoltage-SP?
+    field(CALC, "(A = B)? D : C")
+    field(OOPT, "Every Time")
+    field(DOPT, "Use CALC")
+    field(FLNK, "$(PREFIX):SelectOutput")
+}
+#==================
+# Sequence 
+#==================
+record(seq, "$(PREFIX):SelectOutput"){
+    field(SCAN, "Passive")
+    field(DOL1, "$(PREFIX):NewVoltage-SP")
+    #field(DOL2, "")
+    field(DOL3, "0")
+    field(LNK1, "$(PREFIX):RawVoltage-SP")
+    #field(LNK2, "")
+    field(LNK3, "$(PREFIX):Counter")
+    field(DLY1, "0")
+    field(SELM, "Mask")
+    field(SELL, "$(PREFIX):StopCriteria")
+    field(FLNK, "$(PREFIX):Fanout")
+}
+#==================
+# Fanout
+#==================
+record(fanout, "$(PREFIX):Fanout"){
+    field(SCAN, "Passive")
+    field(LNK1, "$(PREFIX):RawVoltage-SP")
+    field(LNK2, "$(PREFIX):Delay")
+    field(SELM, "Mask")
+    field(SELL, "$(PREFIX):StopCriteria")
+}
+#==================
+# Delay
+#==================
+record(calcout, "$(PREFIX):Delay"){
+    field(VAL, "0")
+    field(SCAN, "Passive")
+    field(OOPT, "Every Time")
+    # !!! DELAY BETWEEN STEPS !!!
+#    field(ODLY, "1")
+    field(ODLY, "$(STEP_DELAY)")
+    field(FLNK, "$(PREFIX):Counter")
+}
 
 #==============================================================================
 #   ANALOG OUT
 #==============================================================================
-record(ao, "$(PREFIX):Voltage-SP") {
+record(ao, "$(PREFIX):RawVoltage-SP") {
     field(DESC, "analog out parameter")
     field(DTYP, "stream")
     field(EGU, "Volt")
@@ -46,6 +196,7 @@ record(ai, "$(PREFIX):Voltage-RB") {
     field(PREC, "1")                            # Display Precision
     field(SCAN, "$(SCAN_RATE)")                 # Scanning Rate
 }
+
 #==============================================================================
 #   ANALOG IN
 #==============================================================================
@@ -76,16 +227,49 @@ record(ai, "$(PREFIX):Voltage-Mon") {
 #***************************************
 #   LOCAL/REMOTE (1 INPUT)
 #***************************************
-# interlock signal
 #-------------------
-record(bi, "$(PREFIX):CtrlMode-Mon") {
-    field(DESC, "Control mode")
+# value retrieved from HW
+#-------------------
+record(bi, "$(PREFIX):RawCtrlMode-Mon"){
+    field(DESC, "Raw control mode retrieved from HW")
     field(INP, "@SPIxCONV.proto read_portA_digital_input_bit($(SPIxCONV_ADDRESS),0) socket_spixconv")
-    field(DTYP, "stream")                       # Device Type
-    field(PINI, "YES")                          # Process at Initialization
-    field(SCAN, "$(SCAN_RATE)")                 # Scanning Rate
-    field(ZNAM, "Remote")                       # One Name
-    field(ONAM, "Local")                        # Zero Name
+    field(SCAN, "$(SCAN_RATE)")
+    field(DTYP, "stream")
+    field(PINI, "YES")                         # Process at Initialization
+    field(ZNAM, "Local")                       # Zero Name
+    field(ONAM, "Remote")                      # One Name
+    field(FLNK, "$(PREFIX):CalcCtrlMode-Mon")
+}
+#-------------------
+# bit inverter
+#-------------------
+record(calcout, "$(PREFIX):CalcCtrlMode-Mon") {
+    field(DESC, "Control mode inverter")
+    field(SCAN, "Passive")                 # Scanning Rate
+    field(INPA, "$(PREFIX):RawCtrlMode-Mon")
+    field(CALC, "A XOR 1")
+    field(DOPT, "Use CALC")
+    field(OOPT, "Every Time")
+    field(OUT, "$(PREFIX):CtrlMode-Mon")
+    field(FLNK, "$(PREFIX):CtrlMode-Mon")
+}
+#-------------------
+# OPI CtrlMode value
+#-------------------
+record(bi, "$(PREFIX):CtrlMode-Mon"){
+    field(DESC, "Control mode")
+    field(INP, "$(PREFIX):CalcCtrlMode-Mon")
+    field(DTYP, "Raw Soft Channel")
+    field(SCAN, "Passive")
+    field(ZNAM, "Remote")                       # Zero Name
+    field(ONAM, "Local")                        # One Name
+}
+#-------------------
+# control mode label
+#-------------------
+record(stringout, "$(PREFIX):CtrlModeLabel-Cte") {
+    field(DESC, "Control Mode label")
+    field(VAL, "Control Mode")
 }
 #***************************************
 #   INTERLOCKS (7 INPUTS)
