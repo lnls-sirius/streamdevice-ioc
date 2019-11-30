@@ -49,7 +49,7 @@ services:
         command: /bin/bash ./bin/mbtemp.sh
         volumes:
             - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
-    mks987b:
+    mks937b:
         image: lnlscon/streamdevice-ioc:MKS937b-v1.0
         build:
             dockerfile: 'Dockerfile'
