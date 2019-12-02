@@ -37,7 +37,8 @@ def generate(args):
                                             EPICS_CA_SERVER_PORT=epics_ca_server_port,
                                             IP_ADDR=board.ip, DATABASE=board.database, SCAN_RATE=board.scan_rate,
                                             PREFIX=board.device, VOLTAGE_FACTOR=board.voltage_factor,
-                                            DESCRIPTION=board.description, ADDRESS=board.address)
+                                            DESCRIPTION=board.description, ADDRESS=board.address,
+                                            DELAY=board.step_delay, TRIGGER=board.step_trigger)
         res += template_bot.safe_substitute(defaults, PREFIX=board.device)
 
         if epics_ca_port_increase:

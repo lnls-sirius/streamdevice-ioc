@@ -62,7 +62,7 @@ services:
         volumes:
             - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
     spixconv:
-        image: lnlscon/streamdevice-ioc:SPIxCONV-v1.0
+        image: lnlscon/streamdevice-ioc:SPIxCONV-v1.6
         build:
             dockerfile: 'Dockerfile'
             context: .
