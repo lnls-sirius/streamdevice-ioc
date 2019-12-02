@@ -46,7 +46,7 @@ template_bot = Template('''
 # Effectively initializes the IOC
 cd iocBoot
 iocInit
-caPutLogInit "${LOG_ADDR}:${LOG_PORT}" 2
+caPutLogInit "${CAPUTLOG_ADDR}:${CAPUTLOG_PORT}" 2
 # var streamDebug 1
 ''')
 

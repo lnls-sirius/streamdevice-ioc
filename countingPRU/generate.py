@@ -18,12 +18,8 @@ if __name__ == "__main__":
     logger.info('Use the script at common/generate.py instead !')
 
 
-def generate(args):
+def generate(args, defaults):
     logger.info('Generating Counting PRU.')
-
-    defaults = {
-        'CD': '${TOP}', 'TOP': args.top, 'ASYN': args.asyn, 'ARCH': args.arch, 'EPICS_BASE': args.epics_base,
-        'STREAM_PROTOCOL_PATH': '$(TOP)/protocol', 'LOG_ADDR': args.epics_log_addr, 'LOG_PORT': args.epics_log_port}
 
     epics_ca_port_increase = args.epics_ca_port_increase
     epics_ca_server_port = args.base_epics_ca_port

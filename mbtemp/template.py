@@ -50,6 +50,6 @@ mbt_template_bot = Template('''
 cd iocBoot
 iocInit
 
-caPutLogInit "${LOG_ADDR}:${LOG_PORT}" 2
+caPutLogInit "${CAPUTLOG_ADDR}:${CAPUTLOG_PORT}" 2
 ''')
 
