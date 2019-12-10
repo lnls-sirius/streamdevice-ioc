@@ -10,7 +10,7 @@
 record(ai, "$(RECORD_NAME):Count-Mon") {
     field(DESC, "$(DESCRIPTION)")
     field(DTYP, "stream")
-    field(EGU, "pulses per second")
+    field(EGU, "Pulse/s")
     field(INP, "@CountingPRU.proto getCounting($(CHANNEL)) $(PORT)")
     field(PINI, "YES")
     field(LINR, "LINEAR")
