@@ -7,14 +7,19 @@
 # PORT - Name of the serial port configured in asynDriver.
 # SCAN_RATE - Record scan rate (time interval between two consecutive readings).
 
-record(longin, "$(RECORD_NAME):Count-Mon") {
+record(ai, "$(RECORD_NAME):Count-Mon") {
     field(DESC, "$(DESCRIPTION)")
     field(DTYP, "stream")
-    field(EGU, "pulses")
+    field(EGU, "pulses per second")
     field(INP, "@CountingPRU.proto getCounting($(CHANNEL)) $(PORT)")
     field(PINI, "YES")
+    field(LINR, "LINEAR")
+    field(PREC, "4")
     field(SCAN, "$(SCAN_RATE)")
+    field(EOFF, "0.0")
+    field(ESLO, "0.001")
 }
+
 
 record(stringin, "$(RECORD_NAME):Counter-Cte"){
     field(PINI, "YES")
