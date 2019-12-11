@@ -24,7 +24,7 @@ Two dockerfiles are used in order to build the containers.
 For each device supported, a specific tag must be created in order to mitigate conflicts when multiple devices are changing. The recommended way to create a new tag is to build it via the `docker-compose` command.
 
 ### Example:
-In order to build a new mks937b image, edit the image tag of the corresponding service at `./docker-compose.yml` so it will not overwrite when pushed to dockerhub.
+In order to build a new mks937b image, edit the image tag of the corresponding service at [docker-compose.yml](./docker-compose.yml) so it will not overwrite when pushed to dockerhub.
 
 Build a service:
 ```
