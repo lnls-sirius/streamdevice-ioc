@@ -15,10 +15,11 @@ The following is a list of applications and ports:
 ## Building a new image
 
 Two dockerfiles are used in order to build the containers.
+
 |File|Description|
 |:--:|:---------:|
-|Dockerfile|streamdevice-ioc files|
-|Dockerfile.EPICPS| EPICS base image|
+|[Dockerfile](Dockerfile)|streamdevice-ioc files|
+|[Dockerfile.EPICS](Dockerfile.EPICS)| EPICS base image|
 
 For each device supported, a specific tag must be created in order to mitigate conflicts when multiple devices are changing. The recommended way to create a new tag is to build it via the `docker-compose` command.
 
