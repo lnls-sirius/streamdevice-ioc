@@ -12,11 +12,23 @@ The following is a list of applications and ports:
 |mks937b    |5002|
 |countingPRU|5000|
 
+## Building a new image
 
-Add the following environment variables to a service in order to launch IOCs in different ports.<br>
-The user must set the initial port value.
+Two dockerfiles are used in order to build the containers.
+|File|Description|
+|:--:|:---------:|
+|Dockerfile|streamdevice-ioc files|
+|Dockerfile.EPICPS| EPICS base image|
 
+For each device supported, a specific tag must be created in order to mitigate conflicts when multiple devices are changing. The recommended way to create a new tag is to build it via the `docker-compose` command.
+
+### Example:
+In order to build a new mks937b image, edit the image tag of the corresponding service at `./docker-compose.yml` so it will not overwrite when pushed to dockerhub.
+
+Build a service:
 ```
-EPICS_CA_PORT_INCREASE=--epics-ca-port-increase
-BASE_EPICS_CA_PORT=--base-epics-ca-port 5070
+docker-compose build <service-name>
 ```
+
+## Deploy
+The docker related files included in this repository are meant to build and test the images. Check the instructions at [docker-stacks/cons-streamdevice-ioc](https://gitlab.cnpem.br/con/docker-stacks/tree/master/cons-streamdevice-ioc) for production deplyment.
