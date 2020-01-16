@@ -50,7 +50,7 @@ services:
         volumes:
             - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
     mks937b:
-        image: lnlscon/streamdevice-ioc:MKS937b-v1.0
+        image: lnlscon/streamdevice-ioc:MKS937b-v1.1
         build:
             dockerfile: 'Dockerfile'
             context: .
@@ -61,6 +61,7 @@ services:
         command: /bin/bash ./bin/mks937b.sh
         volumes:
             - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
+            - "/var/tmp/auto:/opt/epics-R3.15.6/modules/StreamDevice-2.8.9/autosave:rw"
     spixconv:
         image: lnlscon/streamdevice-ioc:SPIxCONV-v1.6
         build:
