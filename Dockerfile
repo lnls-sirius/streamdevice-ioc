@@ -18,7 +18,7 @@ ENV EPICS_IOC_CAPUTLOG_PORT 7012
 ENV EPICS_IOC_LOG_INET 0.0.0.0
 ENV EPICS_IOC_LOG_PORT 7011
 
-RUN mkdir -p /opt/streamdevice-ioc/log && \
+RUN mkdir -p /opt/streamdevice-ioc/log && mkdir -p ${STREAMDEVICE}/autosave/save &&\
     mkdir -p /opt/streamdevice-ioc/streamdevice-ioc-history && rm -rf ${STREAMDEVICE}/iocBoot/*
 
 WORKDIR /opt/streamdevice-ioc
