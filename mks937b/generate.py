@@ -126,7 +126,7 @@ def generate(args, defaults):
         if epics_ca_port_increase:
             epics_ca_server_port += 2
 
-        res += template_bot.safe_substitute(defaults)
+        res += template_bot.safe_substitute(defaults, name=name)
 
         if not os.path.exists(os.path.join(dir_name, 'server/cmd/')):
             os.makedirs(os.path.join(dir_name, 'server/cmd/'))
@@ -134,4 +134,22 @@ def generate(args, defaults):
         with open(cmd_path, 'w+') as file:
             file.write(res)
         os.chmod(cmd_path, 0o544)
+
+        # Generate req file
+        gauges = []
+        for device in devices:
+           for gauge in device['GAUGES']:
+               gauges.append(gauge)
+
+        res_path = os.path.join(dir_name, 'server/autosave/' + name + '.req')
+        if not os.path.exists(os.path.join(dir_name, 'server/autosave/')):
+            os.makedirs(os.path.join(dir_name, 'server/autosave/'))
+            
+        with open(res_path, 'w+') as file:
+            for gauge in gauges:
+                file.write('{}:Pressure-Mon.HIHI\n'.format(gauge))
+                file.write('{}:Pressure-Mon.HIGH\n'.format(gauge))
+
+        os.chmod(res_path, 0o544)
+
     deploy_files(dir_name, defaults['TOP'])

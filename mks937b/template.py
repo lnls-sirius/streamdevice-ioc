@@ -63,10 +63,21 @@ ADDRESS=$ADDRESS")''')
 
 
 template_bot = Template('''
+ 
+# Offsets
+set_pass0_restoreFile("$(TOP)/autosave/${name}.sav")
+set_pass1_restoreFile("$(TOP)/autosave/${name}.sav")
+
+save_restoreSet_DatedBackupFiles(1)
+save_restoreSet_NumSeqFiles(2)
+save_restoreSet_SeqPeriodInSeconds(600)
 
 # Effectively initializes the IOC
 cd iocBoot
 iocInit
+
+cd "$(TOP)"
+create_monitor_set("autosave/${name}.req", 10)
 
 caPutLogInit "${CAPUTLOG_ADDR}:${CAPUTLOG_PORT}" 2
 ''')
