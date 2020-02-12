@@ -18,10 +18,16 @@ record(fanout, "$(PREFIX):T"){
     field(LNK1, "$(PREFIX):Pressure-Mon")
     field(LNK2, "$(PREFIX):Voltage-Mon")
     field(LNK3, "$(PREFIX):Current-Mon")
+}
+
+record(fanout, "$(PREFIX):T2"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
     field(LNK4, "$(PREFIX):HVTemperature-Mon")
     field(LNK5, "$(PREFIX):ErrorCode-Mon")
     field(LNK6, "$(PREFIX):HVState-RB")
 }
+
 # Current
 record(ai, "$(PREFIX):Current-Mon") {
     field(DESC, "Measured current")

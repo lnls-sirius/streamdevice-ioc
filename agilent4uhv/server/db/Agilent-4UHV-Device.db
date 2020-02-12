@@ -5,25 +5,25 @@
 # PORT              - Name of the serial port configured in asynDriver.
 # PREFIX            - Prefix name for all PVs associated with the device.
 # SERIAL_ADDRESS    - Controller RS-485 serial address (from 0 to 31) + 128.
+#
 ##########################################################################
 #                              One time reading                          #
 ##########################################################################
-record(ai, "$(PREFIX):TriggerOneTime"){
-	field(FLNK, "$(PREFIX):Model-Cte")
-}
+
 # Model
 record(stringin, "$(PREFIX):Model-Cte") {
     field(DESC, "Device model")
     field(DTYP, "stream")
-    field(INP,  "@Agilent-4UHV.proto getModel($(SERIAL_ADDRESS)) $(PORT)")
     field(FLNK, "$(PREFIX):SerialNumber-Cte")
+    field(INP,  "@Agilent-4UHV.proto getModel($(SERIAL_ADDRESS)) $(PORT)")
+    field(PINI, "YES")
 }
 # Serial number
 record(stringin, "$(PREFIX):SerialNumber-Cte") {
     field(DESC, "Device serial number")
     field(DTYP, "stream")
     field(INP,  "@Agilent-4UHV.proto getSerialNumber($(SERIAL_ADDRESS)) $(PORT)")
-    field(FLNK, "$(PREFIX):OutOneTime")
+    field(PINI, "YES")
 }
 ##########################################################################
 
@@ -45,40 +45,16 @@ record(longin, "$(PREFIX):Protect-RB") {
     field(PINI, "YES")
     field(PHAS, "0")
 }
-record(longout, "$(PREFIX):AllProtectOn-Sel"){
-    field(DTYP, "Soft Channel")
-    field(OMSL, "closed_loop")
-    field(DOL,  "15")
-    field(OUT,  "$(PREFIX):Protect-SP_Backend CP")
-    field(FLNK, "$(PREFIX):Protect-SP_Backend")
-}
-record(longout, "$(PREFIX):AllProtectOff-Sel"){
-    field(DTYP, "Soft Channel")
-    field(OMSL, "closed_loop")
-    field(DOL,  "0")
-    field(OUT,  "$(PREFIX):Protect-SP_Backend CP")
-    field(FLNK, "$(PREFIX):Protect-SP_Backend")
-}
 record(longout, "$(PREFIX):Protect-SP"){
-    field(DESC, "On/Off (1111) or (0000)")
-    field(DTYP, "Soft Channel")
-    field(DRVH, "15")
-    field(DRVL, "0")
-    field(DISV, "1")
-    field(SDIS, "$(PREFIX):Protect_INIT.PACT")
-}
-record(longout, "$(PREFIX):Protect-SP_proc"){
-    field(DOL,  "$(PREFIX):Protect-SP")
-    field(OUT,  "$(PREFIX):Protect-SP_Backend CP")
-    field(FLNK, "$(PREFIX):Protect-SP_Backend")
-}
-record(longout, "$(PREFIX):Protect-SP_Backend") {
+    field(DESC, "Protect On(1)/Off(0)")
     field(DESC, "Protect")
-    field(DTYP, "stream")
-    field(OUT,  "@Agilent-4UHV.proto setProtect($(SERIAL_ADDRESS)) $(PORT)")
+    field(DISV, "1")
     field(DRVH, "15")
     field(DRVL, "0")
+    field(DTYP, "stream")
     field(FLNK, "$(PREFIX):Protect-RB")
+    field(OUT,  "@Agilent-4UHV.proto setProtect($(SERIAL_ADDRESS)) $(PORT)")
+    field(SDIS, "$(PREFIX):Protect_INIT.PACT")
 }
 record(seq, "$(PREFIX):Protect_INIT"){
     field(PINI, "YES")
@@ -90,46 +66,23 @@ record(seq, "$(PREFIX):Protect_INIT"){
 
 # Step mode
 record(longin, "$(PREFIX):Step-RB") {
-    field(PINI, "YES")
-    field(PHAS, "0")
     field(DESC, "Step mode")
     field(DTYP, "stream")
     field(INP,  "@Agilent-4UHV.proto getStep($(SERIAL_ADDRESS)) $(PORT)")
-}
-record(longout, "$(PREFIX):AllStep-Sel"){
-    field(DTYP, "Soft Channel")
-    field(OMSL, "closed_loop")
-    field(DOL,  "15")
-    field(OUT,  "$(PREFIX):Step-SP_Backend CP")
-    field(FLNK, "$(PREFIX):Step-SP_Backend")
-}
-record(longout, "$(PREFIX):AllFixed-Sel"){
-    field(DTYP, "Soft Channel")
-    field(OMSL, "closed_loop")
-    field(DOL,  "0")
-    field(OUT,  "$(PREFIX):Step-SP_Backend CP")
-    field(FLNK, "$(PREFIX):Step-SP_Backend")
+    field(PHAS, "0")
+    field(PINI, "YES")
 }
 record(longout, "$(PREFIX):Step-SP"){
-    field(DESC, "Step or Fixed (1111) or (0000)")
-    field(DTYP, "Soft Channel")
+    field(DESC, "Voltage mode Step(1)/Fixed(0)")
+    field(DISV, "1")
     field(DRVH, "15")
     field(DRVL, "0")
-    field(DISV, "1")
+    field(DTYP, "stream")
+    field(FLNK, "$(PREFIX):Step-RB")
+    field(OUT,  "@Agilent-4UHV.proto setStep($(SERIAL_ADDRESS)) $(PORT)")
     field(SDIS, "$(PREFIX):Step_INIT.PACT")
 }
-record(longout, "$(PREFIX):Step-SP_proc"){
-    field(DOL,  "$(PREFIX):Step-SP")
-    field(OUT,  "$(PREFIX):Step-SP_Backend CP")
-    field(FLNK, "$(PREFIX):Step-SP_Backend")
-}
-record(longout, "$(PREFIX):Step-SP_Backend") {
-    field(DTYP, "stream")
-    field(OUT,  "@Agilent-4UHV.proto setStep($(SERIAL_ADDRESS)) $(PORT)")
-    field(DRVH, "15")
-    field(DRVL, "0")
-    field(FLNK, "$(PREFIX):Step-RB")
-}
+
 record(seq, "$(PREFIX):Step_INIT"){
     field(PINI, "YES")
     field(PHAS, "1")
@@ -151,15 +104,14 @@ record(mbbi, "$(PREFIX):Unit-RB") {
 }
 record(mbbo, "$(PREFIX):Unit-SP") {
     field(DESC, "Unit setpoint")
-    field(DTYP, "stream")
-    field(OUT, "@Agilent-4UHV.proto setUnit($(SERIAL_ADDRESS)) $(PORT)")
     field(DISV, "1")
+    field(DTYP, "stream")
+    field(FLNK,"$(PREFIX):Unit-RB")
+    field(OUT,  "@Agilent-4UHV.proto setUnit($(SERIAL_ADDRESS)) $(PORT)")
     field(SDIS, "$(PREFIX):Unit_INIT.PACT")
     field(ZRST, "Torr")
     field(ONST, "mBar")
     field(TWST, "Pa")
-
-    field(FLNK,"$(PREFIX):Unit-RB")
 }
 record(seq, "$(PREFIX):Unit_INIT"){
     field(PINI, "YES")
@@ -198,23 +150,36 @@ record(seq, "$(PREFIX):Autostart_INIT"){
 
 # --------------
 record(fanout, "$(PREFIX):T"){
-    field(SCAN, "10 second")
-    field(SELM, "All")
-    field(LNK1, "$(PREFIX):RB")
     field(LNK2, "$(PREFIX_CH1):T")
     field(LNK3, "$(PREFIX_CH2):T")
     field(LNK4, "$(PREFIX_CH3):T")
     field(LNK5, "$(PREFIX_CH4):T")
-}
-record(fanout, "$(PREFIX):RB"){
-    field(SCAN, "Passive")
+    field(PHAS, "3")
+    field(SCAN, "10 second")
     field(SELM, "All")
+}
+
+record(fanout, "$(PREFIX):RB"){
     field(LNK1, "$(PREFIX):Protect-RB")
     field(LNK2, "$(PREFIX):Step-RB")
     field(LNK3, "$(PREFIX):Autostart-RB")
     field(LNK4, "$(PREFIX):Unit-RB")
     field(LNK5, "$(PREFIX):FanTemperature-Mon")
+    field(PHAS, "2")
+    field(SCAN, "60 second")
+    field(SELM, "All")
 }
+
+record(fanout, "$(PREFIX):T2"){
+    field(LNK1, "$(PREFIX_CH1):T2")
+    field(LNK2, "$(PREFIX_CH2):T2")
+    field(LNK3, "$(PREFIX_CH3):T2")
+    field(LNK4, "$(PREFIX_CH4):T2")
+    field(PHAS, "3")
+    field(SCAN, "60 second")
+    field(SELM, "All")
+}
+
 record(scalcout, "$(PREFIX):Unit_STR"){
     field(CALC, "(A=0?'Torr':(A=1?'mBar':'PASCAL'))")
     field(INPA, "$(PREFIX):Unit-RB.VAL CP")

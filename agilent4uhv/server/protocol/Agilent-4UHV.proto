@@ -13,7 +13,7 @@ WRITE = 0x31;
 CRC = "%01<xor>";
 
 # Clear out any garbage.
-@init{ out " ";}
+#@init{ out " ";}
 
 # Channel current reading
 currentMon {
@@ -209,12 +209,12 @@ setUnit {
 # Channel voltage reading on/off
 getHVOnOff {
     MaxInput = 10;
-    out STX, $1, "01\$2", $READ, ETX, $CRC;
+    out STX, $1, 0x30, 0x31, "\$2", $READ, ETX, $CRC;
     in  STX, "\?", "01\$2", $READ, "%i", ETX, $CRC;
 }  
 setHVOnOff {
     MaxInput = 6;
-    out STX, $1, "01\$2",  $WRITE, "%i", ETX, $CRC;
+    out STX, $1, 0x30, 0x31, "\$2", $WRITE, "%i", ETX, $CRC;
     in  STX, "\?", ACK, ETX, $CRC;
     @mismatch { in STX, "\?", "%(\$3)i", ETX, $CRC; }
 } 
