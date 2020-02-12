@@ -28,7 +28,6 @@ drvAsynIPPortConfigure("$IP_ASYN_PORT","$IP_ADDR", 100, 0, 0)
 
 template_sync = Template('''
 # Sync Readings
-dbLoadRecords("database/Agilent-4UHV-Sync-${D_NUM}.db", "PREFIX_D1 = ${PREFIX_D1}, PREFIX_D2 = ${PREFIX_D2}, PREFIX_D3 = ${PREFIX_D3}, PREFIX_D4 = ${PREFIX_D4}")
 ''')
 
 template_device = Template(
