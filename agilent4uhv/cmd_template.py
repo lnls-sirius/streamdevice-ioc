@@ -3,7 +3,7 @@ from string import Template
 template_top = Template('''#!../bin/linux-x86_64/streamApp
 # Agilent-4UHV.cmd
 
-# Serial Address is 129 (0x80) + [0 - 31]
+# Serial Address is 128 (0x80) + [0 - 31]
 
 # Environment variables
 epicsEnvSet("EPICS_BASE", "$EPICS_BASE")
@@ -33,7 +33,7 @@ template_sync = Template('''
 template_device = Template(
 '''
 # Device ${DEVICE_NUM}
-dbLoadRecords("database/Agilent-4UHV-Device.db",  "PORT = ${IP_ASYN_PORT}, PREFIX = ${PREFIX}, PREFIX_CH1 = ${PREFIX_CH1}, PREFIX_CH2 = ${PREFIX_CH2}, PREFIX_CH3 = ${PREFIX_CH3}, PREFIX_CH4 = ${PREFIX_CH4}, SERIAL_ADDRESS = ${SERIAL_ADDRESS}")
+dbLoadRecords("database/Agilent-4UHV-Device.db", "PORT=${IP_ASYN_PORT}, PREFIX=${PREFIX}, PREFIX_CH1=${PREFIX_CH1}, PREFIX_CH2=${PREFIX_CH2}, PREFIX_CH3=${PREFIX_CH3}, PREFIX_CH4=${PREFIX_CH4}, SERIAL_ADDRESS=${SERIAL_ADDRESS}, PHAS=${DEVICE_NUM}, TIME=${TIME}")
 ''')
 
 template_channel = Template(

@@ -39,6 +39,7 @@ record(longin, "$(PREFIX):FanTemperature-Mon") {
 
 # Protect On/Off
 record(longin, "$(PREFIX):Protect-RB") {
+    field(PRIO, "MEDIUM")
     field(DESC, "Protect")
     field(DTYP, "stream")
     field(INP,  "@Agilent-4UHV.proto getProtect($(SERIAL_ADDRESS)) $(PORT)")
@@ -46,6 +47,7 @@ record(longin, "$(PREFIX):Protect-RB") {
     field(PHAS, "0")
 }
 record(longout, "$(PREFIX):Protect-SP"){
+    field(PRIO, "HIGH")
     field(DESC, "Protect On(1)/Off(0)")
     field(DESC, "Protect")
     field(DISV, "1")
@@ -66,6 +68,7 @@ record(seq, "$(PREFIX):Protect_INIT"){
 
 # Step mode
 record(longin, "$(PREFIX):Step-RB") {
+    field(PRIO, "MEDIUM")
     field(DESC, "Step mode")
     field(DTYP, "stream")
     field(INP,  "@Agilent-4UHV.proto getStep($(SERIAL_ADDRESS)) $(PORT)")
@@ -73,6 +76,7 @@ record(longin, "$(PREFIX):Step-RB") {
     field(PINI, "YES")
 }
 record(longout, "$(PREFIX):Step-SP"){
+    field(PRIO, "HIGH")
     field(DESC, "Voltage mode Step(1)/Fixed(0)")
     field(DISV, "1")
     field(DRVH, "15")
@@ -93,6 +97,7 @@ record(seq, "$(PREFIX):Step_INIT"){
 
 # Unit
 record(mbbi, "$(PREFIX):Unit-RB") {
+    field(PRIO, "MEDIUM")
     field(DESC, "Unit readback")
     field(DTYP, "stream")
     field(INP,  "@Agilent-4UHV.proto getUnit($(SERIAL_ADDRESS)) $(PORT)")
@@ -103,6 +108,7 @@ record(mbbi, "$(PREFIX):Unit-RB") {
     field(TWST, "Pa")
 }
 record(mbbo, "$(PREFIX):Unit-SP") {
+    field(PRIO, "HIGH")
     field(DESC, "Unit setpoint")
     field(DISV, "1")
     field(DTYP, "stream")
@@ -123,6 +129,7 @@ record(seq, "$(PREFIX):Unit_INIT"){
 
 # Autostart
 record(bi, "$(PREFIX):Autostart-RB") {
+    field(PRIO, "MEDIUM")
     field(PINI, "YES")
     field(PHAS, "0")
     field(DESC, "Autostart mode")
@@ -132,6 +139,7 @@ record(bi, "$(PREFIX):Autostart-RB") {
     field(INP,  "@Agilent-4UHV.proto getAutostart($(SERIAL_ADDRESS)) $(PORT)")
 }
 record(bo, "$(PREFIX):Autostart-SP") {
+    field(PRIO, "HIGH")
     field(DTYP, "stream")
     field(OUT,  "@Agilent-4UHV.proto setAutostart($(SERIAL_ADDRESS)) $(PORT)")
     field(ZNAM, "Off")
@@ -154,8 +162,8 @@ record(fanout, "$(PREFIX):T"){
     field(LNK3, "$(PREFIX_CH2):T")
     field(LNK4, "$(PREFIX_CH3):T")
     field(LNK5, "$(PREFIX_CH4):T")
-    field(PHAS, "3")
-    field(SCAN, "10 second")
+    field(PHAS, "$(PHAS)")
+    field(SCAN, "$(PHAS)0 second")
     field(SELM, "All")
 }
 

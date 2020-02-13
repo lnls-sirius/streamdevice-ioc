@@ -70,7 +70,8 @@ def generate(args, defaults):
                 PREFIX_CH2=channels[1],
                 PREFIX_CH3=channels[2],
                 PREFIX_CH4=channels[3],
-                DEVICE_NUM=d_n)
+                DEVICE_NUM=d_n,
+                TIME=devices_num*10)
 
             for i in range(4):
                 if channels[i].startswith('None'):

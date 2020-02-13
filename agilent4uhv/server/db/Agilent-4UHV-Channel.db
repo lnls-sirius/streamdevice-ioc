@@ -90,6 +90,7 @@ record(mbbi, "$(PREFIX):SetErrorCode-Mon") {
 ############################################################################
 # Channel HV on/off
 record(bi, "$(PREFIX):HVState-RB") {
+    field(PRIO, "MEDIUM")
     field(DESC, "Channel HV on/off readback")
     field(DTYP, "stream")
     field(INP,  "@Agilent-4UHV.proto getHVOnOff($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
@@ -99,6 +100,7 @@ record(bi, "$(PREFIX):HVState-RB") {
     field(PHAS, "0")
 }
 record(bo, "$(PREFIX):HVState-SP") {
+    field(PRIO, "HIGH")
     field(DESC, "Channel HV on/off setpoint")
     field(DTYP, "stream")
     field(OUT, "@Agilent-4UHV.proto setHVOnOff($(SERIAL_ADDRESS),$(CHANNEL_NUMBER),$(PREFIX):SetErrorCode-Mon) $(PORT)")
@@ -118,6 +120,7 @@ record(seq, "$(PREFIX):HVState_INIT"){
 
 # Device number
 record(longin, "$(PREFIX):DeviceNumber-RB") {
+    field(PRIO, "MEDIUM")
     field(DESC, "Device number readback")
     field(DTYP, "stream")
     field(PINI, "YES")
@@ -126,6 +129,7 @@ record(longin, "$(PREFIX):DeviceNumber-RB") {
 
 # I Protect
 record(ai, "$(PREFIX):CurrentProtect-RB") {
+    field(PRIO, "MEDIUM")
     field(DESC, "Measured Current Protect")
     field(DTYP, "stream")
     field(EGU,  "mA")
@@ -134,6 +138,7 @@ record(ai, "$(PREFIX):CurrentProtect-RB") {
     field(PHAS, "0")
 }
 record(ao, "$(PREFIX):CurrentProtect-SP") {
+    field(PRIO, "HIGH")
     field(DESC, "Measured Current Protect")
     field(DTYP, "stream")
     field(EGU,  "mA")
@@ -154,6 +159,7 @@ record(seq, "$(PREFIX):CurrentProtect_INIT"){
 
 # V Target
 record(ai, "$(PREFIX):VoltageTarget-RB") {
+    field(PRIO, "MEDIUM")
     field(DESC, "Voltage Target")
     field(DTYP, "stream")
     field(EGU,  "V")
@@ -162,6 +168,7 @@ record(ai, "$(PREFIX):VoltageTarget-RB") {
     field(PHAS, "0")
 }
 record(ao, "$(PREFIX):VoltageTarget-SP") {
+    field(PRIO, "HIGH")
     field(DESC, "Voltage Target")
     field(DTYP, "stream")
     field(EGU,  "V")
@@ -182,6 +189,7 @@ record(seq, "$(PREFIX):VoltageTarget_INIT"){
 
 # Power Max
 record(ai, "$(PREFIX):PowerMax-RB") {
+    field(PRIO, "MEDIUM")
     field(DESC, "Power Max")
     field(DTYP, "stream")
     field(EGU,  "W")
@@ -190,6 +198,7 @@ record(ai, "$(PREFIX):PowerMax-RB") {
     field(PHAS, "0")
 }
 record(ao, "$(PREFIX):PowerMax-SP") {
+    field(PRIO, "HIGH")
     field(DESC, "Power Max")
     field(DTYP, "stream")
     field(EGU, "W")
@@ -210,6 +219,7 @@ record(seq, "$(PREFIX):PowerMax_INIT"){
 
 # Setpoint
 record(ai, "$(PREFIX):Setpoint-RB") {
+    field(PRIO, "MEDIUM")
     field(DESC, "Setpoint")
     field(DTYP, "stream")
     field(INP,  "@Agilent-4UHV.proto getSepoint($(SERIAL_ADDRESS),$(CHANNEL_NUMBER)) $(PORT)")
@@ -217,13 +227,12 @@ record(ai, "$(PREFIX):Setpoint-RB") {
     field(PHAS, "0")
 }
 record(ao, "$(PREFIX):Setpoint-SP") {
+    field(PRIO, "HIGH")
     field(DESC, "Setpoint")
     field(DTYP, "stream")
     field(OUT,  "@Agilent-4UHV.proto setSepoint($(SERIAL_ADDRESS),$(CHANNEL_NUMBER),$(PREFIX):SetErrorCode-Mon) $(PORT)")
-
     field(DISV, "1")
     field(SDIS, "$(PREFIX):Setpoint_INIT.PACT")
-
     field(FLNK, "$(PREFIX):Setpoint-RB")
 }
 record(seq, "$(PREFIX):Setpoint_INIT"){
