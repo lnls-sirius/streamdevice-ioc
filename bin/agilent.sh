@@ -3,7 +3,6 @@ set -e
 source common/functions
 
 export BASE_PROCSERV_PORT=20400
-export SOCKET_BRIDGE=1
 PREFIX=UHV
 
 ./common/generate.py --epics-base ${EPICS_BASE} --asyn ${ASYN} --device ${PREFIX} \

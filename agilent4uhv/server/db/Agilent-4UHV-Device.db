@@ -39,7 +39,7 @@ record(longin, "$(PREFIX):FanTemperature-Mon") {
 
 # Protect On/Off
 record(longin, "$(PREFIX):Protect-RB") {
-    field(PRIO, "MEDIUM")
+    field(PRIO, "HIGH")
     field(DESC, "Protect")
     field(DTYP, "stream")
     field(INP,  "@Agilent-4UHV.proto getProtect($(SERIAL_ADDRESS)) $(PORT)")
@@ -68,7 +68,7 @@ record(seq, "$(PREFIX):Protect_INIT"){
 
 # Step mode
 record(longin, "$(PREFIX):Step-RB") {
-    field(PRIO, "MEDIUM")
+    field(PRIO, "HIGH")
     field(DESC, "Step mode")
     field(DTYP, "stream")
     field(INP,  "@Agilent-4UHV.proto getStep($(SERIAL_ADDRESS)) $(PORT)")
@@ -97,7 +97,7 @@ record(seq, "$(PREFIX):Step_INIT"){
 
 # Unit
 record(mbbi, "$(PREFIX):Unit-RB") {
-    field(PRIO, "MEDIUM")
+    field(PRIO, "HIGH")
     field(DESC, "Unit readback")
     field(DTYP, "stream")
     field(INP,  "@Agilent-4UHV.proto getUnit($(SERIAL_ADDRESS)) $(PORT)")
@@ -129,7 +129,7 @@ record(seq, "$(PREFIX):Unit_INIT"){
 
 # Autostart
 record(bi, "$(PREFIX):Autostart-RB") {
-    field(PRIO, "MEDIUM")
+    field(PRIO, "HIGH")
     field(PINI, "YES")
     field(PHAS, "0")
     field(DESC, "Autostart mode")
@@ -163,7 +163,7 @@ record(fanout, "$(PREFIX):T"){
     field(LNK4, "$(PREFIX_CH3):T")
     field(LNK5, "$(PREFIX_CH4):T")
     field(PHAS, "$(PHAS)")
-    field(SCAN, "$(PHAS)0 second")
+    field(SCAN, "$(TIME) second")
     field(SELM, "All")
 }
 
