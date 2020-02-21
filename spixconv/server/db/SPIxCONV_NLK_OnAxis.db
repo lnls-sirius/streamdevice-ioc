@@ -29,6 +29,20 @@ record(ao, "$(PREFIX):Voltage-SP"){
     field(PREC, "1")    # Display Precision
     field(SCAN, "Passive")
     field(FLNK, "$(PREFIX):Voltage-BAK")
+    #-------------------------------------------
+    # alarms configuration
+    field(HHSV, "MAJOR")
+    field(HSV, "MINOR")
+    field(LSV, "MINOR")
+    field(LLSV, "MAJOR")
+    field(DRVH, "$(VOLTAGE_FACTOR)0")
+    field(DRVL, "0")
+    field(HOPR, "$(VOLTAGE_FACTOR)0")
+    field(LOPR, "0")
+    field(HIHI, "$(VOLTAGE_FACTOR)0")
+    field(HIGH, "$(VOLTAGE_FACTOR)0")
+    field(LOW, "0")
+    field(LOLO, "0")
 }
 #==================
 # Voltage Reference
@@ -176,6 +190,20 @@ record(ao, "$(PREFIX):RawVoltage-SP") {
     field(SCAN, "Passive")
 #    field(HOPR, "10.0")
 #    field(LOPR, "-10.0")
+    #-------------------------------------------
+    # alarms configuration
+    field(HHSV, "MAJOR")
+    field(HSV, "MINOR")
+    field(LSV, "MINOR")
+    field(LLSV, "MAJOR")
+    field(DRVH, "$(VOLTAGE_FACTOR)0")
+    field(DRVL, "0")
+    field(HOPR, "$(VOLTAGE_FACTOR)0")
+    field(LOPR, "0")
+    field(HIHI, "$(VOLTAGE_FACTOR)0")
+    field(HIGH, "$(VOLTAGE_FACTOR)0")
+    field(LOW, "0")
+    field(LOLO, "0")
 }
 #------------------------------------------------------------------------------
 record(ai, "$(PREFIX):Voltage-RB") {
