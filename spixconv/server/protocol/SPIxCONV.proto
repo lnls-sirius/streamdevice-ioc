@@ -43,6 +43,12 @@ set_analog_output{
 #==============================================================================
 read_analog_output{
     InTerminator = CR LF;
+    @init{
+        # output parameters: board
+        out 0x03, $1;
+        # input parameters:  code set
+        in "%u";
+    }
     # output parameters: board
     out 0x03, $1;
     # input parameters:  code set
@@ -90,6 +96,13 @@ read_portB_digital_output_bit{
 }
 #==============================================================================
 set_portB_digital_output_bit{
+    @init{
+        # output parameters: board, bit
+        out 0x0B, $1, $2;
+        # input parameters:  bit read
+        in "%u";
+    }
+
     # output parameters: board, bit, value
     out 0x0C, $1, $2, "%(RVAL)i";
 }
