@@ -26,10 +26,6 @@ asSetFilename("${TOP}/log/Security.as")
 drvAsynIPPortConfigure("$IP_ASYN_PORT","$IP_ADDR", 100, 0, 0)
 ''')
 
-template_sync = Template('''
-# Sync Readings
-''')
-
 template_device = Template(
 '''
 # Device ${DEVICE_NUM}

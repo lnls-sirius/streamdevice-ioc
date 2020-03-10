@@ -4,8 +4,11 @@
 
 LockTimeout  = 85000;
 
-ReplyTimeout = 650;
-ReadTimeout  = 850;
+# How many milliseconds to wait for the first byte of the input from the device?
+ReplyTimeout = 1650;
+
+# How many milliseconds to wait for more input bytes before giving up?
+ReadTimeout  = 950;
 
 READ  = 0x30;
 WRITE = 0x31;
