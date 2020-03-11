@@ -6,6 +6,7 @@
 # CHANNEL - Channel in CountingPRU board where the sensor is connected to (from 1 to 8).
 # PORT - Name of the serial port configured in asynDriver.
 # SCAN_RATE - Record scan rate (time interval between two consecutive readings).
+# SN_ID - BSMP ID for Serial Numbers (from 11 to 18)
 
 record(ai, "$(RECORD_NAME):Count-Mon") {
     field(DESC, "$(DESCRIPTION)")
@@ -31,4 +32,11 @@ record(stringin, "$(RECORD_NAME):Sensor-Cte"){
     field(PINI, "YES")
     field(DESC, "Detector physical location")
     field(VAL,  "$(DETECTOR_NAME)")
+}
+
+record(longout, "$(DETECTOR_NAME):SerialNumber-Cte"){
+    field(DESC, "Detector Serial Number")
+    field(OUT, "@CountingPRU.proto setSerialNumber($(SN_ID)) $(PORT)")
+    field(DRVL, "0")
+    field(DTYP, "stream")
 }
