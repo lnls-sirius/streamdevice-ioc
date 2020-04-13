@@ -1,14 +1,23 @@
 record(stringout, "$(DEVICE):Pressure-Mon_EGU"){
     field(OMSL, "closed_loop")
-    field(DOL,  "$(D):Unit_STR.SVAL CP")
+    field(DOL,  "$(DEVICE):Unit_STR.SVAL CP")
     field(OUT,  "$(DEVICE):Pressure-Mon.EGU")
-
-    #field(DISV, "1")
-    #field(SDIS, "$(D):Unit.PACT")
 }
+
+record(scalcout, "$(DEVICE):P-Mon:s_ccg"){
+    field(CALC, "(AA=='LO<E-11')?1E-11:AA")
+    field(INAA, "$(DEVICE):Pressure-Mon-s CP MSS")
+}
+
+record(scalcout, "$(DEVICE):P-Mon:s_pir"){
+    field(CALC, "(AA=='LO<E-04')?1E-4:B")
+    field(INAA, "$(DEVICE):Pressure-Mon-s PP MSS")
+    field(INPB, "$(DEVICE):P-Mon:s_ccg.VAL CP MSS")
+    field(OUT,  "$(DEVICE):Pressure-Mon CA MSS")
+}
+
 record(ai, "$(DEVICE):Pressure-Mon") {
     field(DESC, "Read CCG$(CHANNEL)'s pressure")
-    field(INP,  "$(DEVICE):Pressure-Mon-s CP")
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
 
@@ -16,24 +25,25 @@ record(ai, "$(DEVICE):Pressure-Mon") {
     field(HIHI,"$(P_HIHI)")
 
     field(HSV, "MINOR")
-    field(HHSV,"MAJOR") 
+    field(HHSV,"MAJOR")
     field(EGU, "mBar")
-} 
+}
+
 # Channel Power Status 
 record(mbbi, "$(DEVICE):Enable-RB") {
-  field(DESC, "Channel power status")
-  field(DTYP, "stream")
-  field(INP,  "@mks937b.proto get_enabled($(ADDRESS),$(CHANNEL)) $(PORT)") 
-  field(PINI, "YES") 
-  field(PHAS, "0")
+    field(DESC, "Channel power status")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_enabled($(ADDRESS),$(CHANNEL)) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
   
-  field(ZRVL, "0")
-  field(ONVL, "1")
-  field(ZRST, "Off")
-  field(ONST, "On")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "Off")
+    field(ONST, "On")
 }
 record(mbbo, "$(DEVICE):Enable-SP"){
-    field(DESC, "Set Channel $(CHANNEL) On Off ") 
+    field(DESC, "Set Channel $(CHANNEL) On Off ")
     field(OUT,  "@mks937b.proto set_enabled($(ADDRESS),$(CHANNEL)) $(PORT)")
     field(DTYP, "stream")
     
@@ -43,7 +53,7 @@ record(mbbo, "$(DEVICE):Enable-SP"){
     field(ZRVL, "0")
     field(ONVL, "1")
     field(ZRST, "Off")
-    field(ONST, "On") 
+    field(ONST, "On")
     
     field(DISV, "1")
     field(SDIS, "$(DEVICE):Enable_INIT.PACT")
