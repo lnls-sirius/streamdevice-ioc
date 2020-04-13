@@ -3,12 +3,14 @@
 import os
 import logging
 
-from agilent4uhv.cmd_template import template_bot, template_channel, template_device, template_sync, template_top
+from agilent4uhv.cmd_template import template_bot, template_channel, template_device, template_top
 from agilent4uhv.devices import sectors
 
 from common.utils import deploy_files
 
 logger = logging.getLogger()
+
+SEC_PER_DEVICE = 2
 
 if __name__ == "__main__":
     logger.info('Use the script at common/generate.py instead !')
@@ -39,12 +41,6 @@ def generate(args, defaults):
                 continue
             devices_num += 1
 
-        res += template_sync.safe_substitute(
-            PREFIX_D1=devices[0]['PREFIX'],
-            PREFIX_D2=devices[1]['PREFIX'],
-            PREFIX_D3=devices[2]['PREFIX'],
-            PREFIX_D4=devices[3]['PREFIX'],
-            D_NUM=devices_num)
         d_n = 0
         for device in devices:
             d_n += 1
@@ -70,7 +66,8 @@ def generate(args, defaults):
                 PREFIX_CH2=channels[1],
                 PREFIX_CH3=channels[2],
                 PREFIX_CH4=channels[3],
-                DEVICE_NUM=d_n)
+                DEVICE_NUM=d_n,
+                TIME=devices_num*SEC_PER_DEVICE)
 
             for i in range(4):
                 if channels[i].startswith('None'):
