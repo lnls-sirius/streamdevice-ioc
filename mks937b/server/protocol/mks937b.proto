@@ -169,7 +169,7 @@ get_sp {
 }
 set_sp {
     wait  $Delay;
-    out $Addr, "SP\$2!%0.1E";
+    out $Addr, "SP\$2!%0.2E";
     in  $Addr, "ACK%E";
     @init { get_sp; }
     wait  $Delay;
