@@ -36,6 +36,7 @@ record(mbbi, "$(DEVICE):Enable-RB") {
     field(INP,  "@mks937b.proto get_enabled($(ADDRESS),$(CHANNEL)) $(PORT)")
     field(PINI, "YES")
     field(PHAS, "0")
+    field(PRIO, "HIGH")
   
     field(ZRVL, "0")
     field(ONVL, "1")
@@ -46,7 +47,8 @@ record(mbbo, "$(DEVICE):Enable-SP"){
     field(DESC, "Set Channel $(CHANNEL) On Off ")
     field(OUT,  "@mks937b.proto set_enabled($(ADDRESS),$(CHANNEL)) $(PORT)")
     field(DTYP, "stream")
-    
+    field(PRIO, "HIGH")
+
     field(UNSV, "INVALID")
     field(IVOA, "Don't drive outputs")
 
