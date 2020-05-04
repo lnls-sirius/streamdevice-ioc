@@ -1,10 +1,10 @@
 # COLD CATHODE
 record(fanout, "$(DEVICE):T"){
-    field(SCAN, "10 second")
+    field(SCAN, "30 second")
     field(SELM, "All")
-    field(LNK1, "$(DEVICE):ProtectionSetpoint_INIT PP")
-    field(LNK2, "$(DEVICE):ControlSetpoint_INIT PP")
-    field(LNK3, "$(DEVICE):ControlChannelStatus_INIT PP")
+    field(LNK1, "$(DEVICE):ProtectionSetpoint-RB PP")
+    field(LNK2, "$(DEVICE):ControlSetpoint-RB PP")
+    field(LNK3, "$(DEVICE):ControlChannelStatus-RB PP")
     field(PHAS, "2")
 }
 

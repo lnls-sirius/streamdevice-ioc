@@ -1,7 +1,7 @@
 from string import Template
 
 mks937b_pressures_proto = Template(
-"""LockTimeout  = 10000;
+    """LockTimeout  = 10000;
 Terminator   = ';FF';
 ReplyTimeout = 4000;
 ReadTimeout  = 5000;
@@ -26,4 +26,5 @@ get_pressures {
     wait  $Delay;
 }
 
-""")
+"""
+)
