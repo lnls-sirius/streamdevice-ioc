@@ -51,7 +51,7 @@ services:
         volumes:
             - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
     mks937b:
-        image: lnlscon/streamdevice-ioc:MKS937b-v1.2
+        image: lnlscon/streamdevice-ioc:MKS937b-v1.7
         build:
             dockerfile: 'Dockerfile'
             context: .
