@@ -471,6 +471,7 @@ record(bo, "$(PREFIX):PwrState-Sel") {
     field(SCAN, "Passive")                      # Scanning Rate
     field(ZNAM, "Off")                          # Zero Name
     field(ONAM, "On")                           # One Name
+    field(FLNK, "$(PREFIX):ClearVoltage-SP")
 }
 #-------------------
 # PV label
@@ -479,6 +480,36 @@ record(stringout, "$(PREFIX):PwrStateLabel1-Cte") {
     field(DESC, "PV label 1")
     field(VAL, "Turn ON/OFF HVPS")
 }
+#-------------------
+# clear Voltage-SP
+#-------------------
+record(calcout, "$(PREFIX):ClearVoltage-SP") {
+    field(DESC, "Clear output voltage when PS is turned off")
+    field(SCAN, "Passive")                 # Scanning Rate
+    field(INPA, "$(PREFIX):PwrState-Sel")
+    field(INPB, "0")
+    field(CALC, "(A = B)? B")
+    field(DOPT, "Use CALC")
+    field(OOPT, "Every Time")
+    field(OUT, "$(PREFIX):Voltage-SP")
+#    field(FLNK, "$(PREFIX):Voltage-SP")
+}
+##-------------------
+## Sequence 
+##-------------------
+#record(seq, "$(PREFIX):ClearVoltage-SP"){
+#    field(SCAN, "Passive")
+#    field(DOL1, "0")
+#    field(LNK1, "$(PREFIX):Voltage-SP")
+#    #field(DOL2, "$(PREFIX):Voltage-SP")
+#    #field(LNK1, "$(PREFIX):RawVoltage-SP")
+#    #field(LNK2, "")
+#    #field(LNK3, "$(PREFIX):Counter")
+#    field(DLY1, "0")
+#    field(SELM, "Mask")
+#    field(SELL, "$(PREFIX):StopCriteria")
+#    field(FLNK, "$(PREFIX):Fanout")
+#}
 #***************************************
 #   TRIGGER (1 OUTPUT)
 #***************************************
