@@ -37,7 +37,7 @@ record(ai, "$(PREFIX):AngularCoef-Mon") {
     field(DTYP, "stream")
     field(EOFF, "0.0")
     field(ESLO, "0.01")
-    field(INP, "@MBTemp.proto getAngulararCoef($(MBTEMP_ADDRESS)) $(PORT)")
+    field(INP, "@MBTemp.proto getAngularCoef($(MBTEMP_ADDRESS)) $(PORT)")
     field(LINR, "LINEAR")
     field(PINI, "YES")
     field(PREC, "2")
