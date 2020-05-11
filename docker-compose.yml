@@ -39,7 +39,7 @@ services:
         volumes:
             - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
     mbtemp:
-        image: lnlscon/streamdevice-ioc:MBTemp-v1.0
+        image: lnlscon/streamdevice-ioc:MBTemp-v1.2
         build:
             dockerfile: 'Dockerfile'
             context: .
@@ -47,6 +47,11 @@ services:
                 - "br.com.lnls-sirius.description=StreamDevice IOC"
                 - "br.com.lnls-sirius.department=CONS"
                 - "br.com.lnls-sirius.maintener=Claudio Ferreira Carneiro"
+        environment:
+                - "EPICS_IOC_CAPUTLOG_INET=10.128.255.4"
+                - "EPICS_IOC_CAPUTLOG_PORT=7012"
+                - "EPICS_IOC_LOG_INET=10.128.255.4"
+                - "EPICS_IOC_LOG_PORT=7011"
         command: /bin/bash ./bin/mbtemp.sh
         volumes:
             - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
