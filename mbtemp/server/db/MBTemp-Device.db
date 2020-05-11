@@ -19,3 +19,27 @@ record(longout, "$(PREFIX):Alpha") {
     field(OUT, "@MBTemp.proto setAlpha($(MBTEMP_ADDRESS)) $(PORT)")
     field(PINI, "YES")
 }
+
+record(ai, "$(PREFIX):LinearCoef-Mon") {
+    field(DESC, "Linear coefficient for temperature conversion equation")
+    field(DTYP, "stream")
+    field(EOFF, "0.0")
+    field(ESLO, "0.01")
+    field(INP, "@MBTemp.proto getLinearCoef($(MBTEMP_ADDRESS)) $(PORT)")
+    field(LINR, "LINEAR")
+    field(PINI, "YES")
+    field(PREC, "2")
+    field(SCAN, "$(SCAN_RATE)")
+}
+
+record(ai, "$(PREFIX):AngularCoef-Mon") {
+    field(DESC, "Angular coefficient for temperature conversion equation")
+    field(DTYP, "stream")
+    field(EOFF, "0.0")
+    field(ESLO, "0.01")
+    field(INP, "@MBTemp.proto getAngulararCoef($(MBTEMP_ADDRESS)) $(PORT)")
+    field(LINR, "LINEAR")
+    field(PINI, "YES")
+    field(PREC, "2")
+    field(SCAN, "$(SCAN_RATE)")
+}
