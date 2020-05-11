@@ -22,6 +22,18 @@ getTemperature {
     in 0x00, 0x11, 0x00, 0x02, "%02r%<nsum>";
 }
 
+# Routine for angular coefficient reading (implements BSMP protocol)
+getAngularCoef {
+    out $1, 0x10, 0x00, 0x01, 0x09, "%<nsum>";
+    in 0x00, 0x11, 0x00, 0x02, "%02r%<nsum>";
+}
+
+# Routine for linear coefficient reading (implements BSMP protocol)
+getLinearCoef {
+    out $1, 0x10, 0x00, 0x01, 0x0a, "%<nsum>";
+    in 0x00, 0x11, 0x00, 0x02, "%02r%<nsum>";
+}
+
 # Routine for the exponential moving average smoothing factor (alpha)
 setAlpha {
     out $1, 0x20, 0x00, 0x03, 0x08, "%.02r%<nsum>";
