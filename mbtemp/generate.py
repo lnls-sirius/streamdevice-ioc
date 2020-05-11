@@ -39,6 +39,7 @@ def generate(args, defaults):
                 MBTEMP_ADDRESS=device.address,
                 PREFIX=device.prefix,
                 SCAN_RATE=board.scan_rate,
+                SCAN_RATE_DEVICE="10 second",
                 CH1=device.channels[0],
                 CH2=device.channels[1],
                 CH3=device.channels[2],
