@@ -30,7 +30,7 @@ drvAsynIPPortConfigure("${IP_ASYN_PORT}","${IP_ADDR}", 0, 0, 0)
 
 mbt_template = Template('''
 # Record for configuration of MBTemp exponential moving average smoothing factor
-dbLoadRecords("database/MBTemp-Device.db", "MBTEMP_ADDRESS = ${MBTEMP_ADDRESS}, PORT = ${IP_ASYN_PORT}, PREFIX = ${PREFIX}")
+dbLoadRecords("database/MBTemp-Device.db", "MBTEMP_ADDRESS = ${MBTEMP_ADDRESS}, PORT = ${IP_ASYN_PORT}, PREFIX = ${PREFIX}, SCAN_RATE = $SCAN_RATE_DEVICE")
 
 # Records corresponding to the eight temperature measurements given by the MBTemp board
 dbLoadRecords("database/MBTemp-Channel.db", "CHANNEL = 0, DESCRIPTION = MBTemp Channel 1, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = ${IP_ASYN_PORT}, RECORD_NAME = $CH1, SCAN_RATE = $SCAN_RATE")
