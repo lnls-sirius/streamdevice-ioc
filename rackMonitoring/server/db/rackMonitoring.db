@@ -15,11 +15,12 @@
 #
 # SCAN_RATE - Record scan rate (time interval between two consecutive temperature readings).
 
-record(bi,"$(PREFIX)-Fan:Status-Mon"){
+record(mbbi,"$(PREFIX)-Fan:Status-Mon"){
     field(DESC, "$(PREFIX) Fan Status")
-   field(INP, "@rackMonitoring.proto getVariable(c, 1) $(PORT)")
+    field(INP, "@rackMonitoring.proto getVariable(c, 1) $(PORT)")
     field(DTYP, "stream")
     field(PINI, "YES")
+    field(SCAN, "$(SCAN_RATE)")
 
     field(ZRST, "Off")
     field(ONST, "On")
@@ -54,3 +55,55 @@ record(ai, "$(PREFIX)-Outlet:Voltage-Mon") {
     field(PREC, "2")
     field(SCAN, "$(SCAN_RATE)")
 }
+
+record(ai, "$(PREFIX)-LM35:Temperature-Mon") {
+    field(DESC, "$(PREFIX) LM35 Temperature Value")
+    field(DTYP, "stream")
+    field(EGU,  "C")
+
+    field(EOFF, "0.0")
+    field(ESLO, "0.01")
+
+    field(INP, "@rackMonitoring.proto getVariable(t, 2) $(PORT)")
+    field(LINR, "LINEAR"2)
+    field(PINI, "YES")
+    field(PREC, "2")
+    field(SCAN, "$(SCAN_RATE)")
+}
+
+record(ai, "$(PREFIX)-DHT:Humidity-Mon") {
+    field(DESC, "$(PREFIX) DHT Humidity Value")
+    field(DTYP, "stream")
+    field(EGU,  "percent")
+
+    field(EOFF, "0.0")
+    field(ESLO, "0.01")
+
+    field(INP, "@rackMonitoring.proto getVariable(u, 1) $(PORT)")
+    field(LINR, "LINEAR")
+    field(PINI, "YES")
+    field(PREC, "2")
+    field(SCAN, "$(SCAN_RATE)")
+}
+
+record(mbbi,"$(PREFIX)-BackDoor:Status-Mon"){
+    field(DESC, "$(PREFIX) Back Door Status")
+    field(INP, "@rackMonitoring.proto getVariable(b, 1) $(PORT)")
+    field(DTYP, "stream")
+    field(PINI, "YES")
+    field(SCAN, "$(SCAN_RATE)")
+
+    field(ZRST, "Closed")
+    field(ONST, "Open")
+} 
+
+record(mbbi,"$(PREFIX)-FrontDoor:Status-Mon"){
+    field(DESC, "$(PREFIX) Back Door Status")
+    field(INP, "@rackMonitoring.proto getVariable(f, 1) $(PORT)")
+    field(DTYP, "stream")
+    field(PINI, "YES")
+    field(SCAN, "$(SCAN_RATE)")
+
+    field(ZRST, "Closed")
+    field(ONST, "Open")
+} 

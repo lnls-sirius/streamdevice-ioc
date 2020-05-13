@@ -24,7 +24,7 @@ streamApp_registerRecordDeviceDriver(pdbbase)
 asSetFilename("${TOP}/log/Security.as")
 
 # Rack Monitoring Board
-drvAsynIPPortConfigure("${IP_ASYN_PORT}","${IP_ADDR}:5004", 0, 0, 0)
+drvAsynIPPortConfigure("${IP_ASYN_PORT}","${IP_ADDR}", 0, 0, 0)
 
 ''')
 
