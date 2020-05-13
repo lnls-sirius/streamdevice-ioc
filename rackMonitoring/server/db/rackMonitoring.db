@@ -71,6 +71,21 @@ record(ai, "$(PREFIX)-LM35:Temperature-Mon") {
     field(SCAN, "$(SCAN_RATE)")
 }
 
+record(ai, "$(PREFIX)-DHT:Temperature-Mon") {
+    field(DESC, "$(PREFIX) DHT Temperature Value")
+    field(DTYP, "stream")
+    field(EGU,  "C")
+
+    field(EOFF, "0.0")
+    field(ESLO, "0.01")
+
+    field(INP, "@rackMonitoring.proto getVariable(T, 2) $(PORT)")
+    field(LINR, "LINEAR")
+    field(PINI, "YES")
+    field(PREC, "2")
+    field(SCAN, "$(SCAN_RATE)")
+}
+
 record(ai, "$(PREFIX)-DHT:Humidity-Mon") {
     field(DESC, "$(PREFIX) DHT Humidity Value")
     field(DTYP, "stream")
