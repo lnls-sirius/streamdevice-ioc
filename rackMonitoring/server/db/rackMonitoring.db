@@ -65,7 +65,7 @@ record(ai, "$(PREFIX)-LM35:Temperature-Mon") {
     field(ESLO, "0.01")
 
     field(INP, "@rackMonitoring.proto getVariable(t, 2) $(PORT)")
-    field(LINR, "LINEAR"2)
+    field(LINR, "LINEAR")
     field(PINI, "YES")
     field(PREC, "2")
     field(SCAN, "$(SCAN_RATE)")
