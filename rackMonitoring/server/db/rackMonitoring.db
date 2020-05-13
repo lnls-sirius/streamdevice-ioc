@@ -15,8 +15,8 @@
 #
 # SCAN_RATE - Record scan rate (time interval between two consecutive temperature readings).
 
-record(bi,"$(RECORD_NAME)-Fan:Status-Mon"){
-    field(DESC, "$(RECORD_NAME) Fan Status")
+record(bi,"$(PREFIX)-Fan:Status-Mon"){
+    field(DESC, "$(PREFIX) Fan Status")
    field(INP, "@rackMonitoring.proto getVariable(c, 1) $(PORT)")
     field(DTYP, "stream")
     field(PINI, "YES")
@@ -25,8 +25,8 @@ record(bi,"$(RECORD_NAME)-Fan:Status-Mon"){
     field(ONST, "On")
 } 
 
-record(ai, "$(RECORD_NAME)-Fan:Current-Mon") {
-    field(DESC, "$(RECORD_NAME) Fan Current")
+record(ai, "$(PREFIX)-Fan:Current-Mon") {
+    field(DESC, "$(PREFIX) Fan Current")
     field(DTYP, "stream")
     field(EGU,  "A")
 
@@ -40,8 +40,8 @@ record(ai, "$(RECORD_NAME)-Fan:Current-Mon") {
     field(SCAN, "$(SCAN_RATE)")
 }
 
-record(ai, "$(RECORD_NAME)-Outlet:Voltage-Mon") {
-    field(DESC, "$(RECORD_NAME) Voltage Value")
+record(ai, "$(PREFIX)-Outlet:Voltage-Mon") {
+    field(DESC, "$(PREFIX) Voltage Value")
     field(DTYP, "stream")
     field(EGU,  "V")
 
