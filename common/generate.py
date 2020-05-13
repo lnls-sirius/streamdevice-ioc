@@ -14,8 +14,9 @@ MKS = 'MKS'
 PRU = 'PRU'
 MBTemp = 'MBTemp'
 SPIxCONV = 'SPIxCONV'
+RackMonitoring = 'RackMonitoring'
 
-DEVICES = [UHV, MBTemp, PRU, SPIxCONV, MKS]
+DEVICES = [UHV, MBTemp, PRU, SPIxCONV, MKS, RackMonitoring]
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate IOC files.',
@@ -60,3 +61,7 @@ if __name__ == "__main__":
     elif args.device == SPIxCONV:
         from spixconv.generate import generate
         generate(args, defaults)
+    elif args.device == RackMonitoring:
+        from rackMonitoring.generate import generate
+        generate(args, defaults)
+

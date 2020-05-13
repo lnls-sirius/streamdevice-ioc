@@ -68,6 +68,23 @@ services:
         volumes:
             - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
             - "/var/tmp/auto:/opt/epics-R3.15.6/modules/StreamDevice-2.8.9/autosave:rw"
+    rackMonitoring:
+        image: lnlscon/streamdevice-ioc:RackMonitoring-v1.2
+        build:
+            dockerfile: 'Dockerfile'
+            context: .
+            labels:
+                - "br.com.lnls-sirius.description=StreamDevice IOC"
+                - "br.com.lnls-sirius.department=CONS"
+                - "br.com.lnls-sirius.maintener=Claudio Ferreira Carneiro"
+        environment:
+                - "EPICS_IOC_CAPUTLOG_INET=10.128.255.4"
+                - "EPICS_IOC_CAPUTLOG_PORT=7012"
+                - "EPICS_IOC_LOG_INET=10.128.255.4"
+                - "EPICS_IOC_LOG_PORT=7011"
+        command: /bin/bash ./bin/rackMonitoring.sh
+        volumes:
+            - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
     spixconv:
         image: lnlscon/streamdevice-ioc:SPIxCONV-v1.6
         build:

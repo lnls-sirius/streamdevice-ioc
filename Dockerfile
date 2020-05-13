@@ -36,6 +36,7 @@ COPY agilent4uhv        agilent4uhv
 COPY countingPRU        countingPRU
 COPY mbtemp             mbtemp
 COPY mks937b            mks937b
+COPY rackMonitoring     rackMonitoring
 COPY spixconv           spixconv
 COPY dbd                dbd
 COPY bin                bin

@@ -1,5 +1,6 @@
 *.save
 settings.json
+*.swp
 
 # Agilent 4UHV
 agilent4uhv/server/cmd/*
@@ -12,6 +13,9 @@ spixconv/server/cmd/*
 
 # Counting PRU
 countingPRU/server/cmd/*
+
+# Rack Monitoring
+rackMonitoring/server/cmd/*
 
 # MKS 937b
 mks937b/server/cmd/*

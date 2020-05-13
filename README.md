@@ -6,6 +6,7 @@ The following is a list of applications and ports:
 
 |   Device  |Port|
 |:---------:|:---:|
+|rackMonitoring   |5006|
 |spixconv   |5005|
 |agilent4uhv|5004|
 |mbtemp     |5003|

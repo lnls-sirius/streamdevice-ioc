@@ -1,0 +1,56 @@
+# rackMonitoring.db
+
+# Record definition for one temperature channel. Developed for MBTemp version 2.1 and newer.
+
+# This file contains one record definition, which corresponds to a temperature measurement and has
+# six parameters:
+#
+# CHANNEL - Channel in MBTemp board where the temperature sensor is connected to (from 0 to 7).
+#
+# DESCRIPTION - EPICS record description.
+#
+# PORT - Name of the serial port configured in asynDriver.
+#
+# RECORD_NAME - Name of record.
+#
+# SCAN_RATE - Record scan rate (time interval between two consecutive temperature readings).
+
+record(bi,"$(RECORD_NAME)-Fan:Status-Mon"){
+    field(DESC, "$(RECORD_NAME) Fan Status")
+   field(INP, "@rackMonitoring.proto getVariable(c, 1) $(PORT)")
+    field(DTYP, "stream")
+    field(PINI, "YES")
+
+    field(ZRST, "Off")
+    field(ONST, "On")
+} 
+
+record(ai, "$(RECORD_NAME)-Fan:Current-Mon") {
+    field(DESC, "$(RECORD_NAME) Fan Current")
+    field(DTYP, "stream")
+    field(EGU,  "A")
+
+    field(EOFF, "0.0")
+    field(ESLO, "0.01")
+
+    field(INP, "@rackMonitoring.proto getVariable(C, 1) $(PORT)")
+    field(LINR, "LINEAR")
+    field(PINI, "YES")
+    field(PREC, "2")
+    field(SCAN, "$(SCAN_RATE)")
+}
+
+record(ai, "$(RECORD_NAME)-Outlet:Voltage-Mon") {
+    field(DESC, "$(RECORD_NAME) Voltage Value")
+    field(DTYP, "stream")
+    field(EGU,  "V")
+
+    field(EOFF, "0.0")
+    field(ESLO, "0.01")
+
+    field(INP, "@rackMonitoring.proto getVariable(v, 1) $(PORT)")
+    field(LINR, "LINEAR")
+    field(PINI, "YES")
+    field(PREC, "2")
+    field(SCAN, "$(SCAN_RATE)")
+}
