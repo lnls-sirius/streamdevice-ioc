@@ -14,6 +14,10 @@
 # RECORD_NAME - Name of record.
 #
 # SCAN_RATE - Record scan rate (time interval between two consecutive temperature readings).
+#
+# Function
+# getVariable(BSMP_ID, REPLY_SIZE)
+# 
 
 record(mbbi,"$(PREFIX)-Fan:Status-Mon"){
     field(DESC, "$(PREFIX) Fan Status")
@@ -24,6 +28,8 @@ record(mbbi,"$(PREFIX)-Fan:Status-Mon"){
 
     field(ZRST, "Off")
     field(ONST, "On")
+    field(TWST, "Invalid")
+    field(THST, "Overload")
 } 
 
 record(ai, "$(PREFIX)-Fan:Current-Mon") {
@@ -46,13 +52,8 @@ record(ai, "$(PREFIX)-Outlet:Voltage-Mon") {
     field(DTYP, "stream")
     field(EGU,  "V")
 
-    field(EOFF, "0.0")
-    field(ESLO, "0.01")
-
     field(INP, "@rackMonitoring.proto getVariable(v, 1) $(PORT)")
-    field(LINR, "LINEAR")
     field(PINI, "YES")
-    field(PREC, "2")
     field(SCAN, "$(SCAN_RATE)")
 }
 
@@ -76,13 +77,8 @@ record(ai, "$(PREFIX)-DHT:Temperature-Mon") {
     field(DTYP, "stream")
     field(EGU,  "C")
 
-    field(EOFF, "0.0")
-    field(ESLO, "0.01")
-
-    field(INP, "@rackMonitoring.proto getVariable(T, 2) $(PORT)")
-    field(LINR, "LINEAR")
+    field(INP, "@rackMonitoring.proto getVariable(T, 1) $(PORT)")
     field(PINI, "YES")
-    field(PREC, "2")
     field(SCAN, "$(SCAN_RATE)")
 }
 
@@ -91,13 +87,8 @@ record(ai, "$(PREFIX)-DHT:Humidity-Mon") {
     field(DTYP, "stream")
     field(EGU,  "percent")
 
-    field(EOFF, "0.0")
-    field(ESLO, "0.01")
-
     field(INP, "@rackMonitoring.proto getVariable(u, 1) $(PORT)")
-    field(LINR, "LINEAR")
     field(PINI, "YES")
-    field(PREC, "2")
     field(SCAN, "$(SCAN_RATE)")
 }
 
@@ -108,8 +99,8 @@ record(mbbi,"$(PREFIX)-BackDoor:Status-Mon"){
     field(PINI, "YES")
     field(SCAN, "$(SCAN_RATE)")
 
-    field(ZRST, "Closed")
-    field(ONST, "Open")
+    field(ZRST, "Open")
+    field(ONST, "Closed")
 } 
 
 record(mbbi,"$(PREFIX)-FrontDoor:Status-Mon"){
@@ -119,6 +110,6 @@ record(mbbi,"$(PREFIX)-FrontDoor:Status-Mon"){
     field(PINI, "YES")
     field(SCAN, "$(SCAN_RATE)")
 
-    field(ZRST, "Closed")
-    field(ONST, "Open")
+    field(ZRST, "Open")
+    field(ONST, "Closed")
 } 
