@@ -1,29 +1,21 @@
 #!/usr/bin/env python3
 from string import Template
 
-top = Template('''#!../bin/linux-x86_64/streamApp
-
+top = Template('''#!../../bin/linux-x86_64/streamDeviceIOCApp
+< envPaths
 # ${DESCRIPTION}
-
 # This script will be used for SPIxCONV installations alongside with EPP hardware and power supplies.
 
-# Environment variables
-epicsEnvSet("EPICS_BASE", "${EPICS_BASE}")
-epicsEnvSet("ASYN", "${ASYN}")
-epicsEnvSet("AUTOSAVE", "${AUTOSAVE}")
-epicsEnvSet("TOP", "${TOP}")
-epicsEnvSet("ARCH", "${ARCH}")
-epicsEnvSet("STREAM_PROTOCOL_PATH", "${STREAM_PROTOCOL_PATH}")
 epicsEnvSet("EPICS_CA_SERVER_PORT", "${EPICS_CA_SERVER_PORT}")
 
 epicsEnvSet("EPICS_IOC_LOG_INET", "${LOG_ADDR}")
 epicsEnvSet("EPICS_IOC_LOG_PORT", "${LOG_PORT}")
-asSetFilename("${TOP}/log/Security.as")
+asSetFilename("${TOP}/db/Security.as")
 
 # Database definition file
 cd ${CD}
-dbLoadDatabase("dbd/streamApp.dbd")
-streamApp_registerRecordDeviceDriver(pdbbase)
+dbLoadDatabase("dbd/streamDeviceIOCApp.dbd")
+streamDeviceIOCApp_registerRecordDeviceDriver(pdbbase)
 
 #==========================================================================
 #                                       --prefix--
@@ -48,8 +40,8 @@ streamApp_registerRecordDeviceDriver(pdbbase)
 drvAsynIPPortConfigure("socket_spixconv", "${IP_ADDR}")
 
 # database for 10 kV Voltage source:
-dbLoadRecords("database/${DATABASE}.db", "PREFIX=${PREFIX}, SCAN_RATE=${SCAN_RATE}, SPIxCONV_ADDRESS=${ADDRESS}, VOLTAGE_FACTOR=${VOLTAGE_FACTOR}, STEP_DELAY=${DELAY}, STEP_TRIGGER=${TRIGGER}")
-dbLoadRecords("database/SPIxCONV_Config.db", "P=${PREFIX}")
+dbLoadRecords("db/${DATABASE}.db", "PREFIX=${PREFIX}, SCAN_RATE=${SCAN_RATE}, SPIxCONV_ADDRESS=${ADDRESS}, VOLTAGE_FACTOR=${VOLTAGE_FACTOR}, STEP_DELAY=${DELAY}, STEP_TRIGGER=${TRIGGER}")
+dbLoadRecords("db/SPIxCONV_Config.db", "P=${PREFIX}")
 ''')
 
 bot = Template('''
