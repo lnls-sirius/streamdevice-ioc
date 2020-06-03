@@ -1,0 +1,5 @@
+Dockerfile.EPICS
+Dockerfile
+.git
+.gitmodules
+docker-compose.yml

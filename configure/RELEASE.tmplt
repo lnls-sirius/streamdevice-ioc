@@ -1,0 +1,12 @@
+ASYN=${ASYN}
+CALC=${CALC}
+AUTOSAVE=${AUTOSAVE}
+CAPUTLOG=${CAPUTLOG}
+STREAM=${STREAM}
+EPICS_BASE=${EPICS_BASE}
+
+STREAM_PROTOCOL_PATH=$(TOP)/protocol
+
+-include $(TOP)/../RELEASE.local
+-include $(TOP)/configure/RELEASE.local
+
