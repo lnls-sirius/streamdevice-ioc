@@ -34,17 +34,20 @@ COPY streamDeviceIOCApp streamDeviceIOCApp
 COPY Makefile           Makefile
 COPY configure          configure
 COPY iocBoot            iocBoot
-RUN  envsubst < configure/RELEASE.tmplt > configure/RELEASE && make && mkdir protocol
 
-COPY common             common
-COPY spreadsheet        spreadsheet
+RUN envsubst < configure/RELEASE.tmplt > configure/RELEASE && mkdir protocol && mkdir autosave
+RUN make distclean && make clean && make &&\
+    cat iocBoot/iocStreamDeviceIOC/envPaths
+
 COPY agilent4uhv        agilent4uhv
+COPY bin/*              bin/
+COPY common             common
 COPY countingPRU        countingPRU
 COPY mbtemp             mbtemp
 COPY mks937b            mks937b
 COPY rackMonitoring     rackMonitoring
 COPY spixconv           spixconv
-COPY bin/*              bin/
+COPY spreadsheet        spreadsheet
 
 # Run stuff
 CMD echo "Overwrite the command!" && ls -la ./bin && tail -f /dev/null

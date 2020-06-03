@@ -3,7 +3,7 @@
 
 from string import Template
 
-mbt_template_top = Template('''#!../../bin/linux-x86_64/streamDeviceIOCApp
+mbt_template_top = Template('''#!../../bin/linux-x86_64/streamDeviceIOC
 < envPaths
 epicsEnvSet("EPICS_CA_SERVER_PORT", "${EPICS_CA_SERVER_PORT}")
 
@@ -12,8 +12,8 @@ epicsEnvSet("EPICS_IOC_LOG_PORT", "${LOG_PORT}")
 # Database definition file
 
 cd ${CD}
-dbLoadDatabase("dbd/streamDeviceIOCApp.dbd")
-streamDeviceIOCApp_registerRecordDeviceDriver(pdbbase)
+dbLoadDatabase("dbd/streamDeviceIOC.dbd")
+streamDeviceIOC_registerRecordDeviceDriver(pdbbase)
 asSetFilename("${TOP}/db/Security.as")
 
 # MBTemp board (TCP with socat binding the serial port at 115200)

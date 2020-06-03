@@ -11,12 +11,21 @@ include $(TOP)/configure/CONFIG
 PROD_IOC = streamDeviceIOC
 PROD_LIBS += stream
 PROD_LIBS += asyn
+PROD_LIBS += calc
+PROD_LIBS += caPutLog
+PROD_LIBS += autosave
 
 # streamDeviceIOC.dbd will be created and installed
 DBD += streamDeviceIOC.dbd
 
 # streamDeviceIOC.dbd will be made up from these files:
 streamDeviceIOC_DBD += base.dbd
+
+streamDeviceIOC_DBD += caPutLog.dbd
+streamDeviceIOC_DBD += calcSupport.dbd
+streamDeviceIOC_DBD += asyn.dbd
+streamDeviceIOC_DBD += stream.dbd
+streamDeviceIOC_DBD += asSupport.dbd
 streamDeviceIOC_DBD += drvAsynIPPort.dbd
 streamDeviceIOC_DBD += drvAsynSerialPort.dbd
 

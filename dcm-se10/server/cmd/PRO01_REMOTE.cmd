@@ -1,10 +1,10 @@
-#!../../bin/linux-x86_64/streamDeviceIOCApp
+#!../../bin/linux-x86_64/streamDeviceIOC
 < envPaths
 
 # Database definition file
 cd ${TOP}
-dbLoadDatabase("dbd/streamDeviceIOCApp.dbd")
-streamDeviceIOCApp_registerRecordDeviceDriver(pdbbase)
+dbLoadDatabase("dbd/streamDeviceIOC.dbd")
+streamDeviceIOC_registerRecordDeviceDriver(pdbbase)
 
 
 # MBTemp board (with socat binding the serial port at 115200)

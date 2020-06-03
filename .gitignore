@@ -1,6 +1,7 @@
 *.save
 settings.json
 *.swp
+.idea
 
 # Agilent 4UHV
 agilent4uhv/server/cmd/*

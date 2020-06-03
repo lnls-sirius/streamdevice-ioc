@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from string import Template
 
-top = Template('''#!../../bin/linux-x86_64/streamDeviceIOCApp
+top = Template('''#!../../bin/linux-x86_64/streamDeviceIOC
 < envPaths
 # ${DESCRIPTION}
 # This script will be used for SPIxCONV installations alongside with EPP hardware and power supplies.
@@ -14,8 +14,8 @@ asSetFilename("${TOP}/db/Security.as")
 
 # Database definition file
 cd ${CD}
-dbLoadDatabase("dbd/streamDeviceIOCApp.dbd")
-streamDeviceIOCApp_registerRecordDeviceDriver(pdbbase)
+dbLoadDatabase("dbd/streamDeviceIOC.dbd")
+streamDeviceIOC_registerRecordDeviceDriver(pdbbase)
 
 #==========================================================================
 #                                       --prefix--

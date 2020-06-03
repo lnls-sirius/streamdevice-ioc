@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from string import Template
-template_top = Template('''#!../../bin/linux-x86_64/streamDeviceIOCApp
+template_top = Template('''#!../../bin/linux-x86_64/streamDeviceIOC
 < envPaths
 
 # Serial Address is 128 (0x80) + [0 - 31]
@@ -12,8 +12,8 @@ epicsEnvSet("EPICS_IOC_LOG_PORT", "${LOG_PORT}")
 
 # Database definition file
 cd $CD
-dbLoadDatabase("dbd/streamDeviceIOCApp.dbd")
-streamDeviceIOCApp_registerRecordDeviceDriver(pdbbase)
+dbLoadDatabase("dbd/streamDeviceIOC.dbd")
+streamDeviceIOC_registerRecordDeviceDriver(pdbbase)
 asSetFilename("${TOP}/db/Security.as")
 
 # Bind to socat
