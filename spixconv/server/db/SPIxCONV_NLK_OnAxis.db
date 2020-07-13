@@ -331,7 +331,7 @@ record(stringout, "$(PREFIX):PwrStateLabel1-Cte") {
 #***************************************
 record(bo, "$(PREFIX):Pulse-Sel") {
     field(DESC, "Turn ON/OFF trigger pulse")
-    field(OUT, "@SPIxCONV.proto set_portB_digital_output_bit($(SPIxCONV_ADDRESS),2) socket_spixconv")
+    field(OUT, "@SPIxCONV.proto set_portB_digital_output_bit($(SPIxCONV_ADDRESS),4) socket_spixconv")
     field(DTYP, "stream")                      # Device Type
     field(SCAN, "Passive")                     # Scanning Rate
     field(ZSV, "NO_ALARM")
