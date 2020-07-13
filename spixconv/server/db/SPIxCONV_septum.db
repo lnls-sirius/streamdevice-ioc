@@ -12,7 +12,7 @@ record(ao, "$(PREFIX):Voltage-SP") {
     field(ASLO, "0.00007629423635191479459684")
     field(EOFF, "0.0")
     field(ESLO, "$(VOLTAGE_FACTOR)")
-    field(OUT, "@SPIxCONV.proto set_analog_output($(SPIxCONV_ADDRESS)) socket_spixconv")
+    field(OUT, "@SPIxCONV.proto set_analog_output($(SPIxCONV_ADDRESS),$(VOLTAGE_FACTOR),$(STEP_TRIGGER),$(STEP_DELAY)) socket_spixconv")
     field(LINR, "LINEAR")
     field(PREC, "1")                            # Display Precision
     field(SCAN, "Passive")
