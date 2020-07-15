@@ -37,8 +37,15 @@ set_portD_direction_bit{
 }
 #==============================================================================
 set_analog_output{
+    InTerminator = CR LF;
+    @init{
+        # output parameters: board
+        out 0x10, "\$1,", "\$2,", "\$3,", "\$4,";
+        # input parameters:  code set
+        in "%u";
+    }
     # output parameters: board, voltage
-    out 0x02, "\$1,", "\$2,", "\$3,", "\$4,", "%(RVAL)i";
+    out 0x02, $1, "%(RVAL)i";
 }
 #==============================================================================
 read_analog_output{
