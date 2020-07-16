@@ -103,6 +103,7 @@ read_portB_digital_output_bit{
 }
 #==============================================================================
 set_portB_digital_output_bit{
+    MaxInput = 1;
     @init{
         # output parameters: board, bit
         out 0x0B, $1, $2;
