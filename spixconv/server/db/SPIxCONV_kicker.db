@@ -333,7 +333,7 @@ record(stringout, "$(PREFIX):PulseLabel-Cte") {
 # the record is set as input, but it is actually reading the output value set previously
 record(bi, "$(PREFIX):Pulse-Sts") {
     field(DESC, "Read if trigger pulse is enabled or not")
-    field(INP, "@SPIxCONV.proto read_portB_digital_output_bit($(SPIxCONV_ADDRESS),4) socket_spixconv")
+    field(INP, "@SPIxCONV.proto read_portB_digital_input_bit($(SPIxCONV_ADDRESS),4) socket_spixconv")
     field(DTYP, "stream")                       # Device Type
     field(SCAN, "$(SCAN_RATE)")                 # Scanning Rate
     field(ZSV, "NO_ALARM")
