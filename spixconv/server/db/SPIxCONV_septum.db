@@ -2,6 +2,14 @@
 # Record definition for all digital and analog channels. Developed for SPIxCONV version 1.1 and newer.
 
 #==============================================================================
+#   Voltage Steps Config
+#==============================================================================
+record(stringout, "$(PREFIX):Voltage-Factor"){
+    field(DESC, "Power supply voltage factor")
+    field(VAL, "$(VOLTAGE_FACTOR)")
+}
+
+#==============================================================================
 #   ANALOG OUT
 #==============================================================================
 record(ao, "$(PREFIX):Voltage-SP") {
