@@ -8,6 +8,11 @@ record(stringout, "$(PREFIX):Voltage-Factor"){
     field(DESC, "Power supply voltage factor")
     field(VAL, "$(VOLTAGE_FACTOR)")
 }
+#-------------------------------------------
+record(stringout, "$(PREFIX):Step-Trigger"){
+    field(DESC, "Voltage to trigger steps")
+    field(VAL, "$(STEP_TRIGGER)")
+}
 
 #==============================================================================
 #   ANALOG OUT
