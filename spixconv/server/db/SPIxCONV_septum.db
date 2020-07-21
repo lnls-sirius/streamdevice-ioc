@@ -13,6 +13,11 @@ record(stringout, "$(PREFIX):Step-Trigger"){
     field(DESC, "Voltage to trigger steps")
     field(VAL, "$(STEP_TRIGGER)")
 }
+#-------------------------------------------
+record(stringout, "$(PREFIX):Step-Delay"){
+    field(DESC, "Delay berween voltage steps")
+    field(VAL, "$(STEP_DELAY)")
+}
 
 #==============================================================================
 #   ANALOG OUT
