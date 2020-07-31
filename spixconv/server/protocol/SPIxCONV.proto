@@ -115,7 +115,7 @@ set_portB_digital_output_bit{
 read_portA_digital_input_bit{
     MaxInput = 1;
     # output parameters: board, bit_pos
-    out 0x0D, $1, $2;
+    out 0x11, $1, $2;
     # input parameters:  bit read
     in "%u";
 }
