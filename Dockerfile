@@ -8,7 +8,7 @@ LABEL maintainer="Claudio Carneiro <claudio.carneiro@lnls.br>"
 RUN pip3 install pandas==0.23.4 xlrd==1.2.0
 
 # VIM
-RUN apt-get -y update && apt-get -y install procps vim
+RUN apt-get -y update && apt-get -y install procps vim socat
 
 # Epics auto addr list
 ENV EPICS_CA_AUTO_ADDR_LIST YES
