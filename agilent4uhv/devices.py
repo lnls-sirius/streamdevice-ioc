@@ -14,7 +14,7 @@ def get_device(prefix=None, address=0, channels=[None, None, None, None], high=[
         return None
 
     return {  # A device
-        'PREFIX': str(prefix),
+        'P': str(prefix),
         'ADDRESS': get_serial_addess(address),
         'channels': channels,
         'high': high,
