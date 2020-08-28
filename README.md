@@ -22,7 +22,11 @@ Two dockerfiles are used in order to build the containers.
 |[Dockerfile.EPICS](Dockerfile.EPICS)| EPICS base image      |
 
 
-For each device supported, a tag must be created in order to mitigate conflicts. The recommended way to create a new tag is to build it via the `docker-compose` command.
+For each device supported, a tag must be created in order to mitigate conflicts.
+The recommended way to build a container image is to edit the tag of the corresponding service at [docker-compose.yml](./docker-compose.yml) and build via the `docker-compose` command.
+```bash
+docker-compose build <sevice_name>
+```
 
 Some **environment variables** will change behaviours:
 
@@ -52,7 +56,7 @@ In order to build a new mks937b image, edit the image tag of the corresponding s
 
 Build a service:
 ```bash
-docker-compose build <service-name>
+docker-compose build <service_name>
 ```
 
 ## Deploy
