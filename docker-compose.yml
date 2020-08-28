@@ -20,8 +20,7 @@ services:
                 - "br.com.lnls-sirius.maintener=Claudio Ferreira Carneiro"
 
     agilent4uhv:
-        #image: lnlscon/streamdevice-ioc:Agilent4UHV-v1.1-Devel
-        image: lnlscon/streamdevice-ioc:Agilent4UHV-v1.1.3-Devel
+        image: lnlscon/streamdevice-ioc:Agilent4UHV-v2.0
         build:
             dockerfile: 'Dockerfile'
             context: .
