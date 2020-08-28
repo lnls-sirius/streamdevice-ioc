@@ -1,54 +1,61 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import logging
+import typing
 from agilent4uhv.consts import DATA_4UHV
 
 logger = logging.getLogger()
+
 
 def get_serial_addess(addr):
     return 128 + int(addr)
 
 
-def get_device(prefix=None, address=0, channels=[None, None, None, None], high=[0, 0, 0, 0], hihi=[0, 0, 0, 0]):
-    if prefix == None:
-        return None
-
-    return {  # A device
-        'P': str(prefix),
-        'ADDRESS': get_serial_addess(address),
-        'channels': channels,
-        'high': high,
-        'hihi': hihi
-    }
+class Device:
+    def __init__(self, prefix, serial_address, channels):
+        self.prefix: str = prefix
+        self.serial_address: int = get_serial_addess(serial_address)
+        self.channels = channels
 
 
-def get_sector(f_name='default_name', ip_address="10.0.6.67", devices=[None, None, None, None], asyn_ip_port='IPPort0'):
-    return {
-        # A Sector
-        'f_name': f_name + ':5004',
-        'IP_ASYN_PORT': asyn_ip_port,
-        # Beaglebone IP.
-        'IP_ADDR': ip_address + ':5004',
-        # Devices
-        'devices': devices
-    }
+class DevicesNet:
+    def __init__(self, ip_address, devices, asyn_ip_port="IPPort0"):
+        self.f_name: str = ip_address + ":5004"
+        self.ip_address: str = ip_address + ":5004"
+        self.devices: typing.List = devices
+        self.asyn_ip_port: str = asyn_ip_port
+
+        self.devices_num: int = 0
+        for device in self.devices:
+            if device is None:
+                continue
+            self.devices_num += 1
 
 
-sectors = []
+sectors: typing.List[DevicesNet] = []
 for _ip, rows in DATA_4UHV.items():
     if len(rows) > 4:
-        logger.error('More than 4 devices are set for the {} network. Values {}.'.format(_ip, rows))
+        logger.error(
+            'More than 4 devices are set for the "{}" network. Values "{}".'.format(
+                _ip, rows
+            )
+        )
         continue
 
     devs = []
     for row in rows:
-        # HI C1	HI C2	HI C3	HI C4	HIHI C1	HIHI C2	HIHI C3	HIHI C4
-        devs.append(get_device(row['Dispositivo'], row['RS485 ID'],
-                               [row['C1'], row['C2'], row['C3'], row['C4']],
-                               [row['HI C1'], row['HI C2'], row['HI C3'], row['HI C4']],
-                               [row['HIHI C1'], row['HIHI C2'], row['HIHI C3'], row['HIHI C4']]))
+        devs.append(
+            Device(
+                prefix=row["Dispositivo"],
+                serial_address=row["RS485 ID"],
+                channels=[row["C1"], row["C2"], row["C3"], row["C4"]],
+            )
+        )
 
-    while len(devs) < 4:
-        devs.append(None)
-
-    sectors.append(get_sector(_ip, _ip, devs))
+    net = DevicesNet(_ip, devs)
+    if net.devices_num == 0:
+        logger.error(
+            'Network "{}" has {} devices'.format(net.ip_address, net.devices_num)
+        )
+        continue
+    sectors.append(net)

@@ -8,6 +8,8 @@ from agilent4uhv.cmd_template import (
     template_channel,
     template_device,
     template_top,
+    template_autosave_chrestore,
+    template_autosave_chmonitor,
 )
 from agilent4uhv.devices import sectors
 
@@ -31,12 +33,16 @@ def generate(args, defaults):
     dir_name = os.path.dirname(os.path.abspath(__file__))
     for sector in sectors:
         res = ""
+        _as = ""
 
-        devices = sector["devices"]
-        ip_asyn_port = sector["IP_ASYN_PORT"]
-        ip_addr = sector["IP_ADDR"]
-        devices_num = 0
+        devices = sector.devices
+        ip_asyn_port = sector.asyn_ip_port
+        ip_addr = sector.ip_address
 
+        # autosave (autosave_ip_name)
+        autosave_ip_name = ip_addr.replace(".", "_")
+
+        # cmd top
         res += template_top.safe_substitute(
             defaults,
             IP_ADDR=ip_addr,
@@ -44,27 +50,18 @@ def generate(args, defaults):
             EPICS_CA_SERVER_PORT=epics_ca_server_port,
         )
 
-        for i in range(4):
-            if devices[i] is None:
-                devices[i] = {"P": "None:{}".format(i)}
-                continue
-            devices_num += 1
-
         d_n = 0
         for device in devices:
             d_n += 1
-            if device["P"].startswith("None"):
-                continue
 
-            prefix = device["P"]
-            serial_address = device["ADDRESS"]
+            prefix = device.prefix
+            serial_address = device.serial_address
 
-            channels = device["channels"]
-            p_high = device["high"]
-            p_hihi = device["hihi"]
+            channels = device.channels
 
             for i in range(4):
                 if channels[i] is None:
+                    # @todo: If the channel is empty do something....
                     channels[i] = "None:{}".format(i)
 
             res += template_device.safe_substitute(
@@ -76,7 +73,7 @@ def generate(args, defaults):
                 P_CH3=channels[2],
                 P_CH4=channels[3],
                 DEVICE_NUM=d_n,
-                TIME=devices_num * SEC_PER_DEVICE,
+                TIME=sector.devices_num * SEC_PER_DEVICE,
             )
 
             for i in range(4):
@@ -87,24 +84,40 @@ def generate(args, defaults):
                     IP_ASYN_PORT=ip_asyn_port,
                     D=prefix,
                     P=channels[i],
-                    P_HIGH=p_high[i],
-                    P_HIHI=p_hihi[i],
                     ADDR=serial_address,
                     CH_NUM=i + 1,
                 )
+
+                # autosave restore
+                _as += channels[i] + ":Pressure-Mon.HIHI\n"
+                _as += channels[i] + ":Pressure-Mon.HIGH\n"
+
+        res += template_autosave_chrestore.safe_substitute(IP_ADDR=autosave_ip_name)
+
+        # iocBoot
         if epics_ca_port_increase:
             epics_ca_server_port += 2
         res += template_bot.safe_substitute(defaults)
 
+        # autosave monitors
+        res += template_autosave_chmonitor.safe_substitute(IP_ADDR=autosave_ip_name)
+
+        # Generate iocBoot .cmd files
         if not os.path.exists(os.path.join(dir_name, "server/cmd/")):
             os.makedirs(os.path.join(dir_name, "server/cmd/"))
-
         cmd_path = os.path.join(
-            dir_name, "server/cmd/" + cmd_key + sector["f_name"] + ".cmd"
+            dir_name, "server/cmd/" + cmd_key + sector.f_name + ".cmd"
         )
         with open(cmd_path, "w+") as file:
             file.write(res)
-
         os.chmod(cmd_path, 0o544)
+
+        # Generate autosave .req files
+        if not os.path.exists(os.path.join(dir_name, "server/autosave/")):
+            os.makedirs(os.path.join(dir_name, "server/autosave/"))
+        with open(
+            os.path.join(dir_name, "server/autosave/" + autosave_ip_name + ".req"), "w+"
+        ) as file:
+            file.write(_as)
 
     deploy_files(dir_name, defaults["TOP"])
