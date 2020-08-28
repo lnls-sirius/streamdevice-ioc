@@ -72,12 +72,16 @@ def generate(args, defaults):
                 P_CH2=channels[1],
                 P_CH3=channels[2],
                 P_CH4=channels[3],
+                E_CH1="#" if channels[0] == "" else "",
+                E_CH2="#" if channels[1] == "" else "",
+                E_CH3="#" if channels[2] == "" else "",
+                E_CH4="#" if channels[3] == "" else "",
                 DEVICE_NUM=d_n,
                 TIME=sector.devices_num * SEC_PER_DEVICE,
             )
 
             for i in range(4):
-                if channels[i].startswith("None"):
+                if channels[i] == "":
                     continue
 
                 res += template_channel.safe_substitute(

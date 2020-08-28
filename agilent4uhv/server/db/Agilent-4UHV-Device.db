@@ -162,10 +162,10 @@ record(seq, "$(P):Autostart_INIT"){
 
 # --------------
 record(fanout, "$(P):T"){
-    field(LNK2, "$(P_CH1):T")
-    field(LNK3, "$(P_CH2):T")
-    field(LNK4, "$(P_CH3):T")
-    field(LNK5, "$(P_CH4):T")
+$(E_CH1)    field(LNK1, "$(P_CH1):T")
+$(E_CH2)    field(LNK2, "$(P_CH2):T")
+$(E_CH3)    field(LNK3, "$(P_CH3):T")
+$(E_CH4)    field(LNK4, "$(P_CH4):T")
     field(PHAS, "$(PHAS)")
     field(SCAN, "$(TIME) second")
     field(SELM, "All")
@@ -183,10 +183,10 @@ record(fanout, "$(P):RB"){
 }
 
 record(fanout, "$(P):T2"){
-    field(LNK1, "$(P_CH1):T2")
-    field(LNK2, "$(P_CH2):T2")
-    field(LNK3, "$(P_CH3):T2")
-    field(LNK4, "$(P_CH4):T2")
+$(E_CH1)    field(LNK1, "$(P_CH1):T2")
+$(E_CH2)    field(LNK2, "$(P_CH2):T2")
+$(E_CH3)    field(LNK3, "$(P_CH3):T2")
+$(E_CH4)    field(LNK4, "$(P_CH4):T2")
     field(PHAS, "3")
     field(SCAN, "60 second")
     field(SELM, "All")

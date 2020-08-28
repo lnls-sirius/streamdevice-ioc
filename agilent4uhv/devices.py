@@ -16,6 +16,12 @@ class Device:
         self.prefix: str = prefix
         self.serial_address: int = get_serial_addess(serial_address)
         self.channels = channels
+        for i in range(len(self.channels)):
+            if self.channels[i] is None or self.channels[i].strip() == "":
+                self.channels[i] = ""
+            else:
+                self.channels[i] = self.channels[i].strip()
+
 
 
 class DevicesNet:

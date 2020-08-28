@@ -25,12 +25,15 @@ drvAsynIPPortConfigure("$IP_ASYN_PORT","$IP_ADDR", 100, 0, 0)
 template_device = Template(
     """
 # Device ${DEVICE_NUM}
-dbLoadRecords("db/Agilent-4UHV-Device.db", "PORT=${IP_ASYN_PORT}, P=${P}, P_CH1=${P_CH1}, P_CH2=${P_CH2}, P_CH3=${P_CH3}, P_CH4=${P_CH4}, ADDR=${ADDR}, PHAS=${DEVICE_NUM}, TIME=${TIME}")
+dbLoadRecords("db/Agilent-4UHV-Device.db", "PORT=${IP_ASYN_PORT},P=${P},\
+P_CH1=${P_CH1},P_CH2=${P_CH2},P_CH3=${P_CH3},P_CH4=${P_CH4},\
+E_CH1=${E_CH1},E_CH2=${E_CH2},E_CH3=${E_CH3},E_CH4=${E_CH4},\
+ADDR=${ADDR},PHAS=${DEVICE_NUM},TIME=${TIME}")
 """
 )
 
 template_channel = Template(
-    """dbLoadRecords("db/Agilent-4UHV-Channel.db", "PORT=${IP_ASYN_PORT}, P=${P}, D=${D}, CH_NUM=${CH_NUM}, ADDR=${ADDR}")
+    """dbLoadRecords("db/Agilent-4UHV-Channel.db", "PORT=${IP_ASYN_PORT}, P=${P},D=${D},CH_NUM=${CH_NUM},ADDR=${ADDR}")
 """
 )
 
