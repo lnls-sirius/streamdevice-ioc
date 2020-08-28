@@ -49,8 +49,8 @@ record(ai, "$(P):Pressure-Mon") {
     field(DTYP, "stream")
     field(EGU,  "mBar")
     field(PREC, "9")
-    field(HIGH, "$(P_HIGH)")
-    field(HIHI, "$(P_HIHI)")
+    field(HIGH, "$(P_HIGH=1e-7)")
+    field(HIHI, "$(P_HIHI=1e-5)")
     field(INP,  "@Agilent-4UHV.proto pressureMon($(ADDR),$(CH_NUM)) $(PORT)")
 }
 # Voltage
