@@ -20,12 +20,16 @@ ENV EPICS_IOC_CAPUTLOG_PORT 7012
 ENV EPICS_IOC_LOG_INET 0.0.0.0
 ENV EPICS_IOC_LOG_PORT 7011
 
-RUN mkdir -p /opt/streamdevice-ioc/log &&\
-    mkdir -p ${STREAMDEVICE}/autosave/save &&\
-    mkdir -p /opt/streamdevice-ioc/streamdevice-ioc-history
-
 ENV TOP /opt/streamdevice-ioc
-WORKDIR /opt/streamdevice-ioc
+
+RUN \
+    mkdir -p ${TOP}/autosave/save &&\
+    mkdir -p ${TOP}/log &&\
+    mkdir -p ${TOP}/protocol &&\
+    mkdir -p ${TOP}/sockets &&\
+    mkdir -p ${TOP}/streamdevice-ioc-history
+
+WORKDIR ${TOP}
 
 COPY logrotate.conf     /etc/logrotate.conf
 RUN  chmod 644          /etc/logrotate.conf
@@ -35,7 +39,7 @@ COPY Makefile           Makefile
 COPY configure          configure
 COPY iocBoot            iocBoot
 
-RUN envsubst < configure/RELEASE.tmplt > configure/RELEASE && mkdir protocol && mkdir autosave
+RUN envsubst < configure/RELEASE.tmplt > configure/RELEASE
 RUN make distclean && make clean && make &&\
     cat iocBoot/iocStreamDeviceIOC/envPaths
 
@@ -48,7 +52,6 @@ COPY mks937b            mks937b
 COPY rackMonitoring     rackMonitoring
 COPY spixconv           spixconv
 COPY spreadsheet        spreadsheet
-RUN mkdir -p ${TOP}/autosave/save
 
 # Run stuff
 CMD echo "Overwrite the command!" && ls -la ./bin && tail -f /dev/null

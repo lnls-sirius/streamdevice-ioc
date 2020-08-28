@@ -38,6 +38,14 @@ If the **autosave** feature is used, the `*.sav` files directory should be mount
 # *.sav files directory
 /opt/streamdevice-ioc/autosave/save
 ```
+The **procServ** may be using UNIX or TCP sockets. The `socat` app is already present in the image in order to access UNIX sockets.
+```bash
+socat - UNIX-CLIENT:<socket_path>
+```
+In order to access in case of TCP sockets, one may use `telnet`.
+```bash
+telnet <host> <port>
+```
 
 ### Example:
 In order to build a new mks937b image, edit the image tag of the corresponding service at [docker-compose.yml](./docker-compose.yml) so it will not overwrite when pushed to dockerhub.
