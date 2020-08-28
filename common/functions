@@ -15,9 +15,9 @@ run_ioc(){
         ip=$(echo $filename | sed -e "s/${1}//" -e "s/\.cmd//")
         if [[ ${ip} =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{1,5}$ ]]; then
             logFile=${PWD}/log/${filename}
-            iocName="/opt/$(echo ${filename} | sed  -e "s/\./_/g" -e "s/:/_/g" -e "s/_cmd//g")"
+            iocName="$(echo ${filename} | sed  -e "s/\./_/g" -e "s/:/_/g" -e "s/_cmd//g")"
             if [ -z "${procServPort}" ]; then
-                socket_name="${iocName}.sock"
+                socket_name="/opt/${iocName}.sock"
                 procServ -n ${iocName} -q --killsig 9 -L log/${filename} --chdir ${TOP}/iocBoot/iocStreamDeviceIOC unix:${socket_name} ${TOP}/iocBoot/iocStreamDeviceIOC/${filename}
                 echo "# IOC: ${filename}    log_file: ${logFile}    unix_socket: ${socket_name}"
             else
