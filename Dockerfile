@@ -48,6 +48,7 @@ COPY mks937b            mks937b
 COPY rackMonitoring     rackMonitoring
 COPY spixconv           spixconv
 COPY spreadsheet        spreadsheet
+RUN mkdir -p ${TOP}/autosave/save
 
 # Run stuff
 CMD echo "Overwrite the command!" && ls -la ./bin && tail -f /dev/null
