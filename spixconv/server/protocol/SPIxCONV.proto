@@ -2,7 +2,7 @@
 
 # Protocol for SPIxCONV boards. Developed for SPIxCONV version 1.1 and newer
 # Protocol doesn't have any terminator character
-Terminator = "";
+Terminator = CR LF;
 
 # An outcoming message should wait at most 10 s to be sent
 LockTimeout = 10000;
@@ -37,12 +37,17 @@ set_portD_direction_bit{
 }
 #==============================================================================
 set_analog_output{
+    @init{
+        # output parameters: board
+        out 0x10, "\$1,", "\$2,", "\$3,", "\$4,";
+        # input parameters:  code set
+        in "%u";
+    }
     # output parameters: board, voltage
     out 0x02, $1, "%(RVAL)i";
 }
 #==============================================================================
 read_analog_output{
-    InTerminator = CR LF;
     @init{
         # output parameters: board
         out 0x03, $1;
@@ -56,7 +61,6 @@ read_analog_output{
 }
 #==============================================================================
 read_analog_input{
-    InTerminator = CR LF;
     # output parameters: board
     out 0x04, $1;
     # input parameters:  raw voltage
@@ -96,6 +100,7 @@ read_portB_digital_output_bit{
 }
 #==============================================================================
 set_portB_digital_output_bit{
+    MaxInput = 1;
     @init{
         # output parameters: board, bit
         out 0x0B, $1, $2;
@@ -110,7 +115,7 @@ set_portB_digital_output_bit{
 read_portA_digital_input_bit{
     MaxInput = 1;
     # output parameters: board, bit_pos
-    out 0x0D, $1, $2;
+    out 0x11, $1, $2;
     # input parameters:  bit read
     in "%u";
 }

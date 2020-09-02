@@ -1,217 +1,28 @@
 # SPIxCONV.db
 # Record definition for all digital and analog channels. Developed for SPIxCONV version 1.1 and newer.
 
-#==================
-# Steps
-#==================
-record(longout, "$(PREFIX):Steps"){
-    field(SCAN, "Passive")
-    field(VAL, "4")
+#==============================================================================
+#   Voltage Steps Config
+#==============================================================================
+record(stringout, "$(PREFIX):Voltage-Factor"){
+    field(DESC, "Power supply voltage factor")
+    field(VAL, "$(VOLTAGE_FACTOR)")
 }
-#==================
-# Voltage Trigger
-#==================
-record(longout, "$(PREFIX):VoltageTrigger"){
-    field(SCAN, "Passive")
+#-------------------------------------------
+record(stringout, "$(PREFIX):Step-Trigger"){
+    field(DESC, "Voltage to trigger steps")
     field(VAL, "$(STEP_TRIGGER)")
 }
-#==================
-# Soft record
-#==================
-record(ao, "$(PREFIX):Voltage-SP"){
-    field(EGU, "Volt")
-    field(AOFF, "-10.0")
-    field(ASLO, "0.00007629423635191479459684")
-    field(EOFF, "0.0")
-    field(ESLO, "$(VOLTAGE_FACTOR)")
-    field(LINR, "LINEAR")
-    field(PREC, "1")    # Display Precision
-    field(SCAN, "Passive")
-#    field(FLNK, "$(PREFIX):Voltage-BAK")
-    field(FLNK, "$(PREFIX):VoltageSteps-Mask")
-    #-------------------------------------------
-    # alarms configuration
-    field(HHSV, "MAJOR")
-    field(HSV, "MINOR")
-    field(LSV, "MINOR")
-    field(LLSV, "MAJOR")
-    field(DRVH, "$(VOLTAGE_FACTOR)0")
-    field(DRVL, "0")
-    field(HOPR, "$(VOLTAGE_FACTOR)0")
-    field(LOPR, "0")
-    field(HIHI, "$(VOLTAGE_FACTOR)0")
-    field(HIGH, "$(VOLTAGE_FACTOR)0")
-    field(LOW, "0")
-    field(LOLO, "0")
-}
-#-------------------
-# check if PS is on/off to choose if steps implementation will happen or not
-record(calc, "$(PREFIX):VoltageSteps-Mask") {
-    field(DESC, "On/Off switch checker")
-    field(SCAN, "Passive")
-    field(INPA, "$(PREFIX):PwrState-Sel")
-    field(INPB, "1")	# is off
-    field(INPC, "2")	# is on
-    field(CALC, "(A = 0)? B : C")	# PS is off?
-    field(FLNK, "$(PREFIX):VoltageSteps-Fan")
-}
-#-------------------
-# split "code" and process records
-record(fanout, "$(PREFIX):VoltageSteps-Fan"){
-    field(SCAN, "Passive")
-    field(LNK1, "$(PREFIX):WriteVoltage")
-    field(LNK2, "$(PREFIX):Voltage-BAK")
-    #field(SELM, "Mask")
-    field(SELM, "Specified")
-    field(SELL, "$(PREFIX):VoltageSteps-Mask")
-}
-#-------------------
-# implement voltage directly (no steps)
-record(calcout, "$(PREFIX):WriteVoltage") {
-    field(DESC, "Voltage-SP (no steps)")
-    field(SCAN, "Passive")                
-    field(INPA, "$(PREFIX):Voltage-SP")
-    field(CALC, "A")
-    field(DOPT, "Use CALC")
-    field(OOPT, "Every Time")
-    field(OUT, "$(PREFIX):RawVoltage-SP")
-    field(FLNK, "$(PREFIX):RawVoltage-SP")
-}
-#-------------------
-# implement voltage using the steps implementation
-#==================
-# Voltage Reference
-#==================
-record(calc, "$(PREFIX):Voltage-BAK"){
-    field(SCAN, "Passive")
-    field(INPA, "$(PREFIX):RawVoltage-SP")
-    field(CALC, "A")
-    field(FLNK, "$(PREFIX):CheckStep")
-}
-#==================
-# Check Steps
-#==================
-record(calcout, "$(PREFIX):CheckStep"){
-    field(SCAN, "Passive")
-    field(INPA, "$(PREFIX):Voltage-SP")
-    field(INPB, "$(PREFIX):RawVoltage-SP")
-    field(INPC, "$(PREFIX):VoltageTrigger")  # limiar voltage to trigger steps
-    field(INPD, "0")    # straight
-    field(INPE, "1")    # steps
-    field(CALC, "((A - B) > C) ? E : D")
-    field(OOPT, "Every Time")
-    field(DOPT, "Use CALC")
-    field(ODLY, "0")
-    field(FLNK, "$(PREFIX):Counter")
-}
-#==================
-# Counter
-#==================
-record(calcout, "$(PREFIX):Counter"){
-    field(VAL, "0")
-    field(SCAN, "Passive")
-    field(INPA, "$(PREFIX):Counter")
-    field(INPB, "$(PREFIX):Steps")
-    field(INPC, "$(PREFIX):CheckStep")
-    field(INPD, "1")
-    # Counter = (1 - CheckStep)*Steps + CheckStep*(Counter + 1)
-    field(CALC, "((D-C)*B + C*(A+D)) % B")
-    field(OOPT, "Every Time")
-    field(DOPT, "Use CALC")
-    field(ODLY, "0")
-    field(FLNK, "$(PREFIX):CheckCounter")
-}
-#==================
-# Check Counter
-#==================
-record(calcout, "$(PREFIX):CheckCounter"){
-    field(SCAN, "Passive")
-    field(INPA, "$(PREFIX):Counter")
-    field(INPB, "$(PREFIX):Steps")
-    field(INPC, "0")    # counting
-    field(INPD, "1")    # finished
-    # Counter == 0?
-    field(CALC, "A = C? D : C")
-    field(OOPT, "Every Time")
-    field(DOPT, "Use CALC")
-    field(ODLY, "0")
-    field(FLNK, "$(PREFIX):NewVoltage-SP")
-}
-#==================
-# NewVoltage-SP
-#==================
-record(calcout, "$(PREFIX):NewVoltage-SP"){
-    field(SCAN, "Passive")
-    field(INPA, "$(PREFIX):Voltage-SP")
-    field(INPB, "$(PREFIX):Voltage-BAK")
-    field(INPC, "$(PREFIX):CheckCounter")
-    field(INPD, "$(PREFIX):Counter")
-    field(INPE, "$(PREFIX):Steps")
-    field(INPF, "1")
-    # NewVoltage-SP = (1 - CheckCounter)*[B + Counter*(A-B)/Steps] + CheckCounter*SoftVoltage-SP
-    field(CALC, "((F-C)*(B + D*(A-B)/E)) + C*A")
-    field(OOPT, "Every Time")
-    field(DOPT, "Use CALC")
-    field(FLNK, "$(PREFIX):StopCriteria")
-}
-#==================
-# Stop Criteria
-#==================
-record(calcout, "$(PREFIX):StopCriteria"){
-    field(SCAN, "Passive")
-    field(INPA, "$(PREFIX):Voltage-SP")
-    field(INPB, "$(PREFIX):NewVoltage-SP")
-    field(INPC, "3")    # implement output && increment counter && CONTINUE
-    field(INPD, "5")    # implement output && clear counter && END
-    # NewVoltage-SP == SoftVoltage-SP?
-    field(CALC, "(A = B)? D : C")
-    field(OOPT, "Every Time")
-    field(DOPT, "Use CALC")
-    field(FLNK, "$(PREFIX):SelectOutput")
-}
-#==================
-# Sequence 
-#==================
-record(seq, "$(PREFIX):SelectOutput"){
-    field(SCAN, "Passive")
-    field(DOL1, "$(PREFIX):NewVoltage-SP")
-    #field(DOL2, "")
-    field(DOL3, "0")
-    field(LNK1, "$(PREFIX):RawVoltage-SP")
-    #field(LNK2, "")
-    field(LNK3, "$(PREFIX):Counter")
-    field(DLY1, "0")
-    field(SELM, "Mask")
-    field(SELL, "$(PREFIX):StopCriteria")
-    field(FLNK, "$(PREFIX):Fanout")
-}
-#==================
-# Fanout
-#==================
-record(fanout, "$(PREFIX):Fanout"){
-    field(SCAN, "Passive")
-    field(LNK1, "$(PREFIX):RawVoltage-SP")
-    field(LNK2, "$(PREFIX):Delay")
-    field(SELM, "Mask")
-    field(SELL, "$(PREFIX):StopCriteria")
-}
-#==================
-# Delay
-#==================
-record(calcout, "$(PREFIX):Delay"){
-    field(VAL, "0")
-    field(SCAN, "Passive")
-    field(OOPT, "Every Time")
-    # !!! DELAY BETWEEN STEPS !!!
-    field(ODLY, "1")
-	field(ODLY, "$(STEP_DELAY)")
-    field(FLNK, "$(PREFIX):Counter")
+#-------------------------------------------
+record(stringout, "$(PREFIX):Step-Delay"){
+    field(DESC, "Delay berween voltage steps")
+    field(VAL, "$(STEP_DELAY)")
 }
 
 #==============================================================================
 #   ANALOG OUT
 #==============================================================================
-record(ao, "$(PREFIX):RawVoltage-SP") {
+record(ao, "$(PREFIX):Voltage-SP") {
     field(DESC, "analog out parameter")
     field(DTYP, "stream")
     field(EGU, "Volt")
@@ -219,7 +30,7 @@ record(ao, "$(PREFIX):RawVoltage-SP") {
     field(ASLO, "0.00007629423635191479459684")
     field(EOFF, "0.0")
     field(ESLO, "$(VOLTAGE_FACTOR)")
-    field(OUT, "@SPIxCONV.proto set_analog_output($(SPIxCONV_ADDRESS)) socket_spixconv")
+    field(OUT, "@SPIxCONV.proto set_analog_output($(SPIxCONV_ADDRESS),$(VOLTAGE_FACTOR),$(STEP_TRIGGER),$(STEP_DELAY)) socket_spixconv")
     field(LINR, "LINEAR")
     field(PREC, "1")                            # Display Precision
     field(SCAN, "Passive")
@@ -499,117 +310,14 @@ record(stringout, "$(PREFIX):Intlk7Label-Cte") {
 #***************************************
 #   TURN ON/OFF POWER SUPPLY (1 OUTPUT)
 #***************************************
-# soft record --> UI on/off button
 record(bo, "$(PREFIX):PwrState-Sel") {
-    field(DESC, "Turn ON/OFF HVPS")
-    field(DTYP, "Soft Channel")                 # Device Type
-    field(SCAN, "Passive")                      # Scanning Rate
-    field(ZNAM, "Off")                          # Zero Name
-    field(ONAM, "On")                           # One Name
-    field(FLNK, "$(PREFIX):PwrState-VoltageBAK")
-}
-#-------------------
-# save the previous voltage setpoint
-record(calc, "$(PREFIX):PwrState-VoltageBAK"){
-    field(SCAN, "Passive")
-    field(INPA, "$(PREFIX):RawVoltage-SP")
-    field(CALC, "A")
-    field(FLNK, "$(PREFIX):PwrState-Clear")
-}
-#-------------------
-# clear voltage setpoint or do nothing (restore from VoltageBAK)
-record(calcout, "$(PREFIX):PwrState-Clear") {
-    field(DESC, "Turn ON/OFF HVPS")
-    field(SCAN, "Passive")                 # Scanning Rate
-    field(INPA, "$(PREFIX):PwrState-Sel")
-    field(INPB, "$(PREFIX):PwrState-VoltageBAK")
-    field(INPC, "0")
-    field(CALC, "(A = 0)? B : C") # is turning off?
-    field(DOPT, "Use CALC")
-    field(OOPT, "Every Time")
-    field(OUT, "$(PREFIX):RawVoltage-SP")
-    field(FLNK, "$(PREFIX):PwrState-Mask")
-}
-#-------------------
-# check if PS is turning off or on to mask the next command
-record(calc, "$(PREFIX):PwrState-Mask") {
-    field(DESC, "On/Off switch checker")
-    field(SCAN, "Passive")
-    field(INPA, "$(PREFIX):PwrState-Sel")
-    field(INPB, "1")	# turn off
-    field(INPC, "3")	# turn on
-    field(CALC, "(A = 0)? B : C")	# check if state 'on'-->'off' or 'off'-->'on'
-    field(FLNK, "$(PREFIX):PwrState-Fan")
-}
-#-------------------
-# process records
-record(fanout, "$(PREFIX):PwrState-Fan"){
-    field(SCAN, "Passive")
-    field(LNK1, "$(PREFIX):RawVoltage-SP")
-#    field(LNK2, "$(PREFIX):PwrState-Checker")
-#    field(SELM, "All")
-    field(SELM, "Mask")
-#    field(SELM, "Specified")
-    field(SELL, "$(PREFIX):PwrState-Mask")
-    field(FLNK, "$(PREFIX):PwrState-Checker")
-}
-#-------------------
-# check if PS is turning off or on
-record(calc, "$(PREFIX):PwrState-Checker") {
-    field(DESC, "On/Off switch checker")
-    field(SCAN, "Passive")                 # Scanning Rate
-    field(INPA, "$(PREFIX):PwrState-Sel")
-    field(INPB, "2")	# turn off
-    field(INPC, "1")	# turn on
-    field(CALC, "(A = 0)? B : C")	# check if state 'on'-->'off' or 'off'-->'on'
-    field(FLNK, "$(PREFIX):PwrState-Delay")
-}
-#-------------------
-# if turning on, trigger a 1 s delay and keep the processing
-record(seq, "$(PREFIX):PwrState-Delay"){
-    field(SCAN, "Passive")
-    field(DO1, "1")	# turn on
-    field(DO2, "0")	# turn off
-    field(LNK1, "$(PREFIX):RawPwrState-Sel")
-    field(LNK2, "$(PREFIX):RawPwrState-Sel")
-    field(DLY1, "1")
-    field(DLY2, "0")
-    field(SELM, "Mask")
-    field(SELL, "$(PREFIX):PwrState-Checker")
-    field(FLNK, "$(PREFIX):RawPwrState-Sel")
-}
-#-------------------
-# turn on the PS
-record(bo, "$(PREFIX):RawPwrState-Sel") {
     field(DESC, "Turn ON/OFF HVPS")
     field(OUT, "@SPIxCONV.proto set_portB_digital_output_bit($(SPIxCONV_ADDRESS),1) socket_spixconv")
     field(DTYP, "stream")                       # Device Type
     field(SCAN, "Passive")                      # Scanning Rate
     field(ZNAM, "Off")                          # Zero Name
     field(ONAM, "On")                           # One Name
-    field(FLNK, "$(PREFIX):PwrState-VoltageSP")
 }
-#-------------------
-# restore voltage setpoint previously saved
-record(calcout, "$(PREFIX):PwrState-VoltageSP") {
-    field(SCAN, "Passive")                 # Scanning Rate
-    field(INPA, "$(PREFIX):PwrState-VoltageBAK")
-    field(CALC, "A")
-    field(DOPT, "Use CALC")
-    field(OOPT, "Every Time")
-    field(OUT, "$(PREFIX):Voltage-SP")
-    field(FLNK, "$(PREFIX):Voltage-SP")
-}
-#record(seq, "$(PREFIX):PwrState-VoltageSP"){
-#    field(SCAN, "Passive")
-#    field(DO1, "$(PREFIX):PwrState-VoltageBAK") # turning on
-#    field(DO2, "0")	# turn off
-#    field(LNK1, "$(PREFIX):Voltage-SP")
-#    field(LNK2, "$(PREFIX):Voltage-SP")
-#    field(SELM, "Specified")
-#    field(SELL, "$(PREFIX):PwrState-Checker")
-#    field(FLNK, "$(PREFIX):Voltage-SP")
-#}
 #-------------------
 # PV label
 #-------------------
@@ -617,31 +325,6 @@ record(stringout, "$(PREFIX):PwrStateLabel1-Cte") {
     field(DESC, "PV label 1")
     field(VAL, "Turn ON/OFF HVPS")
 }
-#***************************************
-#***************************************
-#    field(FLNK, "$(PREFIX):ClearVoltage-SP")
-#}
-##-------------------
-## PV label
-##-------------------
-#record(stringout, "$(PREFIX):PwrStateLabel1-Cte") {
-#    field(DESC, "PV label 1")
-#    field(VAL, "Turn ON/OFF HVPS")
-#}
-##-------------------
-## clear Voltage-SP
-##-------------------
-#record(calcout, "$(PREFIX):ClearVoltage-SP") {
-#    field(DESC, "Clear output voltage when PS is turned off")
-#    field(SCAN, "Passive")                 # Scanning Rate
-#    field(INPA, "$(PREFIX):PwrState-Sel")
-#    field(INPB, "0")
-#    field(CALC, "(A = B)? B")
-#    field(DOPT, "Use CALC")
-#    field(OOPT, "Every Time")
-#    field(OUT, "$(PREFIX):Voltage-SP")
-##    field(FLNK, "$(PREFIX):Voltage-SP")
-#***************************************
 #***************************************
 #   TRIGGER (1 OUTPUT)
 #***************************************
@@ -668,7 +351,7 @@ record(stringout, "$(PREFIX):PulseLabel-Cte") {
 # the record is set as input, but it is actually reading the output value set previously
 record(bi, "$(PREFIX):Pulse-Sts") {
     field(DESC, "Read if trigger pulse is enabled or not")
-    field(INP, "@SPIxCONV.proto read_portB_digital_output_bit($(SPIxCONV_ADDRESS),2) socket_spixconv")
+    field(INP, "@SPIxCONV.proto read_portB_digital_input_bit($(SPIxCONV_ADDRESS),4) socket_spixconv")
     field(DTYP, "stream")                       # Device Type
     field(SCAN, "$(SCAN_RATE)")                 # Scanning Rate
     field(ZSV, "NO_ALARM")

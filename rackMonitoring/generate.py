@@ -50,4 +50,4 @@ def generate(args, defaults):
 
         os.chmod(cmd_path, 0o544)
 
-        deploy_files(dir_name, defaults['TOP'])
+    deploy_files(dir_name, defaults['TOP'])
