@@ -1,67 +1,32 @@
 #!/bin/bash
 run(){
-  # Check if it will run using a tcp<->unix socket bridge
-  if [[ -z "${SOCKET_BRIDGE}" ]]; then
-    run_ioc ${1};
-  else
-    run_ioc_unix_bridge ${1};
-  fi
+  run_ioc ${1};
   tail -f /dev/null
-}
-
-run_ioc_unix_bridge(){
-    # Params:
-    # :1 : CMD_KEY
-    ADDR_LIST=
-    SOCKET_PATH_LIST=
-    echo UNIX Bind and .cmd configuration
-    for filename in $(ls ${TOP}/iocBoot | sort  | grep -P "^${1}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{1,5}\.cmd$"); do
-            ip=$(echo $filename | sed -e "s/${1}//" -e "s/\.cmd//")
-
-            if [[ ${ip} =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{1,5}$ ]]; then
-                    socket_dir="/var/tmp/$filename"
-                    socket_dir_skp=$(echo unix://${socket_dir} | sed 's/\//\\\//g')
-
-                    ADDR_LIST="${ADDR_LIST} ${ip}"
-                    SOCKET_PATH_LIST="${SOCKET_PATH_LIST} ${socket_dir}"
-
-                    set -x
-                    sed -i -r "s/drvAsynIPPortConfigure\s*\(\"[^)]+?\s*\)/drvAsynIPPortConfigure\(\"IPPort0\",\"${socket_dir_skp}\"\)/g" ${TOP}/iocBoot/${filename}
-                    set +x
-            fi
-    done
-
-    set -x
-    ./common/tcpUnix.py --socket-path-list ${SOCKET_PATH_LIST} --address-list ${ADDR_LIST} --reconnect-interval 30 &
-    sleep 25
-    set +x
-
-    echo
-    procServPort=${BASE_PROCSERV_PORT}
-    for filename in $(ls ${TOP}/iocBoot | sort | grep -P "^${1}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{1,5}\.cmd$"); do
-        procServPort=$((procServPort + 1))
-        export BASE_PROCSERV_PORT=${procServPort}
-        set -x
-        procServ --allow -L  log/${filename} --chdir ${TOP}/iocBoot ${procServPort} ${TOP}/iocBoot/${filename}
-        set +x
-    done
 }
 
 run_ioc(){
     # Params:
     # :1 : CMD_KEY
-    # @todo: Make this thing clear !!
-    echo
-    echo
+    echo ""
+    echo "###############################################################################"
+    echo "# ProcServ. Use \"telnet <ip> <port>\" or \"socat - UNIX-CLIENT:<socket>\""
     procServPort=${BASE_PROCSERV_PORT}
-    for filename in $(ls ${TOP}/iocBoot | sort  | grep -P "^${1}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:?[0-9]{0,5}\.cmd$"); do
+    for filename in $(ls ${TOP}/iocBoot/iocStreamDeviceIOC | sort  | grep -P "^${1}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:?[0-9]{0,5}\.cmd$"); do
         ip=$(echo $filename | sed -e "s/${1}//" -e "s/\.cmd//")
         if [[ ${ip} =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{1,5}$ ]]; then
+            logFile=${PWD}/log/${filename}
+            iocName="/opt/$(echo ${filename} | sed  -e "s/\./_/g" -e "s/:/_/g" -e "s/_cmd//g")"
+            if [ -z "${procServPort}" ]; then
+                socket_name="${iocName}.sock"
+                procServ -n ${iocName} -q --killsig 9 -L log/${filename} --chdir ${TOP}/iocBoot/iocStreamDeviceIOC unix:${socket_name} ${TOP}/iocBoot/iocStreamDeviceIOC/${filename}
+                echo "# IOC: ${filename}    log_file: ${logFile}    unix_socket: ${socket_name}"
+            else
                 procServPort=$((procServPort + 1))
-                set -x
-                procServ --allow -L  log/${filename}  --chdir ${TOP}/iocBoot ${procServPort} ${TOP}/iocBoot/${filename}
-                set +x
+                procServ -n ${iocName} --allow -L ${logFile}  --chdir ${TOP}/iocBoot/iocStreamDeviceIOC ${procServPort} ${TOP}/iocBoot/iocStreamDeviceIOC/${filename}
+                echo "# IOC: ${filename}    log: ${logFile}    ip_port: ${procServPort}"
+            fi
+
         fi
     done
-    export BASE_PROCSERV_PORT=${procServPort}
+    echo "###############################################################################"
 }
