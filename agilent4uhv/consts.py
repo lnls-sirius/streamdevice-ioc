@@ -5,7 +5,7 @@ from common.db import DbData
 
 logger = logging.getLogger()
 
-SHEET_4UHV = 'PVs Agilent 4UHV'
+SHEET_4UHV = "PVs Agilent 4UHV"
 _4UHV = DbData(SHEET_4UHV)
 DATA_4UHV = _4UHV.data
-dump_to_history(_4UHV.sheet, 'agilent-4uhv.csv')
+dump_to_history(_4UHV.sheet, "agilent-4uhv.csv")
