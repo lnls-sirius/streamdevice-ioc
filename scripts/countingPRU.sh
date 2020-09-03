@@ -2,7 +2,7 @@
 set -e
 source common/functions
 
-export BASE_PROCSERV_PORT=20600
+export BASE_PROCSERV_PORT=
 PREFIX=PRU
 
 ./common/generate.py --epics-base ${EPICS_BASE} --asyn ${ASYN} --device ${PREFIX} \
