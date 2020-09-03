@@ -5,12 +5,12 @@ from string import Template
 
 mbt_template_top = Template('''#!../../bin/linux-x86_64/streamDeviceIOC
 < envPaths
+
 epicsEnvSet("EPICS_CA_SERVER_PORT", "${EPICS_CA_SERVER_PORT}")
+epicsEnvSet("EPICS_IOC_LOG_INET", "$(EPICS_IOC_LOG_INET)")
+epicsEnvSet("EPICS_IOC_LOG_PORT", "$(EPICS_IOC_LOG_PORT)")
 
-epicsEnvSet("EPICS_IOC_LOG_INET", "${LOG_ADDR}")
-epicsEnvSet("EPICS_IOC_LOG_PORT", "${LOG_PORT}")
 # Database definition file
-
 cd ${CD}
 dbLoadDatabase("dbd/streamDeviceIOC.dbd")
 streamDeviceIOC_registerRecordDeviceDriver(pdbbase)
@@ -39,10 +39,9 @@ dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 7, DESCRIPTION = MBTemp Channel
 
 mbt_template_bot = Template('''
 # Effectively initializes the IOC
-
 cd iocBoot
 iocInit
-
-caPutLogInit "${CAPUTLOG_ADDR}:${CAPUTLOG_PORT}" 2
+iocLogInit
+caPutLogInit "$(EPICS_IOC_CAPUTLOG_INET):$(EPICS_IOC_CAPUTLOG_PORT)" 2
 ''')
 
