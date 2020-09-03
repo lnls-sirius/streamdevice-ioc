@@ -18,7 +18,7 @@ streamDeviceIOC_registerRecordDeviceDriver(pdbbase)
 asSetFilename("${TOP}/db/Security.as")
 
 # Bind to socat
-drvAsynIPPortConfigure("$IP_ASYN_PORT","$IP_ADDR", 100, 0, 0)
+drvAsynIPPortConfigure("${IP_ASYN_PORT}","${IP_ADDR}", 100, 0, 0)
 """
 )
 
