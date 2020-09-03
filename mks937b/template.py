@@ -2,10 +2,10 @@ from string import Template
 template_top = Template('''#!../../bin/linux-x86_64/streamDeviceIOC
 # Environment variables
 < envPaths
-epicsEnvSet("EPICS_CA_SERVER_PORT", "$EPICS_CA_SERVER_PORT")
 
-epicsEnvSet("EPICS_IOC_LOG_INET", "${LOG_ADDR}")
-epicsEnvSet("EPICS_IOC_LOG_PORT", "${LOG_PORT}")
+epicsEnvSet("EPICS_CA_SERVER_PORT", "${EPICS_CA_SERVER_PORT}")
+epicsEnvSet("EPICS_IOC_LOG_INET", "$(EPICS_IOC_LOG_INET)")
+epicsEnvSet("EPICS_IOC_LOG_PORT", "$(EPICS_IOC_LOG_PORT)")
 
 # Database definition file
 cd $CD
@@ -59,6 +59,9 @@ ADDRESS=$ADDRESS")''')
 
 template_bot = Template('''
 
+set_requestfile_path("$(TOP)", "autosave")
+set_savefile_path("$(TOP)/autosave/save")
+
 # Offsets
 set_pass0_restoreFile("$(TOP)/autosave/${name}.sav")
 set_pass1_restoreFile("$(TOP)/autosave/${name}.sav")
@@ -70,10 +73,9 @@ save_restoreSet_SeqPeriodInSeconds(600)
 # Effectively initializes the IOC
 cd iocBoot
 iocInit
+iocLogInit
+caPutLogInit "$(EPICS_IOC_CAPUTLOG_INET):$(EPICS_IOC_CAPUTLOG_PORT)" 2
 
-cd "$(TOP)"
-create_monitor_set("autosave/${name}.req", 10)
-
-caPutLogInit "${CAPUTLOG_ADDR}:${CAPUTLOG_PORT}" 2
+create_monitor_set("${name}.req", 30)
 ''')
 
