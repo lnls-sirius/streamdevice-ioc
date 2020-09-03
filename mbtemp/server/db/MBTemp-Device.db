@@ -21,7 +21,7 @@ record(longout, "$(PREFIX):Alpha") {
 }
 
 record(ai, "$(PREFIX):LinearCoef-Mon") {
-    field(DESC, "Linear coefficient for temperature conversion equation")
+    field(DESC, "Linear coefficient for temp conversion")
     field(DTYP, "stream")
     field(EOFF, "0.0")
     field(ESLO, "0.01")
@@ -33,7 +33,7 @@ record(ai, "$(PREFIX):LinearCoef-Mon") {
 }
 
 record(ai, "$(PREFIX):AngularCoef-Mon") {
-    field(DESC, "Angular coefficient for temperature conversion equation")
+    field(DESC, "Angular coefficient for temp conversion")
     field(DTYP, "stream")
     field(EOFF, "0.0")
     field(ESLO, "0.01")

@@ -22,7 +22,7 @@ services:
             - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
 
     countingPRU:
-        image: lnlscon/streamdevice-ioc:CountingPRU-v1.4
+        image: lnlscon/streamdevice-ioc:CountingPRU-v2.0
         build:
             dockerfile: 'Dockerfile'
             context: .
