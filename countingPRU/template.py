@@ -5,10 +5,10 @@ from string import Template
 
 template_top = Template('''#!../../bin/linux-x86_64/streamDeviceIOC
 < envPaths
-epicsEnvSet("EPICS_CA_SERVER_PORT", "${EPICS_CA_SERVER_PORT}")
 
-epicsEnvSet("EPICS_IOC_LOG_INET", "${LOG_ADDR}")
-epicsEnvSet("EPICS_IOC_LOG_PORT", "${LOG_PORT}")
+epicsEnvSet("EPICS_CA_SERVER_PORT", "${EPICS_CA_SERVER_PORT}")
+epicsEnvSet("EPICS_IOC_LOG_INET", "$(EPICS_IOC_LOG_INET)")
+epicsEnvSet("EPICS_IOC_LOG_PORT", "$(EPICS_IOC_LOG_PORT)")
 
 # Database definition file
 
@@ -42,7 +42,6 @@ template_bot = Template('''
 # Effectively initializes the IOC
 
 cd iocBoot
-iocInit
-
-caPutLogInit "${CAPUTLOG_ADDR}:${CAPUTLOG_PORT}" 2
+iocLogInit
+caPutLogInit "$(EPICS_IOC_CAPUTLOG_INET):$(EPICS_IOC_CAPUTLOG_PORT)" 2
 ''')
