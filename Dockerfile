@@ -1,8 +1,11 @@
 # Author: Cláudio Ferreira Carneiro
 # LNLS - Brazilian Synchrotron Light Source Laboratory
 
-FROM  lnlscon/epics-r3.15.8:v1.0
-LABEL maintainer="Claudio Carneiro <claudio.carneiro@lnls.br>"
+FROM  lnlscon/epics-r3.15.8:v1.1 as stream
+LABEL "maintainer"="Claudio Carneiro <claudio.carneiro@lnls.br>"
+LABEL "br.com.lnls-sirius.description"="StreamDevice IOC"
+LABEL "br.com.lnls-sirius.department"="CONS"
+LABEL "br.com.lnls-sirius.maintener"="Claudio Ferreira Carneiro"
 
 # Python3
 RUN pip3 install pandas==0.23.4 xlrd==1.2.0
@@ -43,15 +46,32 @@ RUN envsubst < configure/RELEASE.tmplt > configure/RELEASE
 RUN make distclean && make clean && make &&\
     cat iocBoot/iocStreamDeviceIOC/envPaths
 
-COPY agilent4uhv        agilent4uhv
-COPY bin/*              bin/
+COPY scripts            scripts
 COPY common             common
-COPY countingPRU        countingPRU
-COPY mbtemp             mbtemp
-COPY mks937b            mks937b
-COPY rackMonitoring     rackMonitoring
-COPY spixconv           spixconv
 COPY spreadsheet        spreadsheet
 
-# Run stuff
 CMD echo "Overwrite the command!" && ls -la ./bin && tail -f /dev/null
+
+FROM stream AS agilent4uhv
+COPY agilent4uhv agilent4uhv
+CMD ["/bin/bash", "/opt/streamdevice-ioc/bin/agilent.sh"]
+
+FROM stream AS countingPRU
+COPY countingPRU countingPRU
+CMD ["/bin/bash", "/opt/streamdevice-ioc/bin/countingPRU.sh"]
+
+FROM stream AS mbtemp
+COPY mbtemp mbtemp
+CMD ["/bin/bash", "/opt/streamdevice-ioc/bin/mbtemp.sh"]
+
+FROM stream AS mks937b
+COPY mks937b mks937b
+CMD ["/bin/bash", "/opt/streamdevice-ioc/bin/mks937b.sh"]
+
+FROM stream AS rackMonitoring
+COPY rackMonitoring     rackMonitoring
+CMD ["/bin/bash", "/opt/streamdevice-ioc/bin/rackMonitoring.sh"]
+
+FROM stream AS spixconv
+COPY spixconv spixconv
+CMD ["/bin/bash", "/opt/streamdevice-ioc/bin/spixconv.sh"]
