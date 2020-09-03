@@ -50,28 +50,28 @@ COPY scripts            scripts
 COPY common             common
 COPY spreadsheet        spreadsheet
 
-CMD echo "Overwrite the command!" && ls -la ./bin && tail -f /dev/null
+CMD echo "Overwrite the command!" && ls -la ./scripts && tail -f /dev/null
 
 FROM stream AS agilent4uhv
 COPY agilent4uhv agilent4uhv
-CMD ["/bin/bash", "/opt/streamdevice-ioc/bin/agilent.sh"]
+CMD ["/bin/bash", "/opt/streamdevice-ioc/scripts/agilent.sh"]
 
 FROM stream AS countingPRU
 COPY countingPRU countingPRU
-CMD ["/bin/bash", "/opt/streamdevice-ioc/bin/countingPRU.sh"]
+CMD ["/bin/bash", "/opt/streamdevice-ioc/scripts/countingPRU.sh"]
 
 FROM stream AS mbtemp
 COPY mbtemp mbtemp
-CMD ["/bin/bash", "/opt/streamdevice-ioc/bin/mbtemp.sh"]
+CMD ["/bin/bash", "/opt/streamdevice-ioc/scripts/mbtemp.sh"]
 
 FROM stream AS mks937b
 COPY mks937b mks937b
-CMD ["/bin/bash", "/opt/streamdevice-ioc/bin/mks937b.sh"]
+CMD ["/bin/bash", "/opt/streamdevice-ioc/scripts/mks937b.sh"]
 
 FROM stream AS rackMonitoring
 COPY rackMonitoring     rackMonitoring
-CMD ["/bin/bash", "/opt/streamdevice-ioc/bin/rackMonitoring.sh"]
+CMD ["/bin/bash", "/opt/streamdevice-ioc/scripts/rackMonitoring.sh"]
 
 FROM stream AS spixconv
 COPY spixconv spixconv
-CMD ["/bin/bash", "/opt/streamdevice-ioc/bin/spixconv.sh"]
+CMD ["/bin/bash", "/opt/streamdevice-ioc/scripts/spixconv.sh"]
