@@ -3,19 +3,19 @@ from string import Template
 
 top = Template('''#!../../bin/linux-x86_64/streamDeviceIOC
 < envPaths
+
 # ${DESCRIPTION}
 # This script will be used for SPIxCONV installations alongside with EPP hardware and power supplies.
 
 epicsEnvSet("EPICS_CA_SERVER_PORT", "${EPICS_CA_SERVER_PORT}")
-
-epicsEnvSet("EPICS_IOC_LOG_INET", "${LOG_ADDR}")
-epicsEnvSet("EPICS_IOC_LOG_PORT", "${LOG_PORT}")
-asSetFilename("${TOP}/db/Security.as")
+epicsEnvSet("EPICS_IOC_LOG_INET", "$(EPICS_IOC_LOG_INET)")
+epicsEnvSet("EPICS_IOC_LOG_PORT", "$(EPICS_IOC_LOG_PORT)")
 
 # Database definition file
 cd ${CD}
 dbLoadDatabase("dbd/streamDeviceIOC.dbd")
 streamDeviceIOC_registerRecordDeviceDriver(pdbbase)
+asSetFilename("${TOP}/db/Security.as")
 
 #==========================================================================
 #                                       --prefix--
@@ -51,7 +51,8 @@ bot = Template('''
 # Effectively initializes the IOC
 cd iocBoot
 iocInit
-caPutLogInit "${CAPUTLOG_ADDR}:${CAPUTLOG_PORT}" 2
+iocLogInit
+caPutLogInit "$(EPICS_IOC_CAPUTLOG_INET):$(EPICS_IOC_CAPUTLOG_PORT)" 2
 
 cd ..
 # create_monitor_set("$(TOP)/autosave/spixconv.req", 10, "P=${PREFIX}, SAVENAMEPV=${PREFIX}:SaveName")
