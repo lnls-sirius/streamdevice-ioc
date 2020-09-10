@@ -9,7 +9,7 @@ run(){
 
 run_ioc(){
     # Check if procServControl
-    if [ -f /opt/procCtrl/iocBoot/iocprocCtrl/st.cmd ]; then
+    if [ -f "/opt/procCtrl/iocBoot/iocprocCtrl/st.cmd" ]; then
         echo "###############################################################################"
         echo "# Init ProcServControl"
         procServ \

@@ -4,10 +4,10 @@
 import logging
 import os
 
+from common.procCtrl import generate_st_cmd
 from common.utils import deploy_files
 from spixconv.cmd_template import top as template_top, bot as template_bot
 from spixconv.devices import boards
-from common.procCtrl import generate_st_cmd
 
 logger = logging.getLogger()
 
