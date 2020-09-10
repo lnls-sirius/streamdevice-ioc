@@ -35,6 +35,7 @@ RUN \
 
 WORKDIR ${TOP}
 
+COPY crontab            /etc/crontab
 COPY logrotate.conf     /etc/logrotate.conf
 RUN  chmod 644          /etc/logrotate.conf
 

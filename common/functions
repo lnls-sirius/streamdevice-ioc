@@ -1,5 +1,8 @@
 #!/bin/bash
 run(){
+  echo "Init cron"
+  cron
+  echo "Init IOCs"
   run_ioc ${1};
   tail -f /dev/null
 }
