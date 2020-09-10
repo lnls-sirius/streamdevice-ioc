@@ -11,8 +11,8 @@ epicsEnvSet("EPICS_IOC_LOG_PORT", "$(EPICS_IOC_LOG_PORT)")
 
 cd "${TOP}"
 
-dbLoadDatabase "dbd/consProcServ.dbd"
-consProcServ_registerRecordDeviceDriver pdbbase
+dbLoadDatabase "dbd/procCtrl.dbd"
+procCtrl_registerRecordDeviceDriver pdbbase
 asSetFilename("${TOP}/db/Security.as")
 
 """
@@ -32,8 +32,8 @@ def generate_st_cmd(iocs):
     seq = ""
     db = ""
     for ioc in iocs:
-        asynIP += 'drvAsynIPPortConfigure("P{0}",  "unix://{1}") # {2}\n'.format(
-            port, ioc["ip"], ioc["pv"]
+        asynIP += 'drvAsynIPPortConfigure("P{0}",  "unix://{1}")\n'.format(
+            port, ioc["ip"]
         )
         seq += 'seq(procServControl,"P={0}")\n'.format(ioc["pv"])
         db += 'dbLoadRecords("db/procServControl.db","P={1},PORT=P{0},SHOWOUT=1,MANUALSTART=,NAME={1}")\n'.format(
