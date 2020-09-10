@@ -117,4 +117,42 @@ RUN wget ${CONS_REPO}/EPICS/procServ-2.8.0.tar.gz && tar -zxvf procServ-2.8.0.ta
     ./configure --enable-access-from-anywhere && make install && cd .. &&\
     rm -rf procServ-2.8.0.tar.gz procServ-2.8.0
 
+# Busy
+ENV BUSY ${EPICS_MODULES}/busy-R1-7-2
+RUN cd ${EPICS_MODULES} && wget ${CONS_REPO}/EPICS/R1-7-2.tar.gz  && tar -zxf R1-7-2.tar.gz &&\
+    rm -f R1-7-2.tar.gz && cd busy-R1-7-2 &&\
+    sed -i\
+    -e '7,8s/^/#/'                     \
+    -e '11cASYN='${ASYN}               \
+    -e '14cAUTOSAVE='${AUTOSAVE}       \
+    -e '17cBUSY='${BUSY}               \
+    -e '20cEPICS_BASE='${EPICS_BASE}   \
+    configure/RELEASE && make -j$(nproc)
+
+# Sequencer
+RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends re2c && rm -rf /var/lib/apt/lists/*
+ENV SNCSEQ ${EPICS_MODULES}/seq-2.2.6
+RUN cd ${EPICS_MODULES} && wget ${CONS_REPO}/EPICS/seq-2.2.6.tar.gz &&\
+    tar -xvzf seq-2.2.6.tar.gz && rm -f seq-2.2.6.tar.gz &&\
+    sed -i -e '6cEPICS_BASE='${EPICS_BASE} \
+    seq-2.2.6/configure/RELEASE &&\
+    cd seq-2.2.6 && make -j$(nproc)
+
+# procServControl
+ENV PROCSERVCONTROL ${EPICS_MODULES}/procServControl-1-2
+RUN cd ${EPICS_MODULES}                               &&\
+    wget ${CONS_REPO}/EPICS/procServControl-1-2.tgz   &&\
+    tar -zxf procServControl-1-2.tgz                  &&\
+    rm -f procServControl-1-2.tgz                     &&\
+    cd procServControl-1-2/                           &&\
+    sed -i -e '18s/^/#/' Makefile                     &&\
+    sed -i\
+       -e '23s/^/#/'                                 \
+       -e '26cSNCSEQ='${SNCSEQ}                      \
+       -e '27cASYN='${ASYN}                          \
+       -e '28cBUSY='${BUSY}                          \
+       -e '31cEPICS_BASE='${EPICS_BASE}              \
+       configure/RELEASE  &&\
+   make -j$(nproc)
+
 CMD tail -f /dev/null

@@ -1,7 +1,7 @@
 # Author: Cláudio Ferreira Carneiro
 # LNLS - Brazilian Synchrotron Light Source Laboratory
 
-FROM  lnlscon/epics-r3.15.8:v1.1 as stream
+FROM  lnlscon/epics-r3.15.8:v1.2 as stream
 LABEL "maintainer"="Claudio Carneiro <claudio.carneiro@lnls.br>"
 LABEL "repository"="https://github.com/lnls-sirius/streamdevice-ioc"
 LABEL "br.com.lnls-sirius.description"="StreamDevice IOC"
@@ -43,10 +43,13 @@ COPY streamDeviceIOCApp streamDeviceIOCApp
 COPY Makefile           Makefile
 COPY configure          configure
 COPY iocBoot            iocBoot
+COPY procCtrl           /opt/procCtrl
 
-RUN envsubst < configure/RELEASE.tmplt > configure/RELEASE
-RUN make distclean && make clean && make &&\
-    cat iocBoot/iocStreamDeviceIOC/envPaths
+RUN cd /opt/procCtrl && envsubst < configure/RELEASE.tmplt > configure/RELEASE &&\
+    cat configure/RELEASE && make distclean && make clean && make -j$(nproc) &&\
+    \
+    cd ${TOP} && envsubst < configure/RELEASE.tmplt > configure/RELEASE && \
+    make distclean && make clean && make -j$(nproc)
 
 COPY scripts            scripts
 COPY common             common

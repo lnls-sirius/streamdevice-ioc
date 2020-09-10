@@ -7,6 +7,7 @@ import os
 from common.utils import deploy_files
 from spixconv.cmd_template import top as template_top, bot as template_bot
 from spixconv.devices import boards
+from common.procCtrl import generate_st_cmd
 
 logger = logging.getLogger()
 
@@ -47,3 +48,14 @@ def generate(args, defaults):
             file.write(res)
         os.chmod(cmd_path, 0o544)
     deploy_files(dir_name, defaults['TOP'])
+
+    # Generate procServControl
+    # [{pv:..., ip:...}, ...]
+    iocs = []
+    for board in boards:
+        iocs.append({
+            'ip': "/opt/streamdevice-ioc/sockets/{}{}".format(cmd_key, board.ip).replace('.','_').replace(':', '_') + '.sock',
+            'pv': "ProcCtrl:" + board.device
+        })
+    generate_st_cmd(iocs)
+
