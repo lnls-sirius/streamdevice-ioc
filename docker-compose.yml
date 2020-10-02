@@ -13,7 +13,7 @@ services:
             target: stream
 
     agilent4uhv:
-        image: lnlscon/streamdevice-ioc:Agilent4UHV-v2.0
+        image: lnlscon/streamdevice-ioc:Agilent4UHV-v2.1
         build:
             dockerfile: 'Dockerfile'
             context: .
@@ -22,7 +22,7 @@ services:
             - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
 
     countingPRU:
-        image: lnlscon/streamdevice-ioc:CountingPRU-v2.0
+        image: lnlscon/streamdevice-ioc:CountingPRU-v2.2
         build:
             dockerfile: 'Dockerfile'
             context: .
@@ -31,7 +31,7 @@ services:
             - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
 
     mbtemp:
-        image: lnlscon/streamdevice-ioc:MBTemp-v2.0
+        image: lnlscon/streamdevice-ioc:MBTemp-v2.1
         build:
             dockerfile: 'Dockerfile'
             context: .
@@ -40,7 +40,7 @@ services:
             - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
 
     mks937b:
-        image: lnlscon/streamdevice-ioc:MKS937b-v2.0
+        image: lnlscon/streamdevice-ioc:MKS937b-v2.1
         build:
             dockerfile: 'Dockerfile'
             context: .
@@ -59,7 +59,7 @@ services:
             - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
 
     spixconv:
-        image: lnlscon/streamdevice-ioc:SPIxCONV-v2.0
+        image: lnlscon/streamdevice-ioc:SPIxCONV-v2.1
         build:
             dockerfile: 'Dockerfile'
             context: .
