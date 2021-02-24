@@ -107,14 +107,15 @@ def generate(args, defaults):
         cmd_path = os.path.join(
             dir_name, "server/cmd/" + cmd_key + sector.f_name + ".cmd"
         )
-        with open(cmd_path, "w+") as file:
-            file.write(res)
-        os.chmod(cmd_path, 0o544)
+
+        with open(cmd_path, "w+") as _f:
+            _f.write(res)
+        os.chmod(cmd_path, 0o664)
 
         # Generate autosave .req files
         if not os.path.exists(os.path.join(dir_name, "server/autosave/")):
             os.makedirs(os.path.join(dir_name, "server/autosave/"))
         with open(
             os.path.join(dir_name, "server/autosave/" + target_device_ip + ".req"), "w+"
-        ) as file:
-            file.write(_as)
+        ) as _f:
+            _f.write(_as)

@@ -26,19 +26,18 @@ if __name__ == "__main__":
     parser.add_argument(
         "--device", help="Device in use.", choices=DEVICES, required=True
     )
-    parser.add_argument("--top", help="StreamDevice path.", required=True)
 
     args = parser.parse_args()
     args.cmd_prefix = args.device + "-"
 
     defaults = {
         "CD": "${TOP}",
-        "TOP": args.top,
         "STREAM_PROTOCOL_PATH": "$(TOP)/protocol",
     }
 
     if args.device == UHV:
         from agilent4uhv.generate import generate
+
         generate(args, defaults)
 
     elif args.device == MKS:
