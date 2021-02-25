@@ -15,7 +15,7 @@ epicsEnvSet("EPICS_IOC_LOG_PORT", "$(EPICS_IOC_LOG_PORT)")
 cd $(TOP)
 dbLoadDatabase("dbd/streamDeviceIOC.dbd")
 streamDeviceIOC_registerRecordDeviceDriver(pdbbase)
-asSetFilename("${TOP}/db/Security.as")
+asSetFilename("$(TOP)/db/Security.as")
 
 # Port for the device
 drvAsynIPPortConfigure("${IP_ASYN_PORT}", "${IP}:5000", 100, 0, 0)
