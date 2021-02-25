@@ -2,6 +2,7 @@ TOP ?= ..
 AGILENT4UHV_PREFIX ?= UHV
 COUNTINGPRU_PREFIX ?= PRU
 MBTEMP_PREFIX ?= MBTemp
+MKS_PREFIX ?= MKS
 
 build:
 build-agilent4uhv:
@@ -10,6 +11,8 @@ build-countingpru:
 	python ./common/generate.py --device $(COUNTINGPRU_PREFIX)
 build-mbtemp:
 	python ./common/generate.py --device $(MBTEMP_PREFIX)
+build-mks:
+	python ./common/generate.py --device $(MKS_PREFIX)
 
 run-agilent4uhv:
 	$(eval PREFIX=$(AGILENT4UHV_PREFIX))
@@ -19,6 +22,9 @@ run-countingpru:
 	bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
 run-mbtemp:
 	$(eval PREFIX=$(MBTEMP_PREFIX))
+	bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
+run-mks:
+	$(eval PREFIX=$(MKS_PREFIX))
 	bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
 
 deploy-req:
@@ -41,6 +47,12 @@ deploy-mbtemp: deploy-req
 	cp -v -p ./mbtemp/server/db/*       $(TOP)/db
 	cp -v -p ./mbtemp/server/protocol/* $(TOP)/protocol
 	cp -v -p ./mbtemp/server/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
+
+deploy-mks: deploy-req
+	cp -v -p ./mks937b/server/autosave/* $(TOP)/autosave
+	cp -v -p ./mks937b/server/db/*       $(TOP)/db
+	cp -v -p ./mks937b/server/protocol/* $(TOP)/protocol
+	cp -v -p ./mks937b/server/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
 
 clean: clean-build clean-pyc clean-deploy
 clean-deploy:
