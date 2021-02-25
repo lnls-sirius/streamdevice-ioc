@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import os
 import logging
+import typing
 
 from agilent4uhv.cmd_template import (
     template_bot,
@@ -21,6 +22,59 @@ SEC_PER_DEVICE = 2
 
 if __name__ == "__main__":
     logger.info("Use the script at common/generate.py instead !")
+
+
+def generate_device_specific(
+    device, device_number: int, ip_asyn_port: str, sector
+) -> typing.Tuple[str, str]:
+    """
+    @return a tuple containing the device and the autosave strings
+    """
+    res = ""
+    _as = ""
+    prefix = device.prefix
+    serial_address = device.serial_address
+
+    channels = device.channels
+
+    for i in range(4):
+        if channels[i] is None:
+            # @todo: If the channel is empty do something....
+            channels[i] = "None:{}".format(i)
+
+    res += template_device.safe_substitute(
+        IP_ASYN_PORT=ip_asyn_port,
+        P=prefix,
+        ADDR=serial_address,
+        P_CH1=channels[0],
+        P_CH2=channels[1],
+        P_CH3=channels[2],
+        P_CH4=channels[3],
+        E_CH1="#" if channels[0] == "" else "",
+        E_CH2="#" if channels[1] == "" else "",
+        E_CH3="#" if channels[2] == "" else "",
+        E_CH4="#" if channels[3] == "" else "",
+        DEVICE_NUM=str(device_number),
+        TIME=sector.devices_num * SEC_PER_DEVICE,
+    )
+
+    for i in range(4):
+        if channels[i] == "":
+            continue
+
+        res += template_channel.safe_substitute(
+            IP_ASYN_PORT=ip_asyn_port,
+            D=prefix,
+            P=channels[i],
+            ADDR=serial_address,
+            CH_NUM=i + 1,
+        )
+
+        # autosave restore
+        _as += channels[i] + ":Pressure-Mon.HIHI\n"
+        _as += channels[i] + ":Pressure-Mon.HIGH\n"
+
+    return res, _as
 
 
 def generate(args, defaults):
@@ -47,51 +101,18 @@ def generate(args, defaults):
             IP_ASYN_PORT=ip_asyn_port,
         )
 
+        # Device specific
         d_n = 0
         for device in devices:
             d_n += 1
-
-            prefix = device.prefix
-            serial_address = device.serial_address
-
-            channels = device.channels
-
-            for i in range(4):
-                if channels[i] is None:
-                    # @todo: If the channel is empty do something....
-                    channels[i] = "None:{}".format(i)
-
-            res += template_device.safe_substitute(
-                IP_ASYN_PORT=ip_asyn_port,
-                P=prefix,
-                ADDR=serial_address,
-                P_CH1=channels[0],
-                P_CH2=channels[1],
-                P_CH3=channels[2],
-                P_CH4=channels[3],
-                E_CH1="#" if channels[0] == "" else "",
-                E_CH2="#" if channels[1] == "" else "",
-                E_CH3="#" if channels[2] == "" else "",
-                E_CH4="#" if channels[3] == "" else "",
-                DEVICE_NUM=d_n,
-                TIME=sector.devices_num * SEC_PER_DEVICE,
+            device_res, device_as = generate_device_specific(
+                device=device,
+                device_number=d_n,
+                ip_asyn_port=ip_asyn_port,
+                sector=sector,
             )
-
-            for i in range(4):
-                if channels[i] == "":
-                    continue
-
-                res += template_channel.safe_substitute(
-                    IP_ASYN_PORT=ip_asyn_port,
-                    D=prefix,
-                    P=channels[i],
-                    ADDR=serial_address,
-                    CH_NUM=i + 1,
-                )
-
-                # autosave restore
-                _as += channels[i] + ":Pressure-Mon.HIHI\n"
-                _as += channels[i] + ":Pressure-Mon.HIGH\n"
+            res += device_res
+            _as += device_as
 
         res += template_autosave_chrestore.safe_substitute(IP_ADDR=target_device_ip)
 

@@ -29,11 +29,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     args.cmd_prefix = args.device + "-"
-
-    defaults = {
-        "CD": "${TOP}",
-        "STREAM_PROTOCOL_PATH": "$(TOP)/protocol",
-    }
+    defaults = {}
 
     if args.device == UHV:
         from agilent4uhv.generate import generate

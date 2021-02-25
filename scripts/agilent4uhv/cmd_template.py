@@ -10,7 +10,7 @@ epicsEnvSet("EPICS_IOC_LOG_INET", "$(EPICS_IOC_LOG_INET)")
 epicsEnvSet("EPICS_IOC_LOG_PORT", "$(EPICS_IOC_LOG_PORT)")
 
 # Database definition file
-cd $CD
+cd $(TOP)
 dbLoadDatabase("dbd/streamDeviceIOC.dbd")
 streamDeviceIOC_registerRecordDeviceDriver(pdbbase)
 asSetFilename("$(TOP)/db/Security.as")
