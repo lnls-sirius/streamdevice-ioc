@@ -1,10 +1,10 @@
 ARG STREAM_BASE_IMAGE
 ARG STREAM_BASE_TAG
 
-FROM  ${STREAM_BASE_IMAGE}:${STREAM_BASE_TAG} AS base
-COPY scripts            scripts
+FROM ${STREAM_BASE_IMAGE}:${STREAM_BASE_TAG} AS base
+COPY scripts scripts
 
-FROM  base AS agilent4uhv
+FROM base AS agilent4uhv
 RUN set -x; cd scripts; make deploy-agilent4uhv
 CMD ["/bin/bash", "cd scripts/ && make run-agilent4uhv"]
 
@@ -13,13 +13,17 @@ RUN set -x; cd scripts; make deploy-countingpru
 CMD ["/bin/bash", "cd scripts/ && make run-countingpru"]
 
 FROM base AS mbtemp
-CMD ["/bin/bash", "/opt/streamdevice-ioc/scripts/mbtemp.sh"]
+RUN set -x; cd scripts; make deploy-mbtemp
+CMD ["/bin/bash", "cd scripts/ && make run-mbtemp"]
 
 FROM base AS mks937b
-CMD ["/bin/bash", "/opt/streamdevice-ioc/scripts/mks937b.sh"]
+RUN set -x; cd scripts; make deploy-mks937b
+CMD ["/bin/bash", "cd scripts/ && make run-mks937b"]
 
 FROM base AS rackMonitoring
-CMD ["/bin/bash", "/opt/streamdevice-ioc/scripts/rackMonitoring.sh"]
+RUN set -x; cd scripts; make deploy-rackMonitoring
+CMD ["/bin/bash", "cd scripts/ && make run-rackMonitoring"]
 
 FROM base AS spixconv
-CMD ["/bin/bash", "/opt/streamdevice-ioc/scripts/spixconv.sh"]
+RUN set -x; cd scripts; make deploy-spixconv
+CMD ["/bin/bash", "cd scripts/ && make run-mks937b"]
