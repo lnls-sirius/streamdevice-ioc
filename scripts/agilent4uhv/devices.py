@@ -23,7 +23,6 @@ class Device:
                 self.channels[i] = self.channels[i].strip()
 
 
-
 class DevicesNet:
     def __init__(self, ip_address, devices, asyn_ip_port="IPPort0"):
         self.f_name: str = ip_address + ":5004"
