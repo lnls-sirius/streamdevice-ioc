@@ -1,10 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-from string import Template
-
-rackmonitor_template_top = Template(
-    """#!../../bin/linux-x86_64/streamDeviceIOC
+#!../../bin/linux-x86_64/streamDeviceIOC
 < envPaths
 
 epicsEnvSet("EPICS_IOC_LOG_INET", "$(EPICS_IOC_LOG_INET)")
@@ -17,24 +11,14 @@ streamDeviceIOC_registerRecordDeviceDriver(pdbbase)
 asSetFilename("$(TOP)/db/Security.as")
 
 # Rack Monitoring Board
-drvAsynIPPortConfigure("${IP_ASYN_PORT}","${IP_ADDR}", 0, 0, 0)
+drvAsynIPPortConfigure("IPPort0","10.128.102.119:5006", 0, 0, 0)
 
-"""
-)
 
-rackmonitor_template = Template(
-    """
 # Record for configuration of Rack Monitoring Board
-dbLoadRecords("db/rackMonitoring.db", "PREFIX = ${PREFIX}, PORT = ${IP_ASYN_PORT}, SCAN_RATE = ${SCAN_RATE}")
-"""
-)
+dbLoadRecords("db/rackMonitoring.db", "PREFIX = Exemplo3, PORT = IPPort0, SCAN_RATE = 2 second")
 
-rackmonitor_template_bot = Template(
-    """
 # Effectively initializes the IOC
 cd iocBoot
 iocInit
 iocLogInit
 caPutLogInit "$(EPICS_IOC_CAPUTLOG_INET):$(EPICS_IOC_CAPUTLOG_PORT)" 2
-"""
-)
