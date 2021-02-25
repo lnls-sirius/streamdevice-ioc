@@ -8,8 +8,8 @@
 import logging
 import os
 
-from countingPRU.devices import boards
-from countingPRU.template import template, template_bot, template_top
+from countingpru.devices import boards
+from countingpru.template import template, template_bot, template_top
 
 logger = logging.getLogger()
 

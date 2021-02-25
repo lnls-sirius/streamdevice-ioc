@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
         generate(args, defaults)
     elif args.device == PRU:
-        from countingPRU.generate import generate
+        from countingpru.generate import generate
 
         generate(args, defaults)
     elif args.device == MBTemp:

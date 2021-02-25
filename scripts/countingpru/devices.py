@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from countingPRU.consts import DATA_COUNTING_PRU
+from countingpru.consts import DATA_COUNTING_PRU
 
 logger = logging.getLogger()
 
