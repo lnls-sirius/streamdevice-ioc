@@ -4,8 +4,9 @@ COUNTINGPRU_PREFIX ?= PRU
 MBTEMP_PREFIX ?= MBTemp
 MKS_PREFIX ?= MKS
 RACKMON_PREFIX ?= RackMonitoring
+SPIXCONV_PREFIX ?= SPIxCONV
 
-build: build-agilent4uhv build-countingpru build-mbtemp build-mks937b build-rackmon
+build: build-agilent4uhv build-countingpru build-mbtemp build-mks937b build-rackmon build-spixconv
 build-agilent4uhv:
 	python ./common/generate.py --device $(AGILENT4UHV_PREFIX)
 build-countingpru:
@@ -16,6 +17,8 @@ build-mks937b:
 	python ./common/generate.py --device $(MKS_PREFIX)
 build-rackmon:
 	python ./common/generate.py --device $(RACKMON_PREFIX)
+build-spixconv:
+	python ./common/generate.py --device $(SPIXCONV_PREFIX) --spreadsheet ./spreadsheet/SPIxCONV.xlsx
 
 run-agilent4uhv:
 	$(eval PREFIX=$(AGILENT4UHV_PREFIX))
@@ -31,6 +34,9 @@ run-mks937b:
 	bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
 run-rackmon:
 	$(eval PREFIX=$(RACKMON_PREFIX))
+	bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
+run-spixconv:
+	$(eval PREFIX=$(SPIXCONV_PREFIX))
 	bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
 
 deploy-req:
@@ -64,6 +70,13 @@ deploy-rackmon: deploy-req
 	cp -v -p ./rackMonitoring/server/db/*       $(TOP)/db
 	cp -v -p ./rackMonitoring/server/protocol/* $(TOP)/protocol
 	cp -v -p ./rackMonitoring/server/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
+
+deploy-spixconv: deploy-req
+	cp -v -p ./spixconv/server/procCtrl/st.cmd $(TOP)/procCtrl/iocBoot/iocprocCtrl/st.cmd
+	cp -v -p ./spixconv/server/autosave/*      $(TOP)/autosave
+	cp -v -p ./spixconv/server/db/*            $(TOP)/db
+	cp -v -p ./spixconv/server/protocol/*      $(TOP)/protocol
+	cp -v -p ./spixconv/server/cmd/*           $(TOP)/iocBoot/iocStreamDeviceIOC
 
 clean: clean-build clean-pyc clean-deploy
 clean-deploy:
