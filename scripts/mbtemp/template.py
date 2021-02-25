@@ -3,25 +3,27 @@
 
 from string import Template
 
-mbt_template_top = Template('''#!../../bin/linux-x86_64/streamDeviceIOC
+mbt_template_top = Template(
+    """#!../../bin/linux-x86_64/streamDeviceIOC
 < envPaths
 
-epicsEnvSet("EPICS_CA_SERVER_PORT", "${EPICS_CA_SERVER_PORT}")
 epicsEnvSet("EPICS_IOC_LOG_INET", "$(EPICS_IOC_LOG_INET)")
 epicsEnvSet("EPICS_IOC_LOG_PORT", "$(EPICS_IOC_LOG_PORT)")
 
 # Database definition file
-cd ${CD}
+cd $(TOP)
 dbLoadDatabase("dbd/streamDeviceIOC.dbd")
 streamDeviceIOC_registerRecordDeviceDriver(pdbbase)
-asSetFilename("${TOP}/db/Security.as")
+asSetFilename("$(TOP)/db/Security.as")
 
 # MBTemp board (TCP with socat binding the serial port at 115200)
 drvAsynIPPortConfigure("${IP_ASYN_PORT}","${IP_ADDR}", 0, 0, 0)
 
-''')
+"""
+)
 
-mbt_template = Template('''
+mbt_template = Template(
+    """
 # Record for configuration of MBTemp exponential moving average smoothing factor
 dbLoadRecords("db/MBTemp-Device.db", "MBTEMP_ADDRESS = ${MBTEMP_ADDRESS}, PORT = ${IP_ASYN_PORT}, PREFIX = ${PREFIX}, SCAN_RATE = $SCAN_RATE_DEVICE")
 
@@ -35,13 +37,15 @@ dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 5, DESCRIPTION = MBTemp Channel
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 6, DESCRIPTION = MBTemp Channel 7, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = ${IP_ASYN_PORT}, RECORD_NAME = $CH7, SCAN_RATE = $SCAN_RATE")
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 7, DESCRIPTION = MBTemp Channel 8, MBTEMP_ADDRESS = $MBTEMP_ADDRESS, PORT = ${IP_ASYN_PORT}, RECORD_NAME = $CH8, SCAN_RATE = $SCAN_RATE")
 
-''')
+"""
+)
 
-mbt_template_bot = Template('''
+mbt_template_bot = Template(
+    """
 # Effectively initializes the IOC
 cd iocBoot
 iocInit
 iocLogInit
 caPutLogInit "$(EPICS_IOC_CAPUTLOG_INET):$(EPICS_IOC_CAPUTLOG_PORT)" 2
-''')
-
+"""
+)
