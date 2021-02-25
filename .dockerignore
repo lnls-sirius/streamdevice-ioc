@@ -3,5 +3,6 @@
 .idea
 Dockerfile
 Dockerfile.EPICS
+Dockerfile.Stream
 README.md
 docker-compose.yml
