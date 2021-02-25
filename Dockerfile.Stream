@@ -53,6 +53,4 @@ RUN cd /opt/procCtrl && envsubst < configure/RELEASE.tmplt > configure/RELEASE &
     cd ${TOP} && envsubst < configure/RELEASE.tmplt > configure/RELEASE && \
     make distclean && make clean && make -j$(nproc)
 
-COPY scripts            scripts
-
 CMD echo "Overwrite the command!" && ls -la ./scripts && tail -f /dev/null
