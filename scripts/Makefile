@@ -5,7 +5,7 @@ MBTEMP_PREFIX ?= MBTemp
 MKS_PREFIX ?= MKS
 RACKMON_PREFIX ?= RackMonitoring
 
-build:
+build: build-agilent4uhv build-countingpru build-mbtemp build-mks937b build-rackmon
 build-agilent4uhv:
 	python ./common/generate.py --device $(AGILENT4UHV_PREFIX)
 build-countingpru:
