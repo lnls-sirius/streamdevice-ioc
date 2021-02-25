@@ -21,7 +21,7 @@ RUN set -x; cd scripts; make deploy-mks937b
 CMD ["/bin/bash", "cd scripts/ && make run-mks937b"]
 
 FROM base AS rackMonitoring
-RUN set -x; cd scripts; make deploy-rackMonitoring
+RUN set -x; cd scripts; make deploy-rackmon
 CMD ["/bin/bash", "cd scripts/ && make run-rackMonitoring"]
 
 FROM base AS spixconv
