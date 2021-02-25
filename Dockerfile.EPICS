@@ -100,7 +100,7 @@ RUN cd ${EPICS_MODULES} && wget ${CONS_REPO}/EPICS/R3.6.tar.gz && tar -zxvf R3.6
 ENV STREAMDEVICE ${EPICS_MODULES}/StreamDevice-2.8.14
 ENV STREAM ${STREAMDEVICE}
 RUN cd ${EPICS_MODULES} && git clone https://github.com/paulscherrerinstitute/StreamDevice ${STREAM} && ls -la ${STREAM}
-RUN cd ${STREAM} && git fetch --all --tags && git checkout tags/2.8.14  && git status 
+RUN cd ${STREAM} && git fetch --all --tags && git checkout tags/2.8.14  && git status
 RUN cd ${STREAM} &&\
     sed -i -e '20cASYN='${ASYN}\
            -e '21cCALC='${CALC}\

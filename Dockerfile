@@ -60,7 +60,13 @@ CMD echo "Overwrite the command!" && ls -la ./scripts && tail -f /dev/null
 FROM stream AS agilent4uhv
 COPY agilent4uhv agilent4uhv
 LABEL "br.com.lnls-sirius.device"="Agilent 4UHV"
-CMD ["/bin/bash", "/opt/streamdevice-ioc/scripts/agilent.sh"]
+RUN \
+    cp -v -p ${TOP}/scripts/server/autosave/* ${TOP}/autosave &&\
+    cp -v -p ${TOP}/scripts/server/db/*       ${TOP}/database &&\
+    cp -v -p ${TOP}/scripts/server/protocol/* ${TOP}/protocol &&\
+    cp -v -p ${TOP}/scripts/server/cmd/*      ${TOP}/autosave
+
+CMD ["/bin/bash", "cd scripts/ && make run-agilent4uhv"]
 
 FROM stream AS countingPRU
 COPY countingPRU countingPRU
