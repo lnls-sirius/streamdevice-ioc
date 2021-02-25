@@ -12,7 +12,7 @@ build-countingpru:
 	python ./common/generate.py --device $(COUNTINGPRU_PREFIX)
 build-mbtemp:
 	python ./common/generate.py --device $(MBTEMP_PREFIX)
-build-mks:
+build-mks937b:
 	python ./common/generate.py --device $(MKS_PREFIX)
 build-rackmon:
 	python ./common/generate.py --device $(RACKMON_PREFIX)
@@ -26,7 +26,7 @@ run-countingpru:
 run-mbtemp:
 	$(eval PREFIX=$(MBTEMP_PREFIX))
 	bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
-run-mks:
+run-mks937b:
 	$(eval PREFIX=$(MKS_PREFIX))
 	bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
 run-rackmon:
@@ -54,7 +54,7 @@ deploy-mbtemp: deploy-req
 	cp -v -p ./mbtemp/server/protocol/* $(TOP)/protocol
 	cp -v -p ./mbtemp/server/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
 
-deploy-mks: deploy-req
+deploy-mks937b: deploy-req
 	cp -v -p ./mks937b/server/autosave/* $(TOP)/autosave
 	cp -v -p ./mks937b/server/db/*       $(TOP)/db
 	cp -v -p ./mks937b/server/protocol/* $(TOP)/protocol
