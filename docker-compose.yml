@@ -31,7 +31,7 @@ services:
       - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
 
   countingpru:
-    image: lnlscon/streamdevice-ioc:CountingPRU-v2.2
+    image: ${STREAM_BASE_IMAGE}:${COUNTINGPRU_TAG}
     build:
       dockerfile: 'Dockerfile'
       context: .
@@ -45,7 +45,7 @@ services:
       - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
 
   mbtemp:
-    image: lnlscon/streamdevice-ioc:MBTemp-v2.1
+    image: ${STREAM_BASE_IMAGE}:${MBTEMP_TAG}
     build:
       dockerfile: 'Dockerfile'
       context: .
@@ -59,7 +59,7 @@ services:
       - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
 
   mks937b:
-    image: lnlscon/streamdevice-ioc:MKS937b-v2.1
+    image: ${STREAM_BASE_IMAGE}:${MKS937B_TAG}
     build:
       dockerfile: 'Dockerfile'
       context: .
@@ -68,13 +68,13 @@ services:
         STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
         STREAM_BASE_TAG: ${STREAM_BASE_TAG}
       labels:
-        br.com.lnls-sirius.device: MKS937b"
+        br.com.lnls-sirius.device: "MKS937b"
     volumes:
       - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
       - "/var/tmp/auto:/opt/epics-R3.15.6/modules/StreamDevice-2.8.9/autosave:rw"
 
   rackMonitoring:
-    image: lnlscon/streamdevice-ioc:RackMonitoring-v2.1
+    image: ${STREAM_BASE_IMAGE}:${RACKMON_TAG}
     build:
       dockerfile: 'Dockerfile'
       context: .
@@ -88,7 +88,7 @@ services:
       - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
 
   spixconv:
-    image: lnlscon/streamdevice-ioc:SPIxCONV-v2.1
+    image: ${STREAM_BASE_IMAGE}:${SPIXCONV_TAG}
     build:
       dockerfile: 'Dockerfile'
       context: .
