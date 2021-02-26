@@ -8,10 +8,12 @@ run(){
 }
 
 run_ioc(){
+    set +x
     # Check if procServControl
     if [ -f "${TOP}/procCtrl/iocBoot/iocprocCtrl/st.cmd" ]; then
         echo "###############################################################################"
         echo "# Init ProcServControl"
+        set -x
         procServ \
             -n ProcCtrl \
             -q \
@@ -21,6 +23,7 @@ run_ioc(){
             unix:/opt/streamdevice-ioc/sockets/procCtrl.sock \
             ${TOP}/procCtrl/iocBoot/iocprocCtrl/st.cmd \
             TOP=${TOP}/procCtrl
+        set +x
         echo "###############################################################################"
     fi
 
@@ -35,7 +38,9 @@ run_ioc(){
             logFile=${TOP}/log/${filename}
             iocName="$(echo ${filename} | sed  -e "s/\./_/g" -e "s/:/_/g" -e "s/_cmd//g")"
             socket_name="${TOP}/sockets/${iocName}.sock"
-            procServ -n ${iocName} -q --killsig 9 -L log/${filename} --chdir ${TOP}/iocBoot/iocStreamDeviceIOC unix:${socket_name} ${TOP}/iocBoot/iocStreamDeviceIOC/${filename}
+            set -x
+            procServ -n ${iocName} -q --killsig 9 -L ${TOP}/log/${filename} --chdir ${TOP}/iocBoot/iocStreamDeviceIOC unix:${socket_name} ${TOP}/iocBoot/iocStreamDeviceIOC/${filename}
+            set +x
             echo "# IOC: ${filename}    log_file: ${logFile}    unix_socket: ${socket_name}"
         fi
     done
