@@ -33,8 +33,8 @@ BUILD_ENVS += COMMIT_HASH=$(COMMIT)
 build: update-env
 	docker-compose build
 
-push-all:\
-	push-base push-stream push-agilent push-countingpru push-mbtemp push-mks937b push-rackmon push-spixconv
+push-all: push-base push-stream push-iocs
+push-iocs: push-agilent push-countingpru push-mbtemp push-mks937b push-rackmon push-spixconv
 push-base:
 	docker push $(EPICS_BASE_IMAGE):$(EPICS_BASE_TAG)
 push-stream:
