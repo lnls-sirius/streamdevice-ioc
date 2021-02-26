@@ -5,57 +5,63 @@ import logging
 import os
 
 from common.procCtrl import generate_st_cmd
-from common.utils import deploy_files
 from spixconv.cmd_template import top as template_top, bot as template_bot
 from spixconv.devices import boards
 
 logger = logging.getLogger()
 
 if __name__ == "__main__":
-    logger.info('Use the script at common/generate.py instead !')
+    logger.info("Use the script at common/generate.py instead !")
+
+
+def write(dir_name, board, cmd_key, cmd_data):
+    if not os.path.exists(os.path.join(dir_name, "server/cmd/")):
+        os.makedirs(os.path.join(dir_name, "server/cmd/"))
+    cmd_path = os.path.join(dir_name, f"server/cmd/{cmd_key}{board.file_name}")
+    with open(cmd_path, "w+") as file:
+        file.write(cmd_data)
+    os.chmod(cmd_path, 0o664)
+
+
+def generate_proc_ctrl(cmd_key, board, dir_name):
+    """ Generate procServControl [{pv:..., ip:...}, ...] """
+    iocs = []
+    for board in boards:
+        iocs.append(
+            {
+                "ip": f"/opt/streamdevice-ioc/sockets/{cmd_key}{board.ip}".replace(
+                    ".", "_"
+                ).replace(":", "_")
+                + ".sock",
+                "pv": f"ProcCtrl:{board.device}",
+            }
+        )
+    generate_st_cmd(iocs, dir_name)
 
 
 def generate(args, defaults):
-    logger.info('Generating SPIxCONV.')
+    logger.info("Generating SPIxCONV.")
     dir_name = os.path.dirname(os.path.abspath(__file__))
 
-    epics_ca_port_increase = args.epics_ca_port_increase
-    epics_ca_server_port = args.base_epics_ca_port
     cmd_key = args.cmd_prefix
 
-    cd = "${TOP}"
-    stream_protocol_path = "$(TOP)/protocol"
-
     for board in boards:
-        res = ''
+        cmd_data = ""
 
-        res += template_top.safe_substitute(defaults,
-                                            CD=cd, STREAM_PROTOCOL_PATH=stream_protocol_path,
-                                            EPICS_CA_SERVER_PORT=epics_ca_server_port,
-                                            IP_ADDR=board.ip, DATABASE=board.database, SCAN_RATE=board.scan_rate,
-                                            PREFIX=board.device, VOLTAGE_FACTOR=board.voltage_factor,
-                                            DESCRIPTION=board.description, ADDRESS=board.address,
-                                            DELAY=board.step_delay, TRIGGER=board.step_trigger)
-        res += template_bot.safe_substitute(defaults, PREFIX=board.device)
+        cmd_data += template_top.safe_substitute(
+            defaults,
+            IP_ADDR=board.ip,
+            DATABASE=board.database,
+            SCAN_RATE=board.scan_rate,
+            PREFIX=board.device,
+            VOLTAGE_FACTOR=board.voltage_factor,
+            DESCRIPTION=board.description,
+            ADDRESS=board.address,
+            DELAY=board.step_delay,
+            TRIGGER=board.step_trigger,
+        )
+        cmd_data += template_bot.safe_substitute(defaults, PREFIX=board.device)
 
-        if epics_ca_port_increase:
-            epics_ca_server_port += 2
+        write(dir_name=dir_name, board=board, cmd_key=cmd_key, cmd_data=cmd_data)
 
-        if not os.path.exists(os.path.join(dir_name, 'server/cmd/')):
-            os.makedirs(os.path.join(dir_name, 'server/cmd/'))
-        cmd_path = os.path.join(dir_name, 'server/cmd/' + cmd_key + board.file_name)
-        with open(cmd_path, 'w+') as file:
-            file.write(res)
-        os.chmod(cmd_path, 0o544)
-    deploy_files(dir_name, defaults['TOP'])
-
-    # Generate procServControl
-    # [{pv:..., ip:...}, ...]
-    iocs = []
-    for board in boards:
-        iocs.append({
-            'ip': "/opt/streamdevice-ioc/sockets/{}{}".format(cmd_key, board.ip).replace('.','_').replace(':', '_') + '.sock',
-            'pv': "ProcCtrl:" + board.device
-        })
-    generate_st_cmd(iocs)
-
+    generate_proc_ctrl(cmd_key=cmd_key, board=board, dir_name=dir_name)

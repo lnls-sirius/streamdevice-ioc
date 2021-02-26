@@ -1,11 +1,7 @@
-#!/usr/bin/env python3
-from string import Template
-
-top = Template(
-    """#!../../bin/linux-x86_64/streamDeviceIOC
+#!../../bin/linux-x86_64/streamDeviceIOC
 < envPaths
 
-# ${DESCRIPTION}
+# Kicker - Spare 1
 # This script will be used for SPIxCONV installations alongside with EPP hardware and power supplies.
 
 epicsEnvSet("EPICS_IOC_LOG_INET", "$(EPICS_IOC_LOG_INET)")
@@ -38,18 +34,14 @@ asSetFilename("$(TOP)/db/Security.as")
 #  - Injection Thin Septum:          TS-04:PU-InjSeptF
 #
 #==========================================================================
-drvAsynIPPortConfigure("socket_spixconv", "${IP_ADDR}")
+drvAsynIPPortConfigure("socket_spixconv", "10.128.101.115:5005")
 
 # database for 10 kV Voltage source:
-dbLoadRecords("db/${DATABASE}.db", "PREFIX=${PREFIX}, SCAN_RATE=${SCAN_RATE}, SPIxCONV_ADDRESS=${ADDRESS}, VOLTAGE_FACTOR=${VOLTAGE_FACTOR}, STEP_DELAY=${DELAY}, STEP_TRIGGER=${TRIGGER}")
-dbLoadRecords("db/SPIxCONV_Config.db", "P=${PREFIX}")
-"""
-)
+dbLoadRecords("db/SPIxCONV_kicker.db", "PREFIX=SpareKicker1, SCAN_RATE=.1 second, SPIxCONV_ADDRESS=11, VOLTAGE_FACTOR=1500, STEP_DELAY=1, STEP_TRIGGER=1000")
+dbLoadRecords("db/SPIxCONV_Config.db", "P=SpareKicker1")
 
-bot = Template(
-    """
-# set_pass0_restoreFile("$(TOP)/autosave/save/${PREFIX}.sav")
-# set_pass1_restoreFile("$(TOP)/autosave/save/${PREFIX}.sav")
+# set_pass0_restoreFile("$(TOP)/autosave/save/SpareKicker1.sav")
+# set_pass1_restoreFile("$(TOP)/autosave/save/SpareKicker1.sav")
 
 # Effectively initializes the IOC
 cd iocBoot
@@ -58,6 +50,4 @@ iocLogInit
 caPutLogInit "$(EPICS_IOC_CAPUTLOG_INET):$(EPICS_IOC_CAPUTLOG_PORT)" 2
 
 cd ..
-# create_monitor_set("$(TOP)/autosave/spixconv.req", 10, "P=${PREFIX}, SAVENAMEPV=${PREFIX}:SaveName")
-"""
-)
+# create_monitor_set("$(TOP)/autosave/spixconv.req", 10, "P=SpareKicker1, SAVENAMEPV=SpareKicker1:SaveName")
