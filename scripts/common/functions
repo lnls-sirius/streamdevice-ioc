@@ -9,7 +9,7 @@ run(){
 
 run_ioc(){
     # Check if procServControl
-    if [ -f "/opt/procCtrl/iocBoot/iocprocCtrl/st.cmd" ]; then
+    if [ -f "${TOP}/procCtrl/iocBoot/iocprocCtrl/st.cmd" ]; then
         echo "###############################################################################"
         echo "# Init ProcServControl"
         procServ \
@@ -17,10 +17,10 @@ run_ioc(){
             -q \
             --killsig 9 \
             -L /opt/streamdevice-ioc/log/procCtrl.log \
-            --chdir /opt/procCtrl/iocBoot/iocprocCtrl \
+            --chdir ${TOP}/procCtrl/iocBoot/iocprocCtrl \
             unix:/opt/streamdevice-ioc/sockets/procCtrl.sock \
-            /opt/procCtrl/iocBoot/iocprocCtrl/st.cmd \
-            TOP=/opt/procCtrl
+            ${TOP}/procCtrl/iocBoot/iocprocCtrl/st.cmd \
+            TOP=${TOP}/procCtrl
         echo "###############################################################################"
     fi
 
