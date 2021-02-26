@@ -42,9 +42,9 @@ COPY streamDeviceIOCApp streamDeviceIOCApp
 COPY Makefile           Makefile
 COPY configure          configure
 COPY iocBoot            iocBoot
-COPY procCtrl           /opt/procCtrl
+COPY procCtrl           procCtrl
 
-RUN cd /opt/procCtrl && envsubst < configure/RELEASE.tmplt > configure/RELEASE &&\
+RUN cd ${TOP}/procCtrl && envsubst < configure/RELEASE.tmplt > configure/RELEASE &&\
     cat configure/RELEASE && make distclean && make clean && make -j$(nproc) &&\
     \
     cd ${TOP} && envsubst < configure/RELEASE.tmplt > configure/RELEASE && \
