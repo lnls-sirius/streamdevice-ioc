@@ -13,7 +13,6 @@
 
 import requests
 import socket
-import sys
 import threading
 import time
 import os
@@ -23,12 +22,12 @@ import os
 TIME_INTERVAL = 2.0
 
 # UDP server port number
-UDP_PORT = int(os.environ['UDP_PORT'] )
+UDP_PORT = int(os.environ["UDP_PORT"])
 
 # DCM SE-10 IP address
-DEVICE_IP_ADDRESS = os.environ['DEVICE_IP_ADDRESS'] 
+DEVICE_IP_ADDRESS = os.environ["DEVICE_IP_ADDRESS"]
 
-print('{}:{}'.format(DEVICE_IP_ADDRESS, UDP_PORT))
+print("{}:{}".format(DEVICE_IP_ADDRESS, UDP_PORT))
 # DCM SE-10 internal temperature sensor measurement (°C)
 
 TEMPERATURE1 = "0.0"
@@ -43,6 +42,7 @@ HUMIDITY = "0.0"
 
 # Thread for reading data from the DCM SE-10 module
 
+
 def scanThread():
 
     # Global variables
@@ -53,7 +53,7 @@ def scanThread():
 
     # Loop
 
-    while (True):
+    while True:
 
         try:
 
@@ -75,9 +75,10 @@ def scanThread():
 
         time.sleep(TIME_INTERVAL)
 
+
 # This launches the auxiliary thread of the program
 
-auxiliary_thread = threading.Thread(target = scanThread)
+auxiliary_thread = threading.Thread(target=scanThread)
 auxiliary_thread.setDaemon(True)
 auxiliary_thread.start()
 
@@ -93,7 +94,7 @@ udp_server_socket.bind(udp_server_address)
 
 # Loop
 
-while (True):
+while True:
 
     # Client (EPICS IOC) input data and address
 
@@ -101,13 +102,13 @@ while (True):
 
     # There is a simple protocol for communication to the client
 
-    if (data):
+    if data:
 
-        if (data == "T1?\n"):
+        if data == "T1?\n":
             answer = TEMPERATURE1
-        elif (data == "T2?\n"):
+        elif data == "T2?\n":
             answer = TEMPERATURE2
-        elif (data == "H?\n"):
+        elif data == "H?\n":
             answer = HUMIDITY
         else:
             continue
