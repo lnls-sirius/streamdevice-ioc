@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os
-import sys
 import logging
 import argparse
 
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../"))
+from common.consts import config
+
 logger = logging.getLogger()
 
 UHV = "UHV"
@@ -26,9 +25,16 @@ if __name__ == "__main__":
     parser.add_argument(
         "--device", help="Device in use.", choices=DEVICES, required=True
     )
+    parser.add_argument(
+        "--spreadsheet",
+        help="XLSX name",
+        default="./spreadsheet/Redes e Beaglebones.xlsx",
+    )
 
     args = parser.parse_args()
-    args.cmd_prefix = args.device + "-"
+    config.set_spreadsheet(args.spreadsheet)
+
+    args.cmd_prefix = f"{args.device}-"
     defaults = {}
 
     if args.device == UHV:

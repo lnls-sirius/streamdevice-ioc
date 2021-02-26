@@ -3,7 +3,7 @@ import pandas
 import logging
 
 from string import Template
-from common.consts import SPREADSHEET
+from common.consts import config
 
 logger = logging.getLogger()
 
@@ -15,15 +15,17 @@ class DbData:
         :param ip: column name containing the ip address.
         :param aditional_check: a function that receives row and sheet_name and returns True or False depending on the check result.
         """
+        SPREADSHEET = config.get_spreadsheet()
+        logger.info(f"Loading from '{SPREADSHEET}', sheet '{sheet_name}'")
         self.data = {}
         self.sheet = pandas.read_excel(SPREADSHEET, sheet_name=sheet_name, dtype=str)
         self.sheet = self.sheet.replace("nan", "")
-        for index, row in self.sheet.iterrows():
+        for _, row in self.sheet.iterrows():
             if row[ip] == "":
                 continue
 
             if row["ENABLE"] != "True":
-                logger.info("{}: {} DISABLED.".format(sheet_name, row[ip]))
+                logger.info("{}: {} DISABLED".format(sheet_name, row[ip]))
                 continue
 
             if aditional_check and not aditional_check(row, sheet_name):

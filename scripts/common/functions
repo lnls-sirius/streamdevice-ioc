@@ -19,7 +19,8 @@ run_ioc(){
             -L /opt/streamdevice-ioc/log/procCtrl.log \
             --chdir /opt/procCtrl/iocBoot/iocprocCtrl \
             unix:/opt/streamdevice-ioc/sockets/procCtrl.sock \
-            /opt/procCtrl/iocBoot/iocprocCtrl/st.cmd
+            /opt/procCtrl/iocBoot/iocprocCtrl/st.cmd \
+            TOP=/opt/procCtrl
         echo "###############################################################################"
     fi
 
