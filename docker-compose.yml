@@ -5,6 +5,8 @@ services:
     build:
       dockerfile: 'Dockerfile.EPICS'
       context: .
+      labels:
+        br.com.lnls-sirius.commit: ${COMMIT_HASH}
 
   stream:
     image: ${STREAM_BASE_IMAGE}:${STREAM_BASE_TAG}
@@ -15,6 +17,8 @@ services:
       args:
         EPICS_BASE_IMAGE: ${EPICS_BASE_IMAGE}
         EPICS_BASE_TAG: ${EPICS_BASE_TAG}
+      labels:
+        br.com.lnls-sirius.commit: ${COMMIT_HASH}
 
   agilent4uhv:
     image: ${STREAM_BASE_IMAGE}:${AGILENT4UHV_TAG}
@@ -27,6 +31,7 @@ services:
         STREAM_BASE_TAG: ${STREAM_BASE_TAG}
       labels:
         br.com.lnls-sirius.device: "Agilent 4UHV"
+        br.com.lnls-sirius.commit: ${COMMIT_HASH}
     volumes:
       - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
 
@@ -41,6 +46,7 @@ services:
         STREAM_BASE_TAG: ${STREAM_BASE_TAG}
       labels:
         br.com.lnls-sirius.device: "Counting PRU"
+        br.com.lnls-sirius.commit: ${COMMIT_HASH}
     volumes:
       - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
 
@@ -54,6 +60,7 @@ services:
         STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
         STREAM_BASE_TAG: ${STREAM_BASE_TAG}
       labels:
+        br.com.lnls-sirius.commit: ${COMMIT_HASH}
         br.com.lnls-sirius.device: "MBTemp"
     volumes:
       - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
@@ -68,6 +75,7 @@ services:
         STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
         STREAM_BASE_TAG: ${STREAM_BASE_TAG}
       labels:
+        br.com.lnls-sirius.commit: ${COMMIT_HASH}
         br.com.lnls-sirius.device: "MKS937b"
     volumes:
       - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
@@ -83,6 +91,7 @@ services:
         STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
         STREAM_BASE_TAG: ${STREAM_BASE_TAG}
       labels:
+        br.com.lnls-sirius.commit: ${COMMIT_HASH}
         br.com.lnls-sirius.device: "RackMonitoring"
     volumes:
       - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
@@ -97,6 +106,7 @@ services:
         STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
         STREAM_BASE_TAG: ${STREAM_BASE_TAG}
       labels:
+        br.com.lnls-sirius.commit: ${COMMIT_HASH}
         br.com.lnls-sirius.device: "SPIxCONV"
     volumes:
       - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
