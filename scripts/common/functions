@@ -15,10 +15,10 @@ run_ioc(){
         echo "# Init ProcServControl"
         set -x
         procServ \
-            -n ProcCtrl \
-            -q \
+            --name ProcCtrl \
+            --quiet \
             --killsig 9 \
-            -L /opt/streamdevice-ioc/log/procCtrl.log \
+            --logfile /opt/streamdevice-ioc/log/procCtrl.log \
             --chdir ${TOP}/procCtrl/iocBoot/iocprocCtrl \
             unix:/opt/streamdevice-ioc/sockets/procCtrl.sock \
             ${TOP}/procCtrl/iocBoot/iocprocCtrl/st.cmd \
@@ -39,7 +39,14 @@ run_ioc(){
             iocName="$(echo ${filename} | sed  -e "s/\./_/g" -e "s/:/_/g" -e "s/_cmd//g")"
             socket_name="${TOP}/sockets/${iocName}.sock"
             set -x
-            procServ -n ${iocName} -q --killsig 9 -L ${TOP}/log/${filename} --chdir ${TOP}/iocBoot/iocStreamDeviceIOC unix:${socket_name} ${TOP}/iocBoot/iocStreamDeviceIOC/${filename}
+            procServ \
+                --name ${iocName}\
+                --quiet\
+                --killsig 9\
+                --logfile ${TOP}/log/${filename}\
+                --chdir ${TOP}/iocBoot/iocStreamDeviceIOC\
+                unix:${socket_name}\
+                ${TOP}/iocBoot/iocStreamDeviceIOC/${filename}
             set +x
             echo "# IOC: ${filename}    log_file: ${logFile}    unix_socket: ${socket_name}"
         fi
