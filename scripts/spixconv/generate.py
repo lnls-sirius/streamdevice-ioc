@@ -20,7 +20,7 @@ def write(dir_name, board, cmd_key, cmd_data):
     cmd_path = os.path.join(dir_name, f"server/cmd/{cmd_key}{board.file_name}")
     with open(cmd_path, "w+") as file:
         file.write(cmd_data)
-    os.chmod(cmd_path, 0o664)
+    os.chmod(cmd_path, 0o774)
 
 
 def generate_proc_ctrl(cmd_key, board, dir_name):

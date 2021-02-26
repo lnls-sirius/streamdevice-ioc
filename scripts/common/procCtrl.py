@@ -48,4 +48,4 @@ def generate_st_cmd(iocs, dir_name):
     with open(file_name, "w+") as f:
         f.write(data)
 
-    os.chmod(file_name, 0o754)
+    os.chmod(file_name, 0o774)

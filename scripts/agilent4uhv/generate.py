@@ -14,8 +14,6 @@ from agilent4uhv.cmd_template import (
 )
 from agilent4uhv.devices import sectors
 
-from common.utils import deploy_files
-
 logger = logging.getLogger()
 
 SEC_PER_DEVICE = 2
@@ -131,7 +129,7 @@ def generate(args, defaults):
 
         with open(cmd_path, "w+") as _f:
             _f.write(res)
-        os.chmod(cmd_path, 0o664)
+        os.chmod(cmd_path, 0o774)
 
         # Generate autosave .req files
         if not os.path.exists(os.path.join(dir_name, "server/autosave/")):

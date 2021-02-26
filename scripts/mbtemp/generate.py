@@ -61,4 +61,4 @@ def generate(args, defaults):
         with open(cmd_path, "w+") as file:
             file.write(res)
 
-        os.chmod(cmd_path, 0o664)
+        os.chmod(cmd_path, 0o774)

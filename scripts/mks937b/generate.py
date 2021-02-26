@@ -151,7 +151,7 @@ def write_sector_cmd(dir_name, base_name, cmd_data):
     cmd_path = os.path.join(dir_name, f"server/cmd/{base_name}.cmd")
     with open(cmd_path, "w+") as file:
         file.write(cmd_data)
-    os.chmod(cmd_path, 0o664)
+    os.chmod(cmd_path, 0o774)
 
 
 def write_autosave(dir_name, base_name, devices):
@@ -169,7 +169,7 @@ def write_autosave(dir_name, base_name, devices):
             req_file.write("{}:Pressure-Mon.HIHI\n".format(gauge))
             req_file.write("{}:Pressure-Mon.HIGH\n".format(gauge))
 
-    os.chmod(res_path, 0o664)
+    os.chmod(res_path, 0o774)
 
 
 def generate(args, defaults):

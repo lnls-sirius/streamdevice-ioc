@@ -77,4 +77,4 @@ def generate(args, defaults):
         cmd_path = os.path.join(dir_name, "server/cmd/" + cmd_key + board.file_name)
         with open(cmd_path, "w+") as file:
             file.write(res)
-        os.chmod(cmd_path, 0o664)
+        os.chmod(cmd_path, 0o774)
