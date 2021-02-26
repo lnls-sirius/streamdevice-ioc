@@ -37,11 +37,11 @@ asSetFilename("$(TOP)/db/Security.as")
 drvAsynIPPortConfigure("socket_spixconv", "10.128.170.112:5005")
 
 # database for 10 kV Voltage source:
-dbLoadRecords("db/SPIxCONV_kicker.db", "PREFIX=SI-04SA:PU-PingH, SCAN_RATE=.1 second, SPIxCONV_ADDRESS=88, VOLTAGE_FACTOR=3000, STEP_DELAY=1, STEP_TRIGGER=2000")
-dbLoadRecords("db/SPIxCONV_Config.db", "P=SI-04SA:PU-PingH")
+dbLoadRecords("db/SPIxCONV_kicker.db", "PREFIX=SI-01SA:PU-PingH, SCAN_RATE=.1 second, SPIxCONV_ADDRESS=88, VOLTAGE_FACTOR=3000, STEP_DELAY=2, STEP_TRIGGER=2000")
+dbLoadRecords("db/SPIxCONV_Config.db", "P=SI-01SA:PU-PingH")
 
-# set_pass0_restoreFile("$(TOP)/autosave/save/SI-04SA:PU-PingH.sav")
-# set_pass1_restoreFile("$(TOP)/autosave/save/SI-04SA:PU-PingH.sav")
+# set_pass0_restoreFile("$(TOP)/autosave/save/SI-01SA:PU-PingH.sav")
+# set_pass1_restoreFile("$(TOP)/autosave/save/SI-01SA:PU-PingH.sav")
 
 # Effectively initializes the IOC
 cd iocBoot
@@ -50,4 +50,4 @@ iocLogInit
 caPutLogInit "$(EPICS_IOC_CAPUTLOG_INET):$(EPICS_IOC_CAPUTLOG_PORT)" 2
 
 cd ..
-# create_monitor_set("$(TOP)/autosave/spixconv.req", 10, "P=SI-04SA:PU-PingH, SAVENAMEPV=SI-04SA:PU-PingH:SaveName")
+# create_monitor_set("$(TOP)/autosave/spixconv.req", 10, "P=SI-01SA:PU-PingH, SAVENAMEPV=SI-01SA:PU-PingH:SaveName")

@@ -37,7 +37,7 @@ asSetFilename("$(TOP)/db/Security.as")
 drvAsynIPPortConfigure("socket_spixconv", "10.128.170.115:5005")
 
 # database for 10 kV Voltage source:
-dbLoadRecords("db/SPIxCONV_kicker.db", "PREFIX=SpareKicker1, SCAN_RATE=.1 second, SPIxCONV_ADDRESS=11, VOLTAGE_FACTOR=1500, STEP_DELAY=1, STEP_TRIGGER=1000")
+dbLoadRecords("db/SPIxCONV_kicker.db", "PREFIX=SpareKicker1, SCAN_RATE=.1 second, SPIxCONV_ADDRESS=88, VOLTAGE_FACTOR=1500, STEP_DELAY=2, STEP_TRIGGER=1000")
 dbLoadRecords("db/SPIxCONV_Config.db", "P=SpareKicker1")
 
 # set_pass0_restoreFile("$(TOP)/autosave/save/SpareKicker1.sav")

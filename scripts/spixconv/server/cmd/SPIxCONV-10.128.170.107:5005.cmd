@@ -37,7 +37,7 @@ asSetFilename("$(TOP)/db/Security.as")
 drvAsynIPPortConfigure("socket_spixconv", "10.128.170.107:5005")
 
 # database for 10 kV Voltage source:
-dbLoadRecords("db/SPIxCONV_septum.db", "PREFIX=TB-04:PU-InjSept, SCAN_RATE=.1 second, SPIxCONV_ADDRESS=5, VOLTAGE_FACTOR=100, STEP_DELAY=1, STEP_TRIGGER=150")
+dbLoadRecords("db/SPIxCONV_septum.db", "PREFIX=TB-04:PU-InjSept, SCAN_RATE=.1 second, SPIxCONV_ADDRESS=88, VOLTAGE_FACTOR=100, STEP_DELAY=2, STEP_TRIGGER=200")
 dbLoadRecords("db/SPIxCONV_Config.db", "P=TB-04:PU-InjSept")
 
 # set_pass0_restoreFile("$(TOP)/autosave/save/TB-04:PU-InjSept.sav")
