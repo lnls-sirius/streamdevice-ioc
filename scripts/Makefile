@@ -8,17 +8,17 @@ SPIXCONV_PREFIX ?= SPIxCONV
 
 build: build-agilent4uhv build-countingpru build-mbtemp build-mks937b build-rackmon build-spixconv
 build-agilent4uhv:
-	python ./common/generate.py --device $(AGILENT4UHV_PREFIX)
+	python ./generate.py --device $(AGILENT4UHV_PREFIX)
 build-countingpru:
-	python ./common/generate.py --device $(COUNTINGPRU_PREFIX)
+	python ./generate.py --device $(COUNTINGPRU_PREFIX)
 build-mbtemp:
-	python ./common/generate.py --device $(MBTEMP_PREFIX)
+	python ./generate.py --device $(MBTEMP_PREFIX)
 build-mks937b:
-	python ./common/generate.py --device $(MKS_PREFIX)
+	python ./generate.py --device $(MKS_PREFIX)
 build-rackmon:
-	python ./common/generate.py --device $(RACKMON_PREFIX)
+	python ./generate.py --device $(RACKMON_PREFIX)
 build-spixconv:
-	python ./common/generate.py --device $(SPIXCONV_PREFIX) --spreadsheet ./spreadsheet/SPIxCONV.xlsx
+	python ./generate.py --device $(SPIXCONV_PREFIX) --spreadsheet ./spreadsheet/SPIxCONV.xlsx
 
 run-agilent4uhv:
 	$(eval PREFIX=$(AGILENT4UHV_PREFIX))
