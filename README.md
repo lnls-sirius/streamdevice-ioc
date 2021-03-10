@@ -14,21 +14,16 @@ The following is a list of applications and ports:
 
 ## Building a new image
 
-Two dockerfiles are used in order to build the containers.
-
-|                File                |      Description      |
-|:-----------------------------------|:----------------------|
-|[Dockerfile](Dockerfile)            | streamdevice-ioc files|
-|[Dockerfile.EPICS](Dockerfile.EPICS)| EPICS base image      |
-
+|                File                   |      Description      |
+|---------------------------------------|-----------------------|
+|[Dockerfile](Dockerfile)               | Target IOC            |
+|[Dockerfile.Stream](Dockerfile.Stream) | Base Streamdevice     |
+|[Dockerfile.EPICS](Dockerfile.EPICS)   | EPICS base image      |
 
 For each device supported, a tag must be created in order to mitigate conflicts.
-The recommended way to build a container image is to edit the tag of the corresponding service at [docker-compose.yml](./docker-compose.yml) and build via the `docker-compose` command.
-```bash
-docker-compose build <sevice_name>
-```
+Use `make` to build the image, editing the corresponding tag.
 
-Some **environment variables** will change behaviours:
+Some **environment variables** are available to the user:
 
 |Env|Default|Desc|
 |---|---|---|
