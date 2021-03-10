@@ -1,7 +1,7 @@
 # Author: Cláudio Ferreira Carneiro
 # LNLS - Brazilian Synchrotron Light Source Laboratory
 
-FROM python:3.7.5-slim-buster
+FROM debian:9-slim
 LABEL maintainer="Claudio Carneiro <claudio.carneiro@lnls.br>"
 
 # set correct timezone
@@ -12,21 +12,18 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update &&\
     apt-get install -y --fix-missing --no-install-recommends \
         build-essential \
-        gettext-base\
+        ca-certificates \
+        gettext-base \
         git \
         libpcre3-dev \
-        libreadline-gplv2-dev\
+        libreadline-gplv2-dev \
         logrotate \
-        telnet \
         tzdata \
         wget \
         && rm -rf /var/lib/apt/lists/*  && \
     dpkg-reconfigure --frontend noninteractive tzdata
 
 # --- General Usage ---
-ENV CONS_IP 10.0.38.42
-ENV CONS_REPO http://${CONS_IP}/download
-
 # IOC operation variables
 ENV EPICS_VERSION R3.15.8
 ENV EPICS_HOST_ARCH linux-x86_64
@@ -36,71 +33,140 @@ ENV PATH ${EPICS_BASE}/bin/${EPICS_HOST_ARCH}:/opt/procServ:${PATH}
 
 ENV EPICS_CA_AUTO_ADDR_LIST YES
 
-
 # Pyepics libca location
 ENV PYEPICS_LIBCA ${EPICS_BASE}/lib/${EPICS_HOST_ARCH}/libca.so
 
 # --- EPICS BASE ---
-RUN \
-    mkdir -p ${EPICS_MODULES} &&\
-    wget -O /opt/epics-R3.15.8/base-3.15.8.tar.gz ${CONS_REPO}/EPICS/base-3.15.8.tar.gz &&\
-    cd /opt/epics-${EPICS_VERSION} && tar -zxf base-3.15.8.tar.gz && rm base-3.15.8.tar.gz &&\
-    mv epics-base-R3.15.8 base && cd base && make -j$(nproc)
+ARG EPICS_BASE_URL=https://github.com/epics-base/epics-base/archive/${EPICS_VERSION}.tar.gz
+LABEL br.com.lnls-sirius.epics-base=${EPICS_BASE_URL}
+RUN set -x;\
+    set -e;\
+    mkdir -p ${EPICS_MODULES};\
+    wget -O /opt/epics-R3.15.8/base-3.15.8.tar.gz ${EPICS_BASE_URL};\
+    cd /opt/epics-${EPICS_VERSION};\
+    tar -zxf base-3.15.8.tar.gz;\
+    rm base-3.15.8.tar.gz;\
+    mv epics-base-R3.15.8 base;\
+    cd base;\
+    make -j$(nproc)
 
 WORKDIR /opt/epics-${EPICS_VERSION}
 
 # --- EPICS MODULES ---
 
 # sscan-R2-11-3
-ENV SSCAN ${EPICS_MODULES}/sscan-R2-11-3
-RUN cd ${EPICS_MODULES} &&\
-    mkdir -p ${SSCAN} && wget ${CONS_REPO}/EPICS/sscan-R2-11-3.tar.gz &&\
-    tar -xvzf sscan-R2-11-3.tar.gz && rm sscan-R2-11-3.tar.gz &&\
-    sed -i -e '7s/^/#/' -e '11s/^/#/' -e '14cEPICS_BASE='${EPICS_BASE} \
-        sscan-R2-11-3/configure/RELEASE && cd sscan-R2-11-3 && make -j$(nproc)
+ARG SSCAN_VERSION=R2-11-4
+ARG SSCAN_URL=https://github.com/epics-modules/sscan/archive/${SSCAN_VERSION}.tar.gz
+LABEL br.com.lnls-sirius.sscan=${SSCAN_URL}
+ENV SSCAN ${EPICS_MODULES}/sscan-${SSCAN_VERSION}
+RUN set -x;\
+    set -e;\
+    cd ${EPICS_MODULES};\
+    wget -O ${SSCAN}.tar.gz ${SSCAN_URL};\
+    tar -xvzf ${SSCAN}.tar.gz;\
+    rm ${SSCAN}.tar.gz;\
+    cd ${SSCAN};\
+    sed -i\
+        -e '7s/^/#/'\
+        -e '10s/^/#/'\
+        -e '14cEPICS_BASE='${EPICS_BASE} \
+        configure/RELEASE;\
+    make -j$(nproc)
 
 # synApps Calc Module
-ENV CALC ${EPICS_MODULES}/synApps/calc-R3-7-3
-RUN cd ${EPICS_MODULES} &&\
-    mkdir synApps && cd synApps && wget ${CONS_REPO}/EPICS/R3-7-3.tar.gz &&\
-    tar -xvzf R3-7-3.tar.gz && rm R3-7-3.tar.gz &&\
+ARG CALC_VERSION=R3-7-4
+ARG CALC_URL=https://github.com/epics-modules/calc/archive/${CALC_VERSION}.tar.gz
+LABEL br.com.lnls-sirius.calc=${CALC_URL}
+ENV CALC ${EPICS_MODULES}/synApps/calc-${CALC_VERSION}
+RUN set -x;\
+    set -e;\
+    cd ${EPICS_MODULES};\
+    mkdir synApps;\
+    cd synApps;\
+    wget -O ${CALC}.tar.gz ${CALC_URL};\
+    tar -xvzf ${CALC}.tar.gz;\
+    rm ${CALC}.tar.gz;\
+    cd ${CALC};\
     sed -i \
         -e '5s/^/#/'\
         -e '7,8s/^/#/'\
         -e '13cSSCAN='${SSCAN}\
         -e '20cEPICS_BASE='${EPICS_BASE} \
-        calc-R3-7-3/configure/RELEASE && cd calc-R3-7-3 && make -j$(nproc)
+        configure/RELEASE;\
+    make -j$(nproc)
 
 # asynDriver
-ENV ASYN ${EPICS_MODULES}/asyn-R4-39
-RUN cd ${EPICS_MODULES} &&\
-    wget ${CONS_REPO}/EPICS/asyn4-39.tar.gz -O asyn-R4-39.tar.gz &&\
-    tar -xvzf asyn-R4-39.tar.gz && rm -f asyn-R4-39.tar.gz &&\
-    sed -i -e '3,4s/^/#/' -e '7s/^/#/' -e '10s/^/#/' \
-        -e '17cEPICS_BASE='${EPICS_BASE} \
+ARG ASYN_VERSION=R4-41
+ARG ASYN_URL=https://github.com/epics-modules/asyn/archive/${ASYN_VERSION}.tar.gz
+ENV ASYN ${EPICS_MODULES}/asyn-${ASYN_VERSION}
+LABEL br.com.lnls-sirius.asyn=${ASYN_URL}
+RUN set -x;\
+    set -e;\
+    cd ${EPICS_MODULES};\
+    wget ${ASYN_URL} -O ${ASYN}.tar.gz;\
+    tar -xvzf ${ASYN}.tar.gz;\
+    rm -f ${ASYN}.tar.gz;\
+    cd ${ASYN};\
+    sed -i \
+        -e '3,4s/^/#/'\
+        -e '7s/^/#/'\
+        -e '10s/^/#/'\
+        -e '19cEPICS_BASE='${EPICS_BASE} \
         -e '15iCALC='${CALC}\
         -e '16iSSCAN='${SSCAN}\
-        ${ASYN}/configure/RELEASE &&\
-    cat ${ASYN}/configure/RELEASE &&\
-    cd ${ASYN} && make -j$(nproc)
+        ${ASYN}/configure/RELEASE;\
+    make -j$(nproc)
 
 # Autosave
-ENV AUTOSAVE ${EPICS_MODULES}/autosave-R5-9
-RUN cd /opt/epics-R3.15.8/modules/ && wget ${CONS_REPO}/EPICS/R5-9.tar.gz && tar -zxvf R5-9.tar.gz &&\
-    rm -f R5-9.tar.gz && cd autosave-R5-9 && sed -i '8cEPICS_BASE='${EPICS_BASE} configure/RELEASE &&\
-    make  -j$(nproc)
+ARG AUTOSAVE_VERSION=R5-10-2
+ARG AUTOSAVE_URL=https://github.com/epics-modules/autosave/archive/${AUTOSAVE_VERSION}.tar.gz
+ENV AUTOSAVE ${EPICS_MODULES}/asyn-${AUTOSAVE_VERSION}
+LABEL br.com.lnls-sirius.autosave=${AUTOSAVE_URL}
+ENV AUTOSAVE ${EPICS_MODULES}/autosave-${AUTOSAVE_VERSION}
+RUN set -x;\
+    set -e;\
+    cd ${EPICS_MODULES};\
+    wget -O ${AUTOSAVE}.tar.gz ${AUTOSAVE_URL};\
+    tar -zxvf ${AUTOSAVE}.tar.gz;\
+    rm -f ${AUTOSAVE}.tar.gz;\
+    cd ${AUTOSAVE};\
+    sed -i \
+        -e '7s/^/#/'\
+        -e'10cEPICS_BASE='${EPICS_BASE}\
+        configure/RELEASE;\
+    make -j$(nproc)
 
 # Caput Log
-ENV CAPUTLOG /opt/epics-R3.15.8/modules/caPutLog-R3.6
-RUN cd ${EPICS_MODULES} && wget ${CONS_REPO}/EPICS/R3.6.tar.gz && tar -zxvf R3.6.tar.gz &&\
-    rm -f R3.6.tar.gz && cd caPutLog-R3.6 && sed -i -e '22cEPICS_BASE='${EPICS_BASE} configure/RELEASE &&\
+ARG CAPUTLOG_VERSION=R3.7
+ARG CAPUTLOG_URL=https://github.com/epics-modules/caPutLog/archive/${CAPUTLOG_VERSION}.tar.gz
+ENV CAPUTLOG ${EPICS_MODULES}/asyn-${CAPUTLOG_VERSION}
+LABEL br.com.lnls-sirius.caputlog=${CAPUTLOG_URL}
+ENV CAPUTLOG /opt/epics-R3.15.8/modules/caPutLog-${CAPUTLOG_VERSION}
+RUN set -x;\
+    set -e;\
+    cd ${EPICS_MODULES};\
+    wget -O ${CAPUTLOG}.tar.gz ${CAPUTLOG_URL};\
+    tar -zxvf ${CAPUTLOG}.tar.gz;\
+    rm -f ${CAPUTLOG}.tar.gz;\
+    cd ${CAPUTLOG};\
+    sed -i\
+        -e '22cEPICS_BASE='${EPICS_BASE}\
+        configure/RELEASE;\
     make -j$(nproc)
 
 # Streamdevice
-ENV STREAMDEVICE ${EPICS_MODULES}/StreamDevice-2.8.14
+ARG STREAMDEVICE_URL=https://github.com/paulscherrerinstitute/StreamDevice
+LABEL br.com.lnls-sirius.streamdevice=${STREAMDEVICE_URL}
+ENV STREAMDEVICE ${EPICS_MODULES}/StreamDevice-2.8.18
 ENV STREAM ${STREAMDEVICE}
-RUN cd ${EPICS_MODULES} && git clone https://github.com/paulscherrerinstitute/StreamDevice ${STREAM} && ls -la ${STREAM}
-RUN cd ${STREAM} && git fetch --all --tags && git checkout tags/2.8.14  && git status 
+LABEL br.com.lnls-sirius.streamdevice=${STREAMDEVICE_URL}
+RUN set -x;\
+    set -e;\
+    cd ${EPICS_MODULES};\
+    git clone ${STREAMDEVICE_URL} ${STREAM};\
+    cd ${STREAM} &&\
+    git fetch --all --tags &&\
+    git checkout tags/2.8.18 && git status
 RUN cd ${STREAM} &&\
     sed -i -e '20cASYN='${ASYN}\
            -e '21cCALC='${CALC}\
@@ -113,46 +179,78 @@ RUN cd ${STREAM} &&\
     make -j$(nproc)
 
 # procServ
-RUN wget ${CONS_REPO}/EPICS/procServ-2.8.0.tar.gz && tar -zxvf procServ-2.8.0.tar.gz && cd procServ-2.8.0 &&\
-    ./configure --enable-access-from-anywhere && make install && cd .. &&\
+RUN set -x;\
+    set -e;\
+    wget https://github.com/ralphlange/procServ/releases/download/v2.8.0/procServ-2.8.0.tar.gz;\
+    tar -zxvf procServ-2.8.0.tar.gz;\
+    cd procServ-2.8.0;\
+    ./configure --enable-access-from-anywhere;\
+    make install;\
+    cd ..;\
     rm -rf procServ-2.8.0.tar.gz procServ-2.8.0
 
 # Busy
-ENV BUSY ${EPICS_MODULES}/busy-R1-7-2
-RUN cd ${EPICS_MODULES} && wget ${CONS_REPO}/EPICS/R1-7-2.tar.gz  && tar -zxf R1-7-2.tar.gz &&\
-    rm -f R1-7-2.tar.gz && cd busy-R1-7-2 &&\
+ARG BUSY_VERSION=R1-7-3
+ARG BUSY_URL=https://github.com/epics-modules/busy/archive/${BUSY_VERSION}.tar.gz
+LABEL br.com.lnls-sirius.busy=${BUSY_URL}
+ENV BUSY ${EPICS_MODULES}/busy-${BUSY_VERSION}
+RUN set -x;\
+    set -e;\
+    cd ${EPICS_MODULES};\
+    wget -O ${BUSY}.tar.gz ${BUSY_URL};\
+    tar -zxf ${BUSY}.tar.gz;\
+    rm -f ${BUSY}.tar.gz;\
+    cd ${BUSY};\
     sed -i\
-    -e '7,8s/^/#/'                     \
-    -e '11cASYN='${ASYN}               \
-    -e '14cAUTOSAVE='${AUTOSAVE}       \
-    -e '17cBUSY='${BUSY}               \
-    -e '20cEPICS_BASE='${EPICS_BASE}   \
-    configure/RELEASE && make -j$(nproc)
+        -e '7,8s/^/#/'                     \
+        -e '10cASYN='${ASYN}               \
+        -e '13cAUTOSAVE='${AUTOSAVE}       \
+        -e '16cBUSY='${BUSY}               \
+        -e '19cEPICS_BASE='${EPICS_BASE}   \
+        configure/RELEASE;\
+    make -j$(nproc)
 
 # Sequencer
-RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends re2c && rm -rf /var/lib/apt/lists/*
-ENV SNCSEQ ${EPICS_MODULES}/seq-2.2.6
-RUN cd ${EPICS_MODULES} && wget ${CONS_REPO}/EPICS/seq-2.2.6.tar.gz &&\
-    tar -xvzf seq-2.2.6.tar.gz && rm -f seq-2.2.6.tar.gz &&\
-    sed -i -e '6cEPICS_BASE='${EPICS_BASE} \
-    seq-2.2.6/configure/RELEASE &&\
-    cd seq-2.2.6 && make -j$(nproc)
+RUN apt-get update &&\
+    apt-get install -y --fix-missing --no-install-recommends re2c &&\
+    rm -rf /var/lib/apt/lists/*
+
+ARG SNCSEQ_URL=https://github.com/ISISComputingGroup/EPICS-seq/archive/vendor_2_2_8.tar.gz
+LABEL br.com.lnls-sirius.seq=${SNCSEQ_URL}
+ENV SNCSEQ ${EPICS_MODULES}/seq-2.2.8
+RUN set -x;\
+    set -e;\
+    cd ${EPICS_MODULES};\
+    wget -O ${SNCSEQ}.tar.gz ${SNCSEQ_URL};\
+    tar -xvzf ${SNCSEQ}.tar.gz;\
+    rm -f ${SNCSEQ}.tar.gz;\
+    mv *seq* ${SNCSEQ};\
+    cd ${SNCSEQ};\
+    sed -i \
+        -e '6cEPICS_BASE='${EPICS_BASE} \
+        configure/RELEASE;\
+    make -j$(nproc)
 
 # procServControl
+ARG PCTRL_URL=http://controls.diamond.ac.uk/downloads/support/procServControl/1-2/procServControl-1-2.tgz
+LABEL br.com.lnls-sirius.procservControl=${PCTRL_URL}
 ENV PROCSERVCONTROL ${EPICS_MODULES}/procServControl-1-2
-RUN cd ${EPICS_MODULES}                               &&\
-    wget ${CONS_REPO}/EPICS/procServControl-1-2.tgz   &&\
-    tar -zxf procServControl-1-2.tgz                  &&\
-    rm -f procServControl-1-2.tgz                     &&\
-    cd procServControl-1-2/                           &&\
-    sed -i -e '18s/^/#/' Makefile                     &&\
+RUN set -x;\
+    set -e;\
+    cd ${EPICS_MODULES};\
+    wget -O ${PROCSERVCONTROL}.tar.gz ${PCTRL_URL};\
+    tar -zxf ${PROCSERVCONTROL}.tar.gz;\
+    rm -f ${PROCSERVCONTROL}.tar.gz;\
+    cd ${PROCSERVCONTROL};\
+    sed -i \
+        -e '18s/^/#/' Makefile;\
     sed -i\
-       -e '23s/^/#/'                                 \
-       -e '26cSNCSEQ='${SNCSEQ}                      \
-       -e '27cASYN='${ASYN}                          \
-       -e '28cBUSY='${BUSY}                          \
-       -e '31cEPICS_BASE='${EPICS_BASE}              \
-       configure/RELEASE  &&\
+       -e '23s/^/#/'\
+       -e '26cSNCSEQ='${SNCSEQ}\
+       -e '27cASYN='${ASYN}\
+       -e '28cBUSY='${BUSY}\
+       -e '31cEPICS_BASE='${EPICS_BASE}\
+       configure/RELEASE;\
    make -j$(nproc)
 
 CMD tail -f /dev/null

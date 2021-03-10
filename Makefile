@@ -1,31 +1,57 @@
-# Makefile at top of application tree
-TOP = .
-include $(TOP)/configure/CONFIG
+DOCKER_REGISTRY ?= docker.io
+DOCKER_USER_GROUP ?= lnlscon
+DOCKER_IMAGE_PREFIX = $(DOCKER_REGISTRY)/$(DOCKER_USER_GROUP)
 
-# Directories to build, any order
-DIRS += configure
-DIRS += $(wildcard *Sup)
-DIRS += $(wildcard *App)
-DIRS += $(wildcard *Top)
-DIRS += $(wildcard iocBoot)
+EPICS_BASE_IMAGE ?= $(DOCKER_IMAGE_PREFIX)/epics-debian9-r3.15.8
+STREAM_BASE_IMAGE ?= $(DOCKER_IMAGE_PREFIX)/streamdevice-ioc
 
-# The build order is controlled by these dependency rules:
+DATE = $(shell date -I)
+COMMIT = $(shell git rev-parse --short HEAD)
 
-# All dirs except configure depend on configure
-$(foreach dir, $(filter-out configure, $(DIRS)), \
-    $(eval $(dir)_DEPEND_DIRS += configure))
+EPICS_BASE_TAG ?= $(DATE)
+STREAM_BASE_TAG ?= stream-$(DATE)
 
-# Any *App dirs depend on all *Sup dirs
-$(foreach dir, $(filter %App, $(DIRS)), \
-    $(eval $(dir)_DEPEND_DIRS += $(filter %Sup, $(DIRS))))
+AGILENT4UHV_TAG ?= Agilent4UHV-$(DATE)
+COUNTINGPRU_TAG ?= CountingPRU-$(DATE)
+MBTEMP_TAG ?= MBTemp-$(DATE)
+MKS937B_TAG ?= MKS937b-$(DATE)
+RACKMON_TAG ?= RackMonitoring-$(DATE)
+SPIXCONV_TAG ?= SPIxCONV-$(DATE)
 
-# Any *Top dirs depend on all *Sup and *App dirs
-$(foreach dir, $(filter %Top, $(DIRS)), \
-    $(eval $(dir)_DEPEND_DIRS += $(filter %Sup %App, $(DIRS))))
+BUILD_ENVS += EPICS_BASE_IMAGE=$(EPICS_BASE_IMAGE)
+BUILD_ENVS += STREAM_BASE_IMAGE=$(STREAM_BASE_IMAGE)
+BUILD_ENVS += EPICS_BASE_TAG=$(EPICS_BASE_TAG)
+BUILD_ENVS += STREAM_BASE_TAG=$(STREAM_BASE_TAG)
+BUILD_ENVS += AGILENT4UHV_TAG=$(AGILENT4UHV_TAG)
+BUILD_ENVS += COUNTINGPRU_TAG=$(COUNTINGPRU_TAG)
+BUILD_ENVS += MBTEMP_TAG=$(MBTEMP_TAG)
+BUILD_ENVS += MKS937B_TAG=$(MKS937B_TAG)
+BUILD_ENVS += RACKMON_TAG=$(RACKMON_TAG)
+BUILD_ENVS += SPIXCONV_TAG=$(SPIXCONV_TAG)
+BUILD_ENVS += COMMIT_HASH=$(COMMIT)
 
-# iocBoot depends on all *App dirs
-iocBoot_DEPEND_DIRS += $(filter %App,$(DIRS))
+build: update-env
+	docker-compose build
 
-# Add any additional dependency rules here:
+push-all: push-base push-stream push-iocs
+push-iocs: push-agilent push-countingpru push-mbtemp push-mks937b push-rackmon push-spixconv
+push-base:
+	docker push $(EPICS_BASE_IMAGE):$(EPICS_BASE_TAG)
+push-stream:
+	docker push $(STREAM_BASE_IMAGE):$(STREAM_BASE_TAG)
+push-agilent:
+	docker push $(STREAM_BASE_IMAGE):$(AGILENT4UHV_TAG)
+push-countingpru:
+	docker push $(STREAM_BASE_IMAGE):$(COUNTINGPRU_TAG)
+push-mbtemp:
+	docker push $(STREAM_BASE_IMAGE):$(MBTEMP_TAG)
+push-mks937b:
+	docker push $(STREAM_BASE_IMAGE):$(MKS937B_TAG)
+push-rackmon:
+	docker push $(STREAM_BASE_IMAGE):$(RACKMON_TAG)
+push-spixconv:
+	docker push $(STREAM_BASE_IMAGE):$(SPIXCONV_TAG)
 
-include $(TOP)/configure/RULES_TOP
+update-env:
+	@ > .env
+	@ $(foreach var,$(BUILD_ENVS),echo $(var)>>.env;)

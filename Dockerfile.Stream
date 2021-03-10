@@ -1,0 +1,53 @@
+# Author: Cláudio Ferreira Carneiro
+# LNLS - Brazilian Synchrotron Light Source Laboratory
+ARG EPICS_BASE_IMAGE
+ARG EPICS_BASE_TAG
+
+FROM  ${EPICS_BASE_IMAGE}:${EPICS_BASE_TAG} as stream
+LABEL "maintainer"="Claudio Carneiro <claudio.carneiro@cnpem.br>"
+LABEL "repository"="https://github.com/lnls-sirius/streamdevice-ioc"
+LABEL "br.com.lnls-sirius.description"="StreamDevice IOC"
+LABEL "br.com.lnls-sirius.department"="GAS"
+LABEL "br.com.lnls-sirius.maintener"="Claudio Ferreira Carneiro"
+
+# VIM
+RUN apt-get -y update && apt-get -y install procps vim socat
+
+# Epics auto addr list
+ENV EPICS_CA_AUTO_ADDR_LIST YES
+
+# Base procServ port
+ENV EPICS_IOC_CAPUTLOG_INET 0.0.0.0
+ENV EPICS_IOC_CAPUTLOG_PORT 7012
+
+ENV EPICS_IOC_LOG_INET 0.0.0.0
+ENV EPICS_IOC_LOG_PORT 7011
+
+ENV TOP /opt/streamdevice-ioc
+
+RUN \
+    mkdir -p ${TOP}/autosave/save &&\
+    mkdir -p ${TOP}/log &&\
+    mkdir -p ${TOP}/protocol &&\
+    mkdir -p ${TOP}/sockets &&\
+    mkdir -p ${TOP}/streamdevice-ioc-history
+
+WORKDIR ${TOP}
+
+COPY ./etc/crontab            /etc/crontab
+COPY ./etc/logrotate.conf     /etc/logrotate.conf
+RUN  chmod 644          /etc/logrotate.conf
+
+COPY ./ioc/streamDeviceIOCApp streamDeviceIOCApp
+COPY ./ioc/Makefile           Makefile
+COPY ./ioc/configure          configure
+COPY ./ioc/iocBoot            iocBoot
+COPY ./ioc/procCtrl           procCtrl
+
+RUN cd ${TOP}/procCtrl && envsubst < configure/RELEASE.tmplt > configure/RELEASE &&\
+    cat configure/RELEASE && make distclean && make clean && make -j$(nproc) &&\
+    \
+    cd ${TOP} && envsubst < configure/RELEASE.tmplt > configure/RELEASE && \
+    make distclean && make clean && make -j$(nproc)
+
+CMD echo "Overwrite the command!" && ls -la ./scripts && tail -f /dev/null

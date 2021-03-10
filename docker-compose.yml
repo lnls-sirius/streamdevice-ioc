@@ -1,69 +1,113 @@
 version: '3.7'
 services:
-    epics:
-        image: lnlscon/epics-r3.15.8:v1.2
-        build:
-            dockerfile: 'Dockerfile.EPICS'
-            context: .
-    stream:
-        image: lnlscon/streamdevice-ioc:stream
-        build:
-            dockerfile: 'Dockerfile'
-            context: .
-            target: stream
+  epics:
+    image: ${EPICS_BASE_IMAGE}:${EPICS_BASE_TAG}
+    build:
+      dockerfile: 'Dockerfile.EPICS'
+      context: .
+      labels:
+        br.com.lnls-sirius.commit: ${COMMIT_HASH}
 
-    agilent4uhv:
-        image: lnlscon/streamdevice-ioc:Agilent4UHV-v2.1
-        build:
-            dockerfile: 'Dockerfile'
-            context: .
-            target: agilent4uhv
-        volumes:
-            - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
+  stream:
+    image: ${STREAM_BASE_IMAGE}:${STREAM_BASE_TAG}
+    build:
+      dockerfile: 'Dockerfile.Stream'
+      context: .
+      target: stream
+      args:
+        EPICS_BASE_IMAGE: ${EPICS_BASE_IMAGE}
+        EPICS_BASE_TAG: ${EPICS_BASE_TAG}
+      labels:
+        br.com.lnls-sirius.commit: ${COMMIT_HASH}
 
-    countingPRU:
-        image: lnlscon/streamdevice-ioc:CountingPRU-v2.2
-        build:
-            dockerfile: 'Dockerfile'
-            context: .
-            target: countingPRU
-        volumes:
-            - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
+  agilent4uhv:
+    image: ${STREAM_BASE_IMAGE}:${AGILENT4UHV_TAG}
+    build:
+      dockerfile: 'Dockerfile'
+      context: .
+      target: agilent4uhv
+      args:
+        STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
+        STREAM_BASE_TAG: ${STREAM_BASE_TAG}
+      labels:
+        br.com.lnls-sirius.device: "Agilent 4UHV"
+        br.com.lnls-sirius.commit: ${COMMIT_HASH}
+    volumes:
+      - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
 
-    mbtemp:
-        image: lnlscon/streamdevice-ioc:MBTemp-v2.1
-        build:
-            dockerfile: 'Dockerfile'
-            context: .
-            target: mbtemp
-        volumes:
-            - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
+  countingpru:
+    image: ${STREAM_BASE_IMAGE}:${COUNTINGPRU_TAG}
+    build:
+      dockerfile: 'Dockerfile'
+      context: .
+      target: countingpru
+      args:
+        STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
+        STREAM_BASE_TAG: ${STREAM_BASE_TAG}
+      labels:
+        br.com.lnls-sirius.device: "Counting PRU"
+        br.com.lnls-sirius.commit: ${COMMIT_HASH}
+    volumes:
+      - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
 
-    mks937b:
-        image: lnlscon/streamdevice-ioc:MKS937b-v2.1
-        build:
-            dockerfile: 'Dockerfile'
-            context: .
-            target: mks937b
-        volumes:
-            - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
-            - "/var/tmp/auto:/opt/epics-R3.15.6/modules/StreamDevice-2.8.9/autosave:rw"
+  mbtemp:
+    image: ${STREAM_BASE_IMAGE}:${MBTEMP_TAG}
+    build:
+      dockerfile: 'Dockerfile'
+      context: .
+      target: mbtemp
+      args:
+        STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
+        STREAM_BASE_TAG: ${STREAM_BASE_TAG}
+      labels:
+        br.com.lnls-sirius.commit: ${COMMIT_HASH}
+        br.com.lnls-sirius.device: "MBTemp"
+    volumes:
+      - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
 
-    rackMonitoring:
-        image: lnlscon/streamdevice-ioc:RackMonitoring-v2.1
-        build:
-            dockerfile: 'Dockerfile'
-            context: .
-            target: rackMonitoring
-        volumes:
-            - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
+  mks937b:
+    image: ${STREAM_BASE_IMAGE}:${MKS937B_TAG}
+    build:
+      dockerfile: 'Dockerfile'
+      context: .
+      target: mks937b
+      args:
+        STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
+        STREAM_BASE_TAG: ${STREAM_BASE_TAG}
+      labels:
+        br.com.lnls-sirius.commit: ${COMMIT_HASH}
+        br.com.lnls-sirius.device: "MKS937b"
+    volumes:
+      - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
+      - "/var/tmp/auto:/opt/epics-R3.15.6/modules/StreamDevice-2.8.9/autosave:rw"
 
-    spixconv:
-        image: lnlscon/streamdevice-ioc:SPIxCONV-v2.1
-        build:
-            dockerfile: 'Dockerfile'
-            context: .
-            target: spixconv
-        volumes:
-            - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
+  rackMonitoring:
+    image: ${STREAM_BASE_IMAGE}:${RACKMON_TAG}
+    build:
+      dockerfile: 'Dockerfile'
+      context: .
+      target: rackMonitoring
+      args:
+        STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
+        STREAM_BASE_TAG: ${STREAM_BASE_TAG}
+      labels:
+        br.com.lnls-sirius.commit: ${COMMIT_HASH}
+        br.com.lnls-sirius.device: "RackMonitoring"
+    volumes:
+      - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
+
+  spixconv:
+    image: ${STREAM_BASE_IMAGE}:${SPIXCONV_TAG}
+    build:
+      dockerfile: 'Dockerfile'
+      context: .
+      target: spixconv
+      args:
+        STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
+        STREAM_BASE_TAG: ${STREAM_BASE_TAG}
+      labels:
+        br.com.lnls-sirius.commit: ${COMMIT_HASH}
+        br.com.lnls-sirius.device: "SPIxCONV"
+    volumes:
+      - "./spreadsheet:/opt/streamdevice-ioc/spreadsheet:ro"
 
