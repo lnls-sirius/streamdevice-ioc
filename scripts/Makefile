@@ -6,7 +6,7 @@ MKS_PREFIX ?= MKS
 RACKMON_PREFIX ?= RackMonitoring
 SPIXCONV_PREFIX ?= SPIxCONV
 
-build: build-agilent4uhv build-countingpru build-mbtemp build-mks937b build-rackmon build-spixconv
+build: clean build-agilent4uhv build-countingpru build-mbtemp build-mks937b build-rackmon build-spixconv
 build-agilent4uhv:
 	python ./generate.py --device $(AGILENT4UHV_PREFIX)
 build-countingpru:
@@ -83,6 +83,7 @@ clean-deploy:
 	rm -rfv $(TOP)/iocBoot/iocStreamDeviceIOC/*.cmd
 
 clean-build:
+	find -type f -name "*.cmd" -exec rm --verbose {} \;
 	rm -fr build/
 	rm -fr dist/
 	rm -fr .eggs/
