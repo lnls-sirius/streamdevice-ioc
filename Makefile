@@ -31,6 +31,7 @@ BUILD_ENVS += SPIXCONV_TAG=$(SPIXCONV_TAG)
 BUILD_ENVS += COMMIT_HASH=$(COMMIT)
 
 build: update-env
+	make -C ./scripts
 	docker-compose build
 
 push-all: push-base push-stream push-iocs
