@@ -20,6 +20,7 @@ record(ai, "$(DEVICE):Pressure-Mon") {
     field(DESC, "Read CCG$(CHANNEL)'s pressure")
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
+    field(PREC, "4")
 
     field(HIGH,"$(P_HI)")
     field(HIHI,"$(P_HIHI)")
@@ -29,7 +30,7 @@ record(ai, "$(DEVICE):Pressure-Mon") {
     field(EGU, "mBar")
 }
 
-# Channel Power Status 
+# Channel Power Status
 record(mbbi, "$(DEVICE):Enable-RB") {
     field(DESC, "Channel power status")
     field(DTYP, "stream")
@@ -37,7 +38,7 @@ record(mbbi, "$(DEVICE):Enable-RB") {
     field(PINI, "YES")
     field(PHAS, "0")
     field(PRIO, "HIGH")
-  
+
     field(ZRVL, "0")
     field(ONVL, "1")
     field(ZRST, "Off")
@@ -56,7 +57,7 @@ record(mbbo, "$(DEVICE):Enable-SP"){
     field(ONVL, "1")
     field(ZRST, "Off")
     field(ONST, "On")
-    
+
     field(DISV, "1")
     field(SDIS, "$(DEVICE):Enable_INIT.PACT")
 
