@@ -21,7 +21,7 @@ if __name__ == "__main__":
     logger.info("Use the script at common/generate.py instead !")
 
 
-def generate_relay_db(dir_name):
+def write_generate_relay_db(dir_name):
     rel_db = """
     ################################################################################
     # Automatically generated content.
@@ -133,7 +133,7 @@ def generate_sector(name, sector, dir_name, defaults):
     )
 
     for device in devices:
-        generate_device(
+        res += generate_device(
             device=device,
             base_proto_name=base_proto_name,
             scan_rate=scan_rate,
@@ -178,7 +178,7 @@ def generate(args, defaults):
 
     cmd_key = args.cmd_prefix
 
-    generate_relay_db(dir_name=dir_name)
+    write_generate_relay_db(dir_name=dir_name)
 
     for sector in sectors:
         base_name = cmd_key + sector["f_name"]
