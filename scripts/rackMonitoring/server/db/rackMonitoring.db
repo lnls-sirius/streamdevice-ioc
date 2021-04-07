@@ -17,7 +17,7 @@
 #
 # Function
 # getVariable(BSMP_ID, REPLY_SIZE)
-# 
+#
 
 record(mbbi,"$(PREFIX)-Fan:Status-Mon"){
     field(DESC, "$(PREFIX) Fan Status")
@@ -30,7 +30,7 @@ record(mbbi,"$(PREFIX)-Fan:Status-Mon"){
     field(ONST, "On")
     field(TWST, "Invalid")
     field(THST, "Overload")
-} 
+}
 
 record(ai, "$(PREFIX)-Fan:Current-Mon") {
     field(DESC, "$(PREFIX) Fan Current")
@@ -101,7 +101,7 @@ record(mbbi,"$(PREFIX)-BackDoor:Status-Mon"){
 
     field(ZRST, "Open")
     field(ONST, "Closed")
-} 
+}
 
 record(mbbi,"$(PREFIX)-FrontDoor:Status-Mon"){
     field(DESC, "$(PREFIX) Back Door Status")
@@ -112,4 +112,4 @@ record(mbbi,"$(PREFIX)-FrontDoor:Status-Mon"){
 
     field(ZRST, "Open")
     field(ONST, "Closed")
-} 
+}

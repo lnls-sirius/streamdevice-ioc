@@ -183,7 +183,7 @@ record(ao, "$(DEVICE):DlySp"){
 
     field(DISV, "1")
     field(SDIS, "$(DEVICE):Dly_INIT.PACT")
-    
+
     field(FLNK, "$(DEVICE):Dly")
 }
 record(seq, "$(DEVICE):Dly_INIT"){
@@ -229,7 +229,7 @@ record(mbbo, "$(DEVICE):UnitSp"){
     field(ONST, "mBar")
     field(TWST, "PASCAL")
     field(THST, "Micron")
-    
+
     field(DISV, "1")
     field(SDIS, "$(DEVICE):Unit_INIT.PACT")
 

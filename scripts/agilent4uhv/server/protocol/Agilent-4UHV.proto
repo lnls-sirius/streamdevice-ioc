@@ -109,7 +109,7 @@ errorCodeMon {
     out STX, $1, "505", $WRITE, "00000\$2", ETX, $CRC;
     in  STX, "\?", ACK, ETX, $CRC;
 
-    out STX, $1, "206", $READ, ETX, $CRC; 
+    out STX, $1, "206", $READ, ETX, $CRC;
     in  STX, "\?", "206", $READ, "%06d", ETX, $CRC;
 }
 
@@ -131,7 +131,7 @@ getModel {
     MaxInput = 19;
     out STX, $1, "319", $READ, ETX, $CRC;
     in  STX, "\?", "319", $READ, "%10c", ETX, $CRC;
-} 
+}
 # Device serial number
 getSerialNumber {
     MaxInput = 19;
@@ -160,7 +160,7 @@ getVTarget {
 setVTarget {
     MaxInput = 6;
     out STX, $1, "6\$23", $WRITE, "%06d", ETX, $CRC;
-    in  STX, "\?", ACK, ETX, $CRC; 
+    in  STX, "\?", ACK, ETX, $CRC;
     @mismatch {in STX, "\?", "%(\$3)i", ETX, $CRC;}
 }
 
@@ -214,10 +214,10 @@ getHVOnOff {
     MaxInput = 10;
     out STX, $1, 0x30, 0x31, "\$2", $READ, ETX, $CRC;
     in  STX, "\?", "01\$2", $READ, "%i", ETX, $CRC;
-}  
+}
 setHVOnOff {
     MaxInput = 6;
     out STX, $1, 0x30, 0x31, "\$2", $WRITE, "%i", ETX, $CRC;
     in  STX, "\?", ACK, ETX, $CRC;
     @mismatch { in STX, "\?", "%(\$3)i", ETX, $CRC; }
-} 
+}

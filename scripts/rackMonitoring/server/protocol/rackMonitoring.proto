@@ -16,7 +16,7 @@ ReadTimeout = 50;
 ReplyTimeout = 100;
 
 # Routine for variable reading (implements BSMP protocol)
-# $1: ID 
+# $1: ID
 # $2: size
 getVariable {
     out 0x01, 0x10, 0x00, 0x01, "\$1", "%<nsum>";

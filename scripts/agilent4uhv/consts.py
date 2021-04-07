@@ -1,6 +1,5 @@
 import logging
 
-from common.utils import dump_to_history
 from common.db import DbData
 
 logger = logging.getLogger()
