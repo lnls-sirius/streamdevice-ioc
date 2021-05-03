@@ -1,4 +1,18 @@
 version: '3.7'
+
+x-environment:
+  &default-labels
+  br.com.lnls-sirius.commit: ${COMMIT_HASH}
+  br.com.lnls-sirius.department: ${DEPARTMENT}
+  org.opencontainers.image.authors: ${AUTHOR}
+  org.opencontainers.image.created: ${BUILD_DATE_RFC339}
+  org.opencontainers.image.licenses: ${LICENSE}
+  org.opencontainers.image.revision: ${COMMIT_HASH}
+  org.opencontainers.image.source: ${REPOSITORY}
+  org.opencontainers.image.url: ${REPOSITORY}
+  org.opencontainers.image.vendor: CNPEM
+  org.opencontainers.image.version: ${EPICS_BASE_TAG}
+
 services:
   epics:
     image: ${EPICS_BASE_IMAGE}:${EPICS_BASE_TAG}
@@ -6,7 +20,9 @@ services:
       dockerfile: 'Dockerfile.EPICS'
       context: .
       labels:
-        br.com.lnls-sirius.commit: ${COMMIT_HASH}
+        <<: *default-labels
+        org.opencontainers.image.description: Debian 9 with EPICS base and commonly used modules
+        org.opencontainers.image.title: EPICS R3.15.8
 
   stream:
     image: ${STREAM_BASE_IMAGE}:${STREAM_BASE_TAG}

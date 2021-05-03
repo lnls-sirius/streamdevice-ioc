@@ -4,11 +4,6 @@ ARG EPICS_BASE_IMAGE
 ARG EPICS_BASE_TAG
 
 FROM  ${EPICS_BASE_IMAGE}:${EPICS_BASE_TAG} as stream
-LABEL "maintainer"="Claudio Carneiro <claudio.carneiro@cnpem.br>"
-LABEL "repository"="https://github.com/lnls-sirius/streamdevice-ioc"
-LABEL "br.com.lnls-sirius.description"="StreamDevice IOC"
-LABEL "br.com.lnls-sirius.department"="GAS"
-LABEL "br.com.lnls-sirius.maintener"="Claudio Ferreira Carneiro"
 
 # VIM
 RUN apt-get -y update && apt-get -y install procps vim socat

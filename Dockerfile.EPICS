@@ -2,7 +2,6 @@
 # LNLS - Brazilian Synchrotron Light Source Laboratory
 
 FROM debian:9-slim
-LABEL maintainer="Claudio Carneiro <claudio.carneiro@lnls.br>"
 
 # set correct timezone
 ENV DEBIAN_FRONTEND noninteractive

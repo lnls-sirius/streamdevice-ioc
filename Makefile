@@ -1,36 +1,7 @@
-DOCKER_REGISTRY ?= docker.io
-DOCKER_USER_GROUP ?= lnlscon
-DOCKER_IMAGE_PREFIX = $(DOCKER_REGISTRY)/$(DOCKER_USER_GROUP)
+build-epics: update-env
+	docker-compose build epics
 
-EPICS_BASE_IMAGE ?= $(DOCKER_IMAGE_PREFIX)/epics-debian9-r3.15.8
-STREAM_BASE_IMAGE ?= $(DOCKER_IMAGE_PREFIX)/streamdevice-ioc
-
-DATE = $(shell date -I)
-COMMIT = $(shell git rev-parse --short HEAD)
-
-EPICS_BASE_TAG ?= $(DATE)
-STREAM_BASE_TAG ?= stream-$(DATE)
-
-AGILENT4UHV_TAG ?= Agilent4UHV-$(DATE)-$(COMMIT)
-COUNTINGPRU_TAG ?= CountingPRU-$(DATE)-$(COMMIT)
-MBTEMP_TAG ?= MBTemp-$(DATE)-$(COMMIT)
-MKS937B_TAG ?= MKS937b-$(DATE)-$(COMMIT)
-RACKMON_TAG ?= RackMonitoring-$(DATE)-$(COMMIT)
-SPIXCONV_TAG ?= SPIxCONV-$(DATE)-$(COMMIT)
-
-BUILD_ENVS += EPICS_BASE_IMAGE=$(EPICS_BASE_IMAGE)
-BUILD_ENVS += STREAM_BASE_IMAGE=$(STREAM_BASE_IMAGE)
-BUILD_ENVS += EPICS_BASE_TAG=$(EPICS_BASE_TAG)
-BUILD_ENVS += STREAM_BASE_TAG=$(STREAM_BASE_TAG)
-BUILD_ENVS += AGILENT4UHV_TAG=$(AGILENT4UHV_TAG)
-BUILD_ENVS += COUNTINGPRU_TAG=$(COUNTINGPRU_TAG)
-BUILD_ENVS += MBTEMP_TAG=$(MBTEMP_TAG)
-BUILD_ENVS += MKS937B_TAG=$(MKS937B_TAG)
-BUILD_ENVS += RACKMON_TAG=$(RACKMON_TAG)
-BUILD_ENVS += SPIXCONV_TAG=$(SPIXCONV_TAG)
-BUILD_ENVS += COMMIT_HASH=$(COMMIT)
-
-build: update-env
+build: build-epics update-env
 	make -C ./scripts
 	docker-compose build
 
@@ -54,5 +25,4 @@ push-spixconv:
 	docker push $(STREAM_BASE_IMAGE):$(SPIXCONV_TAG)
 
 update-env:
-	@ > .env
-	@ $(foreach var,$(BUILD_ENVS),echo $(var)>>.env;)
+	./scripts/config.sh
