@@ -8,7 +8,11 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=America/Sao_Paulo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apt-get update &&\
+ENV APT_PROXY TA-TiRack-CO-FWSrv-1.abtlus.org.br
+
+RUN set -ex; \
+    echo "Acquire::http { Proxy \"http://${APT_PROXY}:3142\"; }" > /etc/apt/apt.conf.d/proxy ;\
+    apt-get update &&\
     apt-get install -y --fix-missing --no-install-recommends \
         build-essential \
         ca-certificates \
