@@ -1,272 +1,124 @@
-autosave/
-db/
-protocol/
-
-*.save
-settings.json
-*.swp
-.idea
-
-# Agilent 4UHV
-agilent4uhv/server/cmd/*
-
-# MBTemp
-mbtemp/server/cmd/*
-
-# SPIxCONV 4UHV
-spixconv/server/cmd/*
-
-# Counting PRU
-countingPRU/server/cmd/*
-
-# Rack Monitoring
-rackMonitoring/server/cmd/*
-
-# MKS 937b
-mks937b/server/cmd/*
-mks937b/server/db/mks937b_relay.db
-mks937b/server/protocol/MKS-*
-
-
-# Created by https://www.gitignore.io/api/java,python,pycharm+all,intellij+iml,visualstudiocode
-.vscode
-### Intellij+iml ###
-# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
-# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
-
-# User-specific stuff
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/**/usage.statistics.xml
-.idea/**/dictionaries
-.idea/**/shelf
-
-# Sensitive or high-churn files
-.idea/**/dataSources/
-.idea/**/dataSources.ids
-.idea/**/dataSources.local.xml
-.idea/**/sqlDataSources.xml
-.idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
-.idea/**/dbnavigator.xml
-
-# Gradle
-.idea/**/gradle.xml
-.idea/**/libraries
-
-# CMake
-cmake-build-*/
-
-# Mongo Explorer plugin
-.idea/**/mongoSettings.xml
-
-# File-based project format
-*.iws
-
-# IntelliJ
-out/
-
-# mpeltonen/sbt-idea plugin
-.idea_modules/
-
-# JIRA plugin
-atlassian-ide-plugin.xml
-
-# Cursive Clojure plugin
-.idea/replstate.xml
-
-# Crashlytics plugin (for Android Studio and IntelliJ)
-com_crashlytics_export_strings.xml
-crashlytics.properties
-crashlytics-build.properties
-fabric.properties
-
-# Editor-based Rest Client
-.idea/httpRequests
-
-### Intellij+iml Patch ###
-# Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023
-
-*.iml
-modules.xml
-.idea/misc.xml
-*.ipr
-
-### Java ###
-# Compiled class file
-*.class
-
-# Log file
-*.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-
-### PyCharm+all ###
-# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
-# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
-
-# User-specific stuff
-
-# Sensitive or high-churn files
-
-# Gradle
-
-# CMake
-
-# Mongo Explorer plugin
-
-# File-based project format
-
-# IntelliJ
-
-# mpeltonen/sbt-idea plugin
-
-# JIRA plugin
-
-# Cursive Clojure plugin
-
-# Crashlytics plugin (for Android Studio and IntelliJ)
-
-# Editor-based Rest Client
-
-### PyCharm+all Patch ###
-# Ignores the whole .idea folder and all .iml files
-# See https://github.com/joeblau/gitignore.io/issues/186 and https://github.com/joeblau/gitignore.io/issues/360
-
-.idea/
-
-# Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023
-
-
-### Python ###
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
-# C extensions
-*.so
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
-.pytest_cache/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-local_settings.py
-db.sqlite3
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# pyenv
-.python-version
-
-# celery beat schedule file
-celerybeat-schedule
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-
-### Python Patch ###
-.venv/
-
-### VisualStudioCode ###
-.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
 !.vscode/settings.json
 !.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-
-
-# End of https://www.gitignore.io/api/java,python,pycharm+all,intellij+iml,visualstudiocode
+*$py.class
+*.class
+*.cover
+*.ctxt
+*.ear
+*.egg
+*.egg-info/
+*.iml
+*.ipr
+*.iws
+*.jar
+*.log
+*.manifest
+*.mo
+*.nar
+*.pot
+*.py[cod]
+*.rar
+*.sage.py
+*.save
+*.so
+*.spec
+*.swp
+*.tar.gz
+*.war
+*.zip
+.Python
+.cache
+.coverage
+.coverage.*
+.eggs/
+.hypothesis/
+.idea
+.idea/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/dataSources/
+.idea/**/dbnavigator.xml
+.idea/**/dictionaries
+.idea/**/dynamic.xml
+.idea/**/gradle.xml
+.idea/**/libraries
+.idea/**/mongoSettings.xml
+.idea/**/shelf
+.idea/**/sqlDataSources.xml
+.idea/**/tasks.xml
+.idea/**/uiDesigner.xml
+.idea/**/usage.statistics.xml
+.idea/**/workspace.xml
+.idea/httpRequests
+.idea/misc.xml
+.idea/replstate.xml
+.idea_modules/
+.installed.cfg
+.ipynb_checkpoints
+.mtj.tmp/
+.mypy_cache/
+.pytest_cache/
+.python-version
+.ropeproject
+.scrapy
+.spyderproject
+.spyproject
+.tox/
+.venv
+.venv/
+.vscode
+.vscode/*
+.webassets-cache
+/site
+ENV/
+MANIFEST
+__pycache__/
+agilent4uhv/ioc/cmd/*
+atlassian-ide-plugin.xml
+autosave/
+build/
+celerybeat-schedule
+cmake-build-*/
+com_crashlytics_export_strings.xml
+countingPRU/ioc/cmd/*
+coverage.xml
+crashlytics-build.properties
+crashlytics.properties
+db.sqlite3
+db/
+develop-eggs/
+dist/
+docs/_build/
+downloads/
+eggs/
+env.bak/
+env/
+fabric.properties
+hs_err_pid*
+htmlcov/
+instance/
+lib/
+lib64/
+local_settings.py
+mbtemp/ioc/cmd/*
+mks937b/ioc/cmd/*
+mks937b/ioc/db/mks937b_relay.db
+mks937b/ioc/protocol/MKS-*
+modules.xml
+nosetests.xml
+out/
+parts/
+pip-delete-this-directory.txt
+pip-log.txt
+protocol/
+rackMonitoring/ioc/cmd/*
+sdist/
+settings.json
+spixconv/ioc/cmd/*
+target/
+var/
+venv.bak/
+venv/
+wheels/

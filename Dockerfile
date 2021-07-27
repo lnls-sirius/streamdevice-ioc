@@ -26,4 +26,4 @@ CMD ["/bin/bash", "-c", "set -e; cd scripts/; make run-rackmon"]
 
 FROM base AS spixconv
 RUN set -x; cd scripts; make deploy-spixconv
-CMD ["/bin/bash", "-c", "set -e; cd scripts/; make run-spixconv"]
+CMD ["./scripts/common/entrypoint.sh"]

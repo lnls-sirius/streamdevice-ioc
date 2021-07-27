@@ -40,7 +40,7 @@ def generate_st_cmd(iocs, dir_name):
     data += db
     data += init
     data += seq
-    p_dir_name = os.path.join(dir_name, "server/procCtrl/")
+    p_dir_name = os.path.join(dir_name, "ioc/procCtrl/")
     file_name = os.path.join(p_dir_name, "st.cmd")
 
     if not os.path.exists(p_dir_name):

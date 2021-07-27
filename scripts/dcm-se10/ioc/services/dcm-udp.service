@@ -1,0 +1,16 @@
+[Unit]
+Description=DCM SE-10 Data Acquisition
+
+[Service]
+Restart=on-failure
+RestartSec=3
+Type=simple
+Environment=PYTHONPATH=/root/sirius-temporary-dev-repo/dcm-se10/ioc/services/
+Environment=UDP_PORT=17001
+Environment=DEVICE_IP_ADDRESS=10.0.7.62
+ExecStart=/bin/bash /root/sirius-temporary-dev-repo/dcm-se10/ioc/services/init.sh
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target

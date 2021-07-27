@@ -1,8 +1,8 @@
 #!/bin/sh
 set -exu
 
-DOCKER_REGISTRY=docker.io
-DOCKER_USER_GROUP=lnlscon
+DOCKER_REGISTRY=dockerregistry.lnls-sirius.com.br
+DOCKER_USER_GROUP=gaslnlscon
 DOCKER_IMAGE_PREFIX=${DOCKER_REGISTRY}/${DOCKER_USER_GROUP}
 
 EPICS_BASE_IMAGE=${DOCKER_IMAGE_PREFIX}/epics-debian9-r3.15.8
