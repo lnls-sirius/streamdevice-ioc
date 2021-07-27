@@ -121,10 +121,10 @@ def generate(args, defaults):
         res += template_autosave_chmonitor.safe_substitute(IP_ADDR=target_device_ip)
 
         # Generate iocBoot .cmd files
-        if not os.path.exists(os.path.join(dir_name, "server/cmd/")):
-            os.makedirs(os.path.join(dir_name, "server/cmd/"))
+        if not os.path.exists(os.path.join(dir_name, "ioc/cmd/")):
+            os.makedirs(os.path.join(dir_name, "ioc/cmd/"))
         cmd_path = os.path.join(
-            dir_name, "server/cmd/" + cmd_key + sector.f_name + ".cmd"
+            dir_name, "ioc/cmd/" + cmd_key + sector.f_name + ".cmd"
         )
 
         with open(cmd_path, "w+") as _f:
@@ -132,9 +132,9 @@ def generate(args, defaults):
         os.chmod(cmd_path, 0o774)
 
         # Generate autosave .req files
-        if not os.path.exists(os.path.join(dir_name, "server/autosave/")):
-            os.makedirs(os.path.join(dir_name, "server/autosave/"))
+        if not os.path.exists(os.path.join(dir_name, "ioc/autosave/")):
+            os.makedirs(os.path.join(dir_name, "ioc/autosave/"))
         with open(
-            os.path.join(dir_name, "server/autosave/" + target_device_ip + ".req"), "w+"
+            os.path.join(dir_name, "ioc/autosave/" + target_device_ip + ".req"), "w+"
         ) as _f:
             _f.write(_as)

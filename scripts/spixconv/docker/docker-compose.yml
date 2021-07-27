@@ -1,0 +1,345 @@
+
+version: "3.6"
+x-swarm-settings: &swarm-settings
+    image: ${STREAM_BASE_IMAGE}:${SPIXCONV_TAG}
+    networks:
+      - host_network
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname != CA-RaCtrl-CO-Srv-1
+          - node.hostname != LA-RaCtrl-CO-Srv-1
+          - node.hostname != TA-TiRack-CO-FWSrv-1
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "1"
+        max-size: "50m"
+
+networks:
+  host_network:
+    external:
+      name: "host"
+
+services:
+  TB-04--PU-InjSept:
+    <<: *swarm-settings
+    environment:
+      ADDRESS: 88
+      IOC_CMD: TB-04--PU-InjSept.cmd
+      IOC_NAME: TB-04--PU-InjSept
+      IOC_PREFIX: TB-04:PU-InjSept
+    labels:
+      spixconv.beaglebone.address: "10.128.170.107:5005"
+      spixconv.board.address: "88"
+      spixconv.description: "Septum - Booster Injection"
+      spixconv.ioc.autosave: "TB-04:PU-InjSept.sav"
+      spixconv.ioc.cmd: "TB-04--PU-InjSept.cmd"
+      spixconv.ioc.db: "SPIxCONV_septum"
+      spixconv.ioc.delay: "2"
+      spixconv.ioc.prefix: "TB-04:PU-InjSept"
+      spixconv.ioc.scan_rate: ".1 second"
+      spixconv.ioc.trigger: "200"
+      spixconv.ioc.voltage-factor: "100"
+
+  BO-01D--PU-InjKckr:
+    <<: *swarm-settings
+    environment:
+      ADDRESS: 88
+      IOC_CMD: BO-01D--PU-InjKckr.cmd
+      IOC_NAME: BO-01D--PU-InjKckr
+      IOC_PREFIX: BO-01D:PU-InjKckr
+    labels:
+      spixconv.beaglebone.address: "10.128.170.108:5005"
+      spixconv.board.address: "88"
+      spixconv.description: "Kicker - Booster Injection"
+      spixconv.ioc.autosave: "BO-01D:PU-InjKckr.sav"
+      spixconv.ioc.cmd: "BO-01D--PU-InjKckr.cmd"
+      spixconv.ioc.db: "SPIxCONV_kicker"
+      spixconv.ioc.delay: "2"
+      spixconv.ioc.prefix: "BO-01D:PU-InjKckr"
+      spixconv.ioc.scan_rate: ".1 second"
+      spixconv.ioc.trigger: "500"
+      spixconv.ioc.voltage-factor: "1000"
+
+  TS-04--PU-InjSeptG-1:
+    <<: *swarm-settings
+    environment:
+      ADDRESS: 88
+      IOC_CMD: TS-04--PU-InjSeptG-1.cmd
+      IOC_NAME: TS-04--PU-InjSeptG-1
+      IOC_PREFIX: TS-04:PU-InjSeptG-1
+    labels:
+      spixconv.beaglebone.address: "10.128.170.109:5005"
+      spixconv.board.address: "88"
+      spixconv.description: "Septum - SR Injection Thick-1"
+      spixconv.ioc.autosave: "TS-04:PU-InjSeptG-1.sav"
+      spixconv.ioc.cmd: "TS-04--PU-InjSeptG-1.cmd"
+      spixconv.ioc.db: "SPIxCONV_septum"
+      spixconv.ioc.delay: "2"
+      spixconv.ioc.prefix: "TS-04:PU-InjSeptG-1"
+      spixconv.ioc.scan_rate: ".1 second"
+      spixconv.ioc.trigger: "200"
+      spixconv.ioc.voltage-factor: "100"
+
+  TS-04--PU-InjSeptG-2:
+    <<: *swarm-settings
+    environment:
+      ADDRESS: 88
+      IOC_CMD: TS-04--PU-InjSeptG-2.cmd
+      IOC_NAME: TS-04--PU-InjSeptG-2
+      IOC_PREFIX: TS-04:PU-InjSeptG-2
+    labels:
+      spixconv.beaglebone.address: "10.128.170.110:5005"
+      spixconv.board.address: "88"
+      spixconv.description: "Septum - SR Injection Thick-2"
+      spixconv.ioc.autosave: "TS-04:PU-InjSeptG-2.sav"
+      spixconv.ioc.cmd: "TS-04--PU-InjSeptG-2.cmd"
+      spixconv.ioc.db: "SPIxCONV_septum"
+      spixconv.ioc.delay: "2"
+      spixconv.ioc.prefix: "TS-04:PU-InjSeptG-2"
+      spixconv.ioc.scan_rate: ".1 second"
+      spixconv.ioc.trigger: "200"
+      spixconv.ioc.voltage-factor: "100"
+
+  TS-04--PU-InjSeptF:
+    <<: *swarm-settings
+    environment:
+      ADDRESS: 88
+      IOC_CMD: TS-04--PU-InjSeptF.cmd
+      IOC_NAME: TS-04--PU-InjSeptF
+      IOC_PREFIX: TS-04:PU-InjSeptF
+    labels:
+      spixconv.beaglebone.address: "10.128.170.111:5005"
+      spixconv.board.address: "88"
+      spixconv.description: "Septum - SR Injection Thin"
+      spixconv.ioc.autosave: "TS-04:PU-InjSeptF.sav"
+      spixconv.ioc.cmd: "TS-04--PU-InjSeptF.cmd"
+      spixconv.ioc.db: "SPIxCONV_septum"
+      spixconv.ioc.delay: "2"
+      spixconv.ioc.prefix: "TS-04:PU-InjSeptF"
+      spixconv.ioc.scan_rate: ".1 second"
+      spixconv.ioc.trigger: "200"
+      spixconv.ioc.voltage-factor: "100"
+
+  SI-01SA--PU-PingH:
+    <<: *swarm-settings
+    environment:
+      ADDRESS: 88
+      IOC_CMD: SI-01SA--PU-PingH.cmd
+      IOC_NAME: SI-01SA--PU-PingH
+      IOC_PREFIX: SI-01SA:PU-PingH
+    labels:
+      spixconv.beaglebone.address: "10.128.170.112:5005"
+      spixconv.board.address: "88"
+      spixconv.description: "Horizontal Pinger"
+      spixconv.ioc.autosave: "SI-01SA:PU-PingH.sav"
+      spixconv.ioc.cmd: "SI-01SA--PU-PingH.cmd"
+      spixconv.ioc.db: "SPIxCONV_kicker"
+      spixconv.ioc.delay: "2"
+      spixconv.ioc.prefix: "SI-01SA:PU-PingH"
+      spixconv.ioc.scan_rate: ".1 second"
+      spixconv.ioc.trigger: "2000"
+      spixconv.ioc.voltage-factor: "3000"
+
+  SI-01SA--PU-InjDpKckr:
+    <<: *swarm-settings
+    environment:
+      ADDRESS: 88
+      IOC_CMD: SI-01SA--PU-InjDpKckr.cmd
+      IOC_NAME: SI-01SA--PU-InjDpKckr
+      IOC_PREFIX: SI-01SA:PU-InjDpKckr
+    labels:
+      spixconv.beaglebone.address: "10.128.170.113:5005"
+      spixconv.board.address: "88"
+      spixconv.description: "Kicker - NLK / On Axis"
+      spixconv.ioc.autosave: "SI-01SA:PU-InjDpKckr.sav"
+      spixconv.ioc.cmd: "SI-01SA--PU-InjDpKckr.cmd"
+      spixconv.ioc.db: "SPIxCONV_NLK_OnAxis"
+      spixconv.ioc.delay: "2"
+      spixconv.ioc.prefix: "SI-01SA:PU-InjDpKckr"
+      spixconv.ioc.scan_rate: ".1 second"
+      spixconv.ioc.trigger: "2000"
+      spixconv.ioc.voltage-factor: "1500"
+
+  BO-48D--PU-EjeKckr:
+    <<: *swarm-settings
+    environment:
+      ADDRESS: 88
+      IOC_CMD: BO-48D--PU-EjeKckr.cmd
+      IOC_NAME: BO-48D--PU-EjeKckr
+      IOC_PREFIX: BO-48D:PU-EjeKckr
+    labels:
+      spixconv.beaglebone.address: "10.128.180.107:5005"
+      spixconv.board.address: "88"
+      spixconv.description: "Kicker - Booster Ejection"
+      spixconv.ioc.autosave: "BO-48D:PU-EjeKckr.sav"
+      spixconv.ioc.cmd: "BO-48D--PU-EjeKckr.cmd"
+      spixconv.ioc.db: "SPIxCONV_kicker"
+      spixconv.ioc.delay: "2"
+      spixconv.ioc.prefix: "BO-48D:PU-EjeKckr"
+      spixconv.ioc.scan_rate: ".1 second"
+      spixconv.ioc.trigger: "1000"
+      spixconv.ioc.voltage-factor: "1000"
+
+  TS-01--PU-EjeSeptF:
+    <<: *swarm-settings
+    environment:
+      ADDRESS: 88
+      IOC_CMD: TS-01--PU-EjeSeptF.cmd
+      IOC_NAME: TS-01--PU-EjeSeptF
+      IOC_PREFIX: TS-01:PU-EjeSeptF
+    labels:
+      spixconv.beaglebone.address: "10.128.180.108:5005"
+      spixconv.board.address: "88"
+      spixconv.description: "Septum - Booster Ejection Thin"
+      spixconv.ioc.autosave: "TS-01:PU-EjeSeptF.sav"
+      spixconv.ioc.cmd: "TS-01--PU-EjeSeptF.cmd"
+      spixconv.ioc.db: "SPIxCONV_septum"
+      spixconv.ioc.delay: "2"
+      spixconv.ioc.prefix: "TS-01:PU-EjeSeptF"
+      spixconv.ioc.scan_rate: ".1 second"
+      spixconv.ioc.trigger: "200"
+      spixconv.ioc.voltage-factor: "100"
+
+  TS-01--PU-EjeSeptG:
+    <<: *swarm-settings
+    environment:
+      ADDRESS: 88
+      IOC_CMD: TS-01--PU-EjeSeptG.cmd
+      IOC_NAME: TS-01--PU-EjeSeptG
+      IOC_PREFIX: TS-01:PU-EjeSeptG
+    labels:
+      spixconv.beaglebone.address: "10.128.180.109:5005"
+      spixconv.board.address: "88"
+      spixconv.description: "Septum - Booster Ejection Thick"
+      spixconv.ioc.autosave: "TS-01:PU-EjeSeptG.sav"
+      spixconv.ioc.cmd: "TS-01--PU-EjeSeptG.cmd"
+      spixconv.ioc.db: "SPIxCONV_septum"
+      spixconv.ioc.delay: "2"
+      spixconv.ioc.prefix: "TS-01:PU-EjeSeptG"
+      spixconv.ioc.scan_rate: ".1 second"
+      spixconv.ioc.trigger: "200"
+      spixconv.ioc.voltage-factor: "100"
+
+  SI-19C4--PU-PingV:
+    <<: *swarm-settings
+    environment:
+      ADDRESS: 88
+      IOC_CMD: SI-19C4--PU-PingV.cmd
+      IOC_NAME: SI-19C4--PU-PingV
+      IOC_PREFIX: SI-19C4:PU-PingV
+    labels:
+      spixconv.beaglebone.address: "10.128.180.110:5005"
+      spixconv.board.address: "88"
+      spixconv.description: "Vertical Pinger"
+      spixconv.ioc.autosave: "SI-19C4:PU-PingV.sav"
+      spixconv.ioc.cmd: "SI-19C4--PU-PingV.cmd"
+      spixconv.ioc.db: "SPIxCONV_kicker"
+      spixconv.ioc.delay: "2"
+      spixconv.ioc.prefix: "SI-19C4:PU-PingV"
+      spixconv.ioc.scan_rate: ".1 second"
+      spixconv.ioc.trigger: "2000"
+      spixconv.ioc.voltage-factor: "1000"
+
+  SpareSeptum1:
+    <<: *swarm-settings
+    environment:
+      ADDRESS: 88
+      IOC_CMD: SpareSeptum1.cmd
+      IOC_NAME: SpareSeptum1
+      IOC_PREFIX: SpareSeptum1
+    labels:
+      spixconv.beaglebone.address: "10.128.170.114:5005"
+      spixconv.board.address: "88"
+      spixconv.description: "Septum - Spare 1"
+      spixconv.ioc.autosave: "SpareSeptum1.sav"
+      spixconv.ioc.cmd: "SpareSeptum1.cmd"
+      spixconv.ioc.db: "SPIxCONV_septum"
+      spixconv.ioc.delay: "2"
+      spixconv.ioc.prefix: "SpareSeptum1"
+      spixconv.ioc.scan_rate: ".1 second"
+      spixconv.ioc.trigger: "200"
+      spixconv.ioc.voltage-factor: "100"
+
+  SpareSeptum2:
+    <<: *swarm-settings
+    environment:
+      ADDRESS: 88
+      IOC_CMD: SpareSeptum2.cmd
+      IOC_NAME: SpareSeptum2
+      IOC_PREFIX: SpareSeptum2
+    labels:
+      spixconv.beaglebone.address: "10.128.180.111:5005"
+      spixconv.board.address: "88"
+      spixconv.description: "Septum - Spare 2"
+      spixconv.ioc.autosave: "SpareSeptum2.sav"
+      spixconv.ioc.cmd: "SpareSeptum2.cmd"
+      spixconv.ioc.db: "SPIxCONV_septum"
+      spixconv.ioc.delay: "2"
+      spixconv.ioc.prefix: "SpareSeptum2"
+      spixconv.ioc.scan_rate: ".1 second"
+      spixconv.ioc.trigger: "200"
+      spixconv.ioc.voltage-factor: "100"
+
+  SpareKicker1:
+    <<: *swarm-settings
+    environment:
+      ADDRESS: 88
+      IOC_CMD: SpareKicker1.cmd
+      IOC_NAME: SpareKicker1
+      IOC_PREFIX: SpareKicker1
+    labels:
+      spixconv.beaglebone.address: "10.128.170.115:5005"
+      spixconv.board.address: "88"
+      spixconv.description: "Kicker - Spare 1"
+      spixconv.ioc.autosave: "SpareKicker1.sav"
+      spixconv.ioc.cmd: "SpareKicker1.cmd"
+      spixconv.ioc.db: "SPIxCONV_kicker"
+      spixconv.ioc.delay: "2"
+      spixconv.ioc.prefix: "SpareKicker1"
+      spixconv.ioc.scan_rate: ".1 second"
+      spixconv.ioc.trigger: "1000"
+      spixconv.ioc.voltage-factor: "1500"
+
+  SpareKicker2:
+    <<: *swarm-settings
+    environment:
+      ADDRESS: 88
+      IOC_CMD: SpareKicker2.cmd
+      IOC_NAME: SpareKicker2
+      IOC_PREFIX: SpareKicker2
+    labels:
+      spixconv.beaglebone.address: "10.128.180.112:5005"
+      spixconv.board.address: "88"
+      spixconv.description: "Kicker - Spare 2"
+      spixconv.ioc.autosave: "SpareKicker2.sav"
+      spixconv.ioc.cmd: "SpareKicker2.cmd"
+      spixconv.ioc.db: "SPIxCONV_kicker"
+      spixconv.ioc.delay: "2"
+      spixconv.ioc.prefix: "SpareKicker2"
+      spixconv.ioc.scan_rate: ".1 second"
+      spixconv.ioc.trigger: "1000"
+      spixconv.ioc.voltage-factor: "1000"
+
+  SI-01SA--PU-InjNLKckr:
+    <<: *swarm-settings
+    environment:
+      ADDRESS: 88
+      IOC_CMD: SI-01SA--PU-InjNLKckr.cmd
+      IOC_NAME: SI-01SA--PU-InjNLKckr
+      IOC_PREFIX: SI-01SA:PU-InjNLKckr
+    labels:
+      spixconv.beaglebone.address: "10.128.170.116:5005"
+      spixconv.board.address: "88"
+      spixconv.description: "NLK / On Axis - Spare 1"
+      spixconv.ioc.autosave: "SI-01SA:PU-InjNLKckr.sav"
+      spixconv.ioc.cmd: "SI-01SA--PU-InjNLKckr.cmd"
+      spixconv.ioc.db: "SPIxCONV_NLK_OnAxis"
+      spixconv.ioc.delay: "2"
+      spixconv.ioc.prefix: "SI-01SA:PU-InjNLKckr"
+      spixconv.ioc.scan_rate: ".1 second"
+      spixconv.ioc.trigger: "2000"
+      spixconv.ioc.voltage-factor: "1500"

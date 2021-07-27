@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import logging
+import typing
 
 from spixconv.consts import DATA_SPIXCONV
 
@@ -17,14 +18,15 @@ class SPIxCONV:
             logger.error("Row not defined when creating CountingPRU object.")
             raise TypeError("Row undefined !")
         self.row = row
-        self.ip = row["IP"] + ":5005"
-        self.device = row["Dev"]
-        self.address = row["Address"]
-        self.description = row["Description"]
+        self.ip: str = row["IP"] + ":5005"
+        self.device: str = row["Dev"]
+        self.address: str = row["Address"]
+        self.description: str = row["Description"]
         self.voltage_factor = row["Voltage Factor [V]"]
         self.scan_rate = row["Scan Rate"]
-        self.database = row["Database (soft IOC)"]
-        self.file_name = self.ip + ".cmd"
+        self.database: str = row["Database (soft IOC)"]
+        self.service_name = self.device.strip().replace(":", "--")
+        self.file_name: str = f"{self.service_name}.cmd"
         self.step_trigger = row["Steps trigger [V]"]
         self.step_delay = row["Steps delay [s]"]
 
@@ -40,7 +42,7 @@ class SPIxCONV:
         )
 
 
-boards = []
+boards: typing.List[SPIxCONV] = []
 for _ip, rows in DATA_SPIXCONV.items():
     if len(rows) != 1:
         logger.error(

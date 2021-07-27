@@ -58,8 +58,8 @@ def copytree(src, dst, symlinks=False, ignore=None):
 def deploy_files(base_origin_dir, top):
     # fmt: off
     logger.info("Deploying IOC files to {}.".format(top))
-    copytree(os.path.join(base_origin_dir, "server/cmd"), "{}/iocBoot/iocStreamDeviceIOC".format(top))
-    copytree(os.path.join(base_origin_dir, "server/db"), "{}/db".format(top))
-    copytree(os.path.join(base_origin_dir, "server/autosave"), "{}/autosave".format(top))
-    copytree(os.path.join(base_origin_dir, "server/protocol"), "{}/protocol".format(top))
+    copytree(os.path.join(base_origin_dir, "ioc/cmd"), "{}/iocBoot/iocStreamDeviceIOC".format(top))
+    copytree(os.path.join(base_origin_dir, "ioc/db"), "{}/db".format(top))
+    copytree(os.path.join(base_origin_dir, "ioc/autosave"), "{}/autosave".format(top))
+    copytree(os.path.join(base_origin_dir, "ioc/protocol"), "{}/protocol".format(top))
     # fmt: on

@@ -32,14 +32,14 @@ def write_generate_relay_db(dir_name):
     for relay in range(1, 13):
         rel_db += db_relay.safe_substitute(RELAY=relay)
 
-    with open(os.path.join(dir_name, "server/db/mks937b_relay.db"), "w+") as file:
+    with open(os.path.join(dir_name, "ioc/db/mks937b_relay.db"), "w+") as file:
         file.write(rel_db)
     return rel_db
 
 
 def write_device_protocol(dir_name, proto_name, GAUGES):
     with open(
-        os.path.join(dir_name, "server/protocol/" + proto_name + ".proto"),
+        os.path.join(dir_name, "ioc/protocol/" + proto_name + ".proto"),
         "w+",
     ) as file:
         file.write(
@@ -146,18 +146,18 @@ def generate_sector(name, sector, dir_name, defaults):
 
 
 def write_sector_cmd(dir_name, base_name, cmd_data):
-    if not os.path.exists(os.path.join(dir_name, "server/cmd/")):
-        os.makedirs(os.path.join(dir_name, "server/cmd/"))
-    cmd_path = os.path.join(dir_name, f"server/cmd/{base_name}.cmd")
+    if not os.path.exists(os.path.join(dir_name, "ioc/cmd/")):
+        os.makedirs(os.path.join(dir_name, "ioc/cmd/"))
+    cmd_path = os.path.join(dir_name, f"ioc/cmd/{base_name}.cmd")
     with open(cmd_path, "w+") as file:
         file.write(cmd_data)
     os.chmod(cmd_path, 0o774)
 
 
 def write_autosave(dir_name, base_name, devices):
-    res_path = os.path.join(dir_name, "server/autosave/" + base_name + ".req")
-    if not os.path.exists(os.path.join(dir_name, "server/autosave/")):
-        os.makedirs(os.path.join(dir_name, "server/autosave/"))
+    res_path = os.path.join(dir_name, "ioc/autosave/" + base_name + ".req")
+    if not os.path.exists(os.path.join(dir_name, "ioc/autosave/")):
+        os.makedirs(os.path.join(dir_name, "ioc/autosave/"))
 
     gauges = []
     for device in devices:

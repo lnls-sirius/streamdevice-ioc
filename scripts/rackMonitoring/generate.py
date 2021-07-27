@@ -40,10 +40,10 @@ def generate(args, defaults):
 
         res += rackmonitor_template_bot.safe_substitute(defaults)
 
-        if not os.path.exists(os.path.join(dir_name, "server/cmd/")):
-            os.makedirs(os.path.join(dir_name, "server/cmd/"))
+        if not os.path.exists(os.path.join(dir_name, "ioc/cmd/")):
+            os.makedirs(os.path.join(dir_name, "ioc/cmd/"))
 
-        cmd_path = os.path.join(dir_name, "server/cmd/" + cmd_key + device.file_name)
+        cmd_path = os.path.join(dir_name, "ioc/cmd/" + cmd_key + device.file_name)
         with open(cmd_path, "w+") as file:
             file.write(res)
 

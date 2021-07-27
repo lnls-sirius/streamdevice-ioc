@@ -35,9 +35,6 @@ run-mks937b:
 run-rackmon:
 	$(eval PREFIX=$(RACKMON_PREFIX))
 	bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
-run-spixconv:
-	$(eval PREFIX=$(SPIXCONV_PREFIX))
-	bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
 
 deploy-req:
 	mkdir -p ../autosave
@@ -45,38 +42,37 @@ deploy-req:
 	mkdir -p ../protocol
 
 deploy-agilent4uhv: deploy-req
-	cp -v -p ./agilent4uhv/server/autosave/* $(TOP)/autosave
-	cp -v -p ./agilent4uhv/server/db/*       $(TOP)/db
-	cp -v -p ./agilent4uhv/server/protocol/* $(TOP)/protocol
-	cp -v -p ./agilent4uhv/server/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
+	cp -v -p ./agilent4uhv/ioc/autosave/* $(TOP)/autosave
+	cp -v -p ./agilent4uhv/ioc/db/*       $(TOP)/db
+	cp -v -p ./agilent4uhv/ioc/protocol/* $(TOP)/protocol
+	cp -v -p ./agilent4uhv/ioc/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
 
 deploy-countingpru: deploy-req
-	cp -v -p ./countingpru/server/db/*       $(TOP)/db
-	cp -v -p ./countingpru/server/protocol/* $(TOP)/protocol
-	cp -v -p ./countingpru/server/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
+	cp -v -p ./countingpru/ioc/db/*       $(TOP)/db
+	cp -v -p ./countingpru/ioc/protocol/* $(TOP)/protocol
+	cp -v -p ./countingpru/ioc/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
 
 deploy-mbtemp: deploy-req
-	cp -v -p ./mbtemp/server/db/*       $(TOP)/db
-	cp -v -p ./mbtemp/server/protocol/* $(TOP)/protocol
-	cp -v -p ./mbtemp/server/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
+	cp -v -p ./mbtemp/ioc/db/*       $(TOP)/db
+	cp -v -p ./mbtemp/ioc/protocol/* $(TOP)/protocol
+	cp -v -p ./mbtemp/ioc/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
 
 deploy-mks937b: deploy-req
-	cp -v -p ./mks937b/server/autosave/* $(TOP)/autosave
-	cp -v -p ./mks937b/server/db/*       $(TOP)/db
-	cp -v -p ./mks937b/server/protocol/* $(TOP)/protocol
-	cp -v -p ./mks937b/server/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
+	cp -v -p ./mks937b/ioc/autosave/* $(TOP)/autosave
+	cp -v -p ./mks937b/ioc/db/*       $(TOP)/db
+	cp -v -p ./mks937b/ioc/protocol/* $(TOP)/protocol
+	cp -v -p ./mks937b/ioc/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
 
 deploy-rackmon: deploy-req
-	cp -v -p ./rackMonitoring/server/db/*       $(TOP)/db
-	cp -v -p ./rackMonitoring/server/protocol/* $(TOP)/protocol
-	cp -v -p ./rackMonitoring/server/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
+	cp -v -p ./rackMonitoring/ioc/db/*       $(TOP)/db
+	cp -v -p ./rackMonitoring/ioc/protocol/* $(TOP)/protocol
+	cp -v -p ./rackMonitoring/ioc/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
 
 deploy-spixconv: deploy-req
-	cp -v -p ./spixconv/server/procCtrl/st.cmd $(TOP)/procCtrl/iocBoot/iocprocCtrl/st.cmd
-	cp -v -p ./spixconv/server/autosave/*      $(TOP)/autosave
-	cp -v -p ./spixconv/server/db/*            $(TOP)/db
-	cp -v -p ./spixconv/server/protocol/*      $(TOP)/protocol
-	cp -v -p ./spixconv/server/cmd/*           $(TOP)/iocBoot/iocStreamDeviceIOC
+	cp -v -p ./spixconv/ioc/autosave/*      $(TOP)/autosave
+	cp -v -p ./spixconv/ioc/db/*            $(TOP)/db
+	cp -v -p ./spixconv/ioc/protocol/*      $(TOP)/protocol
+	cp -v -p ./spixconv/ioc/cmd/*           $(TOP)/iocBoot/iocStreamDeviceIOC
 
 clean: clean-build clean-pyc clean-deploy
 clean-deploy:
