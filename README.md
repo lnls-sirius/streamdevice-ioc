@@ -57,5 +57,7 @@ docker-compose build <service_name>
 ## Deploy
 The docker related files included in this repository are meant to build and test the images. Check the instructions at [docker-stacks/cons-streamdevice-ioc](https://gitlab.cnpem.br/con/docker-stacks/tree/master/cons-streamdevice-ioc) for production deployment.
 
+[SPIxCONV](scripts/spixconv/docker/docker-compose.yml)
+
 ### etc..
 Autosave data inside the container is located at `/opt/streamdevice-ioc/autosave/save/`
