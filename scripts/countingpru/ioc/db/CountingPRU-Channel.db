@@ -1,0 +1,42 @@
+# CountingPRU-Channel.db
+# Record definition for one counting channel.
+#
+# RECORD_NAME - Name of record.
+# DESCRIPTION - EPICS record description.
+# CHANNEL - Channel in CountingPRU board where the sensor is connected to (from 1 to 8).
+# PORT - Name of the serial port configured in asynDriver.
+# SCAN_RATE - Record scan rate (time interval between two consecutive readings).
+# SN_ID - BSMP ID for Serial Numbers (from 11 to 18)
+
+record(ai, "$(RECORD_NAME):Count-Mon") {
+    field(DESC, "$(DESCRIPTION)")
+    field(DTYP, "stream")
+    field(EGU, "Pulse/s")
+    field(INP, "@CountingPRU.proto getCounting($(CHANNEL)) $(PORT)")
+    field(PINI, "YES")
+    field(LINR, "LINEAR")
+    field(PREC, "4")
+    field(SCAN, "$(SCAN_RATE)")
+    field(EOFF, "0.0")
+    field(ESLO, "0.001")
+}
+
+
+record(stringin, "$(RECORD_NAME):Counter-Cte"){
+    field(PINI, "YES")
+    field(DESC, "CountingPRU board")
+    field(VAL,  "$(BOARD_NAME):Ch$(CHANNEL)")
+}
+
+record(stringin, "$(RECORD_NAME):Sensor-Cte"){
+    field(PINI, "YES")
+    field(DESC, "Detector physical location")
+    field(VAL,  "$(DETECTOR_NAME)")
+}
+
+record(longout, "$(DETECTOR_NAME):SerialNumber-Cte"){
+    field(DESC, "Detector Serial Number")
+    field(OUT, "@CountingPRU.proto setSerialNumber($(SN_ID)) $(PORT)")
+    field(DRVL, "0")
+    field(DTYP, "stream")
+}

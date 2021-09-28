@@ -1,0 +1,63 @@
+# CountingPRU-Device.db
+# Records related to the configuration of a CountingPRU board.
+#
+# PREFIX - Prefix name for all PVs associated with the device.
+# PORT - Name of the IPPort configured in asynDriver.
+# CHx - Name of device attached to the x channel
+
+record(longout, "$(PREFIX):TimeBase-SP") {
+    field(DESC, "TimeBase for CountingPRU")
+    field(DRVL, "0")
+    field(DTYP, "stream")
+    field(EGU, "seconds")
+    field(OUT, "@CountingPRU.proto setTimeBase() $(PORT)")
+    field(PINI, "YES")
+}
+
+record(stringin, "$(PREFIX):Ch1-Cte"){
+    field(PINI, "YES")
+    field(DESC, "Device attached to this channel")
+    field(VAL,  "$(CH1)")
+}
+
+record(stringin, "$(PREFIX):Ch2-Cte"){
+    field(PINI, "YES")
+    field(DESC, "Device attached to this channel")
+    field(VAL,  "$(CH2)")
+}
+
+record(stringin, "$(PREFIX):Ch3-Cte"){
+    field(PINI, "YES")
+    field(DESC, "Device attached to this channel")
+    field(VAL,  "$(CH3)")
+}
+
+record(stringin, "$(PREFIX):Ch4-Cte"){
+    field(PINI, "YES")
+    field(DESC, "Device attached to this channel")
+    field(VAL,  "$(CH4)")
+}
+
+record(stringin, "$(PREFIX):Ch5-Cte"){
+    field(PINI, "YES")
+    field(DESC, "Device attached to this channel")
+    field(VAL,  "$(CH5)")
+}
+
+record(stringin, "$(PREFIX):Ch6-Cte"){
+    field(PINI, "YES")
+    field(DESC, "Device attached to this channel")
+    field(VAL,  "$(CH6)")
+}
+
+record(stringin, "$(PREFIX):Ch7-Cte"){
+    field(PINI, "YES")
+    field(DESC, "Device attached to this channel")
+    field(VAL,  "$(CH7)")
+}
+
+record(stringin, "$(PREFIX):Ch8-Cte"){
+    field(PINI, "YES")
+    field(DESC, "Device attached to this channel")
+    field(VAL,  "$(CH8)")
+}
