@@ -1,0 +1,250 @@
+# Agilent-4UHV-Channel.db
+# Record definition file for one Agilent 4UHV Ion Pump Controller channel.
+# This is based on the work of Pete Owens from the Science and Technology Facilities Council (STFC).
+# Parameters are:
+# CH_NUM         - Controller channel (from 1 to 4).
+# PORT           - Name of the serial port configured in asynDriver.
+# P              - Channel Prefix
+# D              - Device Prefix
+# ADDR - Controller RS-485 serial address (from 0 to 31). For configuring this parameter,
+# add 128 to the desired address. As an example, for the serial address 20, this parameter should
+# be configured as 128 + 20 = 148.
+
+############################################################################
+##                              Scan Readings                             ##
+############################################################################
+record(fanout, "$(P):T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(P):Pressure-Mon")
+    field(LNK2, "$(P):Voltage-Mon")
+    field(LNK3, "$(P):Current-Mon")
+}
+
+record(fanout, "$(P):T2"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK4, "$(P):HVTemperature-Mon")
+    field(LNK5, "$(P):ErrorCode-Mon")
+    field(LNK6, "$(P):HVState-RB")
+}
+
+# Current
+record(ai, "$(P):Current-Mon") {
+    field(DESC, "Measured current")
+    field(DTYP, "stream")
+    field(EGU,  "A")
+    field(HOPR, "0.9")
+    field(LOPR, "0")
+    field(INP,  "@Agilent-4UHV.proto currentMon($(ADDR),$(CH_NUM)) $(PORT)")
+}
+# Pressure
+record(stringout, "$(P):Pressure-Mon_EGU"){
+    field(OMSL, "closed_loop")
+    field(DOL,  "$(D):Unit_STR.SVAL CP")
+    field(OUT,  "$(P):Pressure-Mon.EGU")
+}
+record(ai, "$(P):Pressure-Mon") {
+    field(DESC, "Measured pressure")
+    field(DTYP, "stream")
+    field(EGU,  "mBar")
+    field(PREC, "9")
+    field(HIGH, "$(P_HIGH=1e-7)")
+    field(HIHI, "$(P_HIHI=1e-5)")
+    field(INP,  "@Agilent-4UHV.proto pressureMon($(ADDR),$(CH_NUM)) $(PORT)")
+}
+# Voltage
+record(ai, "$(P):Voltage-Mon") {
+    field(DESC, "Measured voltage")
+    field(DTYP, "stream")
+    field(EGU,  "kV")
+    field(ESLO, "0.001")
+    field(HOPR, "10")
+    field(LOPR, "0")
+    field(LINR, "LINEAR")
+    field(PREC, "1")
+    field(INP,  "@Agilent-4UHV.proto voltageMon($(ADDR),$(CH_NUM)) $(PORT)")
+}
+# HV temperature
+record(longin, "$(P):HVTemperature-Mon") {
+    field(DESC, "HV temperature")
+    field(DTYP, "stream")
+    field(EGU,  "°C")
+    field(HOPR, "200")
+    field(LOPR, "0")
+    field(INP,  "@Agilent-4UHV.proto HVTemperature$(CH_NUM)Mon($(ADDR)) $(PORT)")
+}
+# Error code
+record(mbbi, "$(P):ErrorCode-Mon") {
+    field(DESC, "Error code")
+    field(DTYP, "stream")
+    field(INP,  "@Agilent-4UHV.proto errorCodeMon($(ADDR),$(CH_NUM)) $(PORT)")
+}
+# Error code
+record(mbbi, "$(P):SetErrorCode-Mon") {
+    field(DTYP, "Soft Channel")
+    field(VAL,  "0")
+    field(ZRST, "")
+    field(ONST, "")
+    field(TWST, "Unknown Window")
+    field(THST, "Data Type Error")
+    field(FRST, "Out of Range")
+    field(FVST, "Win Disabled")
+}
+############################################################################
+##                             Get/Set Readings                           ##
+############################################################################
+# Channel HV on/off
+record(bi, "$(P):HVState-RB") {
+    field(PRIO, "HIGH")
+    field(DESC, "Channel HV on/off readback")
+    field(DTYP, "stream")
+    field(INP,  "@Agilent-4UHV.proto getHVOnOff($(ADDR),$(CH_NUM)) $(PORT)")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    field(PINI, "YES")
+    field(PHAS, "0")
+}
+record(bo, "$(P):HVState-SP") {
+    field(PRIO, "HIGH")
+    field(DESC, "Channel HV on/off setpoint")
+    field(DTYP, "stream")
+    field(OUT, "@Agilent-4UHV.proto setHVOnOff($(ADDR),$(CH_NUM),$(P):SetErrorCode-Mon) $(PORT)")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    field(DISV, "1")
+    field(SDIS, "$(P):HVState_INIT.PACT")
+    field(FLNK, "$(P):HVState-RB")
+}
+record(seq, "$(P):HVState_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "10")
+    field(DOL1, "$(P):HVState-RB")
+    field(LNK1, "$(P):HVState-SP PP")
+}
+
+# Device number
+record(longin, "$(P):DeviceNumber-RB") {
+    field(PRIO, "HIGH")
+    field(DESC, "Device number readback")
+    field(DTYP, "stream")
+    field(PINI, "YES")
+    field(INP, "@Agilent-4UHV.proto getDeviceNumber($(ADDR),$(CH_NUM)) $(PORT)")
+}
+
+# I Protect
+record(ai, "$(P):CurrentProtect-RB") {
+    field(PRIO, "HIGH")
+    field(DESC, "Measured Current Protect")
+    field(DTYP, "stream")
+    field(EGU,  "mA")
+    field(INP,  "@Agilent-4UHV.proto getIProtect($(ADDR),$(CH_NUM)) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+}
+record(ao, "$(P):CurrentProtect-SP") {
+    field(PRIO, "HIGH")
+    field(DESC, "Measured Current Protect")
+    field(DTYP, "stream")
+    field(EGU,  "mA")
+    field(DRVH, "100")
+    field(DRVL, "1")
+    field(OUT,  "@Agilent-4UHV.proto setIProtect($(ADDR),$(CH_NUM),$(P):SetErrorCode-Mon) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(P):CurrentProtect_INIT.PACT")
+    field(FLNK, "$(P):CurrentProtect-RB")
+}
+record(seq, "$(P):CurrentProtect_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "10")
+    field(DOL1, "$(P):CurrentProtect-RB")
+    field(LNK1, "$(P):CurrentProtect-SP PP")
+}
+
+# V Target
+record(ai, "$(P):VoltageTarget-RB") {
+    field(PRIO, "HIGH")
+    field(DESC, "Voltage Target")
+    field(DTYP, "stream")
+    field(EGU,  "V")
+    field(INP,  "@Agilent-4UHV.proto getVTarget($(ADDR),$(CH_NUM)) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+}
+record(ao, "$(P):VoltageTarget-SP") {
+    field(PRIO, "HIGH")
+    field(DESC, "Voltage Target")
+    field(DTYP, "stream")
+    field(EGU,  "V")
+    field(DRVH, "7000")
+    field(DRVL, "3000")
+    field(OUT,  "@Agilent-4UHV.proto setVTarget($(ADDR),$(CH_NUM),$(P):SetErrorCode-Mon) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(P):VoltageTarget_INIT.PACT")
+    field(FLNK, "$(P):VoltageTarget-RB")
+}
+record(seq, "$(P):VoltageTarget_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "10")
+    field(DOL1, "$(P):VoltageTarget-RB")
+    field(LNK1, "$(P):VoltageTarget-SP PP")
+}
+
+# Power Max
+record(ai, "$(P):PowerMax-RB") {
+    field(PRIO, "HIGH")
+    field(DESC, "Power Max")
+    field(DTYP, "stream")
+    field(EGU,  "W")
+    field(INP,  "@Agilent-4UHV.proto getPowerMax($(ADDR),$(CH_NUM)) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+}
+record(ao, "$(P):PowerMax-SP") {
+    field(PRIO, "HIGH")
+    field(DESC, "Power Max")
+    field(DTYP, "stream")
+    field(EGU, "W")
+    field(DRVH, "80")
+    field(DRVL, "20")
+    field(OUT, "@Agilent-4UHV.proto setPowerMax($(ADDR),$(CH_NUM),$(P):SetErrorCode-Mon) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(P):PowerMax_INIT.PACT")
+    field(FLNK, "$(P):PowerMax-RB")
+}
+record(seq, "$(P):PowerMax_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "10")
+    field(DOL1, "$(P):PowerMax-RB")
+    field(LNK1, "$(P):PowerMax-SP PP")
+}
+
+# Setpoint
+record(ai, "$(P):Setpoint-RB") {
+    field(PRIO, "HIGH")
+    field(DESC, "Setpoint")
+    field(DTYP, "stream")
+    field(INP,  "@Agilent-4UHV.proto getSepoint($(ADDR),$(CH_NUM)) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+}
+record(ao, "$(P):Setpoint-SP") {
+    field(PRIO, "HIGH")
+    field(DESC, "Setpoint")
+    field(DTYP, "stream")
+    field(OUT,  "@Agilent-4UHV.proto setSepoint($(ADDR),$(CH_NUM),$(P):SetErrorCode-Mon) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(P):Setpoint_INIT.PACT")
+    field(FLNK, "$(P):Setpoint-RB")
+}
+record(seq, "$(P):Setpoint_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "10")
+    field(DOL1, "$(P):Setpoint-RB")
+    field(LNK1, "$(P):Setpoint-SP PP")
+}

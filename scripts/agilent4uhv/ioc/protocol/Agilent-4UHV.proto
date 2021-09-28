@@ -1,0 +1,223 @@
+# Agilent-4UHV.proto
+# Communication protocol for Agilent 4UHV Ion Pump Controller.
+# This is based on the work of Pete Owens from the Science and Technology Facilities Council (STFC).
+
+LockTimeout  = 85000;
+
+# How many milliseconds to wait for the first byte of the input from the device?
+ReplyTimeout = 1650;
+
+# How many milliseconds to wait for more input bytes before giving up?
+ReadTimeout  = 950;
+
+READ  = 0x30;
+WRITE = 0x31;
+
+CRC = "%01<xor>";
+
+# Clear out any garbage.
+#@init{ out " ";}
+
+# Channel current reading
+currentMon {
+    MaxInput = 19;
+    out STX, $1, "8\$21", $READ, ETX, $CRC;
+    in  STX, "\?", "8\$21", $READ, "%10g", ETX, $CRC;
+}
+
+# Channel pressure reading
+pressureMon {
+    MaxInput = 19;
+    out STX, $1, "8\$22", $READ, ETX, $CRC;
+    in  STX, "\?", "8\$22", $READ, "%10g", ETX, $CRC;
+}
+
+# Channel voltage reading
+voltageMon {
+    MaxInput = 15;
+    out STX, $1, "8\$20", $READ, ETX, $CRC;
+    in  STX, "\?", "8\$20", $READ, "%06d", ETX, $CRC;
+}
+
+# HV temperature - channel 1
+HVTemperature1Mon {
+    MaxInput = 15;
+    out STX, $1, "801", $READ, ETX, $CRC;
+    in  STX, "\?", "801", $READ, "%06d", ETX, $CRC;
+}
+
+# HV temperature - channel 2
+HVTemperature2Mon {
+    MaxInput = 15;
+    out STX, $1, "802", $READ, ETX, $CRC;
+    in  STX, "\?", "802", $READ, "%06d", ETX, $CRC;
+}
+
+# HV temperature - channel 3
+HVTemperature3Mon {
+    MaxInput = 15;
+    out STX, $1, "808", $READ, ETX, $CRC;
+    in  STX, "\?", "808", $READ, "%06d", ETX, $CRC;
+}
+
+# HV temperature - channel 4
+HVTemperature4Mon {
+    MaxInput = 15;
+    out STX, $1, "809", $READ, ETX, $CRC;
+    in  STX, "\?", "809", $READ, "%06d", ETX, $CRC;
+}
+
+# "Protect"
+getProtect {
+    MaxInput = 19;
+    out STX,   $1, "602", $READ,          ETX, $CRC;
+    in  STX, "\?", "602", $READ, "%010b", ETX, $CRC;
+}
+setProtect {
+    MaxInput = 6;
+    out STX,   $1, "602", $WRITE, "%010.4b", ETX, $CRC;
+    in  STX, "\?", ACK,                      ETX, $CRC;
+}
+
+# Operating mode (autostart on/off) readback
+getAutostart {
+    MaxInput = 19;
+    out STX, $1, "601", $READ, ETX, $CRC;
+    in  STX, "\?", "601", $READ, "%010d", ETX, $CRC;
+}
+setAutostart {
+    MaxInput = 6;
+    out STX, $1, "601", $WRITE, "%010d", ETX, $CRC;
+    in  STX, "\?", ACK, ETX, $CRC;
+    @mismatch {in STX, "\?", NAK, ETX, $CRC;}
+}
+
+# Step/Fixed
+getStep {
+    MaxInput = 19;
+    out STX,   $1, "603", $READ,          ETX, $CRC;
+    in  STX, "\?", "603", $READ, "%010b", ETX, $CRC;
+}
+setStep {
+    MaxInput = 6;
+    out STX,   $1, "603", $WRITE, "%010.4b", ETX, $CRC;
+    in  STX, "\?", ACK, ETX, $CRC;
+}
+
+# Error code reading
+errorCodeMon {
+    out STX, $1, "505", $WRITE, "00000\$2", ETX, $CRC;
+    in  STX, "\?", ACK, ETX, $CRC;
+
+    out STX, $1, "206", $READ, ETX, $CRC;
+    in  STX, "\?", "206", $READ, "%06d", ETX, $CRC;
+}
+
+# Device number
+getDeviceNumber {
+    MaxInput = 15;
+    out STX, $1, "6\$20", $READ, ETX, $CRC;
+    in  STX, "\?", "6\$20", $READ, "%06d", ETX, $CRC;
+}
+setDeviceNumber {
+    MaxInput = 6;
+    out STX, $1, "6\$20", $WRITE, "%06d", ETX, $CRC;
+    in  STX, "\?", ACK, ETX, $CRC;
+    @mismatch {in STX, "\?", "%(\$3)i", ETX, $CRC;}
+}
+
+# Device model
+getModel {
+    MaxInput = 19;
+    out STX, $1, "319", $READ, ETX, $CRC;
+    in  STX, "\?", "319", $READ, "%10c", ETX, $CRC;
+}
+# Device serial number
+getSerialNumber {
+    MaxInput = 19;
+    out STX, $1, "323", $READ, ETX, $CRC;
+    in  STX, "\?", "323", $READ, "%10c", ETX, $CRC;
+}
+
+getPowerMax {
+    MaxInput = 15;
+    out STX, $1, "6\$22", $READ, ETX, $CRC;
+    in  STX, "\?", "6\$22", $READ, "%06d", ETX, $CRC;
+}
+setPowerMax {
+    MaxInput = 6;
+    out STX, $1, "6\$22", $WRITE, "%06d", ETX, $CRC;
+    in  STX, "\?", ACK, ETX, $CRC;
+    @mismatch {in STX, "\?", "%(\$3)i", ETX, $CRC;}
+}
+
+# V Target
+getVTarget {
+    MaxInput = 15;
+    out STX, $1, "6\$23", $READ, ETX, $CRC;
+    in  STX, "\?", "6\$23", $READ, "%06d", ETX, $CRC;
+}
+setVTarget {
+    MaxInput = 6;
+    out STX, $1, "6\$23", $WRITE, "%06d", ETX, $CRC;
+    in  STX, "\?", ACK, ETX, $CRC;
+    @mismatch {in STX, "\?", "%(\$3)i", ETX, $CRC;}
+}
+
+# I Protect
+getIProtect {
+    MaxInput = 15;
+    out STX, $1, "6\$24", $READ, ETX, $CRC;
+    in  STX, "\?", "6\$24", $READ, "%06d", ETX, $CRC;
+}
+setIProtect {
+    MaxInput = 6;
+    out STX, $1, "6\$24", $WRITE, "%06d", ETX, $CRC;
+    in  STX, "\?", ACK, ETX, $CRC;
+    @mismatch {in STX, "\?", "%(\$3)i", ETX, $CRC;}
+}
+
+# Setpoint
+getSepoint {
+    MaxInput = 19;
+    out STX, $1, "6\$25", $READ, ETX, $CRC;
+    in  STX, "\?", "6\$25", $READ, "%10E", ETX, $CRC;
+}
+setSepoint {
+    MaxInput = 6;
+    out STX, $1, "6\$25", $WRITE, "%10E", ETX, $CRC;
+    in  STX, "\?", ACK, ETX, $CRC;
+    @mismatch {in STX, "\?", "%(\$3)i", ETX, $CRC;}
+}
+
+# Fan temperature
+fanTemperatureMon {
+    MaxInput = 15;
+    out STX, $1, "800", $READ, ETX, $CRC;
+    in  STX, "\?", "800", $READ, "%06d", ETX, $CRC;
+}
+
+# Unit readback
+getUnit {
+    MaxInput = 15;
+    out STX, $1, "600", $READ, ETX, $CRC;
+    in  STX, "\?", "600", $READ, "%06d", ETX, $CRC;
+}
+setUnit {
+    MaxInput = 6;
+    out STX, $1, "600", $WRITE, "%06d", ETX, $CRC;
+    in  STX, "\?", ACK, ETX, $CRC;
+}
+
+# Channel voltage reading on/off
+getHVOnOff {
+    MaxInput = 10;
+    out STX, $1, 0x30, 0x31, "\$2", $READ, ETX, $CRC;
+    in  STX, "\?", "01\$2", $READ, "%i", ETX, $CRC;
+}
+setHVOnOff {
+    MaxInput = 6;
+    out STX, $1, 0x30, 0x31, "\$2", $WRITE, "%i", ETX, $CRC;
+    in  STX, "\?", ACK, ETX, $CRC;
+    @mismatch { in STX, "\?", "%(\$3)i", ETX, $CRC; }
+}
