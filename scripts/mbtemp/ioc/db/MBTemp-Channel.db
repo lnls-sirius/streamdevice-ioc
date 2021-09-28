@@ -1,0 +1,49 @@
+# MBTemp-Channel.db
+
+# Record definition for one temperature channel. Developed for MBTemp version 2.1 and newer.
+
+# This file contains one record definition, which corresponds to a temperature measurement and has
+# six parameters:
+#
+# CHANNEL - Channel in MBTemp board where the temperature sensor is connected to (from 0 to 7).
+#
+# DESCRIPTION - EPICS record description.
+#
+# MBTEMP_ADDRESS - MBTemp serial address (from 1 to 31).
+#
+# PORT - Name of the serial port configured in asynDriver.
+#
+# RECORD_NAME - Name of record.
+#
+# SCAN_RATE - Record scan rate (time interval between two consecutive temperature readings).
+
+
+# A : -5.755*10^-7;
+# B : 3.9083*10^-3;
+# R0 : 100;
+# Treal = (-R0*B + √(R0^2*B^2 - 4*A*R0*(0.388*Tlida +100.03 -R0)))/(2*A*R0);
+# Treal = -8688.097306689835*((2.301999999999999*10^-4*(0.388*Tlida+0.03000000000000113)+0.1527480889)^0.5-0.39083)
+
+record(calc, "$(RECORD_NAME)")
+{
+    field(DESC, "$(DESCRIPTION)")
+    field(CALC, "-8688.0973066898*((2.301999*10^-4*(-0.388*A-0.0300)+0.15274808)^0.5 - 0.39083)")
+    field(INPA, "$(RECORD_NAME)-Raw CP MSS")
+    field(PREC, "4")
+    field(EGU,  "C")
+}
+
+record(ai, "$(RECORD_NAME)-Raw") {
+    field(DESC, "$(DESCRIPTION) Raw")
+    field(DTYP, "stream")
+    field(EGU,  "C")
+
+    field(EOFF, "0.0")
+    field(ESLO, "0.01")
+
+    field(INP, "@MBTemp.proto getTemperature($(MBTEMP_ADDRESS),$(CHANNEL)) $(PORT)")
+    field(LINR, "LINEAR")
+    field(PINI, "YES")
+    field(PREC, "4")
+    field(SCAN, "$(SCAN_RATE)")
+}
