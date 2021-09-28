@@ -87,7 +87,6 @@ coverage.xml
 crashlytics-build.properties
 crashlytics.properties
 db.sqlite3
-db/
 develop-eggs/
 dist/
 docs/_build/
@@ -112,7 +111,6 @@ out/
 parts/
 pip-delete-this-directory.txt
 pip-log.txt
-protocol/
 rackMonitoring/ioc/cmd/*
 sdist/
 settings.json

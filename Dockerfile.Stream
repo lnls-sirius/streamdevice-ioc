@@ -1,5 +1,3 @@
-# Author: Cláudio Ferreira Carneiro
-# LNLS - Brazilian Synchrotron Light Source Laboratory
 ARG EPICS_BASE_IMAGE
 ARG EPICS_BASE_TAG
 
@@ -37,12 +35,8 @@ COPY ./ioc/streamDeviceIOCApp streamDeviceIOCApp
 COPY ./ioc/Makefile           Makefile
 COPY ./ioc/configure          configure
 COPY ./ioc/iocBoot            iocBoot
-COPY ./ioc/procCtrl           procCtrl
 
-RUN cd ${TOP}/procCtrl && envsubst < configure/RELEASE.tmplt > configure/RELEASE &&\
-    cat configure/RELEASE && make distclean && make clean && make -j$(nproc) &&\
-    \
-    cd ${TOP} && envsubst < configure/RELEASE.tmplt > configure/RELEASE && \
+RUN cd ${TOP} && envsubst < configure/RELEASE.tmplt > configure/RELEASE && \
     make distclean && make clean && make -j$(nproc)
 
 CMD echo "Overwrite the command!" && ls -la ./scripts && tail -f /dev/null

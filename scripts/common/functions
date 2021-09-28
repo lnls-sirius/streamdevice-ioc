@@ -9,24 +9,6 @@ run(){
 
 run_ioc(){
     set +x
-    # Check if procServControl
-    if [ -f "${TOP}/procCtrl/iocBoot/iocprocCtrl/st.cmd" ]; then
-        echo "###############################################################################"
-        echo "# Init ProcServControl"
-        set -x
-        procServ \
-            --name ProcCtrl \
-            --quiet \
-            --killsig 9 \
-            --logfile /opt/streamdevice-ioc/log/procCtrl.log \
-            --chdir ${TOP}/procCtrl/iocBoot/iocprocCtrl \
-            unix:/opt/streamdevice-ioc/sockets/procCtrl.sock \
-            ${TOP}/procCtrl/iocBoot/iocprocCtrl/st.cmd \
-            TOP=${TOP}/procCtrl
-        set +x
-        echo "###############################################################################"
-    fi
-
     # Params:
     # :1 : CMD_KEY
     echo ""
