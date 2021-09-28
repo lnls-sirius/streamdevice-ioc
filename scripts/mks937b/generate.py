@@ -21,6 +21,14 @@ if __name__ == "__main__":
     logger.info("Use the script at common/generate.py instead !")
 
 
+def _make_dirs(dir_name: str):
+    dirs = ["ioc", "ioc/db", "ioc/protocol", "ioc/cmd", "ioc/autosave/"]
+    for d in dirs:
+        if os.path.exists(os.path.join(dir_name, d)):
+            continue
+        os.makedirs(os.path.join(dir_name, d))
+
+
 def write_generate_relay_db(dir_name):
     rel_db = """
     ################################################################################
@@ -38,10 +46,8 @@ def write_generate_relay_db(dir_name):
 
 
 def write_device_protocol(dir_name, proto_name, GAUGES):
-    with open(
-        os.path.join(dir_name, "ioc/protocol/" + proto_name + ".proto"),
-        "w+",
-    ) as file:
+    device_proto_name = os.path.join(dir_name, f"ioc/protocol/{proto_name}.proto")
+    with open(device_proto_name, "w+") as file:
         file.write(
             mks937b_pressures_proto.safe_substitute(
                 G1=GAUGES[0],
@@ -65,7 +71,7 @@ def generate_device(device, base_proto_name, scan_rate, ip_asyn_port, dir_name):
     ADDRESS = device["ADDRESS"]
     pressures = device["pressures"]
     GAUGES = device["GAUGES"]
-    proto_name = base_proto_name + "ADDR" + ADDRESS
+    proto_name = f"{base_proto_name}ADDR{ADDRESS}"
 
     cc_array = []
     if CONFIG[0] == CC:
@@ -146,8 +152,6 @@ def generate_sector(name, sector, dir_name, defaults):
 
 
 def write_sector_cmd(dir_name, base_name, cmd_data):
-    if not os.path.exists(os.path.join(dir_name, "ioc/cmd/")):
-        os.makedirs(os.path.join(dir_name, "ioc/cmd/"))
     cmd_path = os.path.join(dir_name, f"ioc/cmd/{base_name}.cmd")
     with open(cmd_path, "w+") as file:
         file.write(cmd_data)
@@ -155,26 +159,25 @@ def write_sector_cmd(dir_name, base_name, cmd_data):
 
 
 def write_autosave(dir_name, base_name, devices):
-    res_path = os.path.join(dir_name, "ioc/autosave/" + base_name + ".req")
-    if not os.path.exists(os.path.join(dir_name, "ioc/autosave/")):
-        os.makedirs(os.path.join(dir_name, "ioc/autosave/"))
+    autosave_req_path = os.path.join(dir_name, f"ioc/autosave/{base_name}.req")
 
     gauges = []
     for device in devices:
         for gauge in device["GAUGES"]:
             gauges.append(gauge)
 
-    with open(res_path, "w+") as req_file:
+    with open(autosave_req_path, "w+") as req_file:
         for gauge in gauges:
-            req_file.write("{}:Pressure-Mon.HIHI\n".format(gauge))
-            req_file.write("{}:Pressure-Mon.HIGH\n".format(gauge))
+            req_file.write(f"{gauge}:Pressure-Mon.HIHI\n")
+            req_file.write(f"{gauge}:Pressure-Mon.HIGH\n")
 
-    os.chmod(res_path, 0o774)
+    os.chmod(autosave_req_path, 0o774)
 
 
 def generate(args, defaults):
     logger.info("Generating MKS937b.")
     dir_name = os.path.dirname(os.path.abspath(__file__))
+    _make_dirs(dir_name)
 
     cmd_key = args.cmd_prefix
 
