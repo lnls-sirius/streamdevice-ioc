@@ -1,0 +1,1770 @@
+
+    ################################################################################
+    # Automatically generated content.
+    # Changes on this file won't be persisted.
+    # If the user wishes to modify it's content, change the template instead.
+    ################################################################################
+    
+# Setpoint Status
+record(stringin,"$(DEVICE):Relay1:SetpointStatus-Mon"){
+    field(DESC, "Relay 1 setpoint status (clear/set)")
+}
+
+# Setpoint
+record(ai, "$(DEVICE):Relay1:Setpoint-RB"){
+    field(DESC, "Read Setpoint for relay 1")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_sp($(ADDRESS),1) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay1:Setpoint-SP"){
+    field(DESC, "Setpoint for relay 1")
+    field(EGU,  "mBar")
+    field(DTYP, "stream")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(OUT,  "@mks937b.proto set_sp($(ADDRESS),1) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay1:Setpoint_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay1:Setpoint-RB")
+}
+record(seq, "$(DEVICE):Relay1:Setpoint_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay1:Setpoint-RB")
+    field(LNK1, "$(DEVICE):Relay1:Setpoint-SP PP")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):Relay1:Hyst-RB"){
+    field(DESC, "Read Setpoint Hysteresis for relay 1")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_relay_hyst($(ADDRESS),1) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay1:Hyst-SP"){
+    field(DESC, "Setpoint for relay Hysteresis 1")
+    field(EGU,  "mBar")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(OUT,  "@mks937b.proto set_relay_hyst($(ADDRESS),1) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay1:Hyst_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay1:Hyst-RB")
+}
+record(seq, "$(DEVICE):Relay1:Hyst_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay1:Hyst-RB")
+    field(LNK1, "$(DEVICE):Relay1:Hyst-SP PP")
+}
+
+# Direction
+record(mbbi, "$(DEVICE):Relay1:Direction-RB"){
+    field(DESC, "Direction for the relay 1")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),1) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):Relay1:Direction-SP"){
+    field(DESC, "Set the relay 1 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),1) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay1:Direction_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay1:Direction-RB")
+}
+record(seq, "$(DEVICE):Relay1:Direction_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay1:Direction-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay1:Direction-SP.RVAL PP")
+}
+
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):Relay1:Status-RB"){
+    field(DESC, "Status of the relay 1")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),1) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+}
+record(mbbo, "$(DEVICE):Relay1:Status-SP"){
+    field(DESC, "Set relay 1 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),1) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay1:Status_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay1:Status-RB")
+}
+record(seq, "$(DEVICE):Relay1:Status_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay1:Status-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay1:Status-SP.RVAL PP")
+}
+
+# Setpoint Status
+record(stringin,"$(DEVICE):Relay2:SetpointStatus-Mon"){
+    field(DESC, "Relay 2 setpoint status (clear/set)")
+}
+
+# Setpoint
+record(ai, "$(DEVICE):Relay2:Setpoint-RB"){
+    field(DESC, "Read Setpoint for relay 2")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_sp($(ADDRESS),2) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay2:Setpoint-SP"){
+    field(DESC, "Setpoint for relay 2")
+    field(EGU,  "mBar")
+    field(DTYP, "stream")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(OUT,  "@mks937b.proto set_sp($(ADDRESS),2) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay2:Setpoint_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay2:Setpoint-RB")
+}
+record(seq, "$(DEVICE):Relay2:Setpoint_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay2:Setpoint-RB")
+    field(LNK1, "$(DEVICE):Relay2:Setpoint-SP PP")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):Relay2:Hyst-RB"){
+    field(DESC, "Read Setpoint Hysteresis for relay 2")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_relay_hyst($(ADDRESS),2) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay2:Hyst-SP"){
+    field(DESC, "Setpoint for relay Hysteresis 2")
+    field(EGU,  "mBar")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(OUT,  "@mks937b.proto set_relay_hyst($(ADDRESS),2) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay2:Hyst_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay2:Hyst-RB")
+}
+record(seq, "$(DEVICE):Relay2:Hyst_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay2:Hyst-RB")
+    field(LNK1, "$(DEVICE):Relay2:Hyst-SP PP")
+}
+
+# Direction
+record(mbbi, "$(DEVICE):Relay2:Direction-RB"){
+    field(DESC, "Direction for the relay 2")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),2) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):Relay2:Direction-SP"){
+    field(DESC, "Set the relay 2 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),2) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay2:Direction_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay2:Direction-RB")
+}
+record(seq, "$(DEVICE):Relay2:Direction_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay2:Direction-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay2:Direction-SP.RVAL PP")
+}
+
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):Relay2:Status-RB"){
+    field(DESC, "Status of the relay 2")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),2) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+}
+record(mbbo, "$(DEVICE):Relay2:Status-SP"){
+    field(DESC, "Set relay 2 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),2) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay2:Status_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay2:Status-RB")
+}
+record(seq, "$(DEVICE):Relay2:Status_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay2:Status-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay2:Status-SP.RVAL PP")
+}
+
+# Setpoint Status
+record(stringin,"$(DEVICE):Relay3:SetpointStatus-Mon"){
+    field(DESC, "Relay 3 setpoint status (clear/set)")
+}
+
+# Setpoint
+record(ai, "$(DEVICE):Relay3:Setpoint-RB"){
+    field(DESC, "Read Setpoint for relay 3")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_sp($(ADDRESS),3) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay3:Setpoint-SP"){
+    field(DESC, "Setpoint for relay 3")
+    field(EGU,  "mBar")
+    field(DTYP, "stream")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(OUT,  "@mks937b.proto set_sp($(ADDRESS),3) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay3:Setpoint_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay3:Setpoint-RB")
+}
+record(seq, "$(DEVICE):Relay3:Setpoint_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay3:Setpoint-RB")
+    field(LNK1, "$(DEVICE):Relay3:Setpoint-SP PP")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):Relay3:Hyst-RB"){
+    field(DESC, "Read Setpoint Hysteresis for relay 3")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_relay_hyst($(ADDRESS),3) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay3:Hyst-SP"){
+    field(DESC, "Setpoint for relay Hysteresis 3")
+    field(EGU,  "mBar")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(OUT,  "@mks937b.proto set_relay_hyst($(ADDRESS),3) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay3:Hyst_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay3:Hyst-RB")
+}
+record(seq, "$(DEVICE):Relay3:Hyst_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay3:Hyst-RB")
+    field(LNK1, "$(DEVICE):Relay3:Hyst-SP PP")
+}
+
+# Direction
+record(mbbi, "$(DEVICE):Relay3:Direction-RB"){
+    field(DESC, "Direction for the relay 3")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),3) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):Relay3:Direction-SP"){
+    field(DESC, "Set the relay 3 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),3) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay3:Direction_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay3:Direction-RB")
+}
+record(seq, "$(DEVICE):Relay3:Direction_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay3:Direction-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay3:Direction-SP.RVAL PP")
+}
+
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):Relay3:Status-RB"){
+    field(DESC, "Status of the relay 3")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),3) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+}
+record(mbbo, "$(DEVICE):Relay3:Status-SP"){
+    field(DESC, "Set relay 3 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),3) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay3:Status_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay3:Status-RB")
+}
+record(seq, "$(DEVICE):Relay3:Status_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay3:Status-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay3:Status-SP.RVAL PP")
+}
+
+# Setpoint Status
+record(stringin,"$(DEVICE):Relay4:SetpointStatus-Mon"){
+    field(DESC, "Relay 4 setpoint status (clear/set)")
+}
+
+# Setpoint
+record(ai, "$(DEVICE):Relay4:Setpoint-RB"){
+    field(DESC, "Read Setpoint for relay 4")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_sp($(ADDRESS),4) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay4:Setpoint-SP"){
+    field(DESC, "Setpoint for relay 4")
+    field(EGU,  "mBar")
+    field(DTYP, "stream")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(OUT,  "@mks937b.proto set_sp($(ADDRESS),4) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay4:Setpoint_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay4:Setpoint-RB")
+}
+record(seq, "$(DEVICE):Relay4:Setpoint_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay4:Setpoint-RB")
+    field(LNK1, "$(DEVICE):Relay4:Setpoint-SP PP")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):Relay4:Hyst-RB"){
+    field(DESC, "Read Setpoint Hysteresis for relay 4")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_relay_hyst($(ADDRESS),4) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay4:Hyst-SP"){
+    field(DESC, "Setpoint for relay Hysteresis 4")
+    field(EGU,  "mBar")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(OUT,  "@mks937b.proto set_relay_hyst($(ADDRESS),4) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay4:Hyst_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay4:Hyst-RB")
+}
+record(seq, "$(DEVICE):Relay4:Hyst_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay4:Hyst-RB")
+    field(LNK1, "$(DEVICE):Relay4:Hyst-SP PP")
+}
+
+# Direction
+record(mbbi, "$(DEVICE):Relay4:Direction-RB"){
+    field(DESC, "Direction for the relay 4")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),4) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):Relay4:Direction-SP"){
+    field(DESC, "Set the relay 4 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),4) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay4:Direction_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay4:Direction-RB")
+}
+record(seq, "$(DEVICE):Relay4:Direction_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay4:Direction-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay4:Direction-SP.RVAL PP")
+}
+
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):Relay4:Status-RB"){
+    field(DESC, "Status of the relay 4")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),4) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+}
+record(mbbo, "$(DEVICE):Relay4:Status-SP"){
+    field(DESC, "Set relay 4 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),4) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay4:Status_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay4:Status-RB")
+}
+record(seq, "$(DEVICE):Relay4:Status_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay4:Status-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay4:Status-SP.RVAL PP")
+}
+
+# Setpoint Status
+record(stringin,"$(DEVICE):Relay5:SetpointStatus-Mon"){
+    field(DESC, "Relay 5 setpoint status (clear/set)")
+}
+
+# Setpoint
+record(ai, "$(DEVICE):Relay5:Setpoint-RB"){
+    field(DESC, "Read Setpoint for relay 5")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_sp($(ADDRESS),5) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay5:Setpoint-SP"){
+    field(DESC, "Setpoint for relay 5")
+    field(EGU,  "mBar")
+    field(DTYP, "stream")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(OUT,  "@mks937b.proto set_sp($(ADDRESS),5) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay5:Setpoint_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay5:Setpoint-RB")
+}
+record(seq, "$(DEVICE):Relay5:Setpoint_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay5:Setpoint-RB")
+    field(LNK1, "$(DEVICE):Relay5:Setpoint-SP PP")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):Relay5:Hyst-RB"){
+    field(DESC, "Read Setpoint Hysteresis for relay 5")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_relay_hyst($(ADDRESS),5) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay5:Hyst-SP"){
+    field(DESC, "Setpoint for relay Hysteresis 5")
+    field(EGU,  "mBar")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(OUT,  "@mks937b.proto set_relay_hyst($(ADDRESS),5) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay5:Hyst_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay5:Hyst-RB")
+}
+record(seq, "$(DEVICE):Relay5:Hyst_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay5:Hyst-RB")
+    field(LNK1, "$(DEVICE):Relay5:Hyst-SP PP")
+}
+
+# Direction
+record(mbbi, "$(DEVICE):Relay5:Direction-RB"){
+    field(DESC, "Direction for the relay 5")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),5) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):Relay5:Direction-SP"){
+    field(DESC, "Set the relay 5 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),5) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay5:Direction_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay5:Direction-RB")
+}
+record(seq, "$(DEVICE):Relay5:Direction_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay5:Direction-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay5:Direction-SP.RVAL PP")
+}
+
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):Relay5:Status-RB"){
+    field(DESC, "Status of the relay 5")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),5) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+}
+record(mbbo, "$(DEVICE):Relay5:Status-SP"){
+    field(DESC, "Set relay 5 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),5) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay5:Status_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay5:Status-RB")
+}
+record(seq, "$(DEVICE):Relay5:Status_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay5:Status-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay5:Status-SP.RVAL PP")
+}
+
+# Setpoint Status
+record(stringin,"$(DEVICE):Relay6:SetpointStatus-Mon"){
+    field(DESC, "Relay 6 setpoint status (clear/set)")
+}
+
+# Setpoint
+record(ai, "$(DEVICE):Relay6:Setpoint-RB"){
+    field(DESC, "Read Setpoint for relay 6")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_sp($(ADDRESS),6) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay6:Setpoint-SP"){
+    field(DESC, "Setpoint for relay 6")
+    field(EGU,  "mBar")
+    field(DTYP, "stream")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(OUT,  "@mks937b.proto set_sp($(ADDRESS),6) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay6:Setpoint_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay6:Setpoint-RB")
+}
+record(seq, "$(DEVICE):Relay6:Setpoint_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay6:Setpoint-RB")
+    field(LNK1, "$(DEVICE):Relay6:Setpoint-SP PP")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):Relay6:Hyst-RB"){
+    field(DESC, "Read Setpoint Hysteresis for relay 6")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_relay_hyst($(ADDRESS),6) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay6:Hyst-SP"){
+    field(DESC, "Setpoint for relay Hysteresis 6")
+    field(EGU,  "mBar")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(OUT,  "@mks937b.proto set_relay_hyst($(ADDRESS),6) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay6:Hyst_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay6:Hyst-RB")
+}
+record(seq, "$(DEVICE):Relay6:Hyst_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay6:Hyst-RB")
+    field(LNK1, "$(DEVICE):Relay6:Hyst-SP PP")
+}
+
+# Direction
+record(mbbi, "$(DEVICE):Relay6:Direction-RB"){
+    field(DESC, "Direction for the relay 6")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),6) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):Relay6:Direction-SP"){
+    field(DESC, "Set the relay 6 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),6) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay6:Direction_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay6:Direction-RB")
+}
+record(seq, "$(DEVICE):Relay6:Direction_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay6:Direction-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay6:Direction-SP.RVAL PP")
+}
+
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):Relay6:Status-RB"){
+    field(DESC, "Status of the relay 6")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),6) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+}
+record(mbbo, "$(DEVICE):Relay6:Status-SP"){
+    field(DESC, "Set relay 6 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),6) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay6:Status_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay6:Status-RB")
+}
+record(seq, "$(DEVICE):Relay6:Status_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay6:Status-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay6:Status-SP.RVAL PP")
+}
+
+# Setpoint Status
+record(stringin,"$(DEVICE):Relay7:SetpointStatus-Mon"){
+    field(DESC, "Relay 7 setpoint status (clear/set)")
+}
+
+# Setpoint
+record(ai, "$(DEVICE):Relay7:Setpoint-RB"){
+    field(DESC, "Read Setpoint for relay 7")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_sp($(ADDRESS),7) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay7:Setpoint-SP"){
+    field(DESC, "Setpoint for relay 7")
+    field(EGU,  "mBar")
+    field(DTYP, "stream")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(OUT,  "@mks937b.proto set_sp($(ADDRESS),7) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay7:Setpoint_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay7:Setpoint-RB")
+}
+record(seq, "$(DEVICE):Relay7:Setpoint_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay7:Setpoint-RB")
+    field(LNK1, "$(DEVICE):Relay7:Setpoint-SP PP")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):Relay7:Hyst-RB"){
+    field(DESC, "Read Setpoint Hysteresis for relay 7")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_relay_hyst($(ADDRESS),7) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay7:Hyst-SP"){
+    field(DESC, "Setpoint for relay Hysteresis 7")
+    field(EGU,  "mBar")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(OUT,  "@mks937b.proto set_relay_hyst($(ADDRESS),7) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay7:Hyst_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay7:Hyst-RB")
+}
+record(seq, "$(DEVICE):Relay7:Hyst_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay7:Hyst-RB")
+    field(LNK1, "$(DEVICE):Relay7:Hyst-SP PP")
+}
+
+# Direction
+record(mbbi, "$(DEVICE):Relay7:Direction-RB"){
+    field(DESC, "Direction for the relay 7")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),7) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):Relay7:Direction-SP"){
+    field(DESC, "Set the relay 7 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),7) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay7:Direction_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay7:Direction-RB")
+}
+record(seq, "$(DEVICE):Relay7:Direction_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay7:Direction-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay7:Direction-SP.RVAL PP")
+}
+
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):Relay7:Status-RB"){
+    field(DESC, "Status of the relay 7")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),7) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+}
+record(mbbo, "$(DEVICE):Relay7:Status-SP"){
+    field(DESC, "Set relay 7 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),7) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay7:Status_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay7:Status-RB")
+}
+record(seq, "$(DEVICE):Relay7:Status_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay7:Status-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay7:Status-SP.RVAL PP")
+}
+
+# Setpoint Status
+record(stringin,"$(DEVICE):Relay8:SetpointStatus-Mon"){
+    field(DESC, "Relay 8 setpoint status (clear/set)")
+}
+
+# Setpoint
+record(ai, "$(DEVICE):Relay8:Setpoint-RB"){
+    field(DESC, "Read Setpoint for relay 8")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_sp($(ADDRESS),8) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay8:Setpoint-SP"){
+    field(DESC, "Setpoint for relay 8")
+    field(EGU,  "mBar")
+    field(DTYP, "stream")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(OUT,  "@mks937b.proto set_sp($(ADDRESS),8) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay8:Setpoint_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay8:Setpoint-RB")
+}
+record(seq, "$(DEVICE):Relay8:Setpoint_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay8:Setpoint-RB")
+    field(LNK1, "$(DEVICE):Relay8:Setpoint-SP PP")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):Relay8:Hyst-RB"){
+    field(DESC, "Read Setpoint Hysteresis for relay 8")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_relay_hyst($(ADDRESS),8) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay8:Hyst-SP"){
+    field(DESC, "Setpoint for relay Hysteresis 8")
+    field(EGU,  "mBar")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(OUT,  "@mks937b.proto set_relay_hyst($(ADDRESS),8) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay8:Hyst_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay8:Hyst-RB")
+}
+record(seq, "$(DEVICE):Relay8:Hyst_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay8:Hyst-RB")
+    field(LNK1, "$(DEVICE):Relay8:Hyst-SP PP")
+}
+
+# Direction
+record(mbbi, "$(DEVICE):Relay8:Direction-RB"){
+    field(DESC, "Direction for the relay 8")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),8) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):Relay8:Direction-SP"){
+    field(DESC, "Set the relay 8 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),8) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay8:Direction_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay8:Direction-RB")
+}
+record(seq, "$(DEVICE):Relay8:Direction_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay8:Direction-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay8:Direction-SP.RVAL PP")
+}
+
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):Relay8:Status-RB"){
+    field(DESC, "Status of the relay 8")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),8) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+}
+record(mbbo, "$(DEVICE):Relay8:Status-SP"){
+    field(DESC, "Set relay 8 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),8) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay8:Status_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay8:Status-RB")
+}
+record(seq, "$(DEVICE):Relay8:Status_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay8:Status-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay8:Status-SP.RVAL PP")
+}
+
+# Setpoint Status
+record(stringin,"$(DEVICE):Relay9:SetpointStatus-Mon"){
+    field(DESC, "Relay 9 setpoint status (clear/set)")
+}
+
+# Setpoint
+record(ai, "$(DEVICE):Relay9:Setpoint-RB"){
+    field(DESC, "Read Setpoint for relay 9")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_sp($(ADDRESS),9) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay9:Setpoint-SP"){
+    field(DESC, "Setpoint for relay 9")
+    field(EGU,  "mBar")
+    field(DTYP, "stream")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(OUT,  "@mks937b.proto set_sp($(ADDRESS),9) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay9:Setpoint_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay9:Setpoint-RB")
+}
+record(seq, "$(DEVICE):Relay9:Setpoint_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay9:Setpoint-RB")
+    field(LNK1, "$(DEVICE):Relay9:Setpoint-SP PP")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):Relay9:Hyst-RB"){
+    field(DESC, "Read Setpoint Hysteresis for relay 9")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_relay_hyst($(ADDRESS),9) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay9:Hyst-SP"){
+    field(DESC, "Setpoint for relay Hysteresis 9")
+    field(EGU,  "mBar")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(OUT,  "@mks937b.proto set_relay_hyst($(ADDRESS),9) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay9:Hyst_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay9:Hyst-RB")
+}
+record(seq, "$(DEVICE):Relay9:Hyst_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay9:Hyst-RB")
+    field(LNK1, "$(DEVICE):Relay9:Hyst-SP PP")
+}
+
+# Direction
+record(mbbi, "$(DEVICE):Relay9:Direction-RB"){
+    field(DESC, "Direction for the relay 9")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),9) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):Relay9:Direction-SP"){
+    field(DESC, "Set the relay 9 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),9) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay9:Direction_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay9:Direction-RB")
+}
+record(seq, "$(DEVICE):Relay9:Direction_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay9:Direction-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay9:Direction-SP.RVAL PP")
+}
+
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):Relay9:Status-RB"){
+    field(DESC, "Status of the relay 9")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),9) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+}
+record(mbbo, "$(DEVICE):Relay9:Status-SP"){
+    field(DESC, "Set relay 9 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),9) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay9:Status_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay9:Status-RB")
+}
+record(seq, "$(DEVICE):Relay9:Status_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay9:Status-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay9:Status-SP.RVAL PP")
+}
+
+# Setpoint Status
+record(stringin,"$(DEVICE):Relay10:SetpointStatus-Mon"){
+    field(DESC, "Relay 10 setpoint status (clear/set)")
+}
+
+# Setpoint
+record(ai, "$(DEVICE):Relay10:Setpoint-RB"){
+    field(DESC, "Read Setpoint for relay 10")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_sp($(ADDRESS),10) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay10:Setpoint-SP"){
+    field(DESC, "Setpoint for relay 10")
+    field(EGU,  "mBar")
+    field(DTYP, "stream")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(OUT,  "@mks937b.proto set_sp($(ADDRESS),10) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay10:Setpoint_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay10:Setpoint-RB")
+}
+record(seq, "$(DEVICE):Relay10:Setpoint_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay10:Setpoint-RB")
+    field(LNK1, "$(DEVICE):Relay10:Setpoint-SP PP")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):Relay10:Hyst-RB"){
+    field(DESC, "Read Setpoint Hysteresis for relay 10")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_relay_hyst($(ADDRESS),10) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay10:Hyst-SP"){
+    field(DESC, "Setpoint for relay Hysteresis 10")
+    field(EGU,  "mBar")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(OUT,  "@mks937b.proto set_relay_hyst($(ADDRESS),10) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay10:Hyst_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay10:Hyst-RB")
+}
+record(seq, "$(DEVICE):Relay10:Hyst_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay10:Hyst-RB")
+    field(LNK1, "$(DEVICE):Relay10:Hyst-SP PP")
+}
+
+# Direction
+record(mbbi, "$(DEVICE):Relay10:Direction-RB"){
+    field(DESC, "Direction for the relay 10")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),10) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):Relay10:Direction-SP"){
+    field(DESC, "Set the relay 10 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),10) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay10:Direction_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay10:Direction-RB")
+}
+record(seq, "$(DEVICE):Relay10:Direction_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay10:Direction-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay10:Direction-SP.RVAL PP")
+}
+
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):Relay10:Status-RB"){
+    field(DESC, "Status of the relay 10")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),10) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+}
+record(mbbo, "$(DEVICE):Relay10:Status-SP"){
+    field(DESC, "Set relay 10 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),10) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay10:Status_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay10:Status-RB")
+}
+record(seq, "$(DEVICE):Relay10:Status_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay10:Status-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay10:Status-SP.RVAL PP")
+}
+
+# Setpoint Status
+record(stringin,"$(DEVICE):Relay11:SetpointStatus-Mon"){
+    field(DESC, "Relay 11 setpoint status (clear/set)")
+}
+
+# Setpoint
+record(ai, "$(DEVICE):Relay11:Setpoint-RB"){
+    field(DESC, "Read Setpoint for relay 11")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_sp($(ADDRESS),11) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay11:Setpoint-SP"){
+    field(DESC, "Setpoint for relay 11")
+    field(EGU,  "mBar")
+    field(DTYP, "stream")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(OUT,  "@mks937b.proto set_sp($(ADDRESS),11) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay11:Setpoint_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay11:Setpoint-RB")
+}
+record(seq, "$(DEVICE):Relay11:Setpoint_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay11:Setpoint-RB")
+    field(LNK1, "$(DEVICE):Relay11:Setpoint-SP PP")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):Relay11:Hyst-RB"){
+    field(DESC, "Read Setpoint Hysteresis for relay 11")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_relay_hyst($(ADDRESS),11) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay11:Hyst-SP"){
+    field(DESC, "Setpoint for relay Hysteresis 11")
+    field(EGU,  "mBar")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(OUT,  "@mks937b.proto set_relay_hyst($(ADDRESS),11) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay11:Hyst_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay11:Hyst-RB")
+}
+record(seq, "$(DEVICE):Relay11:Hyst_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay11:Hyst-RB")
+    field(LNK1, "$(DEVICE):Relay11:Hyst-SP PP")
+}
+
+# Direction
+record(mbbi, "$(DEVICE):Relay11:Direction-RB"){
+    field(DESC, "Direction for the relay 11")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),11) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):Relay11:Direction-SP"){
+    field(DESC, "Set the relay 11 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),11) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay11:Direction_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay11:Direction-RB")
+}
+record(seq, "$(DEVICE):Relay11:Direction_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay11:Direction-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay11:Direction-SP.RVAL PP")
+}
+
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):Relay11:Status-RB"){
+    field(DESC, "Status of the relay 11")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),11) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+}
+record(mbbo, "$(DEVICE):Relay11:Status-SP"){
+    field(DESC, "Set relay 11 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),11) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay11:Status_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay11:Status-RB")
+}
+record(seq, "$(DEVICE):Relay11:Status_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay11:Status-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay11:Status-SP.RVAL PP")
+}
+
+# Setpoint Status
+record(stringin,"$(DEVICE):Relay12:SetpointStatus-Mon"){
+    field(DESC, "Relay 12 setpoint status (clear/set)")
+}
+
+# Setpoint
+record(ai, "$(DEVICE):Relay12:Setpoint-RB"){
+    field(DESC, "Read Setpoint for relay 12")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_sp($(ADDRESS),12) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay12:Setpoint-SP"){
+    field(DESC, "Setpoint for relay 12")
+    field(EGU,  "mBar")
+    field(DTYP, "stream")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(OUT,  "@mks937b.proto set_sp($(ADDRESS),12) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay12:Setpoint_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay12:Setpoint-RB")
+}
+record(seq, "$(DEVICE):Relay12:Setpoint_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay12:Setpoint-RB")
+    field(LNK1, "$(DEVICE):Relay12:Setpoint-SP PP")
+}
+
+# Hysteresis
+record(ai, "$(DEVICE):Relay12:Hyst-RB"){
+    field(DESC, "Read Setpoint Hysteresis for relay 12")
+    field(EGU,  "mBar")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(INP, "@mks937b.proto get_relay_hyst($(ADDRESS),12) $(PORT)")
+}
+record(ao, "$(DEVICE):Relay12:Hyst-SP"){
+    field(DESC, "Setpoint for relay Hysteresis 12")
+    field(EGU,  "mBar")
+    field(PRIO, "HIGH")
+    field(DTYP, "stream")
+    field(OUT,  "@mks937b.proto set_relay_hyst($(ADDRESS),12) $(PORT)")
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay12:Hyst_INIT.PACT")
+    field(FLNK, "$(DEVICE):Relay12:Hyst-RB")
+}
+record(seq, "$(DEVICE):Relay12:Hyst_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay12:Hyst-RB")
+    field(LNK1, "$(DEVICE):Relay12:Hyst-SP PP")
+}
+
+# Direction
+record(mbbi, "$(DEVICE):Relay12:Direction-RB"){
+    field(DESC, "Direction for the relay 12")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_direction($(ADDRESS),12) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+}
+record(mbbo, "$(DEVICE):Relay12:Direction-SP"){
+    field(DESC, "Set the relay 12 direction")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_direction($(ADDRESS),12) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(ZRST, "ABOVE")
+    field(ONST, "BELOW")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay12:Direction_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay12:Direction-RB")
+}
+record(seq, "$(DEVICE):Relay12:Direction_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay12:Direction-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay12:Direction-SP.RVAL PP")
+}
+
+# Relay Status
+# In case the unit was changed at the ihm
+record(mbbi, "$(DEVICE):Relay12:Status-RB"){
+    field(DESC, "Status of the relay 12")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relay_mode($(ADDRESS),12) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+}
+record(mbbo, "$(DEVICE):Relay12:Status-SP"){
+    field(DESC, "Set relay 12 status")
+    field(DTYP, "stream")
+    field(OUT, "@mks937b.proto set_relay_mode($(ADDRESS),12) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "SET")
+    field(ONST, "CLEAR")
+    field(TWST, "ENABLE")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Relay12:Status_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Relay12:Status-RB")
+}
+record(seq, "$(DEVICE):Relay12:Status_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Relay12:Status-RB.RVAL")
+    field(LNK1, "$(DEVICE):Relay12:Status-SP.RVAL PP")
+}

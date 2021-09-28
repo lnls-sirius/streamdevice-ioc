@@ -1,0 +1,25 @@
+LockTimeout  = 10000;
+Terminator   = ';FF';
+ReplyTimeout = 4000;
+ReadTimeout  = 5000;
+extrainput   = Ignore;
+
+# Delay between commands
+Delay = 7;
+
+# The serial address
+Addr = "@\$1";
+
+get_pressures {
+    wait  $Delay;
+    out $Addr, "PRZ?";
+    in  $Addr, "ACK",
+                "%(SI-20SB:VA-CCG-BG:Pressure-Mon-s)s",
+                " %(SI-RA20:VA-VGC-02:A2:Pressure-Mon-s)s",
+                " %(SI-20C1:VA-CCG-BG:Pressure-Mon-s)s",
+                " %(SI-RA20:VA-VGC-02:B2:Pressure-Mon-s)s",
+                " %(SI-20SB:VA-PIR-BG:Pressure-Mon-s)s",
+                " %(SI-RA20:VA-VGC-02:C2:Pressure-Mon-s)s";
+    wait  $Delay;
+}
+
