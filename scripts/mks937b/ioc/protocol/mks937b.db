@@ -1,0 +1,406 @@
+record(stringin, "$(DEVICE):SerialNumber"){
+    field(DESC, "Unit's serial number")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto serial_num($(ADDRESS)) $(PORT) ")
+
+    field(PINI, "YES")
+    field(FLNK, "$(DEVICE):CTLV")
+}
+# Controller Version
+record(stringin, "$(DEVICE):CTLV"){
+    field(DESC, "Controller Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto ctlv($(ADDRESS)) $(PORT) ")
+
+    field(FLNK, "$(DEVICE):SlotAV")
+}
+record(stringin, "$(DEVICE):SlotAV"){
+    field(DESC, "Slot A Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto slotav($(ADDRESS)) $(PORT) ")
+
+    field(FLNK, "$(DEVICE):SlotBV")
+}
+record(stringin, "$(DEVICE):SlotBV"){
+    field(DESC, "Slot B Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto slotbv($(ADDRESS)) $(PORT) ")
+
+    field(FLNK, "$(DEVICE):SlotCV")
+}
+record(stringin, "$(DEVICE):SlotCV"){
+    field(DESC, "Slot C Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto slotcv($(ADDRESS)) $(PORT) ")
+
+    field(FLNK, "$(DEVICE):AIOV")
+}
+record(stringin, "$(DEVICE):AIOV"){
+    field(DESC, "AIO Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto aiov($(ADDRESS)) $(PORT) ")
+
+    field(FLNK, "$(DEVICE):COMMV")
+}
+record(stringin, "$(DEVICE):COMMV"){
+    field(DESC, "COMM Version")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto commv($(ADDRESS)) $(PORT) ")
+
+    field(FLNK, "$(DEVICE):ModuleType-A")
+}
+record(mbbi, "$(DEVICE):ModuleType-A"){
+    field(DESC, "The module type")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto moda($(ADDRESS)) $(PORT) 0")
+
+    field(ZRST, "Hot Cathode")
+    field(ONST, "Cold Cathode")
+    field(TWST, "Dual Pirani")
+    field(THST, "Dual Cnv Pirani")
+    field(FRST, "Dual Thermocpl")
+    field(FVST, "Dual Cap Manmtr")
+    field(SXST, "Sngl Pirani")
+    field(SVST, "Sngl Cnv Pirani")
+    field(EIST, "Sngl Thrmcpl")
+    field(NIST, "Sngl Cap Manmtr")
+    field(TEST, "No Module")
+    field(ELST, "Wrong Module")
+    field(ELSV, "MAJOR")
+
+    field(FLNK,"$(DEVICE):ModuleType-B")
+}
+record(mbbi, "$(DEVICE):ModuleType-B"){
+    field(DESC, "The module type")
+    field(INP,  "@mks937b.proto modb($(ADDRESS)) $(PORT) 0")
+    field(DTYP, "stream")
+
+    field(ZRST, "Hot Cathode")
+    field(ONST, "Cold Cathode")
+    field(TWST, "Dual Pirani")
+    field(THST, "Dual Cnv Pirani")
+    field(FRST, "Dual Thermocpl")
+    field(FVST, "Dual Cap Manmtr")
+    field(SXST, "Sngl Pirani")
+    field(SVST, "Sngl Cnv Pirani")
+    field(EIST, "Sngl Thrmcpl")
+    field(NIST, "Sngl Cap Manmtr")
+    field(TEST, "No Module")
+    field(ELST, "Wrong Module")
+    field(UNSV, "MAJOR")
+    field(ZRSV, "NO_ALARM")
+    field(ONSV, "NO_ALARM")
+    field(TWSV, "NO_ALARM")
+    field(THSV, "NO_ALARM")
+    field(FRSV, "NO_ALARM")
+    field(FVSV, "NO_ALARM")
+    field(SXSV, "NO_ALARM")
+    field(SVSV, "NO_ALARM")
+    field(EISV, "NO_ALARM")
+    field(NISV, "NO_ALARM")
+    field(TESV, "NO_ALARM")
+    field(ELSV, "MAJOR")
+
+    field(FLNK,"$(DEVICE):ModuleType-C")
+}
+
+record(mbbi, "$(DEVICE):ModuleType-C"){
+    field(DESC, "The module type")
+
+    field(INP,  "@mks937b.proto modc($(ADDRESS)) $(PORT) 0")
+    field(DTYP, "stream")
+
+    field(ZRST, "Hot Cathode")
+    field(ONST, "Cold Cathode")
+    field(TWST, "Dual Pirani")
+    field(THST, "Dual Cnv Pirani")
+    field(FRST, "Dual Thermocpl")
+    field(FVST, "Dual Cap Manmtr")
+    field(SXST, "Sngl Pirani")
+    field(SVST, "Sngl Cnv Pirani")
+    field(EIST, "Sngl Thrmcpl")
+    field(NIST, "Sngl Cap Manmtr")
+    field(TEST, "No Module")
+    field(ELST, "Wrong Module")
+    field(UNSV, "MAJOR")
+    field(ZRSV, "NO_ALARM")
+    field(ONSV, "NO_ALARM")
+    field(TWSV, "NO_ALARM")
+    field(THSV, "NO_ALARM")
+    field(FRSV, "NO_ALARM")
+    field(FVSV, "NO_ALARM")
+    field(SXSV, "NO_ALARM")
+    field(SVSV, "NO_ALARM")
+    field(EISV, "NO_ALARM")
+    field(NISV, "NO_ALARM")
+    field(TESV, "NO_ALARM")
+    field(ELSV, "MAJOR")
+
+    field(FLNK, "$(DEVICE):SensorType-A")
+}
+record(stringin,"$(DEVICE):SensorType-A") {
+    field(DESC, "The connected sensor type")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto sta($(ADDRESS)) $(PORT)")
+
+    field(FLNK, "$(DEVICE):SensorType-B")
+}
+record(stringin,"$(DEVICE):SensorType-B") {
+    field(DESC, "The connected sensor type")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto stb($(ADDRESS)) $(PORT)")
+
+    field(FLNK, "$(DEVICE):SensorType-C")
+
+}
+record(stringin,"$(DEVICE):SensorType-C") {
+    field(DESC, "The connected sensor type")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto stc($(ADDRESS)) $(PORT)")
+
+    field(FLNK, "$(DEVICE):ErrMsgType")
+}
+record(stringin, "$(DEVICE):ErrMsgType"){
+    field(DESC, "Error message as text")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto errtext $(PORT) ")
+
+    field(FLNK, "$(DEVICE):Unit")
+    # field(FLNK,"$(DEVICE):IhmLock")
+}
+
+record(ai, "$(DEVICE):Dly"){
+    field(DESC, "RS458 Time Delay")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_dly($(ADDRESS)) $(PORT)")
+    field(PHAS, "0")
+    field(PINI, "YES")
+}
+record(ao, "$(DEVICE):DlySp"){
+    field(DESC, "RS485 Time Delay")
+    field(DTYP, "stream")
+    field(OUT,  "@mks937b.proto set_dly($(ADDRESS)) $(PORT)")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Dly_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Dly")
+}
+record(seq, "$(DEVICE):Dly_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Dly-RB")
+    field(LNK1, "$(DEVICE):Dly-SP PP")
+}
+
+# Pressure Unit
+record(mbbi, "$(DEVICE):Unit"){
+    field(DESC, "Read Pressure Unit")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_unit($(ADDRESS)) $(PORT)")
+    field(PINI, "YES")
+    field(PHAS, "0")
+    field(PRIO, "HIGH")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(ZRST, "Torr")
+    field(ONST, "mBAR")
+    field(TWST, "PASCAL")
+    field(THST, "Micron")
+}
+record(mbbo, "$(DEVICE):UnitSp"){
+    field(DESC, "Set Pressure Unit")
+    field(DTYP, "stream")
+    field(OUT,  "@mks937b.proto set_unit($(ADDRESS)) $(PORT)")
+    field(PRIO, "HIGH")
+
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(ZRST, "Torr")
+    field(ONST, "mBar")
+    field(TWST, "PASCAL")
+    field(THST, "Micron")
+
+    field(DISV, "1")
+    field(SDIS, "$(DEVICE):Unit_INIT.PACT")
+
+    field(FLNK, "$(DEVICE):Unit")
+}
+record(seq, "$(DEVICE):Unit_INIT"){
+    field(PINI, "YES")
+    field(PHAS, "1")
+    field(DLY1, "1")
+    field(DOL1, "$(DEVICE):Unit-RB")
+    field(LNK1, "$(DEVICE):Unit-SP PP")
+}
+
+record(stringin,"$(DEVICE):Relay1:SetpointStatus-Mon") {
+    # This will set the values for all 12 relays
+    field(SCAN, "30 second")
+    field(DTYP, "stream")
+    field(INP,  "@mks937b.proto get_relaysp_status_all($(ADDRESS),$(DEVICE),:SetpointStatus-Mon) $(PORT)")
+}
+
+record(stringin,"$(DEVICE):Pressure:Read") {
+    field(DTYP, "stream")
+    field(SCAN, ".5 second")
+    field(INP,  "@$(P_PROTO).proto get_pressures($(ADDRESS)) $(PORT)")
+}
+
+record(stringin,"$(G1):Pressure-Mon-s") {
+    field(DESC, "Read CCG 1's raw pressure output")
+}
+record(stringin,"$(G2):Pressure-Mon-s") {
+    field(DESC, "Read CCG 2's raw pressure output")
+}
+record(stringin,"$(G3):Pressure-Mon-s") {
+    field(DESC, "Read CCG 3's raw pressure output")
+}
+record(stringin,"$(G4):Pressure-Mon-s") {
+    field(DESC, "Read CCG 4's raw pressure output")
+}
+record(stringin,"$(G5):Pressure-Mon-s") {
+    field(DESC, "Read CCG 5's raw pressure output")
+}
+record(stringin,"$(G6):Pressure-Mon-s") {
+    field(DESC, "Read CCG 6's raw pressure output")
+}
+record(scalcout, "$(DEVICE):Unit_STR"){
+    field(CALC, "(A=0?'Torr':(A=1?'mBar':(A=2?'PASCAL':'Micron')))")
+    field(INPA, "$(DEVICE):Unit.VAL CP")
+}
+record(fanout, "$(DEVICE):T"){
+    field(SCAN, "60 second")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Unit_INIT PP")
+    field(LNK2, "$(DEVICE):Relay1-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay1-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay1:Setpoint-RB PP")
+    field(LNK2, "$(DEVICE):Relay1:Hyst-RB PP")
+    field(LNK3, "$(DEVICE):Relay1:Direction-RB PP")
+    field(LNK4, "$(DEVICE):Relay1:Status-RB PP")
+    field(LNK5, "$(DEVICE):Relay2-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay2-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay2:Setpoint-RB PP")
+    field(LNK2, "$(DEVICE):Relay2:Hyst-RB PP")
+    field(LNK3, "$(DEVICE):Relay2:Direction-RB PP")
+    field(LNK4, "$(DEVICE):Relay2:Status-RB PP")
+    field(LNK5, "$(DEVICE):Relay3-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay3-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay3:Setpoint-RB PP")
+    field(LNK2, "$(DEVICE):Relay3:Hyst-RB PP")
+    field(LNK3, "$(DEVICE):Relay3:Direction-RB PP")
+    field(LNK4, "$(DEVICE):Relay3:Status-RB PP")
+    field(LNK5, "$(DEVICE):Relay4-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay4-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay4:Setpoint-RB PP")
+    field(LNK2, "$(DEVICE):Relay4:Hyst-RB PP")
+    field(LNK3, "$(DEVICE):Relay4:Direction-RB PP")
+    field(LNK4, "$(DEVICE):Relay4:Status-RB PP")
+    field(LNK5, "$(DEVICE):Relay5-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay5-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay5:Setpoint-RB PP")
+    field(LNK2, "$(DEVICE):Relay5:Hyst-RB PP")
+    field(LNK3, "$(DEVICE):Relay5:Direction-RB PP")
+    field(LNK4, "$(DEVICE):Relay5:Status-RB PP")
+    field(LNK5, "$(DEVICE):Relay6-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay6-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay6:Setpoint-RB PP")
+    field(LNK2, "$(DEVICE):Relay6:Hyst-RB PP")
+    field(LNK3, "$(DEVICE):Relay6:Direction-RB PP")
+    field(LNK4, "$(DEVICE):Relay6:Status-RB PP")
+    field(LNK5, "$(DEVICE):Relay7-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay7-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay7:Setpoint-RB PP")
+    field(LNK2, "$(DEVICE):Relay7:Hyst-RB PP")
+    field(LNK3, "$(DEVICE):Relay7:Direction-RB PP")
+    field(LNK4, "$(DEVICE):Relay7:Status-RB PP")
+    field(LNK5, "$(DEVICE):Relay8-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay8-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay8:Setpoint-RB PP")
+    field(LNK2, "$(DEVICE):Relay8:Hyst-RB PP")
+    field(LNK3, "$(DEVICE):Relay8:Direction-RB PP")
+    field(LNK4, "$(DEVICE):Relay8:Status-RB PP")
+    field(LNK5, "$(DEVICE):Relay9-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay9-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay9:Setpoint-RB PP")
+    field(LNK2, "$(DEVICE):Relay9:Hyst-RB PP")
+    field(LNK3, "$(DEVICE):Relay9:Direction-RB PP")
+    field(LNK4, "$(DEVICE):Relay9:Status-RB PP")
+    field(LNK5, "$(DEVICE):Relay10-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay10-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay10:Setpoint-RB PP")
+    field(LNK2, "$(DEVICE):Relay10:Hyst-RB PP")
+    field(LNK3, "$(DEVICE):Relay10:Direction-RB PP")
+    field(LNK4, "$(DEVICE):Relay10:Status-RB PP")
+    field(LNK5, "$(DEVICE):Relay11-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay11-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay11:Setpoint-RB PP")
+    field(LNK2, "$(DEVICE):Relay11:Hyst-RB PP")
+    field(LNK3, "$(DEVICE):Relay11:Direction-RB PP")
+    field(LNK4, "$(DEVICE):Relay11:Status-RB PP")
+    field(LNK5, "$(DEVICE):Relay12-T PP")
+    field(PHAS, "2")
+}
+record(fanout, "$(DEVICE):Relay12-T"){
+    field(SCAN, "Passive")
+    field(SELM, "All")
+    field(LNK1, "$(DEVICE):Relay12:Setpoint-RB PP")
+    field(LNK2, "$(DEVICE):Relay12:Hyst-RB PP")
+    field(LNK3, "$(DEVICE):Relay12:Direction-RB PP")
+    field(LNK4, "$(DEVICE):Relay12:Status-RB PP")
+    field(PHAS, "2")
+}
