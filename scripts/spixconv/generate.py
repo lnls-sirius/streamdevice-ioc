@@ -21,7 +21,7 @@ if __name__ == "__main__":
 class FileManager:
     def __init__(self) -> None:
         self._dir_name = os.path.dirname(os.path.abspath(__file__))
-        dirs = ["ioc", "docker"]
+        dirs = ["ioc", "docker", "ioc/cmd", "ioc/db", "ioc/proto"]
         for dir in dirs:
             if not os.path.exists(os.path.join(self._dir_name, dir)):
                 os.makedirs(os.path.join(self._dir_name, dir))
@@ -34,8 +34,6 @@ class FileManager:
         self._docker_compose.write(data)
 
     def write_cmd(self, data: str, filename: str):
-        if not os.path.exists(os.path.join(self._dir_name, "ioc/cmd/")):
-            os.makedirs(os.path.join(self._dir_name, "ioc/cmd/"))
         cmd_path = os.path.join(self._dir_name, f"ioc/cmd/{filename}")
         with open(cmd_path, "w+") as file:
             file.write(data)
@@ -43,15 +41,6 @@ class FileManager:
 
     def close(self):
         self._docker_compose.close()
-
-
-def write(dir_name, board, cmd_key, cmd_data):
-    if not os.path.exists(os.path.join(dir_name, "ioc/cmd/")):
-        os.makedirs(os.path.join(dir_name, "ioc/cmd/"))
-    cmd_path = os.path.join(dir_name, f"ioc/cmd/{board.file_name}")
-    with open(cmd_path, "w+") as file:
-        file.write(cmd_data)
-    os.chmod(cmd_path, 0o774)
 
 
 def generate(args, defaults):
