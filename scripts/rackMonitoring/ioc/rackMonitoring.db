@@ -1,0 +1,115 @@
+# rackMonitoring.db
+
+# Record definition for one temperature channel. Developed for MBTemp version 2.1 and newer.
+
+# This file contains one record definition, which corresponds to a temperature measurement and has
+# six parameters:
+#
+# CHANNEL - Channel in MBTemp board where the temperature sensor is connected to (from 0 to 7).
+#
+# DESCRIPTION - EPICS record description.
+#
+# PORT - Name of the serial port configured in asynDriver.
+#
+# RECORD_NAME - Name of record.
+#
+# SCAN_RATE - Record scan rate (time interval between two consecutive temperature readings).
+#
+# Function
+# getVariable(BSMP_ID, REPLY_SIZE)
+#
+
+record(mbbi,"$(PREFIX)-Fan:Status-Mon"){
+    field(DESC, "$(PREFIX) Fan Status")
+    field(INP, "@rackMonitoring.proto getVariable(c, 1) $(PORT)")
+    field(DTYP, "stream")
+    field(PINI, "YES")
+    field(SCAN, "$(SCAN_RATE)")
+
+    field(ZRST, "Off")
+    field(ONST, "On")
+    field(TWST, "Invalid")
+    field(THST, "Overload")
+}
+
+record(ai, "$(PREFIX)-Fan:Current-Mon") {
+    field(DESC, "$(PREFIX) Fan Current")
+    field(DTYP, "stream")
+    field(EGU,  "A")
+
+    field(EOFF, "0.0")
+    field(ESLO, "0.01")
+
+    field(INP, "@rackMonitoring.proto getVariable(C, 1) $(PORT)")
+    field(LINR, "LINEAR")
+    field(PINI, "YES")
+    field(PREC, "2")
+    field(SCAN, "$(SCAN_RATE)")
+}
+
+record(ai, "$(PREFIX)-Outlet:Voltage-Mon") {
+    field(DESC, "$(PREFIX) Voltage Value")
+    field(DTYP, "stream")
+    field(EGU,  "V")
+
+    field(INP, "@rackMonitoring.proto getVariable(v, 1) $(PORT)")
+    field(PINI, "YES")
+    field(SCAN, "$(SCAN_RATE)")
+}
+
+record(ai, "$(PREFIX)-LM35:Temperature-Mon") {
+    field(DESC, "$(PREFIX) LM35 Temperature Value")
+    field(DTYP, "stream")
+    field(EGU,  "C")
+
+    field(EOFF, "0.0")
+    field(ESLO, "0.01")
+
+    field(INP, "@rackMonitoring.proto getVariable(t, 2) $(PORT)")
+    field(LINR, "LINEAR")
+    field(PINI, "YES")
+    field(PREC, "2")
+    field(SCAN, "$(SCAN_RATE)")
+}
+
+record(ai, "$(PREFIX)-DHT:Temperature-Mon") {
+    field(DESC, "$(PREFIX) DHT Temperature Value")
+    field(DTYP, "stream")
+    field(EGU,  "C")
+
+    field(INP, "@rackMonitoring.proto getVariable(T, 1) $(PORT)")
+    field(PINI, "YES")
+    field(SCAN, "$(SCAN_RATE)")
+}
+
+record(ai, "$(PREFIX)-DHT:Humidity-Mon") {
+    field(DESC, "$(PREFIX) DHT Humidity Value")
+    field(DTYP, "stream")
+    field(EGU,  "percent")
+
+    field(INP, "@rackMonitoring.proto getVariable(u, 1) $(PORT)")
+    field(PINI, "YES")
+    field(SCAN, "$(SCAN_RATE)")
+}
+
+record(mbbi,"$(PREFIX)-BackDoor:Status-Mon"){
+    field(DESC, "$(PREFIX) Back Door Status")
+    field(INP, "@rackMonitoring.proto getVariable(b, 1) $(PORT)")
+    field(DTYP, "stream")
+    field(PINI, "YES")
+    field(SCAN, "$(SCAN_RATE)")
+
+    field(ZRST, "Open")
+    field(ONST, "Closed")
+}
+
+record(mbbi,"$(PREFIX)-FrontDoor:Status-Mon"){
+    field(DESC, "$(PREFIX) Back Door Status")
+    field(INP, "@rackMonitoring.proto getVariable(f, 1) $(PORT)")
+    field(DTYP, "stream")
+    field(PINI, "YES")
+    field(SCAN, "$(SCAN_RATE)")
+
+    field(ZRST, "Open")
+    field(ONST, "Closed")
+}

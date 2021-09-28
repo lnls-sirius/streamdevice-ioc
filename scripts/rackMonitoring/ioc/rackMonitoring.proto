@@ -1,0 +1,24 @@
+# rackMonitoring.proto
+
+# Protocol for rackMonitoring boards.
+
+# The BSMP protocol doesn't have any terminator character
+Terminator = "";
+
+# An outcoming message should wait at most 10 s to be sent
+LockTimeout = 10000;
+
+# The timeout involved in reading operations is 25 ms (in practice, it indicates the end of received
+# message).
+ReadTimeout = 50;
+
+# The application should wait at most 100 ms for a board to answer
+ReplyTimeout = 100;
+
+# Routine for variable reading (implements BSMP protocol)
+# $1: ID
+# $2: size
+getVariable {
+    out 0x01, 0x10, 0x00, 0x01, "\$1", "%<nsum>";
+    in 0x00, 0x11, 0x00, $2, "%0\$2r%<nsum>";
+}
