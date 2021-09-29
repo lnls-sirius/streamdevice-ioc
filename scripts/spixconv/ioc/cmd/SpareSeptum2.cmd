@@ -2,7 +2,6 @@
 < envPaths
 
 # Septum - Spare 2
-# This script will be used for SPIxCONV installations alongside with EPP hardware and power supplies.
 
 epicsEnvSet("EPICS_IOC_LOG_INET", "$(EPICS_IOC_LOG_INET)")
 epicsEnvSet("EPICS_IOC_LOG_PORT", "$(EPICS_IOC_LOG_PORT)")
@@ -40,8 +39,6 @@ drvAsynIPPortConfigure("socket_spixconv", "10.128.180.111:5005")
 dbLoadRecords("db/SPIxCONV_septum.db", "PREFIX=SpareSeptum2, SCAN_RATE=.1 second, SPIxCONV_ADDRESS=88, VOLTAGE_FACTOR=100, STEP_DELAY=2, STEP_TRIGGER=200")
 dbLoadRecords("db/SPIxCONV_Config.db", "P=SpareSeptum2")
 
-# set_pass0_restoreFile("$(TOP)/autosave/save/SpareSeptum2.sav")
-# set_pass1_restoreFile("$(TOP)/autosave/save/SpareSeptum2.sav")
 
 # Effectively initializes the IOC
 cd iocBoot
@@ -50,4 +47,3 @@ iocLogInit
 caPutLogInit "$(EPICS_IOC_CAPUTLOG_INET):$(EPICS_IOC_CAPUTLOG_PORT)" 2
 
 cd ..
-# create_monitor_set("$(TOP)/autosave/spixconv.req", 10, "P=SpareSeptum2, SAVENAMEPV=SpareSeptum2:SaveName")

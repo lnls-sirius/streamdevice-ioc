@@ -58,7 +58,6 @@ top = Template(
 < envPaths
 
 # ${DESCRIPTION}
-# This script will be used for SPIxCONV installations alongside with EPP hardware and power supplies.
 
 epicsEnvSet("EPICS_IOC_LOG_INET", "$(EPICS_IOC_LOG_INET)")
 epicsEnvSet("EPICS_IOC_LOG_PORT", "$(EPICS_IOC_LOG_PORT)")
@@ -100,8 +99,6 @@ dbLoadRecords("db/SPIxCONV_Config.db", "P=${PREFIX}")
 
 bot = Template(
     """
-# set_pass0_restoreFile("$(TOP)/autosave/save/${PREFIX}.sav")
-# set_pass1_restoreFile("$(TOP)/autosave/save/${PREFIX}.sav")
 
 # Effectively initializes the IOC
 cd iocBoot
@@ -110,6 +107,5 @@ iocLogInit
 caPutLogInit "$(EPICS_IOC_CAPUTLOG_INET):$(EPICS_IOC_CAPUTLOG_PORT)" 2
 
 cd ..
-# create_monitor_set("$(TOP)/autosave/spixconv.req", 10, "P=${PREFIX}, SAVENAMEPV=${PREFIX}:SaveName")
 """
 )
