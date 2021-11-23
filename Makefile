@@ -2,6 +2,9 @@ build: build-epics update-env
 	make -C ./scripts
 	docker-compose build
 
+db:
+	make -C ./scripts
+
 build-epics: update-env
 	docker-compose build epics
 
