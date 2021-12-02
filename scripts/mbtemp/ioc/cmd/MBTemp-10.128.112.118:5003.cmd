@@ -18,7 +18,7 @@ drvAsynIPPortConfigure("IPPort0","10.128.112.118:5003", 0, 0, 0)
 dbLoadRecords("db/MBTemp-Device.db", "MBTEMP_ADDRESS = 21, PORT = IPPort0, PREFIX = SI-12-MBTemp-21, SCAN_RATE = 10 second")
 
 # Records corresponding to the eight temperature measurements given by the MBTemp board
-dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 0, DESCRIPTION = MBTemp Channel 1, MBTEMP_ADDRESS = 21, PORT = IPPort0, RECORD_NAME = SI-12BC:VA-PT100-MD:Temp-Mon, SCAN_RATE = 2 second")
+dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 0, DESCRIPTION = MBTemp Channel 1, MBTEMP_ADDRESS = 21, PORT = IPPort0, RECORD_NAME = SI-12C3:VA-PT100-BPM01:Temp-Mon, SCAN_RATE = 2 second")
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 1, DESCRIPTION = MBTemp Channel 2, MBTEMP_ADDRESS = 21, PORT = IPPort0, RECORD_NAME = SI-12BC:VA-PT100-ED:Temp-Mon, SCAN_RATE = 2 second")
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 2, DESCRIPTION = MBTemp Channel 3, MBTEMP_ADDRESS = 21, PORT = IPPort0, RECORD_NAME = SI-12C3:VA-PT100-BG:Temp-Mon, SCAN_RATE = 2 second")
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 3, DESCRIPTION = MBTemp Channel 4, MBTEMP_ADDRESS = 21, PORT = IPPort0, RECORD_NAME = SI-12C3:VA-PT100-MD1:Temp-Mon, SCAN_RATE = 2 second")

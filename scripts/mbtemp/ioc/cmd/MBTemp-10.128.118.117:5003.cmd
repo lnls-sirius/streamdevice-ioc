@@ -39,7 +39,7 @@ dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 3, DESCRIPTION = MBTemp Channel
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 4, DESCRIPTION = MBTemp Channel 5, MBTEMP_ADDRESS = 12, PORT = IPPort0, RECORD_NAME = SI-18SBFE:VA-PT100-BG1:Temp-Mon, SCAN_RATE = 2 second")
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 5, DESCRIPTION = MBTemp Channel 6, MBTEMP_ADDRESS = 12, PORT = IPPort0, RECORD_NAME = SI-18SBFE:VA-PT100-BG2:Temp-Mon, SCAN_RATE = 2 second")
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 6, DESCRIPTION = MBTemp Channel 7, MBTEMP_ADDRESS = 12, PORT = IPPort0, RECORD_NAME = SI-18SBFE:VA-PT100-MD:Temp-Mon, SCAN_RATE = 2 second")
-dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 7, DESCRIPTION = MBTemp Channel 8, MBTEMP_ADDRESS = 12, PORT = IPPort0, RECORD_NAME = SI-18-MBTemp-12-CH8, SCAN_RATE = 2 second")
+dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 7, DESCRIPTION = MBTemp Channel 8, MBTEMP_ADDRESS = 12, PORT = IPPort0, RECORD_NAME = SI-18C1:VA-PT100-BPM02:Temp-Mon, SCAN_RATE = 2 second")
 
 
 # Record for configuration of MBTemp exponential moving average smoothing factor
