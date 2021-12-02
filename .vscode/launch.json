@@ -1,0 +1,31 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Generate IOCs - MKS",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/generate.py",
+      "console": "integratedTerminal",
+      "args": [
+        "--device",
+        "MKS"
+      ],
+      "cwd": "${workspaceFolder}/scripts"
+    },
+    {
+      "name": "Generate IOCs - SPIxCONV",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/generate.py",
+      "console": "integratedTerminal",
+      "args": [
+        "--device",
+        "SPIxCONV",
+        "--spreadsheet",
+        "./spreadsheet/SPIxCONV.xlsx"
+      ],
+      "cwd": "${workspaceFolder}/scripts"
+    }
+  ]
+}
