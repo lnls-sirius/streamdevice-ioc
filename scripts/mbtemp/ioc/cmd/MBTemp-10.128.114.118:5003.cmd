@@ -50,8 +50,8 @@ dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 0, DESCRIPTION = MBTemp Channel
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 1, DESCRIPTION = MBTemp Channel 2, MBTEMP_ADDRESS = 23, PORT = IPPort0, RECORD_NAME = SI-15SP:VA-PT100-BG:Temp-Mon, SCAN_RATE = 2 second")
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 2, DESCRIPTION = MBTemp Channel 3, MBTEMP_ADDRESS = 23, PORT = IPPort0, RECORD_NAME = SI-15SP:VA-PT100-MD:Temp-Mon, SCAN_RATE = 2 second")
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 3, DESCRIPTION = MBTemp Channel 4, MBTEMP_ADDRESS = 23, PORT = IPPort0, RECORD_NAME = SI-14-MBTemp-23-CH4, SCAN_RATE = 2 second")
-dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 4, DESCRIPTION = MBTemp Channel 5, MBTEMP_ADDRESS = 23, PORT = IPPort0, RECORD_NAME = SI-14-MBTemp-23-CH5, SCAN_RATE = 2 second")
-dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 5, DESCRIPTION = MBTemp Channel 6, MBTEMP_ADDRESS = 23, PORT = IPPort0, RECORD_NAME = SI-14-MBTemp-23-CH6, SCAN_RATE = 2 second")
+dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 4, DESCRIPTION = MBTemp Channel 5, MBTEMP_ADDRESS = 23, PORT = IPPort0, RECORD_NAME = SI-14C4:DI-PT100-DCCT:InTemp-Mon, SCAN_RATE = 2 second")
+dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 5, DESCRIPTION = MBTemp Channel 6, MBTEMP_ADDRESS = 23, PORT = IPPort0, RECORD_NAME = SI-14C4:DI-PT100-DCCT:OutTemp-Mon, SCAN_RATE = 2 second")
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 6, DESCRIPTION = MBTemp Channel 7, MBTEMP_ADDRESS = 23, PORT = IPPort0, RECORD_NAME = SI-14-MBTemp-23-CH7, SCAN_RATE = 2 second")
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 7, DESCRIPTION = MBTemp Channel 8, MBTEMP_ADDRESS = 23, PORT = IPPort0, RECORD_NAME = SI-15M1:CO-PT100-Ambient:Temp-Mon, SCAN_RATE = 2 second")
 
