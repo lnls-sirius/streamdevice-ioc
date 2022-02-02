@@ -20,6 +20,14 @@ record(longout, "$(PREFIX):Alpha") {
     field(PINI, "YES")
 }
 
+record(longin, "$(PREFIX):Alpha-Mon") {
+    field(DESC, "Moving average smoothing factor")
+    field(DTYP, "stream")
+    field(INP, "@MBTemp.proto getAlpha($(MBTEMP_ADDRESS)) $(PORT)")
+    field(PINI, "YES")
+    field(SCAN, "10 second")
+}
+
 record(ai, "$(PREFIX):LinearCoef-Mon") {
     field(DESC, "Linear coefficient for temp conversion")
     field(DTYP, "stream")
