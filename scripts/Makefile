@@ -8,17 +8,17 @@ SPIXCONV_PREFIX ?= SPIxCONV
 
 build: clean build-agilent4uhv build-countingpru build-mbtemp build-mks937b build-rackmon build-spixconv
 build-agilent4uhv:
-	python ./generate.py --device $(AGILENT4UHV_PREFIX)
+	./generate.py --device $(AGILENT4UHV_PREFIX)
 build-countingpru:
-	python ./generate.py --device $(COUNTINGPRU_PREFIX)
+	./generate.py --device $(COUNTINGPRU_PREFIX)
 build-mbtemp:
-	python ./generate.py --device $(MBTEMP_PREFIX)
+	./generate.py --device $(MBTEMP_PREFIX)
 build-mks937b:
-	python ./generate.py --device $(MKS_PREFIX)
+	./generate.py --device $(MKS_PREFIX)
 build-rackmon:
-	python ./generate.py --device $(RACKMON_PREFIX)
+	./generate.py --device $(RACKMON_PREFIX)
 build-spixconv:
-	python ./generate.py --device $(SPIXCONV_PREFIX) --spreadsheet ./spreadsheet/SPIxCONV.xlsx
+	./generate.py --device $(SPIXCONV_PREFIX) --spreadsheet ./spreadsheet/SPIxCONV.xlsx
 
 run-agilent4uhv:
 	$(eval PREFIX=$(AGILENT4UHV_PREFIX))
@@ -35,6 +35,17 @@ run-mks937b:
 run-rackmon:
 	$(eval PREFIX=$(RACKMON_PREFIX))
 	bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
+
+run-spixconv:
+	procServ \
+		--logfile - \
+		--foreground \
+		--chdir "${TOP}/iocBoot/iocStreamDeviceIOC" \
+		--name "${IOC_NAME}" \
+		"unix:${TOP}/sockets/ioc.sock" \
+		"./${IOC_CMD}"
+
+deploy: deploy-agilent4uhv deploy-countingpru deploy-mbtemp deploy-mks937b deploy-rackmon deploy-spixconv
 
 deploy-req:
 	mkdir -p ../autosave

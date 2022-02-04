@@ -1,4 +1,4 @@
-FROM debian:9-slim
+FROM debian:11-slim
 
 # set correct timezone
 ENV DEBIAN_FRONTEND noninteractive
@@ -7,20 +7,28 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 ENV APT_PROXY TA-TiRack-CO-FWSrv-1.abtlus.org.br
 
+
 RUN set -ex; \
-    echo "Acquire::http { Proxy \"http://${APT_PROXY}:3142\"; }" > /etc/apt/apt.conf.d/proxy ;\
-    apt-get update &&\
-    apt-get install -y --fix-missing --no-install-recommends \
+    echo "Acquire::http { Proxy \"http://${APT_PROXY}:3142\"; }" > /etc/apt/apt.conf.d/proxy ; \
+    echo 'Acquire::https::proxy "DIRECT"; # Allow cache proxy SSL repos' >> /etc/apt/apt.conf.d/proxy ; \
+    apt update -y && \
+    apt install -y --fix-missing --no-install-recommends \
         build-essential \
         ca-certificates \
         gettext-base \
         git \
         libpcre3-dev \
-        libreadline-gplv2-dev \
+        libreadline-dev \
         logrotate \
+        procps \
+        python3-dev \
+        python3-urllib3 \
+        re2c \
+        socat \
         tzdata \
+        vim \
         wget \
-        && rm -rf /var/lib/apt/lists/*  && \
+      && rm -rf /var/lib/apt/lists/*  && \
     dpkg-reconfigure --frontend noninteractive tzdata
 
 # --- General Usage ---

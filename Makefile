@@ -8,6 +8,12 @@ db:
 build-epics: update-env
 	docker-compose build epics
 
+build-stream: build-epics
+	docker-compose build stream
+
+build-mbtemp: build-stream
+	docker-compose build mbtemp
+
 push-all: push-base push-stream push-iocs
 push-iocs: push-agilent push-countingpru push-mbtemp push-mks937b push-rackmon push-spixconv
 push-base:
