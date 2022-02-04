@@ -13,7 +13,7 @@ RUN set -x; cd scripts; make deploy-countingpru
 CMD ["/bin/bash", "-c", "set -e; cd scripts/; make run-countingpru"]
 
 FROM base AS mbtemp
-VOLUME ["${TOP}/scripts/spreadsheet"]
+
 RUN set -x; \
     apt update; \
     apt install -y python3-pip python3; \

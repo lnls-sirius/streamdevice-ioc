@@ -21,7 +21,7 @@ services:
       context: .
       labels:
         <<: *default-labels
-        org.opencontainers.image.description: Debian 9 with EPICS base and commonly used modules
+        org.opencontainers.image.description: Debian 11 with EPICS base and commonly used modules
         org.opencontainers.image.title: EPICS R3.15.8
 
   stream:
