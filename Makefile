@@ -2,6 +2,9 @@ build: build-epics update-env
 	make -C ./scripts
 	docker-compose build
 
+update-env:
+	./scripts/config.sh
+
 db:
 	make -C ./scripts
 
@@ -32,6 +35,3 @@ push-rackmon:
 	docker push $(STREAM_BASE_IMAGE):$(RACKMON_TAG)
 push-spixconv:
 	docker push $(STREAM_BASE_IMAGE):$(SPIXCONV_TAG)
-
-update-env:
-	./scripts/config.sh

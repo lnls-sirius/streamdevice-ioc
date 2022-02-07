@@ -12,16 +12,6 @@ FROM base AS countingpru
 RUN set -x; cd scripts; make deploy-countingpru
 CMD ["/bin/bash", "-c", "set -e; cd scripts/; make run-countingpru"]
 
-FROM base AS mbtemp
-
-RUN set -x; \
-    apt update; \
-    apt install -y python3-pip python3; \
-    pip install pandas openpyxl;\
-    cd scripts; \
-    make deploy-mbtemp
-CMD ["/bin/bash", "-c", "set -e; cd scripts/; make build-mbtemp; make deploy-mbtemp; make run-mbtemp"]
-
 FROM base AS mks937b
 RUN set -x; cd scripts; make deploy-mks937b
 CMD ["/bin/bash", "-c", "set -e; cd scripts/; make run-mks937b"]

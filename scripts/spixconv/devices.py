@@ -26,7 +26,7 @@ class SPIxCONV:
         self.scan_rate = row["Scan Rate"]
         self.database: str = row["Database (soft IOC)"]
         self.service_name = self.device.strip().replace(":", "--")
-        self.file_name: str = f"{self.service_name}.cmd"
+        self.file_name: str = "{}.cmd".format(self.service_name)
         self.step_trigger = row["Steps trigger [V]"]
         self.step_delay = row["Steps delay [s]"]
 

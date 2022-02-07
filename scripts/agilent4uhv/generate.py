@@ -123,9 +123,7 @@ def generate(args, defaults):
         # Generate iocBoot .cmd files
         if not os.path.exists(os.path.join(dir_name, "ioc/cmd/")):
             os.makedirs(os.path.join(dir_name, "ioc/cmd/"))
-        cmd_path = os.path.join(
-            dir_name, "ioc/cmd/" + cmd_key + sector.f_name + ".cmd"
-        )
+        cmd_path = os.path.join(dir_name, "ioc/cmd/" + cmd_key + sector.f_name + ".cmd")
 
         with open(cmd_path, "w+") as _f:
             _f.write(res)

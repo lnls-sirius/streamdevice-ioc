@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import os
 
 header = """#!../../bin/linux-x86_64/procCtrl

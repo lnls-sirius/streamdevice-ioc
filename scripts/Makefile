@@ -1,4 +1,5 @@
 TOP ?= ..
+PYTHON ?=
 AGILENT4UHV_PREFIX ?= UHV
 COUNTINGPRU_PREFIX ?= PRU
 MBTEMP_PREFIX ?= MBTemp
@@ -8,17 +9,17 @@ SPIXCONV_PREFIX ?= SPIxCONV
 
 build: clean build-agilent4uhv build-countingpru build-mbtemp build-mks937b build-rackmon build-spixconv
 build-agilent4uhv:
-	./generate.py --device $(AGILENT4UHV_PREFIX)
+	$(PYTHON) ./generate.py --device $(AGILENT4UHV_PREFIX)
 build-countingpru:
-	./generate.py --device $(COUNTINGPRU_PREFIX)
+	.$(PYTHON) /generate.py --device $(COUNTINGPRU_PREFIX)
 build-mbtemp:
-	./generate.py --device $(MBTEMP_PREFIX)
+	$(PYTHON) ./generate.py --device $(MBTEMP_PREFIX)
 build-mks937b:
-	./generate.py --device $(MKS_PREFIX)
+	$(PYTHON) ./generate.py --device $(MKS_PREFIX)
 build-rackmon:
-	./generate.py --device $(RACKMON_PREFIX)
+	$(PYTHON) ./generate.py --device $(RACKMON_PREFIX)
 build-spixconv:
-	./generate.py --device $(SPIXCONV_PREFIX) --spreadsheet ./spreadsheet/SPIxCONV.xlsx
+	$(PYTHON) ./generate.py --device $(SPIXCONV_PREFIX) --spreadsheet ./spreadsheet/SPIxCONV.xlsx
 
 run-agilent4uhv:
 	$(eval PREFIX=$(AGILENT4UHV_PREFIX))

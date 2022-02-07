@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import typing
@@ -27,14 +27,14 @@ class FileManager:
                 os.makedirs(os.path.join(self._dir_name, dir))
 
         self._docker_compose: typing.IO = open(
-            f"{self._dir_name}/docker/docker-compose.yml", "w+"
+            "{}/docker/docker-compose.yml".format(self._dir_name), "w+"
         )
 
     def write_compose(self, data: str):
         self._docker_compose.write(data)
 
     def write_cmd(self, data: str, filename: str):
-        cmd_path = os.path.join(self._dir_name, f"ioc/cmd/{filename}")
+        cmd_path = os.path.join(self._dir_name, "ioc/cmd/{}".format(filename))
         with open(cmd_path, "w+") as file:
             file.write(data)
         os.chmod(cmd_path, 0o774)
