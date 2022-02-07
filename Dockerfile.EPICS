@@ -131,7 +131,6 @@ RUN set -x; \
 # Autosave
 ARG AUTOSAVE_VERSION=R5-10-2
 ARG AUTOSAVE_URL=https://github.com/epics-modules/autosave/archive/${AUTOSAVE_VERSION}.tar.gz
-ENV AUTOSAVE ${EPICS_MODULES}/asyn-${AUTOSAVE_VERSION}
 LABEL br.com.lnls-sirius.autosave=${AUTOSAVE_URL}
 ENV AUTOSAVE ${EPICS_MODULES}/autosave-${AUTOSAVE_VERSION}
 RUN set -x; \
