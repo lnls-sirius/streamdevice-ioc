@@ -1,5 +1,5 @@
 TOP ?= ..
-PYTHON ?=
+PYTHON ?= /usr/bin/env python3
 AGILENT4UHV_PREFIX ?= UHV
 COUNTINGPRU_PREFIX ?= PRU
 MBTEMP_PREFIX ?= MBTemp
@@ -11,7 +11,7 @@ build: clean build-agilent4uhv build-countingpru build-mbtemp build-mks937b buil
 build-agilent4uhv:
 	$(PYTHON) ./generate.py --device $(AGILENT4UHV_PREFIX)
 build-countingpru:
-	.$(PYTHON) /generate.py --device $(COUNTINGPRU_PREFIX)
+	$(PYTHON) ./generate.py --device $(COUNTINGPRU_PREFIX)
 build-mbtemp:
 	$(PYTHON) ./generate.py --device $(MBTEMP_PREFIX)
 build-mks937b:
