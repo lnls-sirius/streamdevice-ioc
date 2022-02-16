@@ -2,11 +2,20 @@ build: build-epics update-env
 	make -C ./scripts
 	docker-compose build
 
+update-env:
+	./scripts/config.sh
+
 db:
 	make -C ./scripts
 
 build-epics: update-env
 	docker-compose build epics
+
+build-stream: build-epics
+	docker-compose build stream
+
+build-mbtemp: build-stream
+	docker-compose build mbtemp
 
 push-all: push-base push-stream push-iocs
 push-iocs: push-agilent push-countingpru push-mbtemp push-mks937b push-rackmon push-spixconv
@@ -26,6 +35,3 @@ push-rackmon:
 	docker push $(STREAM_BASE_IMAGE):$(RACKMON_TAG)
 push-spixconv:
 	docker push $(STREAM_BASE_IMAGE):$(SPIXCONV_TAG)
-
-update-env:
-	./scripts/config.sh

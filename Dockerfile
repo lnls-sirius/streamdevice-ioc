@@ -12,10 +12,6 @@ FROM base AS countingpru
 RUN set -x; cd scripts; make deploy-countingpru
 CMD ["/bin/bash", "-c", "set -e; cd scripts/; make run-countingpru"]
 
-FROM base AS mbtemp
-RUN set -x; cd scripts; make deploy-mbtemp
-CMD ["/bin/bash", "-c", "set -e; cd scripts/; make run-mbtemp"]
-
 FROM base AS mks937b
 RUN set -x; cd scripts; make deploy-mks937b
 CMD ["/bin/bash", "-c", "set -e; cd scripts/; make run-mks937b"]
@@ -25,5 +21,13 @@ RUN set -x; cd scripts; make deploy-rackmon
 CMD ["/bin/bash", "-c", "set -e; cd scripts/; make run-rackmon"]
 
 FROM base AS spixconv
-RUN set -x; cd scripts; make deploy-spixconv
-CMD ["./scripts/common/entrypoint.sh"]
+COPY scripts scripts
+
+RUN set -x; \
+    cd scrits; \
+    cp -v -p ./spixconv/ioc/autosave/*      $(TOP)/autosave; \
+    cp -v -p ./spixconv/ioc/db/*            $(TOP)/db; \
+    cp -v -p ./spixconv/ioc/protocol/*      $(TOP)/protocol; \
+    cp -v -p ./spixconv/ioc/cmd/*           $(TOP)/iocBoot/iocStreamDeviceIOC;
+
+CMD ["/bin/bash", "-c", "set -e; cd scripts/; make run-spixconv"]

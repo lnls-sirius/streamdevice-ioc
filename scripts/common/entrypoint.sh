@@ -1,6 +1,4 @@
 #!/bin/sh
-set -exu
-
 procServ \
     --logfile - \
     --foreground \

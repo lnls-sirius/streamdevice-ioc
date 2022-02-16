@@ -46,7 +46,9 @@ def write_generate_relay_db(dir_name):
 
 
 def write_device_protocol(dir_name, proto_name, GAUGES):
-    device_proto_name = os.path.join(dir_name, f"ioc/protocol/{proto_name}.proto")
+    device_proto_name = os.path.join(
+        dir_name, "ioc/protocol/{}.proto".format(proto_name)
+    )
     with open(device_proto_name, "w+") as file:
         file.write(
             mks937b_pressures_proto.safe_substitute(
@@ -71,7 +73,7 @@ def generate_device(device, base_proto_name, scan_rate, ip_asyn_port, dir_name):
     ADDRESS = device["ADDRESS"]
     pressures = device["pressures"]
     GAUGES = device["GAUGES"]
-    proto_name = f"{base_proto_name}ADDR{ADDRESS}"
+    proto_name = "{}ADDR{}".format(base_proto_name, ADDRESS)
 
     cc_array = []
     if CONFIG[0] == CC:
@@ -152,14 +154,14 @@ def generate_sector(name, sector, dir_name, defaults):
 
 
 def write_sector_cmd(dir_name, base_name, cmd_data):
-    cmd_path = os.path.join(dir_name, f"ioc/cmd/{base_name}.cmd")
+    cmd_path = os.path.join(dir_name, "ioc/cmd/{}.cmd".format(base_name))
     with open(cmd_path, "w+") as file:
         file.write(cmd_data)
     os.chmod(cmd_path, 0o774)
 
 
 def write_autosave(dir_name, base_name, devices):
-    autosave_req_path = os.path.join(dir_name, f"ioc/autosave/{base_name}.req")
+    autosave_req_path = os.path.join(dir_name, "ioc/autosave/{}.req".format(base_name))
 
     gauges = []
     for device in devices:
@@ -168,8 +170,8 @@ def write_autosave(dir_name, base_name, devices):
 
     with open(autosave_req_path, "w+") as req_file:
         for gauge in gauges:
-            req_file.write(f"{gauge}:Pressure-Mon.HIHI\n")
-            req_file.write(f"{gauge}:Pressure-Mon.HIGH\n")
+            req_file.write("{}:Pressure-Mon.HIHI\n".format(gauge))
+            req_file.write("{}:Pressure-Mon.HIGH\n".format(gauge))
 
     os.chmod(autosave_req_path, 0o774)
 

@@ -16,7 +16,7 @@ class DbData:
         :param aditional_check: a function that receives row and sheet_name and returns True or False depending on the check result.
         """
         SPREADSHEET = config.get_spreadsheet()
-        logger.info(f"Loading from '{SPREADSHEET}', sheet '{sheet_name}'")
+        logger.info("Loading from '{}', sheet '{}'".format(SPREADSHEET, sheet_name))
         self.data = {}
         self.sheet = pandas.read_excel(SPREADSHEET, sheet_name=sheet_name, dtype=str)
         self.sheet = self.sheet.replace("nan", "")

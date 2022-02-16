@@ -34,7 +34,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     config.set_spreadsheet(args.spreadsheet)
 
-    args.cmd_prefix = f"{args.device}-"
+    args.cmd_prefix = "{}-".format(args.device)
     defaults = {}
 
     if args.device == UHV:

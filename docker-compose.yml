@@ -19,10 +19,13 @@ services:
     build:
       dockerfile: 'Dockerfile.EPICS'
       context: .
+      args:
+        BASE_IMAGE: ${BASE_IMAGE}
+        EPICS_VERSION: ${EPICS_VERSION}
       labels:
         <<: *default-labels
-        org.opencontainers.image.description: Debian 9 with EPICS base and commonly used modules
-        org.opencontainers.image.title: EPICS R3.15.8
+        org.opencontainers.image.description: ${BASE_IMAGE} with EPICS ${EPICS_VERSION} and commonly used modules
+        org.opencontainers.image.title: EPICS ${EPICS_VERSION}
 
   stream:
     image: ${STREAM_BASE_IMAGE}:${STREAM_BASE_TAG}
@@ -65,9 +68,8 @@ services:
   mbtemp:
     image: ${STREAM_BASE_IMAGE}:${MBTEMP_TAG}
     build:
-      dockerfile: 'Dockerfile'
+      dockerfile: 'Dockerfile.mbtemp'
       context: .
-      target: mbtemp
       args:
         STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
         STREAM_BASE_TAG: ${STREAM_BASE_TAG}
@@ -106,9 +108,8 @@ services:
   spixconv:
     image: ${STREAM_BASE_IMAGE}:${SPIXCONV_TAG}
     build:
-      dockerfile: 'Dockerfile'
+      dockerfile: 'Dockerfile.spixconv'
       context: .
-      target: spixconv
       args:
         STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
         STREAM_BASE_TAG: ${STREAM_BASE_TAG}
