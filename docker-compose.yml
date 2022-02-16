@@ -80,9 +80,8 @@ services:
   mks937b:
     image: ${STREAM_BASE_IMAGE}:${MKS937B_TAG}
     build:
-      dockerfile: 'Dockerfile'
+      dockerfile: 'Dockerfile.mks'
       context: .
-      target: mks937b
       args:
         STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
         STREAM_BASE_TAG: ${STREAM_BASE_TAG}

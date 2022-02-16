@@ -1,0 +1,8 @@
+ARG STREAM_BASE_IMAGE
+ARG STREAM_BASE_TAG
+
+FROM ${STREAM_BASE_IMAGE}:${STREAM_BASE_TAG} AS base
+COPY scripts scripts
+RUN set -x; cd scripts; make deploy-mks937b
+
+CMD ["/bin/bash", "-c", "set -e; cd scripts/; make run-mks937b"]

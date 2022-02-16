@@ -11,6 +11,9 @@ db:
 build-epics: update-env
 	docker-compose build epics
 
+build-mks: build-epics
+	docker-compose build mks937b
+
 build-stream: build-epics
 	docker-compose build stream
 
