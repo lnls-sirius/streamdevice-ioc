@@ -49,42 +49,27 @@ run-spixconv:
 deploy: deploy-agilent4uhv deploy-countingpru deploy-mbtemp deploy-mks937b deploy-rackmon deploy-spixconv
 
 deploy-req:
-	mkdir -p ../autosave
-	mkdir -p ../db
-	mkdir -p ../protocol
+	mkdir -v -p ../autosave
+	mkdir -v -p ../db
+	mkdir -v -p ../protocol
 
 deploy-agilent4uhv: deploy-req
-	cp -v -p ./agilent4uhv/ioc/autosave/* $(TOP)/autosave
-	cp -v -p ./agilent4uhv/ioc/db/*       $(TOP)/db
-	cp -v -p ./agilent4uhv/ioc/protocol/* $(TOP)/protocol
-	cp -v -p ./agilent4uhv/ioc/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
+	TOP=$(TOP) ./deploy agilent4uhv
 
 deploy-countingpru: deploy-req
-	cp -v -p ./countingpru/ioc/db/*       $(TOP)/db
-	cp -v -p ./countingpru/ioc/protocol/* $(TOP)/protocol
-	cp -v -p ./countingpru/ioc/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
+	TOP=$(TOP) ./deploy countingpru
 
 deploy-mbtemp: deploy-req
-	cp -v -p ./mbtemp/ioc/db/*       $(TOP)/db
-	cp -v -p ./mbtemp/ioc/protocol/* $(TOP)/protocol
-	cp -v -p ./mbtemp/ioc/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
+	TOP=$(TOP) ./deploy mbtemp
 
 deploy-mks937b: deploy-req
-	cp -v -p ./mks937b/ioc/autosave/* $(TOP)/autosave
-	cp -v -p ./mks937b/ioc/db/*       $(TOP)/db
-	cp -v -p ./mks937b/ioc/protocol/* $(TOP)/protocol
-	cp -v -p ./mks937b/ioc/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
+	TOP=$(TOP) ./deploy mks937b
 
 deploy-rackmon: deploy-req
-	cp -v -p ./rackMonitoring/ioc/db/*       $(TOP)/db
-	cp -v -p ./rackMonitoring/ioc/protocol/* $(TOP)/protocol
-	cp -v -p ./rackMonitoring/ioc/cmd/*      $(TOP)/iocBoot/iocStreamDeviceIOC
+	TOP=$(TOP) ./deploy rackMonitoring
 
 deploy-spixconv: deploy-req
-	cp -v -p ./spixconv/ioc/autosave/*      $(TOP)/autosave
-	cp -v -p ./spixconv/ioc/db/*            $(TOP)/db
-	cp -v -p ./spixconv/ioc/protocol/*      $(TOP)/protocol
-	cp -v -p ./spixconv/ioc/cmd/*           $(TOP)/iocBoot/iocStreamDeviceIOC
+	TOP=$(TOP) ./deploy spixconv
 
 clean: clean-build clean-pyc clean-deploy
 clean-deploy:

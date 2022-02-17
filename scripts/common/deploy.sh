@@ -1,15 +1,21 @@
 #!/bin/sh
 set -ex
 
-if [ -z "${PREFIX}" ]; then
-    PREFIX=$1
-fi
+[ -z "$1" ] && echo "missing param 1 (device dir)" && exit 1
+HW=$1
 
-dirs=$(find "./${PREFIX}/ioc" -type d ! -name "__pycache__")
-for dir in $dirs; do
+[ -z "$TOP" ] && echo "missing 'TOP' environment variable" && exit 1
 
-done
-	cp -v -p ./spixconv/ioc/autosave/*      $(TOP)/autosave
-	cp -v -p ./spixconv/ioc/db/*            $(TOP)/db
-	cp -v -p ./spixconv/ioc/protocol/*      $(TOP)/protocol
-	cp -v -p ./spixconv/ioc/cmd/*           $(TOP)/iocBoot/iocStreamDeviceIOC
+function safe_deploy  {
+    src=$1
+
+    [ -z "$2" ] && dest=$1 || dest=$2
+
+    [ -d "$src" ] && [ -d "$dest" ] && [ ! -z $(ls $HW/ioc/$src) ] && \
+        cp -v -p ./$HW/ioc/$src/* ${TOP}/$dest
+}
+
+safe_deploy autosave autosave
+safe_deploy db       db
+safe_deploy protocol protocol
+safe_deploy cmd      iocBoot/iocStreamDeviceIOC
