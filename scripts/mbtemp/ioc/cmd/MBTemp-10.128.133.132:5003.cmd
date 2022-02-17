@@ -11,7 +11,7 @@ streamDeviceIOC_registerRecordDeviceDriver(pdbbase)
 asSetFilename("$(TOP)/db/Security.as")
 
 # MBTemp board (TCP with socat binding the serial port at 115200)
-drvAsynIPPortConfigure("IPPort0","10.128.123.132:5003", 0, 0, 0)
+drvAsynIPPortConfigure("IPPort0","10.128.133.132:5003", 0, 0, 0)
 
 
 # Record for configuration of MBTemp exponential moving average smoothing factor

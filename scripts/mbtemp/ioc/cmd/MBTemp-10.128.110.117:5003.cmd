@@ -48,8 +48,8 @@ dbLoadRecords("db/MBTemp-Device.db", "MBTEMP_ADDRESS = 13, PORT = IPPort0, PREFI
 # Records corresponding to the eight temperature measurements given by the MBTemp board
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 0, DESCRIPTION = MBTemp Channel 1, MBTEMP_ADDRESS = 13, PORT = IPPort0, RECORD_NAME = SI-10M2:VA-PT100-BG:Temp-Mon, SCAN_RATE = 2 second")
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 1, DESCRIPTION = MBTemp Channel 2, MBTEMP_ADDRESS = 13, PORT = IPPort0, RECORD_NAME = SI-10M2:VA-PT100-MD:Temp-Mon, SCAN_RATE = 2 second")
-dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 2, DESCRIPTION = MBTemp Channel 3, MBTEMP_ADDRESS = 13, PORT = IPPort0, RECORD_NAME = SI-10-MBTemp-13-CH3, SCAN_RATE = 2 second")
-dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 3, DESCRIPTION = MBTemp Channel 4, MBTEMP_ADDRESS = 13, PORT = IPPort0, RECORD_NAME = SI-10-MBTemp-13-CH4, SCAN_RATE = 2 second")
+dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 2, DESCRIPTION = MBTemp Channel 3, MBTEMP_ADDRESS = 13, PORT = IPPort0, RECORD_NAME = SI-10SB:VA-PT100-ONDout:Temp-Mon, SCAN_RATE = 2 second")
+dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 3, DESCRIPTION = MBTemp Channel 4, MBTEMP_ADDRESS = 13, PORT = IPPort0, RECORD_NAME = SI-10SB:VA-PT100-TRSout:Temp-Mon, SCAN_RATE = 2 second")
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 4, DESCRIPTION = MBTemp Channel 5, MBTEMP_ADDRESS = 13, PORT = IPPort0, RECORD_NAME = SI-10-MBTemp-13-CH5, SCAN_RATE = 2 second")
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 5, DESCRIPTION = MBTemp Channel 6, MBTEMP_ADDRESS = 13, PORT = IPPort0, RECORD_NAME = SI-10-MBTemp-13-CH6, SCAN_RATE = 2 second")
 dbLoadRecords("db/MBTemp-Channel.db", "CHANNEL = 6, DESCRIPTION = MBTemp Channel 7, MBTEMP_ADDRESS = 13, PORT = IPPort0, RECORD_NAME = SI-10-MBTemp-13-CH7, SCAN_RATE = 2 second")
