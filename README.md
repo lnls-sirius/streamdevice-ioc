@@ -31,6 +31,23 @@ pip install openpyxl pandas
 For each device supported, a tag must be created in order to mitigate conflicts.
 Use `make` to build the image, editing the corresponding tag.
 
+### Example:
+
+In order to build a new mks937b image, edit the image tag of the corresponding service at [docker-compose.yml](./docker-compose.yml) so it will not overwrite when pushed to dockerhub.
+
+Build a service:
+
+```bash
+# Use make
+make <target>
+```
+
+## Deploy
+
+The docker related files included in this repository are meant to build and test the images. Check the instructions at [docker-stacks/cons-streamdevice-ioc](https://gitlab.cnpem.br/con/docker-stacks/tree/master/cons-streamdevice-ioc) for production deployment.
+
+[SPIxCONV](scripts/spixconv/docker/docker-compose.yml)
+
 Some **environment variables** are available to the user:
 
 |Env|Default|Desc|
@@ -58,22 +75,6 @@ In order to access in case of TCP sockets, one may use `telnet`.
 ```bash
 telnet <host> <port>
 ```
-
-### Example:
-
-In order to build a new mks937b image, edit the image tag of the corresponding service at [docker-compose.yml](./docker-compose.yml) so it will not overwrite when pushed to dockerhub.
-
-Build a service:
-
-```bash
-docker-compose build <service_name>
-```
-
-## Deploy
-
-The docker related files included in this repository are meant to build and test the images. Check the instructions at [docker-stacks/cons-streamdevice-ioc](https://gitlab.cnpem.br/con/docker-stacks/tree/master/cons-streamdevice-ioc) for production deployment.
-
-[SPIxCONV](scripts/spixconv/docker/docker-compose.yml)
 
 ### etc..
 
