@@ -1,5 +1,7 @@
 # Sirius Stream Device IOCs
 
+[![Lint](https://github.com/lnls-sirius/streamdevice-ioc/actions/workflows/lint.yml/badge.svg)](https://github.com/lnls-sirius/streamdevice-ioc/actions/workflows/lint.yml)
+
 This repository contains a system to generate large amounts of EPICS IOCs via string Templates using as input an Excel spreadsheet.
 
 The following is a list of applications and ports:
