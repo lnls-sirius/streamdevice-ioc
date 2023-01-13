@@ -50,15 +50,23 @@ def generate(args, defaults):
 
     cmd_key = args.cmd_prefix
 
+    # Create directory, if it does not exist
+    if not os.path.exists(os.path.join(dir_name, "ioc/cmd/")):
+        os.makedirs(os.path.join(dir_name, "ioc/cmd/"))
+    # Clear directory content before generating new ones
+    else:
+        for root,_, files in os.walk(os.path.join(dir_name, "ioc/cmd/")):
+            for f in files:
+                os.unlink(os.path.join(root, f))
+
     # MBTemp specifics
     for board in boards:
         res = generate_board(board, defaults)
 
-        if not os.path.exists(os.path.join(dir_name, "ioc/cmd/")):
-            os.makedirs(os.path.join(dir_name, "ioc/cmd/"))
 
         cmd_path = os.path.join(dir_name, "ioc/cmd/" + cmd_key + board.file_name)
         with open(cmd_path, "w+") as file:
             file.write(res)
 
         os.chmod(cmd_path, 0o774)
+
