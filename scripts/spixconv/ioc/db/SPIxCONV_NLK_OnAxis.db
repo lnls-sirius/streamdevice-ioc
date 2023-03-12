@@ -51,6 +51,32 @@ record(ao, "$(PREFIX):Voltage-SP") {
     field(LOW, "0")
     field(LOLO, "0")
 }
+record(ao, "$(PREFIX):CCoilHVoltage-SP") {
+    field(DRVH, "150")
+    field(DRVL, "0")
+    field(DTYP, "stream")
+    field(EGU, "V")
+    field(EOFF, "-10")
+    field(ESLO, "0.00007629423635191479")
+    field(HOPR, "150")
+    field(LINR, "LINEAR")
+    field(LOPR, "0")
+    field(OUT, "@SPIxCONV.proto set_analog_output_2 socket_spixconv")
+    field(PREC, "1")
+}
+record(ao, "$(PREFIX):CCoilVVoltage-SP") {
+    field(DRVH, "150")
+    field(DRVL, "0")
+    field(DTYP, "stream")
+    field(EGU, "V")
+    field(EOFF, "-10")
+    field(ESLO, "0.00007629423635191479")
+    field(HOPR, "150")
+    field(LINR, "LINEAR")
+    field(LOPR, "0")
+    field(OUT, "@SPIxCONV.proto set_analog_output_3 socket_spixconv")
+    field(PREC, "1")
+}
 #------------------------------------------------------------------------------
 record(ai, "$(PREFIX):Voltage-RB") {
     field(DESC, "read analog out setpoint") # Description
@@ -82,6 +108,32 @@ record(ai, "$(PREFIX):Voltage-RB") {
     field(HIGH, "$(VOLTAGE_FACTOR)0")
     field(LOW, "0")
     field(LOLO, "0")
+}
+record(ai, "$(PREFIX):CCoilHVoltage-RB") {
+    field(DTYP, "stream")
+    field(EGU, "V")
+    field(EOFF, "-10")
+    field(ESLO, "0.00007629423635191479")
+    field(HOPR, "150")
+    field(INP, "@SPIxCONV.proto read_analog_output_2 socket_spixconv")
+    field(LINR, "LINEAR")
+    field(LOPR, "0")
+    field(PINI, "YES")
+    field(PREC, "1")
+    field(SCAN, ".1 second")
+}
+record(ai, "$(PREFIX):CCoilVVoltage-RB") {
+    field(DTYP, "stream")
+    field(EGU, "V")
+    field(EOFF, "-10")
+    field(ESLO, "0.00007629423635191479")
+    field(HOPR, "150")
+    field(INP, "@SPIxCONV.proto read_analog_output_3 socket_spixconv")
+    field(LINR, "LINEAR")
+    field(LOPR, "0")
+    field(PINI, "YES")
+    field(PREC, "1")
+    field(SCAN, ".1 second")
 }
 #==============================================================================
 #   ANALOG IN
@@ -118,6 +170,32 @@ record(ai, "$(PREFIX):Voltage-Mon") {
     field(HIGH, "$(VOLTAGE_FACTOR)0")
     field(LOW, "0")
     field(LOLO, "0")
+}
+record(ai, "$(PREFIX):CCoilHVoltage-Mon") {
+    field(DTYP, "stream")
+    field(EGU, "V")
+    field(EOFF, "-10")
+    field(ESLO, "0.00007629423635191479")
+    field(HOPR, "150")
+    field(INP, "@SPIxCONV.proto read_analog_input_2 socket_spixconv")
+    field(LINR, "LINEAR")
+    field(LOPR, "0")
+    field(PINI, "YES")
+    field(PREC, "1")
+    field(SCAN, ".1 second")
+}
+record(ai, "$(PREFIX):CCoilVVoltage-Mon") {
+    field(DTYP, "stream")
+    field(EGU, "V")
+    field(EOFF, "-10")
+    field(ESLO, "0.00007629423635191479")
+    field(HOPR, "150")
+    field(INP, "@SPIxCONV.proto read_analog_input_3 socket_spixconv")
+    field(LINR, "LINEAR")
+    field(LOPR, "0")
+    field(PINI, "YES")
+    field(PREC, "1")
+    field(SCAN, ".1 second")
 }
 #==============================================================================
 #   DIGITAL PORT A
