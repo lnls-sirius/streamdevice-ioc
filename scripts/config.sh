@@ -1,8 +1,8 @@
 #!/bin/sh
 set -exu
 
-DOCKER_REGISTRY=dockerregistry.lnls-sirius.com.br
-DOCKER_USER_GROUP=gas
+DOCKER_REGISTRY=ghcr.io
+DOCKER_USER_GROUP=lnls-sirius
 DOCKER_IMAGE_PREFIX=${DOCKER_REGISTRY}/${DOCKER_USER_GROUP}
 
 BASE_IMAGE=debian:9-slim
