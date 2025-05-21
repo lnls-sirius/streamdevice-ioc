@@ -9,11 +9,11 @@ include $(TOP)/configure/CONFIG
 # Build the IOC application
 
 PROD_IOC = streamDeviceIOC
-PROD_LIBS += stream
-PROD_LIBS += asyn
-PROD_LIBS += calc
-PROD_LIBS += caPutLog
-PROD_LIBS += autosave
+streamDeviceIOC_LIBS += stream
+streamDeviceIOC_LIBS += asyn
+streamDeviceIOC_LIBS += calc
+streamDeviceIOC_LIBS += caPutLog
+streamDeviceIOC_LIBS += autosave
 
 # streamDeviceIOC.dbd will be created and installed
 DBD += streamDeviceIOC.dbd
