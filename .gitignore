@@ -120,3 +120,4 @@ var/
 venv.bak/
 venv/
 wheels/
+.env
