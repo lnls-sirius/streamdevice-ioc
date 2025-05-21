@@ -1,6 +1,8 @@
+COMPOSE = docker compose
+
 build: build-epics update-env
 	make -C ./scripts
-	docker-compose build
+	$(COMPOSE) build
 
 update-env:
 	./scripts/config.sh
@@ -9,16 +11,16 @@ db:
 	make -C ./scripts
 
 build-epics: update-env
-	docker-compose build epics
+	$(COMPOSE) build epics
 
 build-stream: build-epics
-	docker-compose build stream
+	$(COMPOSE) build stream
 
 build-mbtemp: build-stream
-	docker-compose build mbtemp
+	$(COMPOSE) build mbtemp
 
 build-mks: build-stream
-	docker-compose build mks937b
+	$(COMPOSE) build mks937b
 
 push-all: push-base push-stream push-iocs
 push-iocs: push-agilent push-countingpru push-mbtemp push-mks937b push-rackmon push-spixconv
