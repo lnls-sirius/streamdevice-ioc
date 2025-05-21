@@ -11,33 +11,20 @@ x-environment:
   org.opencontainers.image.source: ${REPOSITORY}
   org.opencontainers.image.url: ${REPOSITORY}
   org.opencontainers.image.vendor: CNPEM
-  org.opencontainers.image.version: ${EPICS_BASE_TAG}
 
 services:
-  epics:
-    image: ${EPICS_BASE_IMAGE}:${EPICS_BASE_TAG}
-    build:
-      dockerfile: 'Dockerfile.EPICS'
-      context: .
-      args:
-        BASE_IMAGE: ${BASE_IMAGE}
-        EPICS_VERSION: ${EPICS_VERSION}
-      labels:
-        <<: *default-labels
-        org.opencontainers.image.description: ${BASE_IMAGE} with EPICS ${EPICS_VERSION} and commonly used modules
-        org.opencontainers.image.title: EPICS ${EPICS_VERSION}
-
   stream:
     image: ${STREAM_BASE_IMAGE}:${STREAM_BASE_TAG}
     build:
-      dockerfile: 'Dockerfile.Stream'
-      context: .
-      target: stream
-      args:
-        EPICS_BASE_IMAGE: ${EPICS_BASE_IMAGE}
-        EPICS_BASE_TAG: ${EPICS_BASE_TAG}
+      context: ioc/
+      dockerfile: ../docker/Dockerfile
+      target: static-link
       labels:
-        br.com.lnls-sirius.commit: ${COMMIT_HASH}
+        org.opencontainers.image.source: https://github.com/lnls-sirius/streamdevice-ioc
+      args:
+        REPONAME: streamdevice-ioc
+        RUNDIR: /opt/streamdevice-ioc/iocBoot/iocStreamDeviceIOC
+        ENTRYPOINT: /bin/bash
 
   agilent4uhv:
     image: ${STREAM_BASE_IMAGE}:${AGILENT4UHV_TAG}
