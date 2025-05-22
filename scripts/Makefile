@@ -23,19 +23,19 @@ build-spixconv:
 
 run-agilent4uhv:
 	$(eval PREFIX=$(AGILENT4UHV_PREFIX))
-	bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
+	TOP=$(TOP) bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
 run-countingpru:
 	$(eval PREFIX=$(COUNTINGPRU_PREFIX))
-	bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
+	TOP=$(TOP) bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
 run-mbtemp:
 	$(eval PREFIX=$(MBTEMP_PREFIX))
-	bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
+	TOP=$(TOP) bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
 run-mks937b:
 	$(eval PREFIX=$(MKS_PREFIX))
-	bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
+	TOP=$(TOP) bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
 run-rackmon:
 	$(eval PREFIX=$(RACKMON_PREFIX))
-	bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
+	TOP=$(TOP) bash -c 'set -x; set -e; source common/functions; run $(PREFIX)-'
 
 run-spixconv:
 	procServ \
