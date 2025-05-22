@@ -24,3 +24,5 @@ safe_deploy autosave autosave
 safe_deploy db       db
 safe_deploy protocol protocol
 safe_deploy cmd      iocBoot/iocStreamDeviceIOC
+
+chmod +x ${TOP}/iocBoot/iocStreamDeviceIOC/*.cmd
