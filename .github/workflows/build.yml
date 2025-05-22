@@ -1,0 +1,22 @@
+name: Build IOC image
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-file: env.yml
+          cache-environment: true
+          post-cleanup: 'all'
+      - run: sudo apt install -y make git
+      - run: make build
+        shell: micromamba-shell {0}
