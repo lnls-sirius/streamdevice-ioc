@@ -1,20 +1,6 @@
-version: '3.7'
-
-x-environment:
-  &default-labels
-  br.com.lnls-sirius.commit: ${COMMIT_HASH}
-  br.com.lnls-sirius.department: ${DEPARTMENT}
-  org.opencontainers.image.authors: ${AUTHOR}
-  org.opencontainers.image.created: ${BUILD_DATE_RFC339}
-  org.opencontainers.image.licenses: ${LICENSE}
-  org.opencontainers.image.revision: ${COMMIT_HASH}
-  org.opencontainers.image.source: ${REPOSITORY}
-  org.opencontainers.image.url: ${REPOSITORY}
-  org.opencontainers.image.vendor: CNPEM
-
 services:
-  stream:
-    image: ${STREAM_BASE_IMAGE}:${STREAM_BASE_TAG}
+  base:
+    image: streamdevice-ioc-base-image
     build:
       context: ioc/
       dockerfile: ../docker/Dockerfile
@@ -23,83 +9,13 @@ services:
         org.opencontainers.image.source: https://github.com/lnls-sirius/streamdevice-ioc
       args:
         REPONAME: streamdevice-ioc
-        RUNDIR: /opt/streamdevice-ioc/iocBoot/iocStreamDeviceIOC
+        RUNDIR: /opt/streamdevice-ioc
         ENTRYPOINT: /bin/bash
+        RUNTIME_PACKAGES: make
 
-  agilent4uhv:
-    image: ${STREAM_BASE_IMAGE}:${AGILENT4UHV_TAG}
+  stream:
+    image: ${STREAM_BASE_IMAGE}:${STREAM_BASE_TAG}
     build:
-      dockerfile: 'Dockerfile'
-      context: .
-      target: agilent4uhv
-      args:
-        STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
-        STREAM_BASE_TAG: ${STREAM_BASE_TAG}
+      dockerfile: Dockerfile
       labels:
-        br.com.lnls-sirius.device: "Agilent 4UHV"
-        br.com.lnls-sirius.commit: ${COMMIT_HASH}
-
-  countingpru:
-    image: ${STREAM_BASE_IMAGE}:${COUNTINGPRU_TAG}
-    build:
-      dockerfile: 'Dockerfile'
-      context: .
-      target: countingpru
-      args:
-        STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
-        STREAM_BASE_TAG: ${STREAM_BASE_TAG}
-      labels:
-        br.com.lnls-sirius.device: "Counting PRU"
-        br.com.lnls-sirius.commit: ${COMMIT_HASH}
-
-  mbtemp:
-    image: ${STREAM_BASE_IMAGE}:${MBTEMP_TAG}
-    build:
-      dockerfile: 'Dockerfile.mbtemp'
-      context: .
-      args:
-        STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
-        STREAM_BASE_TAG: ${STREAM_BASE_TAG}
-      labels:
-        br.com.lnls-sirius.commit: ${COMMIT_HASH}
-        br.com.lnls-sirius.device: "MBTemp"
-
-  mks937b:
-    image: ${STREAM_BASE_IMAGE}:${MKS937B_TAG}
-    build:
-      dockerfile: 'Dockerfile.mks'
-      context: .
-      args:
-        STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
-        STREAM_BASE_TAG: ${STREAM_BASE_TAG}
-      labels:
-        br.com.lnls-sirius.commit: ${COMMIT_HASH}
-        br.com.lnls-sirius.device: "MKS937b"
-    volumes:
-      - "/var/tmp/auto:/opt/epics-R3.15.6/modules/StreamDevice-2.8.9/autosave:rw"
-
-  rackMonitoring:
-    image: ${STREAM_BASE_IMAGE}:${RACKMON_TAG}
-    build:
-      dockerfile: 'Dockerfile'
-      context: .
-      target: rackMonitoring
-      args:
-        STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
-        STREAM_BASE_TAG: ${STREAM_BASE_TAG}
-      labels:
-        br.com.lnls-sirius.commit: ${COMMIT_HASH}
-        br.com.lnls-sirius.device: "RackMonitoring"
-
-  spixconv:
-    image: ${STREAM_BASE_IMAGE}:${SPIXCONV_TAG}
-    build:
-      dockerfile: 'Dockerfile.spixconv'
-      context: .
-      args:
-        STREAM_BASE_IMAGE: ${STREAM_BASE_IMAGE}
-        STREAM_BASE_TAG: ${STREAM_BASE_TAG}
-      labels:
-        br.com.lnls-sirius.commit: ${COMMIT_HASH}
-        br.com.lnls-sirius.device: "SPIxCONV"
-
+        org.opencontainers.image.source: https://github.com/lnls-sirius/streamdevice-ioc
