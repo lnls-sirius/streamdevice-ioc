@@ -1,5 +1,5 @@
-#!/bin/sh
-set -ex
+#!/usr/bin/env bash
+set -x
 
 # Parameters:
 # 1 - device directory name
@@ -16,9 +16,8 @@ function safe_deploy  {
     # 1 - source directory
     # 2 - destination directory ( relative to TOP), defaults to the contents of source
     src=$1
-    [ -z "$2" ] && dest=$1 || dest=$2
-    [ -d "$src" ] && [ -d "$dest" ] && [ ! -z $(ls $HW/ioc/$src) ] && \
-        cp -v -p ./$HW/ioc/$src/* ${TOP}/$dest
+    dest=$2
+    cp -v -p $HW/ioc/$src/* ${TOP}/$dest
 }
 
 safe_deploy autosave autosave

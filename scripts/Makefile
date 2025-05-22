@@ -54,22 +54,22 @@ deploy-req:
 	mkdir -v -p ../protocol
 
 deploy-agilent4uhv: deploy-req
-	TOP=$(TOP) ./deploy agilent4uhv
+	TOP=$(TOP) ./common/deploy.sh agilent4uhv
 
 deploy-countingpru: deploy-req
-	TOP=$(TOP) ./deploy countingpru
+	TOP=$(TOP) ./common/deploy.sh countingpru
 
 deploy-mbtemp: deploy-req
-	TOP=$(TOP) ./deploy mbtemp
+	TOP=$(TOP) ./common/deploy.sh mbtemp
 
 deploy-mks937b: deploy-req
-	TOP=$(TOP) ./deploy mks937b
+	TOP=$(TOP) ./common/deploy.sh mks937b
 
 deploy-rackmon: deploy-req
-	TOP=$(TOP) ./deploy rackMonitoring
+	TOP=$(TOP) ./common/deploy.sh rackMonitoring
 
 deploy-spixconv: deploy-req
-	TOP=$(TOP) ./deploy spixconv
+	TOP=$(TOP) ./common/deploy.sh spixconv
 
 clean: clean-build clean-pyc clean-deploy
 clean-deploy:
