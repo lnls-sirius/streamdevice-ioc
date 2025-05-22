@@ -7,4 +7,5 @@ ARG IOC_NAME
 RUN make deploy
 
 ENV TOP=/opt/streamdevice-ioc
+ENV STREAM_PROTOCOL_PATH=/opt/streamdevice-ioc/protocol
 ENTRYPOINT ["make"]
