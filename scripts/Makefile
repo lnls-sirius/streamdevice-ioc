@@ -52,6 +52,8 @@ deploy-req:
 	mkdir -v -p ../autosave
 	mkdir -v -p ../db
 	mkdir -v -p ../protocol
+	mkdir -v -p ../log
+	mkdir -v -p ../sockets
 
 deploy-agilent4uhv: deploy-req
 	TOP=$(TOP) ./common/deploy.sh agilent4uhv
