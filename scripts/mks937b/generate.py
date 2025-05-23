@@ -36,7 +36,7 @@ def write_generate_relay_db(dir_name):
     # Changes on this file won't be persisted.
     # If the user wishes to modify it's content, change the template instead.
     ################################################################################
-    """
+"""
     for relay in range(1, 13):
         rel_db += db_relay.safe_substitute(RELAY=relay)
 
