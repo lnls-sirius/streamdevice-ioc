@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-    This template is used to generate the default .cmd iocBoot file.
-    The user should pass as parameter the destination file the will be generated.
+This template is used to generate the default .cmd iocBoot file.
+The user should pass as parameter the destination file the will be generated.
 """
 import logging
 import os
