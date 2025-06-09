@@ -21,6 +21,15 @@ record(ai, "$(RECORD_NAME):Count-Mon") {
     field(ESLO, "0.001")
 }
 
+record(calc, "$(RECORD_NAME):NormalizedCount-Mon") {
+    field(DESC, "Normalized $(DESCRIPTION)")
+    field(EGU, "Pulse/(s*mA)")
+    field(PREC, "6")
+    field(INPA, "$(RECORD_NAME):Count-Mon CP")
+    field(INPB, "SI-Glob:AP-CurrInfo:Current-Mon CP")
+    field(CALC, "A/B")
+}
+
 
 record(stringin, "$(RECORD_NAME):Counter-Cte"){
     field(PINI, "YES")
