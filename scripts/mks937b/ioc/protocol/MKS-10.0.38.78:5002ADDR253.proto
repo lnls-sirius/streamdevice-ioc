@@ -14,9 +14,9 @@ get_pressures {
     wait  $Delay;
     out $Addr, "PRZ?";
     in  $Addr, "ACK",
-                "%(IT-EGH:VA-CCG:Pressure-Mon-s)s",
+                "%(IT-EGH:VA-CCG-EG:Pressure-Mon-s)s",
                 " %(IT-Ra:VA-VGC-01:A2:Pressure-Mon-s)s",
-                " %(IT-Ra:VA-VGC-01:B1:Pressure-Mon-s)s",
+                " %(IT-EGH:VA-CCG-EXP:Pressure-Mon-s)s",
                 " %(IT-Ra:VA-VGC-01:B2:Pressure-Mon-s)s",
                 " %(IT-Ra:VA-VGC-01:C1:Pressure-Mon-s)s",
                 " %(IT-Ra:VA-VGC-01:C2:Pressure-Mon-s)s";

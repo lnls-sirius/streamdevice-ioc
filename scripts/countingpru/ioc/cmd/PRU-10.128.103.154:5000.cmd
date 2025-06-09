@@ -16,17 +16,17 @@ drvAsynIPPortConfigure("IPPort0", "10.128.103.154:5000", 100, 0, 0)
 
 
 # Record for configuration of TimeBase
-dbLoadRecords("db/CountingPRU-Device.db", "PORT=IPPort0,PREFIX=SI-04M1:CO-Counter,CH1=SI-04M1:CO-GammaDetector,CH2=None,CH3=None,CH4=None,CH5=None,CH6=None,CH7=None,CH8=None")
+dbLoadRecords("db/CountingPRU-Device.db", "PORT=IPPort0,PREFIX=SI-04M1:CO-Counter,CH1=SI-04M1:CO-GammaDetector,CH2=nan,CH3=nan,CH4=nan,CH5=nan,CH6=nan,CH7=nan,CH8=nan")
 
 # Records corresponding to the eight countings
 dbLoadRecords("db/CountingPRU-Channel.db", "CHANNEL=1,SN_ID=11,DESCRIPTION=LNLS 1 - Ch1,PORT=IPPort0,RECORD_NAME=SI-03C4:CO-Gamma,SCAN_RATE=2 second,BOARD_NAME=SI-04M1:CO-Counter,DETECTOR_NAME=SI-04M1:CO-GammaDetector")
-dbLoadRecords("db/CountingPRU-Channel.db", "CHANNEL=2,SN_ID=12,DESCRIPTION=LNLS 1 - Ch2,PORT=IPPort0,RECORD_NAME=SI-04M1:CO-Counter-Ch2,SCAN_RATE=2 second,BOARD_NAME=SI-04M1:CO-Counter,DETECTOR_NAME=None")
-dbLoadRecords("db/CountingPRU-Channel.db", "CHANNEL=3,SN_ID=13,DESCRIPTION=LNLS 1 - Ch3,PORT=IPPort0,RECORD_NAME=SI-04M1:CO-Counter-Ch3,SCAN_RATE=2 second,BOARD_NAME=SI-04M1:CO-Counter,DETECTOR_NAME=None")
-dbLoadRecords("db/CountingPRU-Channel.db", "CHANNEL=4,SN_ID=14,DESCRIPTION=LNLS 2 - Ch1,PORT=IPPort0,RECORD_NAME=SI-04M1:CO-Counter-Ch4,SCAN_RATE=2 second,BOARD_NAME=SI-04M1:CO-Counter,DETECTOR_NAME=None")
-dbLoadRecords("db/CountingPRU-Channel.db", "CHANNEL=5,SN_ID=15,DESCRIPTION=LNLS 2 - Ch2,PORT=IPPort0,RECORD_NAME=SI-04M1:CO-Counter-Ch5,SCAN_RATE=2 second,BOARD_NAME=SI-04M1:CO-Counter,DETECTOR_NAME=None")
-dbLoadRecords("db/CountingPRU-Channel.db", "CHANNEL=6,SN_ID=16,DESCRIPTION=LNLS 2 - Ch3,PORT=IPPort0,RECORD_NAME=SI-04M1:CO-Counter-Ch6,SCAN_RATE=2 second,BOARD_NAME=SI-04M1:CO-Counter,DETECTOR_NAME=None")
-dbLoadRecords("db/CountingPRU-Channel.db", "CHANNEL=7,SN_ID=17,DESCRIPTION=BLM Bergoz Diff 1,PORT=IPPort0,RECORD_NAME=SI-04M1:CO-Counter-Ch7,SCAN_RATE=2 second,BOARD_NAME=SI-04M1:CO-Counter,DETECTOR_NAME=None")
-dbLoadRecords("db/CountingPRU-Channel.db", "CHANNEL=8,SN_ID=18,DESCRIPTION=BLM Bergoz Diff 2,PORT=IPPort0,RECORD_NAME=SI-04M1:CO-Counter-Ch8,SCAN_RATE=2 second,BOARD_NAME=SI-04M1:CO-Counter,DETECTOR_NAME=None")
+dbLoadRecords("db/CountingPRU-Channel.db", "CHANNEL=2,SN_ID=12,DESCRIPTION=LNLS 1 - Ch2,PORT=IPPort0,RECORD_NAME=SI-04M1:CO-Counter-Ch2,SCAN_RATE=2 second,BOARD_NAME=SI-04M1:CO-Counter,DETECTOR_NAME=nan")
+dbLoadRecords("db/CountingPRU-Channel.db", "CHANNEL=3,SN_ID=13,DESCRIPTION=LNLS 1 - Ch3,PORT=IPPort0,RECORD_NAME=SI-04M1:CO-Counter-Ch3,SCAN_RATE=2 second,BOARD_NAME=SI-04M1:CO-Counter,DETECTOR_NAME=nan")
+dbLoadRecords("db/CountingPRU-Channel.db", "CHANNEL=4,SN_ID=14,DESCRIPTION=LNLS 2 - Ch1,PORT=IPPort0,RECORD_NAME=SI-04M1:CO-Counter-Ch4,SCAN_RATE=2 second,BOARD_NAME=SI-04M1:CO-Counter,DETECTOR_NAME=nan")
+dbLoadRecords("db/CountingPRU-Channel.db", "CHANNEL=5,SN_ID=15,DESCRIPTION=LNLS 2 - Ch2,PORT=IPPort0,RECORD_NAME=SI-04M1:CO-Counter-Ch5,SCAN_RATE=2 second,BOARD_NAME=SI-04M1:CO-Counter,DETECTOR_NAME=nan")
+dbLoadRecords("db/CountingPRU-Channel.db", "CHANNEL=6,SN_ID=16,DESCRIPTION=LNLS 2 - Ch3,PORT=IPPort0,RECORD_NAME=SI-04M1:CO-Counter-Ch6,SCAN_RATE=2 second,BOARD_NAME=SI-04M1:CO-Counter,DETECTOR_NAME=nan")
+dbLoadRecords("db/CountingPRU-Channel.db", "CHANNEL=7,SN_ID=17,DESCRIPTION=BLM Bergoz Diff 1,PORT=IPPort0,RECORD_NAME=SI-04M1:CO-Counter-Ch7,SCAN_RATE=2 second,BOARD_NAME=SI-04M1:CO-Counter,DETECTOR_NAME=nan")
+dbLoadRecords("db/CountingPRU-Channel.db", "CHANNEL=8,SN_ID=18,DESCRIPTION=BLM Bergoz Diff 2,PORT=IPPort0,RECORD_NAME=SI-04M1:CO-Counter-Ch8,SCAN_RATE=2 second,BOARD_NAME=SI-04M1:CO-Counter,DETECTOR_NAME=nan")
 
 
 # Effectively initializes the IOC
