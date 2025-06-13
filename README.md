@@ -33,10 +33,10 @@ Some **environment variables** are available to the user:
 
 |Env|Default|Desc|
 |---|---|---|
-|EPICS_IOC_CAPUTLOG_INET|0.0.0.0|EPICS Logging Inet (generic)|
-|EPICS_IOC_CAPUTLOG_PORT|7012|EPICS Logging Port (generic)|
-|EPICS_IOC_LOG_INET|0.0.0.0|EPICS Logging Inet (caput)|
-|EPICS_IOC_LOG_PORT|7011|EPICS Logging Port (caput)|
+|EPICS_IOC_CAPUTLOG_INET|0.0.0.0|EPICS Logging Inet (caput)|
+|EPICS_IOC_CAPUTLOG_PORT|7012|EPICS Logging Port (caput)|
+|EPICS_IOC_LOG_INET|0.0.0.0|EPICS Logging Inet (generic)|
+|EPICS_IOC_LOG_PORT|7011|EPICS Logging Port (generic)|
 
 If the **autosave** feature is used, the `*.sav` files directory should be mounted from host.
 
