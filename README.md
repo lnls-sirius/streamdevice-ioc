@@ -17,36 +17,13 @@ The following is a list of applications and ports:
 
 ## Building a new image
 
-- Requires Python >= 3.6
-
-```command
-pip install openpyxl pandas
-```
-
-|                File                   |      Description      |
-|---------------------------------------|-----------------------|
-|[Dockerfile](Dockerfile)               | Target IOC            |
-|Dockerfile.<ioc>               | Target IOC            |
-|[Dockerfile.Stream](Dockerfile.Stream) | Base Streamdevice     |
-|[Dockerfile.EPICS](Dockerfile.EPICS)   | EPICS base image      |
-
-For each device supported, a tag must be created in order to mitigate conflicts.
-Use `make` to build the image, editing the corresponding tag.
-
-### Example:
-
-In order to build a new mks937b image, edit the image tag of the corresponding service at [docker-compose.yml](./docker-compose.yml) so it will not overwrite when pushed to dockerhub.
-
-Build a service:
-
-```bash
-# Use make
-make <target>
-```
+- Use micromamba to prepare the environment: `micromamba env create -f env.yml`
+- Activate the environmet
+- Run `make build`
 
 ## Deploy
 
-The docker related files included in this repository are meant to build and test the images. Check the instructions at [docker-stacks/cons-streamdevice-ioc](https://gitlab.cnpem.br/con/docker-stacks/tree/master/cons-streamdevice-ioc) for production deployment.
+The docker related files included in this repository are meant to build and test the images. Check the instructions at [docker-stacks/cons-streamdevice-ioc](https://gitlab.cnpem.br/gas/docker-stacks/tree/master/cons-streamdevice-ioc) for production deployment.
 
 [SPIxCONV](scripts/spixconv/docker/docker-compose.yml)
 
@@ -66,16 +43,10 @@ If the **autosave** feature is used, the `*.sav` files directory should be mount
 /opt/streamdevice-ioc/autosave/save
 ```
 
-The **procServ** may be using UNIX or TCP sockets. The `socat` app is already present in the image in order to access UNIX sockets.
+**procServ** is using UNIX sockets. The `nc` app is already present in the image in order to access UNIX sockets.
 
-```bash
-socat - UNIX-CLIENT:<socket_path>
-```
-
-In order to access in case of TCP sockets, one may use `telnet`.
-
-```bash
-telnet <host> <port>
+```sh
+nc -U <socket-path>
 ```
 
 ### etc..
