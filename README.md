@@ -25,6 +25,8 @@ The following is a list of applications and ports:
 
 The docker related files included in this repository are meant to build and test the images. Check the instructions at [docker-stacks/cons-streamdevice-ioc](https://gitlab.cnpem.br/gas/docker-stacks/tree/master/cons-streamdevice-ioc) for production deployment.
 
+**Note**: the only IOC currently in deployment based on this version of the repository is the countingPRU IOC. Others still need testing, spreadsheet updates and figuring out startup (spixconv specifically, since the startup scripts don't have a consistent naming scheme).
+
 [SPIxCONV](scripts/spixconv/docker/docker-compose.yml)
 
 Some **environment variables** are available to the user:
